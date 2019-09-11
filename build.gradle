@@ -1,0 +1,30 @@
+plugins {
+	id 'org.springframework.boot' version '2.1.8.RELEASE'
+	id 'io.spring.dependency-management' version '1.0.8.RELEASE'
+	id 'java'
+}
+
+repositories {
+	flatDir {
+		dirs "$rootProject.projectDir/libs"
+	}
+	mavenCentral()
+}
+
+
+
+
+group = 'com.kirchnersolutions'
+version = '1.0.00a'
+sourceCompatibility = '1.8'
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	compile name: 'JavaByteDriver-1.0.05a'
+}
