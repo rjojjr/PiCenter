@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>PiCenter Logon</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
+    <link rel="manifest" href="/favicon/site.webmanifest">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+</head>
+<body>
+<div id="col2">
+    <h2 style="text-align: center">Logon Form</h2>
+    <form action="#" th:action="@{/logon}" th:object="${form}" method="post"
+          style="text-align: center;">
+        <table style="text-align: left; margin-left: auto; margin-right: auto;">
+            <tr>
+                <td style="width:150px ">
+                    <p style=""><b>Username</b></p>
+                </td>
+                <td>
+                    <input type="text" th:field="*{username}" value="" style=""/>
+                </td>
+            </tr>
+            <tr>
+                <td style="width:150px ">
+                    <p style=""><b>Password</b></p>
+                </td>
+                <td>
+                    <input type="password" th:field="*{password}" value="" style=""/>
+                </td>
+            </tr>
+        </table>
+        <input type="submit" value="Submit">
+    </form>
+</div>
+</body>
+</html>
