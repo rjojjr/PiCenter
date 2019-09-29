@@ -4,7 +4,7 @@
     <title>Pi Center Home</title>
     <meta charset="UTF-8">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' >
 
     <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
@@ -15,9 +15,19 @@
     <link type="text/css" th:href="@{/styles/general.css}" rel="stylesheet">
     <link type="text/css" th:href="@{/styles/tabs.css}" rel="stylesheet">
     <script th:src="@{/scripts/tabs.js}"></script>
+    <script>
+        function refresh() {
+            location.href = "/";
+        }
+
+        function logout() {
+            location.href = "/logout";
+        }
+    </script>
 </head>
-<body onload="init()">
-    <div class="content">
+<body onload="init()" style="width: 100%">
+<div class="block">
+    <div class="content" style="width: 100%; height: 100%">
         <h1 style="text-align: center">PiCenter Readings</h1>
         <ul id="tabs">
             <li><a href="#lr">Living Room</a></li>
@@ -54,7 +64,7 @@
                     <tbody>
                     <tr th:each="Wrapper, stat : ${oflist}">
                         <td
-                            th:text="${Wrapper.string}">
+                                th:text="${Wrapper.string}">
                         </td>
                     </tbody>
                 </table>
@@ -66,9 +76,9 @@
                 <br>
                 <table>
                     <tbody>
-                    <tr th:each="Wrapper, stat : $(brlist}">
+                    <tr th:each="Wrapper, stat : ${brlist}">
                         <td
-                            th:text="${Wrapper.string}">
+                                th:text="${Wrapper.string}">
                         </td>
                     </tbody>
                 </table>
@@ -82,13 +92,23 @@
                     <tbody>
                     <tr th:each="Wrapper, stat : ${srlist}">
                         <td
-                            th:text="${Wrapper.string}">
+                                th:text="${Wrapper.string}">
                         </td>
                     </tbody>
                 </table>
             </div>
         </div>
-        <a href="/logout">Logout</a>
+        <div style="text-align: center">
+            <p>
+                <button onclick="refresh()" style="width: 200px; height: 50px; font-size: 30px;">
+                    Refresh
+                </button>
+                <button onclick="logout()" style="width: 200px; height: 50px; font-size: 30px;">
+                    Logout
+                </button>
+            </p>
+        </div>
     </div>
+</div>
 </body>
 </html>

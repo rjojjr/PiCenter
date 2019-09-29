@@ -2,7 +2,7 @@
 <html lang="en" dir="ltr" xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>PiCenter Logon</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
     <meta charset="UTF-8">
     <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
@@ -10,32 +10,38 @@
     <link rel="manifest" href="/favicon/site.webmanifest">
     <meta name="msapplication-TileColor" content="#da532c">
     <meta name="theme-color" content="#ffffff">
+    <link type="text/css" th:href="@{/styles/general.css}" rel="stylesheet">
+    <link type="text/css" th:href="@{/styles/tabs.css}" rel="stylesheet">
 </head>
-<body>
-<div id="col2">
-    <h2 style="text-align: center">Logon Form</h2>
-    <form action="#" th:action="@{/logon}" th:object="${form}" method="post"
-          style="text-align: center;">
-        <table style="text-align: left; margin-left: auto; margin-right: auto;">
-            <tr>
-                <td style="width:150px ">
-                    <p style=""><b>Username</b></p>
-                </td>
-                <td>
-                    <input type="text" th:field="*{username}" value="" style=""/>
-                </td>
-            </tr>
-            <tr>
-                <td style="width:150px ">
-                    <p style=""><b>Password</b></p>
-                </td>
-                <td>
-                    <input type="password" th:field="*{password}" value="" style=""/>
-                </td>
-            </tr>
-        </table>
-        <input type="submit" value="Submit">
-    </form>
+<body style="width: 100%">
+<div class="block">
+    <div id="content" style="width: 100%; height: 100%; text-align: center;">
+        <h2 style="text-align: center">PiCenter Logon</h2>
+        <form action="#" th:action="@{/logon}" th:object="${form}" method="post"
+              style="text-align: center;">
+            <div style="text-align: center">
+            <table style="text-align: left; margin-left: 25%; margin-right: auto; width: 75%">
+                <tr>
+                    <td style="width:40%;  ">
+                        <p style=""><b>Username</b></p>
+                    </td>
+                    <td>
+                        <input type="text" th:field="*{username}" tabIndex="-1" value="" style="width: 40%; height: 50px"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width:40%;">
+                        <p style=""><b>Password</b></p>
+                    </td>
+                    <td>
+                        <input type="password" th:field="*{password}" tabIndex="-1" value="" style="width: 40%; height: 50px"/>
+                    </td>
+                </tr>
+            </table>
+            </div>
+            <input type="submit" value="Submit" style="width: 40%; height: 100px; font-size: 30px;">
+        </form>
+    </div>
 </div>
 </body>
 </html>

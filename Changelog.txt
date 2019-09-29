@@ -1,0 +1,6 @@
+PiCenter Changelog
+
+09/29/2019
+1.0.00b
+Build 100100
+    Initial beta release.

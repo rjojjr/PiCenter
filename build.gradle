@@ -15,16 +15,22 @@ repositories {
 
 
 group = 'com.kirchnersolutions'
-version = '1.0.00a'
+version = '1.0.00b'
+def build = '100100'
 sourceCompatibility = '1.8'
+
 
 repositories {
 	mavenCentral()
+	maven {
+		url 'https://repo.spring.io/libs-snapshot'
+	}
 }
 
 dependencies {
+	compile 'org.springframework.mobile:spring-mobile-device:2.0.0.BUILD-SNAPSHOT'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	compile name: 'JavaByteDriver-1.0.05a'
+	compile name: 'JavaByteDriver-1.0.07a'
 }
