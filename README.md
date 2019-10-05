@@ -1,2 +1,6 @@
 # PiCenter
-Simple web app to read Pi temp readings from JavaByte
+
+Simple sample spring web app to read Pi DHT readings from 
+JavaByte.
+
+
