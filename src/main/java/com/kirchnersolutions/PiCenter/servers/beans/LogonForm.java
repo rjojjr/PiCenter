@@ -1,4 +1,4 @@
-package com.kirchnersolutions.PiCenter;
+package com.kirchnersolutions.PiCenter.servers.beans;
 
 public class LogonForm {
 
