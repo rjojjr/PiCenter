@@ -1,5 +1,7 @@
-package com.kirchnersolutions.PiCenter;
+package com.kirchnersolutions.PiCenter.servers.http;
 
+import com.kirchnersolutions.PiCenter.servers.beans.LogonForm;
+import com.kirchnersolutions.PiCenter.Wrapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,12 +29,15 @@ public class HTTPController {
             model.addAttribute("form", new LogonForm());
             return "logon";
         }
+        /*
         Users users = Users.getInstance();
         List<List<Wrapper>> values = users.getTempList((String)httpSession.getAttribute("username"));
         model.addAttribute("lrlist", values.get(2));
         model.addAttribute("oflist", values.get(0));
         model.addAttribute("brlist", values.get(3));
         model.addAttribute("srlist", values.get(1));
+
+         */
         return "home";
     }
 
@@ -43,6 +48,7 @@ public class HTTPController {
         //ServletWebRequest servletWebRequest=new ServletWebRequest(request);
         //HttpServletResponse response=servletWebRequest.getResponse();
         HttpSession httpSession = cookie(request, response);
+        /*
         Users users = Users.getInstance();
         if(httpSession.getAttribute("username") == null){
             if(users.logon(form.getUsername(), form.getPassword())){
@@ -64,6 +70,8 @@ public class HTTPController {
         model.addAttribute("oflist", values.get(0));
         model.addAttribute("brlist", values.get(3));
         model.addAttribute("srlist", values.get(1));
+
+         */
         return "home";
     }
 
@@ -73,6 +81,7 @@ public class HTTPController {
                 .getRequest();
         //ServletWebRequest servletWebRequest=new ServletWebRequest(request);
         //HttpServletResponse response=servletWebRequest.getResponse();
+        /*
         Users users = Users.getInstance();
         HttpSession httpSession = cookie(request, response);
         if(httpSession.getAttribute("username") == null){
@@ -89,6 +98,8 @@ public class HTTPController {
         model.addAttribute("oflist", values.get(0));
         model.addAttribute("brlist", values.get(3));
         model.addAttribute("srlist", values.get(1));
+
+         */
         return "home";
     }
 
