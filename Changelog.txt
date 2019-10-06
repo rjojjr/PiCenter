@@ -1,9 +1,9 @@
 PiCenter Changelog
 
-09/29/2019
+10/05/2019
 1.0.01b
-Build 100100
-    Initial beta release.
+Build 100101
+    Initial MySQL Impl.
 
 09/29/2019
 1.0.00b
