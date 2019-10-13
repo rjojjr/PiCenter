@@ -5,7 +5,6 @@ import com.kirchnersolutions.PiCenter.dev.DebuggingService;
 import com.kirchnersolutions.PiCenter.dev.DevelopmentException;
 import com.kirchnersolutions.PiCenter.servers.objects.ObjectFactory;
 import lombok.AllArgsConstructor;
-import org.omg.IOP.TransactionService;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 import java.net.InetAddress;
@@ -73,7 +72,7 @@ class SocketServer implements Runnable{
             serverSocket.bind(new InetSocketAddress(InetAddress.getByName(inetAddress.getHostAddress()), port));
             debuggingService.socketDebug("Socket server manually started on port " + port);
             while (true) {
-                threadPoolTaskExecutor.execute(new IndependentClientHandler(serverSocket.accept(), debuggingService, this));
+                threadPoolTaskExecutor.execute(new IndependentClientHandler(serverSocket.accept(), debuggingService, this, transactionService));
             }
         } catch (Exception ex) {
             setRunning(false);
@@ -94,7 +93,7 @@ class SocketServer implements Runnable{
         //serverSocket = new ServerSocket(port, 1, InetAddress.getByName(inetAddress.getHostAddress()));
             debuggingService.socketDebug("Socket server started on port " + port);
             while (true) {
-                threadPoolTaskExecutor.execute(new IndependentClientHandler(serverSocket.accept(), debuggingService, this));
+                threadPoolTaskExecutor.execute(new IndependentClientHandler(serverSocket.accept(), debuggingService, this,transactionService));
             }
             //debuggingService.socketDebug("Socket server started on port " + port);
         } catch (Exception ex) {

@@ -1,0 +1,9 @@
+4294967294,mysql,18432,Any,16384,0,General,65536,24117248,24117248,8.0.17,1,N,normal
+4294967293,innodb_temporary,4096,Compact or Redundant,16384,0,System,0,0,0,8.0.17,1,N,normal
+4294967279,innodb_undo_001,0,Undo,16384,0,Undo,0,0,0,8.0.17,1,N,active
+4294967278,innodb_undo_002,0,Undo,16384,0,Undo,0,0,0,8.0.17,1,N,active
+1,sys/sys_config,16417,Dynamic,16384,0,Single,65536,114688,114688,8.0.17,1,N,normal
+33,shome/user,16417,Dynamic,16384,0,Single,65536,114688,114688,8.0.17,1,N,normal
+56,shome/app_user,16417,Dynamic,16384,0,Single,65536,114688,114688,8.0.17,1,N,normal
+57,shome/reading,16417,Dynamic,16384,0,Single,65536,114688,114688,8.0.17,1,N,normal
+58,shome/user_log,16417,Dynamic,16384,0,Single,65536,114688,114688,8.0.17,1,N,normal

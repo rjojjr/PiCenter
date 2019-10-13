@@ -57,7 +57,7 @@ public class ConfigurationService {
             configDir.mkdirs();
             try{
                 devConfig.createNewFile();
-                ByteTools.writeBytesToFile(devConfig, "true%true%true%true%true".getBytes("UTF-8"));
+                ByteTools.writeBytesToFile(devConfig, "true%true%true%true%true%true".getBytes("UTF-8"));
             }catch (Exception e){
                 System.out.println("Failed to initialize DeveloperConfig.dbs: " + e.getMessage() + " Class ConfigurationService Method Constructor");
                 throw new DevelopmentException("Failed to initialize DeveloperConfig.dbs: " + e.getMessage() + " Class ConfigurationService Method Constructor");
@@ -94,7 +94,7 @@ public class ConfigurationService {
             if(!devConfig.exists()){
                 try{
                     devConfig.createNewFile();
-                    ByteTools.writeBytesToFile(devConfig, "true%true%true%true%true".getBytes(sysVars.getCharacterEncoding()));
+                    ByteTools.writeBytesToFile(devConfig, "true%true%true%true%true%true".getBytes(sysVars.getCharacterEncoding()));
                 }catch (Exception e){
                     System.out.println("Failed to initialize DeveloperConfig.dbs: " + e.getMessage() + " Class ConfigurationService Method Constructor");
                     throw new DevelopmentException("Failed to initialize DeveloperConfig.dbs: " + e.getMessage() + " Class ConfigurationService Method Constructor");

@@ -2,24 +2,19 @@ package com.kirchnersolutions.PiCenter.servers;
 
 import com.kirchnersolutions.PiCenter.dev.DebuggingService;
 import com.kirchnersolutions.PiCenter.dev.DevelopmentException;
-import com.kirchnersolutions.PiCenter.entites.User;
-import com.kirchnersolutions.PiCenter.entites.UserRepository;
+import com.kirchnersolutions.PiCenter.entites.AppUser;
+import com.kirchnersolutions.PiCenter.entites.AppUserRepository;
 import com.kirchnersolutions.PiCenter.servers.objects.UserList;
 import com.kirchnersolutions.utilities.CryptTools;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
-import java.util.concurrent.ThreadPoolExecutor;
-
 @Service
 public class UserService {
 
     @Autowired
-    private UserRepository userRepository;
+    private AppUserRepository userRepository;
     @Autowired
     private ThreadPoolTaskExecutor threadPoolTaskExecutor;
     @Autowired
@@ -34,13 +29,13 @@ public class UserService {
         //queue = new LinkedList<>();
     }
 
-    User logOn(String userName, String password) throws Exception{
-        User user = userList.searchList(userName);
+    AppUser logOn(String userName, String password) throws Exception{
+        AppUser user = userList.searchList(userName);
         if(user != null){
             return user;
         }
         try{
-            user = userRepository.findByUserNameAndPassword(userName, CryptTools.generateEncodedSHA256Password(password));
+            user = userRepository.findByUserNameAndPassword(userName, CryptTools.generateEncodedSHA256Password(password)).get(0);
             if(user == null){
                 return null;
             }

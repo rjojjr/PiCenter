@@ -1,0 +1,8 @@
+0x30,innodb_system,ibdata1,0x3138343332,System
+0x34323934393637323739,innodb_undo_001,.\undo_001,0x30,Single
+0x34323934393637323738,innodb_undo_002,.\undo_002,0x30,Single
+0x31,sys/sys_config,.\sys\sys_config.ibd,0x3136343137,Single
+0x3333,shome/user,.\shome\user.ibd,0x3136343137,Single
+0x3536,shome/app_user,.\shome\app_user.ibd,0x3136343137,Single
+0x3537,shome/reading,.\shome\reading.ibd,0x3136343137,Single
+0x3538,shome/user_log,.\shome\user_log.ibd,0x3136343137,Single

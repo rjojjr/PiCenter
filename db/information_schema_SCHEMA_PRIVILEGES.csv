@@ -1,0 +1,20 @@
+'mysql.sys'@'localhost',def,sys,TRIGGER,NO
+'mysql.session'@'localhost',def,performance_schema,SELECT,NO
+'SHomeAdmin'@'%',def,shome,SELECT,NO
+'SHomeAdmin'@'%',def,shome,INSERT,NO
+'SHomeAdmin'@'%',def,shome,UPDATE,NO
+'SHomeAdmin'@'%',def,shome,DELETE,NO
+'SHomeAdmin'@'%',def,shome,CREATE,NO
+'SHomeAdmin'@'%',def,shome,DROP,NO
+'SHomeAdmin'@'%',def,shome,REFERENCES,NO
+'SHomeAdmin'@'%',def,shome,INDEX,NO
+'SHomeAdmin'@'%',def,shome,ALTER,NO
+'SHomeAdmin'@'%',def,shome,CREATE TEMPORARY TABLES,NO
+'SHomeAdmin'@'%',def,shome,LOCK TABLES,NO
+'SHomeAdmin'@'%',def,shome,EXECUTE,NO
+'SHomeAdmin'@'%',def,shome,CREATE VIEW,NO
+'SHomeAdmin'@'%',def,shome,SHOW VIEW,NO
+'SHomeAdmin'@'%',def,shome,CREATE ROUTINE,NO
+'SHomeAdmin'@'%',def,shome,ALTER ROUTINE,NO
+'SHomeAdmin'@'%',def,shome,EVENT,NO
+'SHomeAdmin'@'%',def,shome,TRIGGER,NO

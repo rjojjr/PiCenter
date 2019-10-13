@@ -1,0 +1,2 @@
+4,event_scheduler,localhost,,Daemon,3494,Waiting on empty queue,
+359,root,localhost:51461,information_schema,Query,0,executing,/* ApplicationName=IntelliJ IDEA 2019.2 */ SELECT t.* FROM information_schema.PROCESSLIST t

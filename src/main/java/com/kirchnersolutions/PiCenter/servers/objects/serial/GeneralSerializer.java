@@ -6,7 +6,6 @@ package com.kirchnersolutions.PiCenter.servers.objects.serial;
  * This code may not be decompiled, recompiled, copied, redistributed or modified
  * in any way unless given express written consent from Kirchner Solutions.
  */
-import com.kirchnersolutions.database.exceptions.SerialException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.ApplicationScope;
 
@@ -17,10 +16,10 @@ public class GeneralSerializer implements Serializer<Object>{
      * Invokes serializeObject method in interface
      * @param object
      * @return
-     * @throws SerialException
+     * @throws Exception
      */
     @Override
-    public byte[] serialize(Object object) throws SerialException {
+    public byte[] serialize(Object object) throws Exception {
         return serializeObject(object);
     }
 
@@ -28,10 +27,10 @@ public class GeneralSerializer implements Serializer<Object>{
      * Invokes deserializeObject method in interface
      * @param serial
      * @return
-     * @throws SerialException
+     * @throws Exception
      */
     @Override
-    public Object deserialize(byte[] serial) throws SerialException {
+    public Object deserialize(byte[] serial) throws Exception {
         return deserializeObject(serial);
     }
 

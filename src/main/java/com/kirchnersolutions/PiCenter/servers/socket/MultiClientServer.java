@@ -12,14 +12,9 @@
  */
 package com.kirchnersolutions.PiCenter.servers.socket;
 
-import com.kirchnersolutions.database.Configuration.SocketServerConfiguration;
-import com.kirchnersolutions.database.core.tables.TransactionService;
-import com.kirchnersolutions.database.dev.DebuggingService;
-import com.kirchnersolutions.database.exceptions.DevelopmentException;
-import com.kirchnersolutions.database.objects.DatabaseObjectFactory;
-import com.kirchnersolutions.database.sessions.SessionService;
-import com.kirchnersolutions.database.sessions.SocketSession;
-import com.kirchnersolutions.utilities.SerialService.TransactionSerializer;
+
+import com.kirchnersolutions.PiCenter.dev.DebuggingService;
+import com.kirchnersolutions.PiCenter.servers.objects.ObjectFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.context.annotation.Scope;
@@ -54,17 +49,15 @@ public class MultiClientServer {
     @Autowired
     private DebuggingService debuggingService;
     @Autowired
-    private SessionService sessionService;
-    @Autowired
     private TransactionService transactionService;
     @Autowired
-    private DatabaseObjectFactory databaseObjectFactory;
+    private ObjectFactory databaseObjectFactory;
 
     private volatile int port = 0;
     private volatile static AtomicBoolean running = new AtomicBoolean(false);
     private volatile static SocketServer server;
 
-    private static volatile MultiClientServer single_insatance = null;
+    private static volatile MultiClientServer single_instance = null;
 
     public MultiClientServer() throws Exception {
 
@@ -74,7 +67,7 @@ public class MultiClientServer {
     public void init() throws Exception{
         System.out.println("Socket Server created");
         this.port = debuggingService.getSocketPort();
-        server = new SocketServer(new ServerSocket(), threadPoolTaskExecutor, debuggingService, sessionService, databaseObjectFactory, transactionService, port, running);
+        server = new SocketServer(new ServerSocket(), threadPoolTaskExecutor, debuggingService, databaseObjectFactory, transactionService, port, running);
         start();
     }
 

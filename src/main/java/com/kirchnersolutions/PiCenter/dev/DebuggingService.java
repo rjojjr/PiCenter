@@ -1,6 +1,7 @@
 package com.kirchnersolutions.PiCenter.dev;
 
 import com.kirchnersolutions.PiCenter.Configuration.DevVars;
+import com.kirchnersolutions.PiCenter.Configuration.SocketServerConfiguration;
 import com.kirchnersolutions.PiCenter.Configuration.SysVars;
 import com.kirchnersolutions.utilities.ByteTools;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,8 @@ public class DebuggingService {
     private DevVars devVars;
     @Autowired
     private SysVars sysVars;
+    @Autowired
+    private SocketServerConfiguration socketServerConfiguration;
 
     private File exDir = new File("Database/Dev/Trace/DevelopmentExceptions");
     private File nonFatDir = new File("Database/Dev/Trace/NonFatalExceptions");
@@ -46,6 +49,10 @@ public class DebuggingService {
         }
     }
 
+    public void trace(String msg){
+
+    }
+
 
     public AtomicBoolean getStompLock(){
         return stompLock;
@@ -64,6 +71,10 @@ public class DebuggingService {
             e.printStackTrace();
             throw e;
         }
+    }
+
+    public int getSocketPort(){
+        return socketServerConfiguration.getPort();
     }
 
     public void stompDebug(String message){

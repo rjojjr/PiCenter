@@ -1,0 +1,309 @@
+def,mysql,columns_priv,BASE TABLE,InnoDB,10,Dynamic,0,0,16384,0,0,4194304,,2019-10-12 13:29:24,,,utf8_bin,,row_format=DYNAMIC stats_persistent=0,Column privileges
+def,mysql,component,BASE TABLE,InnoDB,10,Dynamic,0,0,16384,0,0,4194304,1,2019-10-12 13:29:24,,,utf8_general_ci,,row_format=DYNAMIC,Components
+def,mysql,db,BASE TABLE,InnoDB,10,Dynamic,3,5461,16384,0,16384,4194304,,2019-10-12 13:29:24,,,utf8_bin,,row_format=DYNAMIC stats_persistent=0,Database privileges
+def,mysql,default_roles,BASE TABLE,InnoDB,10,Dynamic,0,0,16384,0,0,4194304,,2019-10-12 13:29:24,,,utf8_bin,,row_format=DYNAMIC stats_persistent=0,Default roles
+def,mysql,engine_cost,BASE TABLE,InnoDB,10,Dynamic,2,8192,16384,0,0,4194304,,2019-10-12 13:29:24,,,utf8_general_ci,,row_format=DYNAMIC stats_persistent=0,""
+def,mysql,func,BASE TABLE,InnoDB,10,Dynamic,0,0,16384,0,0,4194304,,2019-10-12 13:29:24,,,utf8_bin,,row_format=DYNAMIC stats_persistent=0,User defined functions
+def,mysql,general_log,BASE TABLE,CSV,10,Dynamic,2,0,0,0,0,0,,2019-10-12 13:29:24,,,utf8_general_ci,,"",General log
+def,mysql,global_grants,BASE TABLE,InnoDB,10,Dynamic,28,585,16384,0,0,4194304,,2019-10-12 13:29:24,,,utf8_bin,,row_format=DYNAMIC stats_persistent=0,Extended global grants
+def,mysql,gtid_executed,BASE TABLE,InnoDB,10,Dynamic,0,0,16384,0,0,4194304,,2019-10-12 13:29:24,,,utf8mb4_0900_ai_ci,,row_format=DYNAMIC,""
+def,mysql,help_category,BASE TABLE,InnoDB,10,Dynamic,44,372,16384,0,16384,4194304,,2019-10-12 13:29:24,,,utf8_general_ci,,row_format=DYNAMIC stats_persistent=0,help categories
+def,mysql,help_keyword,BASE TABLE,InnoDB,10,Dynamic,666,147,98304,0,98304,4194304,,2019-10-12 13:29:24,,,utf8_general_ci,,row_format=DYNAMIC stats_persistent=0,help keywords
+def,mysql,help_relation,BASE TABLE,InnoDB,10,Dynamic,1698,48,81920,0,0,4194304,,2019-10-12 13:29:24,,,utf8_general_ci,,row_format=DYNAMIC stats_persistent=0,keyword-topic relation
+def,mysql,help_topic,BASE TABLE,InnoDB,10,Dynamic,498,3191,1589248,0,131072,4194304,,2019-10-12 13:29:24,,,utf8_general_ci,,row_format=DYNAMIC stats_persistent=0,help topics
+def,mysql,innodb_index_stats,BASE TABLE,InnoDB,10,Dynamic,22,744,16384,0,0,4194304,,2019-10-12 18:29:21,2019-10-12 17:12:25,,utf8_bin,,row_format=DYNAMIC stats_persistent=0,""
+def,mysql,innodb_table_stats,BASE TABLE,InnoDB,10,Dynamic,7,2340,16384,0,0,4194304,,2019-10-12 18:29:21,2019-10-12 17:12:25,,utf8_bin,,row_format=DYNAMIC stats_persistent=0,""
+def,mysql,password_history,BASE TABLE,InnoDB,10,Dynamic,0,0,16384,0,0,4194304,,2019-10-12 13:29:24,,,utf8_bin,,row_format=DYNAMIC stats_persistent=0,Password history for user accounts
+def,mysql,plugin,BASE TABLE,InnoDB,10,Dynamic,0,0,16384,0,0,4194304,,2019-10-12 13:29:24,,,utf8_general_ci,,row_format=DYNAMIC stats_persistent=0,MySQL plugins
+def,mysql,procs_priv,BASE TABLE,InnoDB,10,Dynamic,0,0,16384,0,16384,4194304,,2019-10-12 13:29:24,,,utf8_bin,,row_format=DYNAMIC stats_persistent=0,Procedure privileges
+def,mysql,proxies_priv,BASE TABLE,InnoDB,10,Dynamic,1,16384,16384,0,16384,4194304,,2019-10-12 13:29:24,,,utf8_bin,,row_format=DYNAMIC stats_persistent=0,User proxy privileges
+def,mysql,role_edges,BASE TABLE,InnoDB,10,Dynamic,0,0,16384,0,0,4194304,,2019-10-12 13:29:24,,,utf8_bin,,row_format=DYNAMIC stats_persistent=0,Role hierarchy and role grants
+def,mysql,server_cost,BASE TABLE,InnoDB,10,Dynamic,6,2730,16384,0,0,4194304,,2019-10-12 13:29:24,,,utf8_general_ci,,row_format=DYNAMIC stats_persistent=0,""
+def,mysql,servers,BASE TABLE,InnoDB,10,Dynamic,0,0,16384,0,0,4194304,,2019-10-12 13:29:24,,,utf8_general_ci,,row_format=DYNAMIC stats_persistent=0,MySQL Foreign Servers table
+def,mysql,slave_master_info,BASE TABLE,InnoDB,10,Dynamic,0,0,16384,0,0,4194304,,2019-10-12 13:29:24,,,utf8_general_ci,,row_format=DYNAMIC stats_persistent=0,Master Information
+def,mysql,slave_relay_log_info,BASE TABLE,InnoDB,10,Dynamic,0,0,16384,0,0,4194304,,2019-10-12 13:29:24,,,utf8_general_ci,,row_format=DYNAMIC stats_persistent=0,Relay Log Information
+def,mysql,slave_worker_info,BASE TABLE,InnoDB,10,Dynamic,0,0,16384,0,0,4194304,,2019-10-12 13:29:24,,,utf8_general_ci,,row_format=DYNAMIC stats_persistent=0,Worker Information
+def,mysql,slow_log,BASE TABLE,CSV,10,Dynamic,2,0,0,0,0,0,,2019-10-12 13:29:24,,,utf8_general_ci,,"",Slow log
+def,mysql,tables_priv,BASE TABLE,InnoDB,10,Dynamic,2,8192,16384,0,16384,4194304,,2019-10-12 13:29:24,,,utf8_bin,,row_format=DYNAMIC stats_persistent=0,Table privileges
+def,mysql,time_zone,BASE TABLE,InnoDB,10,Dynamic,0,0,16384,0,0,4194304,1,2019-10-12 13:29:24,,,utf8_general_ci,,row_format=DYNAMIC stats_persistent=0,Time zones
+def,mysql,time_zone_leap_second,BASE TABLE,InnoDB,10,Dynamic,0,0,16384,0,0,4194304,,2019-10-12 13:29:24,,,utf8_general_ci,,row_format=DYNAMIC stats_persistent=0,Leap seconds information for time zones
+def,mysql,time_zone_name,BASE TABLE,InnoDB,10,Dynamic,0,0,16384,0,0,4194304,,2019-10-12 13:29:24,,,utf8_general_ci,,row_format=DYNAMIC stats_persistent=0,Time zone names
+def,mysql,time_zone_transition,BASE TABLE,InnoDB,10,Dynamic,0,0,16384,0,0,4194304,,2019-10-12 13:29:24,,,utf8_general_ci,,row_format=DYNAMIC stats_persistent=0,Time zone transitions
+def,mysql,time_zone_transition_type,BASE TABLE,InnoDB,10,Dynamic,0,0,16384,0,0,4194304,,2019-10-12 13:29:24,,,utf8_general_ci,,row_format=DYNAMIC stats_persistent=0,Time zone transition types
+def,mysql,user,BASE TABLE,InnoDB,10,Dynamic,5,3276,16384,0,0,4194304,,2019-10-12 13:29:24,,,utf8_bin,,row_format=DYNAMIC stats_persistent=0,Users and global privileges
+def,information_schema,CHARACTER_SETS,SYSTEM VIEW,,10,,0,0,0,0,0,0,,2019-10-12 13:29:22,,,,,"",""
+def,information_schema,CHECK_CONSTRAINTS,SYSTEM VIEW,,10,,0,0,0,0,0,0,,2019-10-12 13:29:22,,,,,"",""
+def,information_schema,COLLATION_CHARACTER_SET_APPLICABILITY,SYSTEM VIEW,,10,,0,0,0,0,0,0,,2019-10-12 13:29:22,,,,,"",""
+def,information_schema,COLLATIONS,SYSTEM VIEW,,10,,0,0,0,0,0,0,,2019-10-12 13:29:22,,,,,"",""
+def,information_schema,COLUMN_PRIVILEGES,SYSTEM VIEW,,10,,0,0,0,0,0,0,,2019-10-12 13:29:22,,,,,"",""
+def,information_schema,COLUMN_STATISTICS,SYSTEM VIEW,,10,,0,0,0,0,0,0,,2019-10-12 13:29:22,,,,,"",""
+def,information_schema,COLUMNS,SYSTEM VIEW,,10,,0,0,0,0,0,0,,2019-10-12 13:29:22,,,,,"",""
+def,information_schema,ENGINES,SYSTEM VIEW,,10,,0,0,0,0,0,0,,2019-10-12 13:29:22,,,,,"",""
+def,information_schema,EVENTS,SYSTEM VIEW,,10,,0,0,0,0,0,0,,2019-10-12 13:29:22,,,,,"",""
+def,information_schema,FILES,SYSTEM VIEW,,10,,0,0,0,0,0,0,,2019-10-12 13:29:22,,,,,"",""
+def,information_schema,INNODB_BUFFER_PAGE,SYSTEM VIEW,,10,,0,0,0,0,0,0,,2019-10-12 13:29:27,,,,,"",""
+def,information_schema,INNODB_BUFFER_PAGE_LRU,SYSTEM VIEW,,10,,0,0,0,0,0,0,,2019-10-12 13:29:27,,,,,"",""
+def,information_schema,INNODB_BUFFER_POOL_STATS,SYSTEM VIEW,,10,,0,0,0,0,0,0,,2019-10-12 13:29:27,,,,,"",""
+def,information_schema,INNODB_CACHED_INDEXES,SYSTEM VIEW,,10,,0,0,0,0,0,0,,2019-10-12 13:29:27,,,,,"",""
+def,information_schema,INNODB_CMP,SYSTEM VIEW,,10,,0,0,0,0,0,0,,2019-10-12 13:29:27,,,,,"",""
+def,information_schema,INNODB_CMP_PER_INDEX,SYSTEM VIEW,,10,,0,0,0,0,0,0,,2019-10-12 13:29:27,,,,,"",""
+def,information_schema,INNODB_CMP_PER_INDEX_RESET,SYSTEM VIEW,,10,,0,0,0,0,0,0,,2019-10-12 13:29:27,,,,,"",""
+def,information_schema,INNODB_CMP_RESET,SYSTEM VIEW,,10,,0,0,0,0,0,0,,2019-10-12 13:29:27,,,,,"",""
+def,information_schema,INNODB_CMPMEM,SYSTEM VIEW,,10,,0,0,0,0,0,0,,2019-10-12 13:29:27,,,,,"",""
+def,information_schema,INNODB_CMPMEM_RESET,SYSTEM VIEW,,10,,0,0,0,0,0,0,,2019-10-12 13:29:27,,,,,"",""
+def,information_schema,INNODB_COLUMNS,SYSTEM VIEW,,10,,0,0,0,0,0,0,,2019-10-12 13:29:27,,,,,"",""
+def,information_schema,INNODB_DATAFILES,SYSTEM VIEW,,10,,0,0,0,0,0,0,,2019-10-12 13:29:22,,,,,"",""
+def,information_schema,INNODB_FIELDS,SYSTEM VIEW,,10,,0,0,0,0,0,0,,2019-10-12 13:29:22,,,,,"",""
+def,information_schema,INNODB_FOREIGN,SYSTEM VIEW,,10,,0,0,0,0,0,0,,2019-10-12 13:29:22,,,,,"",""
+def,information_schema,INNODB_FOREIGN_COLS,SYSTEM VIEW,,10,,0,0,0,0,0,0,,2019-10-12 13:29:22,,,,,"",""
+def,information_schema,INNODB_FT_BEING_DELETED,SYSTEM VIEW,,10,,0,0,0,0,0,0,,2019-10-12 13:29:27,,,,,"",""
+def,information_schema,INNODB_FT_CONFIG,SYSTEM VIEW,,10,,0,0,0,0,0,0,,2019-10-12 13:29:27,,,,,"",""
+def,information_schema,INNODB_FT_DEFAULT_STOPWORD,SYSTEM VIEW,,10,,0,0,0,0,0,0,,2019-10-12 13:29:27,,,,,"",""
+def,information_schema,INNODB_FT_DELETED,SYSTEM VIEW,,10,,0,0,0,0,0,0,,2019-10-12 13:29:27,,,,,"",""
+def,information_schema,INNODB_FT_INDEX_CACHE,SYSTEM VIEW,,10,,0,0,0,0,0,0,,2019-10-12 13:29:27,,,,,"",""
+def,information_schema,INNODB_FT_INDEX_TABLE,SYSTEM VIEW,,10,,0,0,0,0,0,0,,2019-10-12 13:29:27,,,,,"",""
+def,information_schema,INNODB_INDEXES,SYSTEM VIEW,,10,,0,0,0,0,0,0,,2019-10-12 13:29:27,,,,,"",""
+def,information_schema,INNODB_METRICS,SYSTEM VIEW,,10,,0,0,0,0,0,0,,2019-10-12 13:29:27,,,,,"",""
+def,information_schema,INNODB_SESSION_TEMP_TABLESPACES,SYSTEM VIEW,,10,,0,0,0,0,0,0,,2019-10-12 13:29:27,,,,,"",""
+def,information_schema,INNODB_TABLES,SYSTEM VIEW,,10,,0,0,0,0,0,0,,2019-10-12 13:29:27,,,,,"",""
+def,information_schema,INNODB_TABLESPACES,SYSTEM VIEW,,10,,0,0,0,0,0,0,,2019-10-12 13:29:27,,,,,"",""
+def,information_schema,INNODB_TABLESPACES_BRIEF,SYSTEM VIEW,,10,,0,0,0,0,0,0,,2019-10-12 13:29:22,,,,,"",""
+def,information_schema,INNODB_TABLESTATS,SYSTEM VIEW,,10,,0,0,0,0,0,0,,2019-10-12 13:29:27,,,,,"",""
+def,information_schema,INNODB_TEMP_TABLE_INFO,SYSTEM VIEW,,10,,0,0,0,0,0,0,,2019-10-12 13:29:27,,,,,"",""
+def,information_schema,INNODB_TRX,SYSTEM VIEW,,10,,0,0,0,0,0,0,,2019-10-12 13:29:27,,,,,"",""
+def,information_schema,INNODB_VIRTUAL,SYSTEM VIEW,,10,,0,0,0,0,0,0,,2019-10-12 13:29:27,,,,,"",""
+def,information_schema,KEY_COLUMN_USAGE,SYSTEM VIEW,,10,,0,0,0,0,0,0,,2019-10-12 13:29:22,,,,,"",""
+def,information_schema,KEYWORDS,SYSTEM VIEW,,10,,0,0,0,0,0,0,,2019-10-12 13:29:22,,,,,"",""
+def,information_schema,OPTIMIZER_TRACE,SYSTEM VIEW,,10,,0,0,0,0,0,0,,2019-10-12 13:29:22,,,,,"",""
+def,information_schema,PARAMETERS,SYSTEM VIEW,,10,,0,0,0,0,0,0,,2019-10-12 13:29:22,,,,,"",""
+def,information_schema,PARTITIONS,SYSTEM VIEW,,10,,0,0,0,0,0,0,,2019-10-12 13:29:22,,,,,"",""
+def,information_schema,PLUGINS,SYSTEM VIEW,,10,,0,0,0,0,0,0,,2019-10-12 13:29:22,,,,,"",""
+def,information_schema,PROCESSLIST,SYSTEM VIEW,,10,,0,0,0,0,0,0,,2019-10-12 13:29:22,,,,,"",""
+def,information_schema,PROFILING,SYSTEM VIEW,,10,,0,0,0,0,0,0,,2019-10-12 13:29:22,,,,,"",""
+def,information_schema,REFERENTIAL_CONSTRAINTS,SYSTEM VIEW,,10,,0,0,0,0,0,0,,2019-10-12 13:29:22,,,,,"",""
+def,information_schema,RESOURCE_GROUPS,SYSTEM VIEW,,10,,0,0,0,0,0,0,,2019-10-12 13:29:22,,,,,"",""
+def,information_schema,ROUTINES,SYSTEM VIEW,,10,,0,0,0,0,0,0,,2019-10-12 13:29:22,,,,,"",""
+def,information_schema,SCHEMA_PRIVILEGES,SYSTEM VIEW,,10,,0,0,0,0,0,0,,2019-10-12 13:29:22,,,,,"",""
+def,information_schema,SCHEMATA,SYSTEM VIEW,,10,,0,0,0,0,0,0,,2019-10-12 13:29:22,,,,,"",""
+def,information_schema,ST_GEOMETRY_COLUMNS,SYSTEM VIEW,,10,,0,0,0,0,0,0,,2019-10-12 13:29:22,,,,,"",""
+def,information_schema,ST_SPATIAL_REFERENCE_SYSTEMS,SYSTEM VIEW,,10,,0,0,0,0,0,0,,2019-10-12 13:29:22,,,,,"",""
+def,information_schema,ST_UNITS_OF_MEASURE,SYSTEM VIEW,,10,,0,0,0,0,0,0,,2019-10-12 13:29:22,,,,,"",""
+def,information_schema,STATISTICS,SYSTEM VIEW,,10,,0,0,0,0,0,0,,2019-10-12 13:29:22,,,,,"",""
+def,information_schema,TABLE_CONSTRAINTS,SYSTEM VIEW,,10,,0,0,0,0,0,0,,2019-10-12 13:29:22,,,,,"",""
+def,information_schema,TABLE_PRIVILEGES,SYSTEM VIEW,,10,,0,0,0,0,0,0,,2019-10-12 13:29:22,,,,,"",""
+def,information_schema,TABLES,SYSTEM VIEW,,10,,0,0,0,0,0,0,,2019-10-12 13:29:22,,,,,"",""
+def,information_schema,TABLESPACES,SYSTEM VIEW,,10,,0,0,0,0,0,0,,2019-10-12 13:29:22,,,,,"",""
+def,information_schema,TRIGGERS,SYSTEM VIEW,,10,,0,0,0,0,0,0,,2019-10-12 13:29:22,,,,,"",""
+def,information_schema,USER_PRIVILEGES,SYSTEM VIEW,,10,,0,0,0,0,0,0,,2019-10-12 13:29:22,,,,,"",""
+def,information_schema,VIEW_ROUTINE_USAGE,SYSTEM VIEW,,10,,0,0,0,0,0,0,,2019-10-12 13:29:22,,,,,"",""
+def,information_schema,VIEW_TABLE_USAGE,SYSTEM VIEW,,10,,0,0,0,0,0,0,,2019-10-12 13:29:22,,,,,"",""
+def,information_schema,VIEWS,SYSTEM VIEW,,10,,0,0,0,0,0,0,,2019-10-12 13:29:22,,,,,"",""
+def,performance_schema,accounts,BASE TABLE,PERFORMANCE_SCHEMA,10,Fixed,128,0,0,0,0,0,,2019-10-12 13:29:22,,,utf8mb4_0900_ai_ci,,"",""
+def,performance_schema,cond_instances,BASE TABLE,PERFORMANCE_SCHEMA,10,Dynamic,256,0,0,0,0,0,,2019-10-12 13:29:22,,,utf8mb4_0900_ai_ci,,"",""
+def,performance_schema,data_lock_waits,BASE TABLE,PERFORMANCE_SCHEMA,10,Dynamic,99999,0,0,0,0,0,,2019-10-12 13:29:22,,,utf8mb4_0900_ai_ci,,"",""
+def,performance_schema,data_locks,BASE TABLE,PERFORMANCE_SCHEMA,10,Dynamic,99999,0,0,0,0,0,,2019-10-12 13:29:22,,,utf8mb4_0900_ai_ci,,"",""
+def,performance_schema,events_errors_summary_by_account_by_error,BASE TABLE,PERFORMANCE_SCHEMA,10,Dynamic,584192,0,0,0,0,0,,2019-10-12 13:29:22,,,utf8mb4_0900_ai_ci,,"",""
+def,performance_schema,events_errors_summary_by_host_by_error,BASE TABLE,PERFORMANCE_SCHEMA,10,Dynamic,584192,0,0,0,0,0,,2019-10-12 13:29:22,,,utf8mb4_0900_ai_ci,,"",""
+def,performance_schema,events_errors_summary_by_thread_by_error,BASE TABLE,PERFORMANCE_SCHEMA,10,Dynamic,1168384,0,0,0,0,0,,2019-10-12 13:29:22,,,utf8mb4_0900_ai_ci,,"",""
+def,performance_schema,events_errors_summary_by_user_by_error,BASE TABLE,PERFORMANCE_SCHEMA,10,Dynamic,584192,0,0,0,0,0,,2019-10-12 13:29:22,,,utf8mb4_0900_ai_ci,,"",""
+def,performance_schema,events_errors_summary_global_by_error,BASE TABLE,PERFORMANCE_SCHEMA,10,Dynamic,4564,0,0,0,0,0,,2019-10-12 13:29:22,,,utf8mb4_0900_ai_ci,,"",""
+def,performance_schema,events_stages_current,BASE TABLE,PERFORMANCE_SCHEMA,10,Dynamic,256,0,0,0,0,0,,2019-10-12 13:29:22,,,utf8mb4_0900_ai_ci,,"",""
+def,performance_schema,events_stages_history,BASE TABLE,PERFORMANCE_SCHEMA,10,Dynamic,2560,0,0,0,0,0,,2019-10-12 13:29:22,,,utf8mb4_0900_ai_ci,,"",""
+def,performance_schema,events_stages_history_long,BASE TABLE,PERFORMANCE_SCHEMA,10,Dynamic,10000,0,0,0,0,0,,2019-10-12 13:29:22,,,utf8mb4_0900_ai_ci,,"",""
+def,performance_schema,events_stages_summary_by_account_by_event_name,BASE TABLE,PERFORMANCE_SCHEMA,10,Dynamic,22400,0,0,0,0,0,,2019-10-12 13:29:22,,,utf8mb4_0900_ai_ci,,"",""
+def,performance_schema,events_stages_summary_by_host_by_event_name,BASE TABLE,PERFORMANCE_SCHEMA,10,Dynamic,22400,0,0,0,0,0,,2019-10-12 13:29:22,,,utf8mb4_0900_ai_ci,,"",""
+def,performance_schema,events_stages_summary_by_thread_by_event_name,BASE TABLE,PERFORMANCE_SCHEMA,10,Dynamic,44800,0,0,0,0,0,,2019-10-12 13:29:22,,,utf8mb4_0900_ai_ci,,"",""
+def,performance_schema,events_stages_summary_by_user_by_event_name,BASE TABLE,PERFORMANCE_SCHEMA,10,Dynamic,22400,0,0,0,0,0,,2019-10-12 13:29:22,,,utf8mb4_0900_ai_ci,,"",""
+def,performance_schema,events_stages_summary_global_by_event_name,BASE TABLE,PERFORMANCE_SCHEMA,10,Dynamic,175,0,0,0,0,0,,2019-10-12 13:29:22,,,utf8mb4_0900_ai_ci,,"",""
+def,performance_schema,events_statements_current,BASE TABLE,PERFORMANCE_SCHEMA,10,Dynamic,2560,0,0,0,0,0,,2019-10-12 13:29:22,,,utf8mb4_0900_ai_ci,,"",""
+def,performance_schema,events_statements_histogram_by_digest,BASE TABLE,PERFORMANCE_SCHEMA,10,Dynamic,10000,0,0,0,0,0,,2019-10-12 13:29:22,,,utf8mb4_0900_ai_ci,,"",""
+def,performance_schema,events_statements_histogram_global,BASE TABLE,PERFORMANCE_SCHEMA,10,Fixed,450,0,0,0,0,0,,2019-10-12 13:29:22,,,utf8mb4_0900_ai_ci,,"",""
+def,performance_schema,events_statements_history,BASE TABLE,PERFORMANCE_SCHEMA,10,Dynamic,2560,0,0,0,0,0,,2019-10-12 13:29:22,,,utf8mb4_0900_ai_ci,,"",""
+def,performance_schema,events_statements_history_long,BASE TABLE,PERFORMANCE_SCHEMA,10,Dynamic,10000,0,0,0,0,0,,2019-10-12 13:29:22,,,utf8mb4_0900_ai_ci,,"",""
+def,performance_schema,events_statements_summary_by_account_by_event_name,BASE TABLE,PERFORMANCE_SCHEMA,10,Dynamic,27904,0,0,0,0,0,,2019-10-12 13:29:22,,,utf8mb4_0900_ai_ci,,"",""
+def,performance_schema,events_statements_summary_by_digest,BASE TABLE,PERFORMANCE_SCHEMA,10,Dynamic,10000,0,0,0,0,0,,2019-10-12 13:29:22,,,utf8mb4_0900_ai_ci,,"",""
+def,performance_schema,events_statements_summary_by_host_by_event_name,BASE TABLE,PERFORMANCE_SCHEMA,10,Dynamic,27904,0,0,0,0,0,,2019-10-12 13:29:22,,,utf8mb4_0900_ai_ci,,"",""
+def,performance_schema,events_statements_summary_by_program,BASE TABLE,PERFORMANCE_SCHEMA,10,Dynamic,0,0,0,0,0,0,,2019-10-12 13:29:22,,,utf8mb4_0900_ai_ci,,"",""
+def,performance_schema,events_statements_summary_by_thread_by_event_name,BASE TABLE,PERFORMANCE_SCHEMA,10,Dynamic,55808,0,0,0,0,0,,2019-10-12 13:29:22,,,utf8mb4_0900_ai_ci,,"",""
+def,performance_schema,events_statements_summary_by_user_by_event_name,BASE TABLE,PERFORMANCE_SCHEMA,10,Dynamic,27904,0,0,0,0,0,,2019-10-12 13:29:22,,,utf8mb4_0900_ai_ci,,"",""
+def,performance_schema,events_statements_summary_global_by_event_name,BASE TABLE,PERFORMANCE_SCHEMA,10,Dynamic,218,0,0,0,0,0,,2019-10-12 13:29:22,,,utf8mb4_0900_ai_ci,,"",""
+def,performance_schema,events_transactions_current,BASE TABLE,PERFORMANCE_SCHEMA,10,Dynamic,256,0,0,0,0,0,,2019-10-12 13:29:22,,,utf8mb4_0900_ai_ci,,"",""
+def,performance_schema,events_transactions_history,BASE TABLE,PERFORMANCE_SCHEMA,10,Dynamic,2560,0,0,0,0,0,,2019-10-12 13:29:22,,,utf8mb4_0900_ai_ci,,"",""
+def,performance_schema,events_transactions_history_long,BASE TABLE,PERFORMANCE_SCHEMA,10,Dynamic,10000,0,0,0,0,0,,2019-10-12 13:29:22,,,utf8mb4_0900_ai_ci,,"",""
+def,performance_schema,events_transactions_summary_by_account_by_event_name,BASE TABLE,PERFORMANCE_SCHEMA,10,Dynamic,128,0,0,0,0,0,,2019-10-12 13:29:22,,,utf8mb4_0900_ai_ci,,"",""
+def,performance_schema,events_transactions_summary_by_host_by_event_name,BASE TABLE,PERFORMANCE_SCHEMA,10,Dynamic,128,0,0,0,0,0,,2019-10-12 13:29:22,,,utf8mb4_0900_ai_ci,,"",""
+def,performance_schema,events_transactions_summary_by_thread_by_event_name,BASE TABLE,PERFORMANCE_SCHEMA,10,Dynamic,256,0,0,0,0,0,,2019-10-12 13:29:22,,,utf8mb4_0900_ai_ci,,"",""
+def,performance_schema,events_transactions_summary_by_user_by_event_name,BASE TABLE,PERFORMANCE_SCHEMA,10,Dynamic,128,0,0,0,0,0,,2019-10-12 13:29:22,,,utf8mb4_0900_ai_ci,,"",""
+def,performance_schema,events_transactions_summary_global_by_event_name,BASE TABLE,PERFORMANCE_SCHEMA,10,Dynamic,1,0,0,0,0,0,,2019-10-12 13:29:22,,,utf8mb4_0900_ai_ci,,"",""
+def,performance_schema,events_waits_current,BASE TABLE,PERFORMANCE_SCHEMA,10,Dynamic,1536,0,0,0,0,0,,2019-10-12 13:29:22,,,utf8mb4_0900_ai_ci,,"",""
+def,performance_schema,events_waits_history,BASE TABLE,PERFORMANCE_SCHEMA,10,Dynamic,2560,0,0,0,0,0,,2019-10-12 13:29:22,,,utf8mb4_0900_ai_ci,,"",""
+def,performance_schema,events_waits_history_long,BASE TABLE,PERFORMANCE_SCHEMA,10,Dynamic,10000,0,0,0,0,0,,2019-10-12 13:29:22,,,utf8mb4_0900_ai_ci,,"",""
+def,performance_schema,events_waits_summary_by_account_by_event_name,BASE TABLE,PERFORMANCE_SCHEMA,10,Dynamic,70912,0,0,0,0,0,,2019-10-12 13:29:22,,,utf8mb4_0900_ai_ci,,"",""
+def,performance_schema,events_waits_summary_by_host_by_event_name,BASE TABLE,PERFORMANCE_SCHEMA,10,Dynamic,70912,0,0,0,0,0,,2019-10-12 13:29:22,,,utf8mb4_0900_ai_ci,,"",""
+def,performance_schema,events_waits_summary_by_instance,BASE TABLE,PERFORMANCE_SCHEMA,10,Dynamic,9728,0,0,0,0,0,,2019-10-12 13:29:22,,,utf8mb4_0900_ai_ci,,"",""
+def,performance_schema,events_waits_summary_by_thread_by_event_name,BASE TABLE,PERFORMANCE_SCHEMA,10,Dynamic,141824,0,0,0,0,0,,2019-10-12 13:29:22,,,utf8mb4_0900_ai_ci,,"",""
+def,performance_schema,events_waits_summary_by_user_by_event_name,BASE TABLE,PERFORMANCE_SCHEMA,10,Dynamic,70912,0,0,0,0,0,,2019-10-12 13:29:22,,,utf8mb4_0900_ai_ci,,"",""
+def,performance_schema,events_waits_summary_global_by_event_name,BASE TABLE,PERFORMANCE_SCHEMA,10,Dynamic,554,0,0,0,0,0,,2019-10-12 13:29:22,,,utf8mb4_0900_ai_ci,,"",""
+def,performance_schema,file_instances,BASE TABLE,PERFORMANCE_SCHEMA,10,Dynamic,4096,0,0,0,0,0,,2019-10-12 13:29:22,,,utf8mb4_0900_ai_ci,,"",""
+def,performance_schema,file_summary_by_event_name,BASE TABLE,PERFORMANCE_SCHEMA,10,Dynamic,80,0,0,0,0,0,,2019-10-12 13:29:22,,,utf8mb4_0900_ai_ci,,"",""
+def,performance_schema,file_summary_by_instance,BASE TABLE,PERFORMANCE_SCHEMA,10,Dynamic,4096,0,0,0,0,0,,2019-10-12 13:29:22,,,utf8mb4_0900_ai_ci,,"",""
+def,performance_schema,global_status,BASE TABLE,PERFORMANCE_SCHEMA,10,Dynamic,240,0,0,0,0,0,,2019-10-12 13:29:22,,,utf8mb4_0900_ai_ci,,"",""
+def,performance_schema,global_variables,BASE TABLE,PERFORMANCE_SCHEMA,10,Dynamic,589,0,0,0,0,0,,2019-10-12 13:29:22,,,utf8mb4_0900_ai_ci,,"",""
+def,performance_schema,host_cache,BASE TABLE,PERFORMANCE_SCHEMA,10,Dynamic,279,0,0,0,0,0,,2019-10-12 13:29:22,,,utf8mb4_0900_ai_ci,,"",""
+def,performance_schema,hosts,BASE TABLE,PERFORMANCE_SCHEMA,10,Fixed,128,0,0,0,0,0,,2019-10-12 13:29:22,,,utf8mb4_0900_ai_ci,,"",""
+def,performance_schema,keyring_keys,BASE TABLE,PERFORMANCE_SCHEMA,10,Dynamic,96,0,0,0,0,0,,2019-10-12 13:29:22,,,utf8mb4_bin,,"",""
+def,performance_schema,log_status,BASE TABLE,PERFORMANCE_SCHEMA,10,Dynamic,1,0,0,0,0,0,,2019-10-12 13:29:22,,,utf8mb4_0900_ai_ci,,"",""
+def,performance_schema,memory_summary_by_account_by_event_name,BASE TABLE,PERFORMANCE_SCHEMA,10,Dynamic,57600,0,0,0,0,0,,2019-10-12 13:29:22,,,utf8mb4_0900_ai_ci,,"",""
+def,performance_schema,memory_summary_by_host_by_event_name,BASE TABLE,PERFORMANCE_SCHEMA,10,Dynamic,57600,0,0,0,0,0,,2019-10-12 13:29:22,,,utf8mb4_0900_ai_ci,,"",""
+def,performance_schema,memory_summary_by_thread_by_event_name,BASE TABLE,PERFORMANCE_SCHEMA,10,Dynamic,115200,0,0,0,0,0,,2019-10-12 13:29:22,,,utf8mb4_0900_ai_ci,,"",""
+def,performance_schema,memory_summary_by_user_by_event_name,BASE TABLE,PERFORMANCE_SCHEMA,10,Dynamic,57600,0,0,0,0,0,,2019-10-12 13:29:22,,,utf8mb4_0900_ai_ci,,"",""
+def,performance_schema,memory_summary_global_by_event_name,BASE TABLE,PERFORMANCE_SCHEMA,10,Dynamic,450,0,0,0,0,0,,2019-10-12 13:29:22,,,utf8mb4_0900_ai_ci,,"",""
+def,performance_schema,metadata_locks,BASE TABLE,PERFORMANCE_SCHEMA,10,Dynamic,1024,0,0,0,0,0,,2019-10-12 13:29:22,,,utf8mb4_0900_ai_ci,,"",""
+def,performance_schema,mutex_instances,BASE TABLE,PERFORMANCE_SCHEMA,10,Dynamic,3072,0,0,0,0,0,,2019-10-12 13:29:22,,,utf8mb4_0900_ai_ci,,"",""
+def,performance_schema,objects_summary_global_by_type,BASE TABLE,PERFORMANCE_SCHEMA,10,Dynamic,4096,0,0,0,0,0,,2019-10-12 13:29:22,,,utf8mb4_0900_ai_ci,,"",""
+def,performance_schema,performance_timers,BASE TABLE,PERFORMANCE_SCHEMA,10,Fixed,4,0,0,0,0,0,,2019-10-12 13:29:22,,,utf8mb4_0900_ai_ci,,"",""
+def,performance_schema,persisted_variables,BASE TABLE,PERFORMANCE_SCHEMA,10,Dynamic,0,0,0,0,0,0,,2019-10-12 13:29:22,,,utf8mb4_0900_ai_ci,,"",""
+def,performance_schema,prepared_statements_instances,BASE TABLE,PERFORMANCE_SCHEMA,10,Dynamic,0,0,0,0,0,0,,2019-10-12 13:29:22,,,utf8mb4_0900_ai_ci,,"",""
+def,performance_schema,replication_applier_configuration,BASE TABLE,PERFORMANCE_SCHEMA,10,Fixed,256,0,0,0,0,0,,2019-10-12 13:29:22,,,utf8mb4_0900_ai_ci,,"",""
+def,performance_schema,replication_applier_filters,BASE TABLE,PERFORMANCE_SCHEMA,10,Dynamic,0,0,0,0,0,0,,2019-10-12 13:29:22,,,utf8mb4_0900_ai_ci,,"",""
+def,performance_schema,replication_applier_global_filters,BASE TABLE,PERFORMANCE_SCHEMA,10,Dynamic,0,0,0,0,0,0,,2019-10-12 13:29:22,,,utf8mb4_0900_ai_ci,,"",""
+def,performance_schema,replication_applier_status,BASE TABLE,PERFORMANCE_SCHEMA,10,Fixed,256,0,0,0,0,0,,2019-10-12 13:29:22,,,utf8mb4_0900_ai_ci,,"",""
+def,performance_schema,replication_applier_status_by_coordinator,BASE TABLE,PERFORMANCE_SCHEMA,10,Dynamic,256,0,0,0,0,0,,2019-10-12 13:29:22,,,utf8mb4_0900_ai_ci,,"",""
+def,performance_schema,replication_applier_status_by_worker,BASE TABLE,PERFORMANCE_SCHEMA,10,Dynamic,8192,0,0,0,0,0,,2019-10-12 13:29:22,,,utf8mb4_0900_ai_ci,,"",""
+def,performance_schema,replication_connection_configuration,BASE TABLE,PERFORMANCE_SCHEMA,10,Dynamic,256,0,0,0,0,0,,2019-10-12 13:29:22,,,utf8mb4_0900_ai_ci,,"",""
+def,performance_schema,replication_connection_status,BASE TABLE,PERFORMANCE_SCHEMA,10,Dynamic,256,0,0,0,0,0,,2019-10-12 13:29:22,,,utf8mb4_0900_ai_ci,,"",""
+def,performance_schema,replication_group_member_stats,BASE TABLE,PERFORMANCE_SCHEMA,10,Dynamic,0,0,0,0,0,0,,2019-10-12 13:29:22,,,utf8mb4_0900_ai_ci,,"",""
+def,performance_schema,replication_group_members,BASE TABLE,PERFORMANCE_SCHEMA,10,Fixed,0,0,0,0,0,0,,2019-10-12 13:29:22,,,utf8mb4_0900_ai_ci,,"",""
+def,performance_schema,rwlock_instances,BASE TABLE,PERFORMANCE_SCHEMA,10,Dynamic,2048,0,0,0,0,0,,2019-10-12 13:29:22,,,utf8mb4_0900_ai_ci,,"",""
+def,performance_schema,session_account_connect_attrs,BASE TABLE,PERFORMANCE_SCHEMA,10,Dynamic,131072,0,0,0,0,0,,2019-10-12 13:29:22,,,utf8mb4_bin,,"",""
+def,performance_schema,session_connect_attrs,BASE TABLE,PERFORMANCE_SCHEMA,10,Dynamic,131072,0,0,0,0,0,,2019-10-12 13:29:22,,,utf8mb4_bin,,"",""
+def,performance_schema,session_status,BASE TABLE,PERFORMANCE_SCHEMA,10,Dynamic,240,0,0,0,0,0,,2019-10-12 13:29:22,,,utf8mb4_0900_ai_ci,,"",""
+def,performance_schema,session_variables,BASE TABLE,PERFORMANCE_SCHEMA,10,Dynamic,589,0,0,0,0,0,,2019-10-12 13:29:22,,,utf8mb4_0900_ai_ci,,"",""
+def,performance_schema,setup_actors,BASE TABLE,PERFORMANCE_SCHEMA,10,Fixed,128,0,0,0,0,0,,2019-10-12 13:29:22,,,utf8mb4_0900_ai_ci,,"",""
+def,performance_schema,setup_consumers,BASE TABLE,PERFORMANCE_SCHEMA,10,Dynamic,15,0,0,0,0,0,,2019-10-12 13:29:22,,,utf8mb4_0900_ai_ci,,"",""
+def,performance_schema,setup_instruments,BASE TABLE,PERFORMANCE_SCHEMA,10,Dynamic,1399,0,0,0,0,0,,2019-10-12 13:29:22,,,utf8mb4_0900_ai_ci,,"",""
+def,performance_schema,setup_objects,BASE TABLE,PERFORMANCE_SCHEMA,10,Dynamic,128,0,0,0,0,0,,2019-10-12 13:29:22,,,utf8mb4_0900_ai_ci,,"",""
+def,performance_schema,setup_threads,BASE TABLE,PERFORMANCE_SCHEMA,10,Dynamic,100,0,0,0,0,0,,2019-10-12 13:29:22,,,utf8mb4_0900_ai_ci,,"",""
+def,performance_schema,socket_instances,BASE TABLE,PERFORMANCE_SCHEMA,10,Dynamic,256,0,0,0,0,0,,2019-10-12 13:29:22,,,utf8mb4_0900_ai_ci,,"",""
+def,performance_schema,socket_summary_by_event_name,BASE TABLE,PERFORMANCE_SCHEMA,10,Dynamic,10,0,0,0,0,0,,2019-10-12 13:29:22,,,utf8mb4_0900_ai_ci,,"",""
+def,performance_schema,socket_summary_by_instance,BASE TABLE,PERFORMANCE_SCHEMA,10,Dynamic,256,0,0,0,0,0,,2019-10-12 13:29:22,,,utf8mb4_0900_ai_ci,,"",""
+def,performance_schema,status_by_account,BASE TABLE,PERFORMANCE_SCHEMA,10,Dynamic,30720,0,0,0,0,0,,2019-10-12 13:29:22,,,utf8mb4_0900_ai_ci,,"",""
+def,performance_schema,status_by_host,BASE TABLE,PERFORMANCE_SCHEMA,10,Dynamic,30720,0,0,0,0,0,,2019-10-12 13:29:22,,,utf8mb4_0900_ai_ci,,"",""
+def,performance_schema,status_by_thread,BASE TABLE,PERFORMANCE_SCHEMA,10,Dynamic,61440,0,0,0,0,0,,2019-10-12 13:29:22,,,utf8mb4_0900_ai_ci,,"",""
+def,performance_schema,status_by_user,BASE TABLE,PERFORMANCE_SCHEMA,10,Dynamic,30720,0,0,0,0,0,,2019-10-12 13:29:22,,,utf8mb4_0900_ai_ci,,"",""
+def,performance_schema,table_handles,BASE TABLE,PERFORMANCE_SCHEMA,10,Dynamic,1024,0,0,0,0,0,,2019-10-12 13:29:22,,,utf8mb4_0900_ai_ci,,"",""
+def,performance_schema,table_io_waits_summary_by_index_usage,BASE TABLE,PERFORMANCE_SCHEMA,10,Dynamic,8192,0,0,0,0,0,,2019-10-12 13:29:22,,,utf8mb4_0900_ai_ci,,"",""
+def,performance_schema,table_io_waits_summary_by_table,BASE TABLE,PERFORMANCE_SCHEMA,10,Dynamic,4096,0,0,0,0,0,,2019-10-12 13:29:22,,,utf8mb4_0900_ai_ci,,"",""
+def,performance_schema,table_lock_waits_summary_by_table,BASE TABLE,PERFORMANCE_SCHEMA,10,Dynamic,4096,0,0,0,0,0,,2019-10-12 13:29:22,,,utf8mb4_0900_ai_ci,,"",""
+def,performance_schema,threads,BASE TABLE,PERFORMANCE_SCHEMA,10,Dynamic,256,0,0,0,0,0,,2019-10-12 13:29:22,,,utf8mb4_0900_ai_ci,,"",""
+def,performance_schema,user_defined_functions,BASE TABLE,PERFORMANCE_SCHEMA,10,Dynamic,5,0,0,0,0,0,,2019-10-12 13:29:22,,,utf8mb4_0900_ai_ci,,"",""
+def,performance_schema,user_variables_by_thread,BASE TABLE,PERFORMANCE_SCHEMA,10,Dynamic,2560,0,0,0,0,0,,2019-10-12 13:29:22,,,utf8mb4_0900_ai_ci,,"",""
+def,performance_schema,users,BASE TABLE,PERFORMANCE_SCHEMA,10,Fixed,128,0,0,0,0,0,,2019-10-12 13:29:22,,,utf8mb4_0900_ai_ci,,"",""
+def,performance_schema,variables_by_thread,BASE TABLE,PERFORMANCE_SCHEMA,10,Dynamic,150784,0,0,0,0,0,,2019-10-12 13:29:22,,,utf8mb4_0900_ai_ci,,"",""
+def,performance_schema,variables_info,BASE TABLE,PERFORMANCE_SCHEMA,10,Dynamic,589,0,0,0,0,0,,2019-10-12 13:29:22,,,utf8mb4_0900_ai_ci,,"",""
+def,sys,host_summary,VIEW,,,,,,,,,,,2019-10-12 13:29:25,,,,,,VIEW
+def,sys,host_summary_by_file_io,VIEW,,,,,,,,,,,2019-10-12 13:29:25,,,,,,VIEW
+def,sys,host_summary_by_file_io_type,VIEW,,,,,,,,,,,2019-10-12 13:29:25,,,,,,VIEW
+def,sys,host_summary_by_stages,VIEW,,,,,,,,,,,2019-10-12 13:29:25,,,,,,VIEW
+def,sys,host_summary_by_statement_latency,VIEW,,,,,,,,,,,2019-10-12 13:29:25,,,,,,VIEW
+def,sys,host_summary_by_statement_type,VIEW,,,,,,,,,,,2019-10-12 13:29:25,,,,,,VIEW
+def,sys,innodb_buffer_stats_by_schema,VIEW,,,,,,,,,,,2019-10-12 13:29:25,,,,,,VIEW
+def,sys,innodb_buffer_stats_by_table,VIEW,,,,,,,,,,,2019-10-12 13:29:25,,,,,,VIEW
+def,sys,innodb_lock_waits,VIEW,,,,,,,,,,,2019-10-12 13:29:25,,,,,,VIEW
+def,sys,io_by_thread_by_latency,VIEW,,,,,,,,,,,2019-10-12 13:29:25,,,,,,VIEW
+def,sys,io_global_by_file_by_bytes,VIEW,,,,,,,,,,,2019-10-12 13:29:25,,,,,,VIEW
+def,sys,io_global_by_file_by_latency,VIEW,,,,,,,,,,,2019-10-12 13:29:25,,,,,,VIEW
+def,sys,io_global_by_wait_by_bytes,VIEW,,,,,,,,,,,2019-10-12 13:29:25,,,,,,VIEW
+def,sys,io_global_by_wait_by_latency,VIEW,,,,,,,,,,,2019-10-12 13:29:25,,,,,,VIEW
+def,sys,latest_file_io,VIEW,,,,,,,,,,,2019-10-12 13:29:25,,,,,,VIEW
+def,sys,memory_by_host_by_current_bytes,VIEW,,,,,,,,,,,2019-10-12 13:29:25,,,,,,VIEW
+def,sys,memory_by_thread_by_current_bytes,VIEW,,,,,,,,,,,2019-10-12 13:29:25,,,,,,VIEW
+def,sys,memory_by_user_by_current_bytes,VIEW,,,,,,,,,,,2019-10-12 13:29:25,,,,,,VIEW
+def,sys,memory_global_by_current_bytes,VIEW,,,,,,,,,,,2019-10-12 13:29:25,,,,,,VIEW
+def,sys,memory_global_total,VIEW,,,,,,,,,,,2019-10-12 13:29:25,,,,,,VIEW
+def,sys,metrics,VIEW,,,,,,,,,,,2019-10-12 13:29:25,,,,,,VIEW
+def,sys,processlist,VIEW,,,,,,,,,,,2019-10-12 13:29:25,,,,,,VIEW
+def,sys,ps_check_lost_instrumentation,VIEW,,,,,,,,,,,2019-10-12 13:29:25,,,,,,VIEW
+def,sys,schema_auto_increment_columns,VIEW,,,,,,,,,,,2019-10-12 13:29:25,,,,,,VIEW
+def,sys,schema_index_statistics,VIEW,,,,,,,,,,,2019-10-12 13:29:25,,,,,,VIEW
+def,sys,schema_object_overview,VIEW,,,,,,,,,,,2019-10-12 13:29:25,,,,,,VIEW
+def,sys,schema_redundant_indexes,VIEW,,,,,,,,,,,2019-10-12 13:29:25,,,,,,VIEW
+def,sys,schema_table_lock_waits,VIEW,,,,,,,,,,,2019-10-12 13:29:25,,,,,,VIEW
+def,sys,schema_table_statistics,VIEW,,,,,,,,,,,2019-10-12 13:29:25,,,,,,VIEW
+def,sys,schema_table_statistics_with_buffer,VIEW,,,,,,,,,,,2019-10-12 13:29:25,,,,,,VIEW
+def,sys,schema_tables_with_full_table_scans,VIEW,,,,,,,,,,,2019-10-12 13:29:25,,,,,,VIEW
+def,sys,schema_unused_indexes,VIEW,,,,,,,,,,,2019-10-12 13:29:25,,,,,,VIEW
+def,sys,session,VIEW,,,,,,,,,,,2019-10-12 13:29:25,,,,,,VIEW
+def,sys,session_ssl_status,VIEW,,,,,,,,,,,2019-10-12 13:29:25,,,,,,VIEW
+def,sys,statement_analysis,VIEW,,,,,,,,,,,2019-10-12 13:29:25,,,,,,VIEW
+def,sys,statements_with_errors_or_warnings,VIEW,,,,,,,,,,,2019-10-12 13:29:25,,,,,,VIEW
+def,sys,statements_with_full_table_scans,VIEW,,,,,,,,,,,2019-10-12 13:29:25,,,,,,VIEW
+def,sys,statements_with_runtimes_in_95th_percentile,VIEW,,,,,,,,,,,2019-10-12 13:29:25,,,,,,VIEW
+def,sys,statements_with_sorting,VIEW,,,,,,,,,,,2019-10-12 13:29:25,,,,,,VIEW
+def,sys,statements_with_temp_tables,VIEW,,,,,,,,,,,2019-10-12 13:29:25,,,,,,VIEW
+def,sys,sys_config,BASE TABLE,InnoDB,10,Dynamic,6,2730,16384,0,0,0,,2019-10-12 13:29:25,,,utf8mb4_0900_ai_ci,,"",""
+def,sys,user_summary,VIEW,,,,,,,,,,,2019-10-12 13:29:25,,,,,,VIEW
+def,sys,user_summary_by_file_io,VIEW,,,,,,,,,,,2019-10-12 13:29:25,,,,,,VIEW
+def,sys,user_summary_by_file_io_type,VIEW,,,,,,,,,,,2019-10-12 13:29:25,,,,,,VIEW
+def,sys,user_summary_by_stages,VIEW,,,,,,,,,,,2019-10-12 13:29:25,,,,,,VIEW
+def,sys,user_summary_by_statement_latency,VIEW,,,,,,,,,,,2019-10-12 13:29:25,,,,,,VIEW
+def,sys,user_summary_by_statement_type,VIEW,,,,,,,,,,,2019-10-12 13:29:25,,,,,,VIEW
+def,sys,version,VIEW,,,,,,,,,,,2019-10-12 13:29:25,,,,,,VIEW
+def,sys,wait_classes_global_by_avg_latency,VIEW,,,,,,,,,,,2019-10-12 13:29:25,,,,,,VIEW
+def,sys,wait_classes_global_by_latency,VIEW,,,,,,,,,,,2019-10-12 13:29:25,,,,,,VIEW
+def,sys,waits_by_host_by_latency,VIEW,,,,,,,,,,,2019-10-12 13:29:25,,,,,,VIEW
+def,sys,waits_by_user_by_latency,VIEW,,,,,,,,,,,2019-10-12 13:29:25,,,,,,VIEW
+def,sys,waits_global_by_latency,VIEW,,,,,,,,,,,2019-10-12 13:29:25,,,,,,VIEW
+def,sys,x$host_summary,VIEW,,,,,,,,,,,2019-10-12 13:29:25,,,,,,VIEW
+def,sys,x$host_summary_by_file_io,VIEW,,,,,,,,,,,2019-10-12 13:29:25,,,,,,VIEW
+def,sys,x$host_summary_by_file_io_type,VIEW,,,,,,,,,,,2019-10-12 13:29:25,,,,,,VIEW
+def,sys,x$host_summary_by_stages,VIEW,,,,,,,,,,,2019-10-12 13:29:25,,,,,,VIEW
+def,sys,x$host_summary_by_statement_latency,VIEW,,,,,,,,,,,2019-10-12 13:29:25,,,,,,VIEW
+def,sys,x$host_summary_by_statement_type,VIEW,,,,,,,,,,,2019-10-12 13:29:25,,,,,,VIEW
+def,sys,x$innodb_buffer_stats_by_schema,VIEW,,,,,,,,,,,2019-10-12 13:29:25,,,,,,VIEW
+def,sys,x$innodb_buffer_stats_by_table,VIEW,,,,,,,,,,,2019-10-12 13:29:25,,,,,,VIEW
+def,sys,x$innodb_lock_waits,VIEW,,,,,,,,,,,2019-10-12 13:29:25,,,,,,VIEW
+def,sys,x$io_by_thread_by_latency,VIEW,,,,,,,,,,,2019-10-12 13:29:25,,,,,,VIEW
+def,sys,x$io_global_by_file_by_bytes,VIEW,,,,,,,,,,,2019-10-12 13:29:25,,,,,,VIEW
+def,sys,x$io_global_by_file_by_latency,VIEW,,,,,,,,,,,2019-10-12 13:29:25,,,,,,VIEW
+def,sys,x$io_global_by_wait_by_bytes,VIEW,,,,,,,,,,,2019-10-12 13:29:25,,,,,,VIEW
+def,sys,x$io_global_by_wait_by_latency,VIEW,,,,,,,,,,,2019-10-12 13:29:25,,,,,,VIEW
+def,sys,x$latest_file_io,VIEW,,,,,,,,,,,2019-10-12 13:29:25,,,,,,VIEW
+def,sys,x$memory_by_host_by_current_bytes,VIEW,,,,,,,,,,,2019-10-12 13:29:25,,,,,,VIEW
+def,sys,x$memory_by_thread_by_current_bytes,VIEW,,,,,,,,,,,2019-10-12 13:29:25,,,,,,VIEW
+def,sys,x$memory_by_user_by_current_bytes,VIEW,,,,,,,,,,,2019-10-12 13:29:25,,,,,,VIEW
+def,sys,x$memory_global_by_current_bytes,VIEW,,,,,,,,,,,2019-10-12 13:29:25,,,,,,VIEW
+def,sys,x$memory_global_total,VIEW,,,,,,,,,,,2019-10-12 13:29:25,,,,,,VIEW
+def,sys,x$processlist,VIEW,,,,,,,,,,,2019-10-12 13:29:25,,,,,,VIEW
+def,sys,x$ps_digest_95th_percentile_by_avg_us,VIEW,,,,,,,,,,,2019-10-12 13:29:25,,,,,,VIEW
+def,sys,x$ps_digest_avg_latency_distribution,VIEW,,,,,,,,,,,2019-10-12 13:29:25,,,,,,VIEW
+def,sys,x$ps_schema_table_statistics_io,VIEW,,,,,,,,,,,2019-10-12 13:29:25,,,,,,VIEW
+def,sys,x$schema_flattened_keys,VIEW,,,,,,,,,,,2019-10-12 13:29:25,,,,,,VIEW
+def,sys,x$schema_index_statistics,VIEW,,,,,,,,,,,2019-10-12 13:29:25,,,,,,VIEW
+def,sys,x$schema_table_lock_waits,VIEW,,,,,,,,,,,2019-10-12 13:29:25,,,,,,VIEW
+def,sys,x$schema_table_statistics,VIEW,,,,,,,,,,,2019-10-12 13:29:25,,,,,,VIEW
+def,sys,x$schema_table_statistics_with_buffer,VIEW,,,,,,,,,,,2019-10-12 13:29:25,,,,,,VIEW
+def,sys,x$schema_tables_with_full_table_scans,VIEW,,,,,,,,,,,2019-10-12 13:29:25,,,,,,VIEW
+def,sys,x$session,VIEW,,,,,,,,,,,2019-10-12 13:29:25,,,,,,VIEW
+def,sys,x$statement_analysis,VIEW,,,,,,,,,,,2019-10-12 13:29:25,,,,,,VIEW
+def,sys,x$statements_with_errors_or_warnings,VIEW,,,,,,,,,,,2019-10-12 13:29:25,,,,,,VIEW
+def,sys,x$statements_with_full_table_scans,VIEW,,,,,,,,,,,2019-10-12 13:29:25,,,,,,VIEW
+def,sys,x$statements_with_runtimes_in_95th_percentile,VIEW,,,,,,,,,,,2019-10-12 13:29:25,,,,,,VIEW
+def,sys,x$statements_with_sorting,VIEW,,,,,,,,,,,2019-10-12 13:29:25,,,,,,VIEW
+def,sys,x$statements_with_temp_tables,VIEW,,,,,,,,,,,2019-10-12 13:29:25,,,,,,VIEW
+def,sys,x$user_summary,VIEW,,,,,,,,,,,2019-10-12 13:29:25,,,,,,VIEW
+def,sys,x$user_summary_by_file_io,VIEW,,,,,,,,,,,2019-10-12 13:29:25,,,,,,VIEW
+def,sys,x$user_summary_by_file_io_type,VIEW,,,,,,,,,,,2019-10-12 13:29:25,,,,,,VIEW
+def,sys,x$user_summary_by_stages,VIEW,,,,,,,,,,,2019-10-12 13:29:25,,,,,,VIEW
+def,sys,x$user_summary_by_statement_latency,VIEW,,,,,,,,,,,2019-10-12 13:29:25,,,,,,VIEW
+def,sys,x$user_summary_by_statement_type,VIEW,,,,,,,,,,,2019-10-12 13:29:25,,,,,,VIEW
+def,sys,x$wait_classes_global_by_avg_latency,VIEW,,,,,,,,,,,2019-10-12 13:29:25,,,,,,VIEW
+def,sys,x$wait_classes_global_by_latency,VIEW,,,,,,,,,,,2019-10-12 13:29:25,,,,,,VIEW
+def,sys,x$waits_by_host_by_latency,VIEW,,,,,,,,,,,2019-10-12 13:29:25,,,,,,VIEW
+def,sys,x$waits_by_user_by_latency,VIEW,,,,,,,,,,,2019-10-12 13:29:25,,,,,,VIEW
+def,sys,x$waits_global_by_latency,VIEW,,,,,,,,,,,2019-10-12 13:29:25,,,,,,VIEW
+def,shome,app_user,BASE TABLE,InnoDB,10,Dynamic,1,16384,16384,0,0,0,7,2019-10-12 16:43:19,,,utf8mb4_0900_ai_ci,,"",""
+def,shome,hibernate_sequence,BASE TABLE,MyISAM,10,Fixed,3,9,27,2533274790395903,1024,0,1,2019-10-12 14:10:18,2019-10-12 14:10:18,,utf8mb4_0900_ai_ci,,"",""
+def,shome,reading,BASE TABLE,InnoDB,10,Dynamic,0,0,16384,0,0,0,,2019-10-12 16:43:19,,,utf8mb4_0900_ai_ci,,"",""
+def,shome,user,BASE TABLE,InnoDB,10,Dynamic,0,0,16384,0,0,0,1,2019-10-12 16:21:35,,,utf8mb4_0900_ai_ci,,"",""
+def,shome,user_log,BASE TABLE,InnoDB,10,Dynamic,0,0,16384,0,0,0,,2019-10-12 16:43:19,,,utf8mb4_0900_ai_ci,,"",""
