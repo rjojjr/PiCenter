@@ -15,8 +15,10 @@ public class UserSession {
     @GeneratedValue(strategy= GenerationType.AUTO)
     @Getter @Setter private Long id;
 
+    /*
     @Column(name = "user_id", nullable = false)
     @Getter@Setter private Long userId;
+     */
 
     @Column(name = "start_time", nullable = false)
     @Getter@Setter private Long createTime;
@@ -27,11 +29,20 @@ public class UserSession {
     @Column(name = "token", nullable = false)
     @Getter@Setter private BigInteger token;
 
+    @OneToOne(mappedBy = "userSession")
+    @Getter@Setter private AppUser appUser;
+
+    public UserSession(Long createTime, Long expirationTime, BigInteger token){
+        this.createTime = createTime;
+        this.expirationTime = expirationTime;
+        this.token = token;
+    }
+/*
     public UserSession(Long userId, Long createTime, Long expirationTime, BigInteger token){
         this.userId = userId;
         this.createTime = createTime;
         this.expirationTime = expirationTime;
         this.token = token;
     }
-
+*/
 }

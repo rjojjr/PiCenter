@@ -31,15 +31,13 @@ public class AppUser {
 
     @Column(name = "admin", nullable = false)
     @Getter @Setter private boolean admin;
-/*
-    @Getter
-    @Setter
-    @OneToMany(mappedBy = "owner")
-    private List<UserLog> userLogs;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinTable(name = "appuser_sessions",
+            joinColumns = { @JoinColumn(name = "user_id", referencedColumnName = "id") },
+            inverseJoinColumns = { @JoinColumn(name = "session_id", referencedColumnName = "id") })
+    private UserSession userSession;
 
-
- */
     public AppUser(Long createTime, String userName, String firstName, String lastName, String password, boolean admin){
         this.createTime = createTime;
         this.userName = userName;
