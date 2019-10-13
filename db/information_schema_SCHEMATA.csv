@@ -1,5 +1,0 @@
-def,mysql,utf8mb4,utf8mb4_0900_ai_ci,,NO
-def,information_schema,utf8,utf8_general_ci,,NO
-def,performance_schema,utf8mb4,utf8mb4_0900_ai_ci,,NO
-def,sys,utf8mb4,utf8mb4_0900_ai_ci,,NO
-def,shome,utf8mb4,utf8mb4_0900_ai_ci,,NO
