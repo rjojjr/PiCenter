@@ -1,6 +1,7 @@
 package com.kirchnersolutions.PiCenter.servers.objects;
 
 import com.kirchnersolutions.PiCenter.entites.AppUser;
+import com.kirchnersolutions.PiCenter.entites.UserSession;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
@@ -15,6 +16,20 @@ public class UserList {
     public UserList(){
         userList = Collections.synchronizedList(new ArrayList<>());
     }
+
+
+    public List<AppUser> searchExpired(){
+        Long time = System.currentTimeMillis();
+        List<AppUser> expiredUsers = new ArrayList<>();
+        for(AppUser user : copyList()){
+            UserSession userSession = user.getUserSession();
+            if(userSession.getExpirationTime() <= time){
+                expiredUsers.add(user);
+            }
+        }
+        return expiredUsers;
+    }
+
 
     public synchronized boolean addUser(AppUser user){
         while(get()){
@@ -56,7 +71,7 @@ public class UserList {
         return result;
     }
 
-    private boolean remove(String userName, List<AppUser> list){
+    private static boolean remove(String userName, List<AppUser> list){
         List<AppUser> newList = new ArrayList<>();
         boolean result = false;
         for(AppUser user : list){
@@ -72,7 +87,7 @@ public class UserList {
         return result;
     }
 
-    private AppUser searchList(String userName, List<AppUser> list){
+    private static AppUser searchList(String userName, List<AppUser> list){
         for(AppUser user : list){
             if(user.getUserName().equals(userName)){
                 return user;

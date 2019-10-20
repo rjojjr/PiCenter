@@ -36,7 +36,7 @@ public class AppUser {
     @JoinTable(name = "appuser_sessions",
             joinColumns = { @JoinColumn(name = "user_id", referencedColumnName = "id") },
             inverseJoinColumns = { @JoinColumn(name = "session_id", referencedColumnName = "id") })
-    private UserSession userSession;
+    @Getter @Setter private UserSession userSession;
 
     public AppUser(Long createTime, String userName, String firstName, String lastName, String password, boolean admin){
         this.createTime = createTime;

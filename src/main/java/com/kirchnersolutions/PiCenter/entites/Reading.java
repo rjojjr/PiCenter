@@ -7,7 +7,6 @@ import lombok.Setter;
 import javax.persistence.*;
 
 @Getter @Setter
-//@AllArgsConstructor(access = AccessLevel.PUBLIC)
 @Entity
 @Table(name = "readings")
 public class Reading {

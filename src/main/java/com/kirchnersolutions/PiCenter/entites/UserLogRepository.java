@@ -11,4 +11,6 @@ public interface UserLogRepository extends CrudRepository<UserLog, Long>, JpaRep
 
     List<UserLog> findByUserIdOrderByTimeDesc(Long userId);
 
+    UserLog findByUserId(Long userId);
+
 }

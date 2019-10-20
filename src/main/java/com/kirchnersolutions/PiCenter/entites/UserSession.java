@@ -26,8 +26,17 @@ public class UserSession {
     @Column(name = "expiration_time", nullable = false)
     @Getter@Setter private Long expirationTime;
 
-    @Column(name = "token", nullable = false)
+    @Column(name = "token", nullable = false, unique = true)
     @Getter@Setter private BigInteger token;
+
+    @Column(name = "page", nullable = true)
+    @Getter@Setter private String page;
+
+    @Column(name = "stomp_id", nullable = true, unique = true)
+    @Getter @Setter private String idString;
+
+    @Column(name = "ip_address", nullable = false, unique = false)
+    @Getter @Setter private String ipAddress;
 
     @OneToOne(mappedBy = "userSession")
     @Getter@Setter private AppUser appUser;
@@ -36,6 +45,16 @@ public class UserSession {
         this.createTime = createTime;
         this.expirationTime = expirationTime;
         this.token = token;
+        this.page = null;
+    }
+
+    public UserSession(Long createTime, Long expirationTime, BigInteger token, String page, String ipAddress){
+        this.createTime = createTime;
+        this.expirationTime = expirationTime;
+        this.token = token;
+        this.page = page;
+        this.ipAddress = ipAddress;
+        idString = null;
     }
 /*
     public UserSession(Long userId, Long createTime, Long expirationTime, BigInteger token){
