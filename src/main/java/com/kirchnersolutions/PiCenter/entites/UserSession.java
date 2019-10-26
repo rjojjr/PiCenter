@@ -1,5 +1,6 @@
 package com.kirchnersolutions.PiCenter.entites;
 
+import com.kirchnersolutions.PiCenter.servers.UserService;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -33,13 +34,17 @@ public class UserSession {
     @Getter@Setter private String page;
 
     @Column(name = "stomp_id", nullable = true, unique = true)
-    @Getter @Setter private String idString;
+    @Getter @Setter private String stompId;
 
     @Column(name = "ip_address", nullable = false, unique = false)
     @Getter @Setter private String ipAddress;
 
     @OneToOne(mappedBy = "userSession")
     @Getter@Setter private AppUser appUser;
+
+    public UserSession(){
+
+    }
 
     public UserSession(Long createTime, Long expirationTime, BigInteger token){
         this.createTime = createTime;
@@ -54,7 +59,7 @@ public class UserSession {
         this.token = token;
         this.page = page;
         this.ipAddress = ipAddress;
-        idString = null;
+        stompId = null;
     }
 /*
     public UserSession(Long userId, Long createTime, Long expirationTime, BigInteger token){

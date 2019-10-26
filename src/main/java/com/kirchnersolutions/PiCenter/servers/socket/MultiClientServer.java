@@ -40,7 +40,7 @@ import java.util.logging.Logger;
  *
  * @author Robert Kirchner Jr. 2018 Kirchner Solutions
  */
-@DependsOn({"threadPoolTaskExecutor", "debuggingService", "transactionService", "sessionService"})
+@DependsOn({"threadPoolTaskExecutor", "debuggingService", "transactionService"})
 @Component
 public class MultiClientServer {
 

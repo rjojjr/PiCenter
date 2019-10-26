@@ -1,4 +1,4 @@
-package com.kirchnersolutions.PiCenter.servers.objects;
+package com.kirchnersolutions.PiCenter.servers;
 
 import com.kirchnersolutions.PiCenter.entites.AppUser;
 import com.kirchnersolutions.PiCenter.entites.UserSession;
@@ -11,7 +11,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class UserList {
 
     private List<AppUser> userList;
-    private AtomicBoolean lock;
+    private AtomicBoolean lock = new AtomicBoolean(false);
 
     public UserList(){
         userList = Collections.synchronizedList(new ArrayList<>());

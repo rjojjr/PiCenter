@@ -1,0 +1,2 @@
+10/20/2019~16~34~07
+Attempting to start socket server on port 4444

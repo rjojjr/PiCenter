@@ -4,24 +4,25 @@ import com.kirchnersolutions.PiCenter.dev.DebuggingService;
 import com.kirchnersolutions.PiCenter.dev.DevelopmentException;
 import com.kirchnersolutions.PiCenter.dev.exceptions.UserRoleException;
 import com.kirchnersolutions.PiCenter.entites.*;
-import com.kirchnersolutions.PiCenter.servers.objects.UserList;
 import com.kirchnersolutions.utilities.CryptTools;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.math.BigInteger;
 import java.util.Base64;
 import java.util.List;
 
 @Service
+@DependsOn({"debuggingService", "appUserRepository", "userLogRepository", "userList"})
 public class UserService {
 
+    public static final boolean TEST = true;
+
     @Autowired
-    private AppUserRepository userRepository;
-    @Autowired
-    private ThreadPoolTaskExecutor threadPoolTaskExecutor;
+    private AppUserRepository appUserRepository;
     @Autowired
     private UserList userList;
     @Autowired
@@ -29,23 +30,28 @@ public class UserService {
     @Autowired
     private UserLogRepository userLogRepository;
 
-    //"methodName,param1;param2"
-    //private Queue<String> queue;
+  /*  private AppUser testUser = null, admin = null, testUser2 = null;
 
-    public UserService(){
-        //queue = new LinkedList<>();
-    }
+    public void testInit() throws Exception{
+        if(TEST){
+            admin = new AppUser(System.currentTimeMillis(), "admin", "Robert", "Kirchner Jr", CryptTools.generateEncodedSHA256Password("21122112"), true);
+            testUser = new AppUser(System.currentTimeMillis(), "TestUser", "Test", "User", CryptTools.generateEncodedSHA256Password("testUser#"), false);
+            admin = appUserRepository.saveAndFlush(admin);
+            testUser = appUserRepository.saveAndFlush(testUser);
+            admin = logOn(admin.getUserName(), admin.getPassword(), "null");
+        }
+    }*/
 
     boolean addUser(AppUser creator, String userName, String firstName, String lastName, String password, boolean admin) throws Exception{
         if(!creator.isAdmin()){
             throw new UserRoleException("Only admin can create user");
         }
         password = CryptTools.generateEncodedSHA256Password(password);
-        if(userRepository.findByUserNameAndPassword(userName, password) != null){
+        if(appUserRepository.findByUserNameAndPassword(userName, password) != null){
             return false;
         }
         AppUser user = new AppUser(System.currentTimeMillis(), userName, firstName, lastName, password, admin);
-        user = userRepository.saveAndFlush(user);
+        user = appUserRepository.saveAndFlush(user);
         UserLog userLog = new UserLog(user.getId(), "created", System.currentTimeMillis());
         userLogRepository.saveAndFlush(userLog);
         UserLog creatorLog = new UserLog(creator.getId(), "created user " + userName, System.currentTimeMillis());
@@ -58,14 +64,32 @@ public class UserService {
         if(!creator.isAdmin()){
             throw new UserRoleException("Only admin can create user");
         }
-        if((user =userRepository.findByUserName(userName)) == null){
+        if((user = appUserRepository.findByUserName(userName)) == null){
             return false;
         }
         UserLog userLog = new UserLog(user.getId(), "deleted", System.currentTimeMillis());
         userLogRepository.saveAndFlush(userLog);
         userList.removeUser(userName);
-        userRepository.delete(user);
+        appUserRepository.delete(user);
         UserLog creatorLog = new UserLog(creator.getId(), "deleted user " + userName, System.currentTimeMillis());
+        userLogRepository.saveAndFlush(creatorLog);
+        return true;
+    }
+
+    boolean invalidateUser(AppUser admin, String userName) throws Exception{
+        AppUser user;
+        if(!admin.isAdmin()){
+            throw new UserRoleException("Only admin can create user");
+        }
+        if((user = appUserRepository.findByUserName(userName)) == null){
+            return false;
+        }
+        UserLog userLog = new UserLog(user.getId(), "invalidated by " + admin.getUserName(), System.currentTimeMillis());
+        userLogRepository.saveAndFlush(userLog);
+        userList.removeUser(userName);
+        user.setUserSession(null);
+        appUserRepository.saveAndFlush(user);
+        UserLog creatorLog = new UserLog(admin.getId(), "invalidated user " + userName, System.currentTimeMillis());
         userLogRepository.saveAndFlush(creatorLog);
         return true;
     }
@@ -82,8 +106,8 @@ public class UserService {
         userSession.setExpirationTime(getExpirationTime());
         userSession.setIpAddress(ipAddress);
         userSession.setPage(page);
-        userSession.setIdString(stompId);
-        userRepository.saveAndFlush(user);
+        userSession.setStompId(stompId);
+        appUserRepository.saveAndFlush(user);
         return user;
     }
 
@@ -99,18 +123,20 @@ public class UserService {
         userSession.setExpirationTime(getExpirationTime());
         userSession.setIpAddress(ipAddress);
         userSession.setPage(page);
-        userRepository.saveAndFlush(user);
+        appUserRepository.saveAndFlush(user);
         return user;
     }
 
     AppUser logOn(String userName, String password, String ipAddress) throws Exception{
         AppUser user = userList.searchList(userName);
-        password = CryptTools.generateEncodedSHA256Password(password);
+        //password = CryptTools.generateEncodedSHA256Password(password);
         if(user != null){
             return user;
         }
         try{
-            user = userRepository.findByUserNameAndPassword(userName, CryptTools.generateEncodedSHA256Password(password)).get(0);
+            //Check not null
+            //user = appUserRepository.findByUserNameAndPassword(userName, CryptTools.generateEncodedSHA256Password(password)).get(0);
+            user = appUserRepository.findByUserNameAndPassword(userName, password).get(0);
             if(user == null){
                 return null;
             }
@@ -124,12 +150,14 @@ public class UserService {
             Long time = System.currentTimeMillis();
             UserSession userSession = new UserSession(time, getExpirationTime(), createToken(userName, password, ipAddress), "/", ipAddress);
             user.setUserSession(userSession);
-            userRepository.saveAndFlush(user);
+            //appUserRepository.saveAndFlush(user);
             return user;
         }catch (Exception e){
-            debuggingService.throwDevException(new DevelopmentException("Failed to process password for user " + userName));
-            debuggingService.nonFatalDebug("Failed to process password for user " + userName);
-            return null;
+
+            //debuggingService.throwDevException(new DevelopmentException("Failed to process password for user " + userName));
+            throw e;
+            //debuggingService.nonFatalDebug("Failed to process password for user " + userName);
+            //return null;
         }
     }
 
@@ -141,7 +169,7 @@ public class UserService {
             UserLog userLog = new UserLog(user.getId(), "logoff", System.currentTimeMillis());
             userLogRepository.saveAndFlush(userLog);
             user.setUserSession(null);
-            userRepository.saveAndFlush(user);
+            appUserRepository.saveAndFlush(user);
             userList.removeUser(user.getUserName());
             user = null;
             return true;
@@ -156,7 +184,7 @@ public class UserService {
             UserLog userLog = new UserLog(user.getId(), "expired", System.currentTimeMillis());
             userLogRepository.saveAndFlush(userLog);
             user.setUserSession(null);
-            userRepository.saveAndFlush(user);
+            appUserRepository.saveAndFlush(user);
             user = null;
         }
     }

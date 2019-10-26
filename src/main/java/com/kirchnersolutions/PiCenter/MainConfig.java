@@ -21,8 +21,9 @@ import org.springframework.transaction.PlatformTransactionManager;
 @Configuration
 @EnableJpaRepositories("com.kirchnersolutions.PiCenter.entites")
 @EntityScan("com.kirchnersolutions.PiCenter.entites")
-@ComponentScan({"com.kirchnersolutions.PiCenter.entites", "com.kirchnersolutions.PiCenter.Configuration", "com.kirchnersolutions.PiCenter.dev", "com.kirchnersolutions.PiCenter.servers.http",
-        "com.kirchnersolutions.PiCenter.servers.objects", "com.kirchnersolutions.PiCenter.servers.socket"})
+@ComponentScan({"com.kirchnersolutions.PiCenter.entites", "com.kirchnersolutions.PiCenter.Configuration", "com.kirchnersolutions.PiCenter.dev",
+        "com.kirchnersolutions.PiCenter.servers.objects", "com.kirchnersolutions.PiCenter.servers",
+        "com.kirchnersolutions.PiCenter.servers.http", "com.kirchnersolutions.PiCenter.servers.socket"})
 public class MainConfig {
 /*
     @Autowired
