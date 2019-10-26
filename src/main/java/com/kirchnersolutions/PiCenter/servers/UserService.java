@@ -29,6 +29,8 @@ public class UserService {
     private DebuggingService debuggingService;
     @Autowired
     private UserLogRepository userLogRepository;
+    @Autowired
+    private UserSessionRepository userSessionRepository;
 
   /*  private AppUser testUser = null, admin = null, testUser2 = null;
 
@@ -46,8 +48,8 @@ public class UserService {
         if(!creator.isAdmin()){
             throw new UserRoleException("Only admin can create user");
         }
-        password = CryptTools.generateEncodedSHA256Password(password);
-        if(appUserRepository.findByUserNameAndPassword(userName, password) != null){
+        //password = CryptTools.generateEncodedSHA256Password(password);
+        if(appUserRepository.findByUserName(userName) != null){
             return false;
         }
         AppUser user = new AppUser(System.currentTimeMillis(), userName, firstName, lastName, password, admin);
@@ -87,14 +89,14 @@ public class UserService {
         UserLog userLog = new UserLog(user.getId(), "invalidated by " + admin.getUserName(), System.currentTimeMillis());
         userLogRepository.saveAndFlush(userLog);
         userList.removeUser(userName);
-        user.setUserSession(null);
-        appUserRepository.saveAndFlush(user);
+        user.setUserSession(new UserSession(null, null, null, null, null));
+        //appUserRepository.saveAndFlush(user);
         UserLog creatorLog = new UserLog(admin.getId(), "invalidated user " + userName, System.currentTimeMillis());
         userLogRepository.saveAndFlush(creatorLog);
         return true;
     }
 
-    AppUser updateSession(String userName, BigInteger token, String ipAddress, String page, String stompId){
+    AppUser updateSession(String userName, String token, String ipAddress, String page, String stompId){
         AppUser user = userList.searchList(userName);
         if(user == null){
             return null;
@@ -107,11 +109,12 @@ public class UserService {
         userSession.setIpAddress(ipAddress);
         userSession.setPage(page);
         userSession.setStompId(stompId);
-        appUserRepository.saveAndFlush(user);
+        user.setUserSession(userSession);
+        //appUserRepository.saveAndFlush(user);
         return user;
     }
 
-    AppUser updateSession(String userName, BigInteger token, String ipAddress, String page){
+    AppUser updateSession(String userName, String token, String ipAddress, String page){
         AppUser user = userList.searchList(userName);
         if(user == null){
             return null;
@@ -123,7 +126,8 @@ public class UserService {
         userSession.setExpirationTime(getExpirationTime());
         userSession.setIpAddress(ipAddress);
         userSession.setPage(page);
-        appUserRepository.saveAndFlush(user);
+        user.setUserSession(userSession);
+        //appUserRepository.saveAndFlush(user);
         return user;
     }
 
@@ -136,7 +140,11 @@ public class UserService {
         try{
             //Check not null
             //user = appUserRepository.findByUserNameAndPassword(userName, CryptTools.generateEncodedSHA256Password(password)).get(0);
-            user = appUserRepository.findByUserNameAndPassword(userName, password).get(0);
+            List<AppUser> results = appUserRepository.findByUserNameAndPassword(userName, password);
+            if(results.isEmpty()){
+                return null;
+            }
+            user = results.get(0);
             if(user == null){
                 return null;
             }
@@ -168,8 +176,8 @@ public class UserService {
         }else{
             UserLog userLog = new UserLog(user.getId(), "logoff", System.currentTimeMillis());
             userLogRepository.saveAndFlush(userLog);
-            user.setUserSession(null);
-            appUserRepository.saveAndFlush(user);
+            userSessionRepository.delete(user.getUserSession());
+            //appUserRepository.saveAndFlush(user);
             userList.removeUser(user.getUserName());
             user = null;
             return true;
@@ -183,13 +191,13 @@ public class UserService {
             userList.removeUser(user.getUserName());
             UserLog userLog = new UserLog(user.getId(), "expired", System.currentTimeMillis());
             userLogRepository.saveAndFlush(userLog);
-            user.setUserSession(null);
-            appUserRepository.saveAndFlush(user);
+            user.setUserSession(new UserSession(null, null, null, null, null));
+            //appUserRepository.saveAndFlush(user);
             user = null;
         }
     }
 
-    private static BigInteger createToken(String userName, String password, String ipAddress) throws Exception{
+    private static String createToken(String userName, String password, String ipAddress) throws Exception{
         byte[] rand;
         byte[] hash = CryptTools.getSHA256(Base64.getEncoder().encode(userName.getBytes()), Base64.getEncoder().encode(password.getBytes()));
         hash = CryptTools.getSHA256(hash, Base64.getEncoder().encode(ipAddress.getBytes()));
@@ -197,7 +205,9 @@ public class UserService {
             rand = CryptTools.generateRandomBytes(1024 * 1024);
             hash = CryptTools.getSHA256(hash, rand);
         }
-        return new BigInteger(hash);
+        /*BigInteger token = (new BigInteger(hash));
+        System.out.println(token.toString());*/
+        return Base64.getEncoder().encodeToString(hash);
     }
 
     private static Long getExpirationTime(){

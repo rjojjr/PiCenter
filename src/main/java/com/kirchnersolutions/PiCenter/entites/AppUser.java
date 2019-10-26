@@ -1,17 +1,20 @@
 package com.kirchnersolutions.PiCenter.entites;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
 
 @Getter @Setter
+@NoArgsConstructor
 @Entity
 @Table(name = "app_users")
 public class AppUser {
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
+    //@Column(name = "user_id", nullable = false)
     @Getter @Setter private Long id;
 
     @Column(name = "creation_time", nullable = false)
@@ -34,8 +37,8 @@ public class AppUser {
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinTable(name = "appuser_sessions",
-            joinColumns = { @JoinColumn(name = "user_id", referencedColumnName = "id") },
-            inverseJoinColumns = { @JoinColumn(name = "session_id", referencedColumnName = "id") })
+            joinColumns = { @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = true) },
+            inverseJoinColumns = { @JoinColumn(name = "session_id", referencedColumnName = "id", nullable = true) })
     @Getter @Setter private UserSession userSession;
 
     public AppUser(Long createTime, String userName, String firstName, String lastName, String password, boolean admin){

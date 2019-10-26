@@ -62,16 +62,18 @@ public class UserList {
 
         }
         set(true);
+        boolean result = false;
         List<AppUser> list = copyList();
-        boolean result = remove(userName, list);
-        if(result){
-            updateList(list);
+        List<AppUser> appUserList = remove(userName, list);
+        if(appUserList != null){
+            updateList(appUserList);
+            result = true;
         }
         set(false);
         return result;
     }
 
-    private static boolean remove(String userName, List<AppUser> list){
+    private List<AppUser> remove(String userName, List<AppUser> list){
         List<AppUser> newList = new ArrayList<>();
         boolean result = false;
         for(AppUser user : list){
@@ -82,9 +84,9 @@ public class UserList {
             }
         }
         if(result){
-            list = newList;
+            return new ArrayList<>(newList);
         }
-        return result;
+        return null;
     }
 
     private static AppUser searchList(String userName, List<AppUser> list){

@@ -1,11 +1,13 @@
 package com.kirchnersolutions.PiCenter.entites;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.Setter;
 
 import javax.persistence.*;
 
+@NoArgsConstructor
 @Getter @Setter
 @Entity
 @Table(name = "readings")
