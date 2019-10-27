@@ -3,8 +3,9 @@
 Smart home statistics, control, integration and 
 prediction center.
 
-This application is built around Nest thermostat and 
-Raspberry Pi with various sensors and electronic components.
+This application is built around Nest thermostat(Looks like it won't
+be compatible now. Thanks Google) and Raspberry Pi with various 
+sensors and electronic components.
 
 The core of this program will be an analytical engine,
 that will calculate various statistics and hopefully make 
@@ -19,7 +20,7 @@ controlling ductwork and windows.
 Please feel free to contribute features pertaining to
 your own smart home incorporation.
 
-The program is built with Springboot and uses py4j
+The program is built with Springboot, React, Redux, Axios and py4j
 Python Java gateway API to incorporate the Raspberry Pi.
 
 

@@ -1,11 +1,14 @@
 HELP.md
 .gradle
-build/
+/build
 !gradle/wrapper/gradle-wrapper.jar
-!**/src/main/**
+!**/src/main/java
+!**/src/main/resources
 !**/src/test/**
-/SHome
-/oldSrc
+/SHome/
+/oldSrc/
+/src/main/ui/node_modules
+/src/main/ui/package-lock.json
 ### STS ###
 .apt_generated
 .classpath
