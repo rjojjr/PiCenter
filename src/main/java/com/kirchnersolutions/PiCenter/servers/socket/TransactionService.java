@@ -1,5 +1,6 @@
 package com.kirchnersolutions.PiCenter.servers.socket;
 
+import com.kirchnersolutions.PiCenter.Configuration.SysVars;
 import com.kirchnersolutions.PiCenter.dev.DebuggingService;
 import com.kirchnersolutions.PiCenter.dev.DevelopmentException;
 import com.kirchnersolutions.PiCenter.entites.Reading;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import javax.security.auth.login.FailedLoginException;
 import java.util.Base64;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -23,6 +25,8 @@ public class TransactionService {
     private ReadingRepository readRepository;
     @Autowired
     private ObjectFactory objectFactory;
+    @Autowired
+    private SysVars sysVars;
 
     byte[] inputRequest(byte[] input) throws Exception{
         return parseInput(input);
@@ -33,7 +37,7 @@ public class TransactionService {
         debuggingService.trace("Thread " + Thread.currentThread().getName() + " Submitting socket transaction");
         Results results = new Results();
         String room = transaction.getOperation();
-        Map<String, String> put = transaction.getPut();
+        Map<String, String> put = transaction.getNewRows().get(0);
         int humidity = -1;
         int temp = -1;
         long time = -1;
@@ -64,8 +68,13 @@ public class TransactionService {
             return objectFactory.databaseSerialFactory(results);
         }catch (Exception e){
             debuggingService.trace("Thread " + Thread.currentThread().getName() + " Failed to parse socket request");
-            debuggingService.throwDevException(new DevelopmentException("Failed to parse socket request"));
-            debuggingService.nonFatalDebug("Failed to parse socket request");
+            //e.printStackTrace();
+            String stackTrace = "";
+            for(StackTraceElement trace : e.getStackTrace()){
+                stackTrace+= sysVars.getNewLineChar() + trace.toString();
+            }
+            debuggingService.throwDevException(new DevelopmentException("Failed to parse socket request" + stackTrace));
+            debuggingService.nonFatalDebug("Failed to parse socket request" + stackTrace);
             return null;
         }
 

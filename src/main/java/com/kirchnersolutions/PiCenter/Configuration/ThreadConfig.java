@@ -31,7 +31,7 @@ public class ThreadConfig {
 
         executor.setKeepAliveSeconds(10);
 
-        executor.setThreadNamePrefix("database_task_executor_thread");
+        executor.setThreadNamePrefix("picenter_task_executor_thread");
 
         executor.initialize();
 

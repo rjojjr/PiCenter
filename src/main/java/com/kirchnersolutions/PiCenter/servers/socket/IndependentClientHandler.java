@@ -84,7 +84,7 @@ class IndependentClientHandler implements Runnable {
         boolean key = false;
         try {
             while ((inputLine = in.readLine()) != null) {
-                //debuggingService.socketDebug("Input: " + inputLine);
+                debuggingService.socketDebug("Input: " + inputLine);
                 if(!key){
                     debuggingService.trace("Socket client thread: " + Thread.currentThread().getName() + " Init handshake");
                     if(keys.getPublicKey(Base64.getDecoder().decode(inputLine))){
@@ -108,8 +108,11 @@ class IndependentClientHandler implements Runnable {
                     }
                 }else {
                     debuggingService.trace("Socket client thread: " + Thread.currentThread().getName() + " received client input");
+                    System.out.println("here");
                     String output = Base64.getEncoder().encodeToString(keys.encryptAESRequest(transactionService.inputRequest((keys.decryptAESResponse(inputLine)))));
+                    System.out.println(output);
                     out.write(output + "\n");
+                    System.out.println("Sent");
                     debuggingService.trace("Socket client thread: " + Thread.currentThread().getName() + " received response to client");
                 }
             }
@@ -120,8 +123,8 @@ class IndependentClientHandler implements Runnable {
             try {
             } catch (Exception f) {
             }
-            debuggingService.socketDebug("Failure to read client socket input on port " + port + " " + ex.getMessage());
-            debuggingService.nonFatalDebug("Failure to read client socket input on port " + port + " " + ex.getMessage());
+            debuggingService.socketDebug("Failure to read client socket input on port " + port + " " + DebuggingService.getStackTrace(ex));
+            debuggingService.nonFatalDebug("Failure to read client socket input on port " + port + " " + DebuggingService.getStackTrace(ex));
             Logger.getLogger(MultiClientServer.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception es) {
             try {

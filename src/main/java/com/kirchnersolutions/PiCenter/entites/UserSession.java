@@ -11,7 +11,6 @@ import java.math.BigInteger;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @Entity
 @Table(name = "user_sessions")
 public class UserSession {

@@ -19,7 +19,7 @@ repositories {
 
 group = 'com.kirchnersolutions'
 version = '1.0.00a'
-def build = '100102'
+def build = '100103'
 sourceCompatibility = '1.8'
 
 

@@ -43,7 +43,7 @@ public class ConfigurationService {
 
     @PostConstruct
     public void init() throws Exception{
-        File temp = new File("Database");
+        File temp = new File("SHome");
         configDir = new File(temp, "/Configuration/Files");
         devConfig = new File(configDir, "/DeveloperConfig.dbs");
         sysConfig = new File(configDir, "/SystemConfig.dbs");
@@ -78,7 +78,7 @@ public class ConfigurationService {
             }
             try{
                 socketConfig.createNewFile();
-                ByteTools.writeBytesToFile(socketConfig, "4444%3333%3334".getBytes("UTF-8"));
+                ByteTools.writeBytesToFile(socketConfig, "7773%3333%3334".getBytes("UTF-8"));
             }catch (Exception e){
                 System.out.println("Failed to initialize SocketServerConfig.dbs: " + e.getMessage() + " Class ConfigurationService Method Constructor");
                 throw new DevelopmentException("Failed to initialize SocketServerConfig.dbs: " + e.getMessage() + " Class ConfigurationService Method Constructor");

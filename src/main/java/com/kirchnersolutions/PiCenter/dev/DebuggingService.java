@@ -24,11 +24,11 @@ public class DebuggingService {
     @Autowired
     private SocketServerConfiguration socketServerConfiguration;
 
-    private File exDir = new File("Database/Dev/Trace/DevelopmentExceptions");
-    private File nonFatDir = new File("Database/Dev/Trace/NonFatalExceptions");
-    private File ipDir = new File("Database/logs/IPDebug");
-    private File stompDir = new File("Database/logs/StompDebug");
-    private File socketDir = new File("Database/logs/SocketDebug");
+    private File exDir = new File("SHome/Dev/Trace/DevelopmentExceptions");
+    private File nonFatDir = new File("SHome/Dev/Trace/NonFatalExceptions");
+    private File ipDir = new File("SHome/logs/IPDebug");
+    private File stompDir = new File("SHome/logs/StompDebug");
+    private File socketDir = new File("SHome/logs/SocketDebug");
     private volatile AtomicBoolean stompLock = new AtomicBoolean(false);
 
     public DebuggingService(){
@@ -53,6 +53,14 @@ public class DebuggingService {
 
     }
 
+    public static String getStackTrace(Exception e){
+        String stackTrace = "";
+        for(StackTraceElement trace : e.getStackTrace()){
+            stackTrace+= System.lineSeparator() + trace.toString();
+        }
+        return stackTrace;
+    }
+
 
     public AtomicBoolean getStompLock(){
         return stompLock;
@@ -70,6 +78,22 @@ public class DebuggingService {
             }
             e.printStackTrace();
             throw e;
+        }
+    }
+
+    public void throwDevException(String msg, Exception e) throws DevelopmentException, Exception {
+        if(devVars.isDevExceptions()){
+            File log = new File(exDir, "/" + System.currentTimeMillis() + ".txt");
+            try{
+                log.createNewFile();
+                ByteTools.writeBytesToFile(log, (CalenderConverter.getMonthDayYearHourMinuteSecond(System.currentTimeMillis(), "/", "~")
+                        + sysVars.getNewLineChar() + msg + sysVars.getNewLineChar() + getStack(e)).getBytes("UTF-8"));
+            }catch (Exception ex){
+                ex.printStackTrace();
+                throw ex;
+            }
+            throw new DevelopmentException(CalenderConverter.getMonthDayYearHourMinuteSecond(System.currentTimeMillis(), "/", "~")
+                    + sysVars.getNewLineChar() + msg + sysVars.getNewLineChar() + getStack(e));
         }
     }
 

@@ -15,7 +15,7 @@ public class SysVars {
 
     public static final String VERSION = "1.0.00a";
     public static final String BACKUP_VERSION = "1.0.00b";
-    public static final String BUILD = "100102";
+    public static final String BUILD = "100103";
     public static final String OS = "WIN";
     //public static final String OS = "LIN";
 

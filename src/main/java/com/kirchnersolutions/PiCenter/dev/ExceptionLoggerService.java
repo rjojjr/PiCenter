@@ -9,7 +9,7 @@ import java.io.File;
 @Service
 public class ExceptionLoggerService {
 
-    private final File dir = new File("Database");
+    private final File dir = new File("SHome");
     private final File devLogDir = new File(dir, "/Dev/Trace/DevelopmentExceptions"), unCaughtDir = new File(dir, "/Dev/Trace/UncaughtExceptions");
 
     public void writeDev(String msg){
