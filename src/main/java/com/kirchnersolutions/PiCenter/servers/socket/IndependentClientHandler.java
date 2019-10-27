@@ -84,7 +84,7 @@ class IndependentClientHandler implements Runnable {
         boolean key = false;
         try {
             while ((inputLine = in.readLine()) != null) {
-                debuggingService.socketDebug("Input: " + inputLine);
+                debuggingService.trace("Socket client on port " + port + " input received = " + inputLine);
                 if(!key){
                     debuggingService.trace("Socket client thread: " + Thread.currentThread().getName() + " Init handshake");
                     if(keys.getPublicKey(Base64.getDecoder().decode(inputLine))){
@@ -108,11 +108,9 @@ class IndependentClientHandler implements Runnable {
                     }
                 }else {
                     debuggingService.trace("Socket client thread: " + Thread.currentThread().getName() + " received client input");
-                    System.out.println("here");
                     String output = Base64.getEncoder().encodeToString(keys.encryptAESRequest(transactionService.inputRequest((keys.decryptAESResponse(inputLine)))));
                     System.out.println(output);
-                    out.write(output + "\n");
-                    System.out.println("Sent");
+                    out.flush();
                     debuggingService.trace("Socket client thread: " + Thread.currentThread().getName() + " received response to client");
                 }
             }

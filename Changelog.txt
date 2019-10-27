@@ -4,11 +4,16 @@ PiCenter Changelog
 1.0.00a
 10/13/2019
 Build 100102
+    Working socket server impl.
+
+10/13/2019
+Build 100102
     Impl AppUser Table.
     Impl. Reading Table.
     Impl. UserLog Table.
     Started UserSession Impl.
     Added appUser_userSession join table.
+
 10/05/2019
 Build 100101
     Initial MySQL Impl.
