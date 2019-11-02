@@ -1,4 +1,4 @@
-import {load} from "../../services/axios-service";
+import {load} from "../services/axios-service";
 
 export const IS_LOADING = 'IS_LOADING'
 export const isLoading = () => ({
@@ -23,7 +23,7 @@ export const loadingError = msg => ({
     msg
 });
 
-export const loadAppThunk = teamName => async dispatch => {
+export const loadAppThunk = () => async dispatch => {
     try {
         dispatch(isLoading());
         const initiationResponse = await load();

@@ -5,12 +5,7 @@ import {
     IS_LOADING
 } from "../actions/loader-actions";
 
-import{
-    LOADING_PAGE,
-    MSG_PAGE,
-    LOGIN_PAGE,
-    SUMMARY_PAGE
-} from "../../constants/page-constants";
+
 
 export const initialState = () => ({
     user: null,
@@ -19,7 +14,7 @@ export const initialState = () => ({
     message: '',
     isShowMsg: false,
     errorMsg: '',
-    currentPage: LOADING_PAGE
+    isLoggedOn: false
 });
 
 export default (state = initialState(), action = { type: undefined }) => {
@@ -29,7 +24,8 @@ export default (state = initialState(), action = { type: undefined }) => {
                 ...state,
                 isLoading: true,
                 isShowMsg: false,
-                isError: false
+                isError: false,
+                isLoggedOn: false
             };
         };
         case LOGGED_ON: {
@@ -39,7 +35,7 @@ export default (state = initialState(), action = { type: undefined }) => {
                 isLoading: false,
                 isShowMsg: false,
                 isError: false,
-                currentPage: action.user.page
+                isLoggedOn: true
             };
         };
         case NOT_LOGGED_ON: {
@@ -50,7 +46,7 @@ export default (state = initialState(), action = { type: undefined }) => {
                 isError: false,
                 isShowMsg: true,
                 message: action.msg,
-                page: MSG_PAGE
+                isLoggedOn: false
             };
         };
         case LOADING_ERROR: {
@@ -61,7 +57,7 @@ export default (state = initialState(), action = { type: undefined }) => {
                 isError: true,
                 isShowMsg: false,
                 errorMsg: action.msg,
-                page: MSG_PAGE
+                isLoggedOn: false
             };
         };
         default:
