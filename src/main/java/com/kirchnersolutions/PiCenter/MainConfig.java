@@ -1,29 +1,17 @@
 package com.kirchnersolutions.PiCenter;
 
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.sql.DataSource;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.context.annotation.Bean;
-
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import org.springframework.orm.jpa.JpaTransactionManager;
-import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
-import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
-import org.springframework.transaction.PlatformTransactionManager;
 
 @Configuration
 @EnableJpaRepositories("com.kirchnersolutions.PiCenter.entites")
 @EntityScan("com.kirchnersolutions.PiCenter.entites")
 @ComponentScan({"com.kirchnersolutions.PiCenter.entites", "com.kirchnersolutions.PiCenter.Configuration", "com.kirchnersolutions.PiCenter.dev",
         "com.kirchnersolutions.PiCenter.servers.objects", "com.kirchnersolutions.PiCenter.servers",
-        "com.kirchnersolutions.PiCenter.servers.http", "com.kirchnersolutions.PiCenter.servers.socket"})
+        "com.kirchnersolutions.PiCenter.servers.rest", "com.kirchnersolutions.PiCenter.servers.socket"})
 public class MainConfig {
 /*
     @Autowired

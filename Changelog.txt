@@ -2,8 +2,14 @@ PiCenter Changelog
 
 
 1.0.00a
-10/13/2019
-Build 100102
+11/02/2019
+Build 100104
+    Added restuser bean.
+    Added getrestuser to userservice.
+    Added "/" mapping to main rest controller.
+
+10/27/2019
+Build 100103
     Working socket server impl.
 
 10/13/2019

@@ -4,6 +4,7 @@ import com.kirchnersolutions.PiCenter.dev.DebuggingService;
 import com.kirchnersolutions.PiCenter.dev.DevelopmentException;
 import com.kirchnersolutions.PiCenter.dev.exceptions.UserRoleException;
 import com.kirchnersolutions.PiCenter.entites.*;
+import com.kirchnersolutions.PiCenter.servers.beans.RestUser;
 import com.kirchnersolutions.utilities.CryptTools;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.DependsOn;
@@ -32,19 +33,7 @@ public class UserService {
     @Autowired
     private UserSessionRepository userSessionRepository;
 
-  /*  private AppUser testUser = null, admin = null, testUser2 = null;
-
-    public void testInit() throws Exception{
-        if(TEST){
-            admin = new AppUser(System.currentTimeMillis(), "admin", "Robert", "Kirchner Jr", CryptTools.generateEncodedSHA256Password("21122112"), true);
-            testUser = new AppUser(System.currentTimeMillis(), "TestUser", "Test", "User", CryptTools.generateEncodedSHA256Password("testUser#"), false);
-            admin = appUserRepository.saveAndFlush(admin);
-            testUser = appUserRepository.saveAndFlush(testUser);
-            admin = logOn(admin.getUserName(), admin.getPassword(), "null");
-        }
-    }*/
-
-    boolean addUser(AppUser creator, String userName, String firstName, String lastName, String password, boolean admin) throws Exception{
+    public boolean addUser(AppUser creator, String userName, String firstName, String lastName, String password, boolean admin) throws Exception{
         if(!creator.isAdmin()){
             throw new UserRoleException("Only admin can create user");
         }
@@ -61,7 +50,7 @@ public class UserService {
         return true;
     }
 
-    boolean removeUser(AppUser creator, String userName) throws Exception{
+    public boolean removeUser(AppUser creator, String userName) throws Exception{
         AppUser user;
         if(!creator.isAdmin()){
             throw new UserRoleException("Only admin can create user");
@@ -78,7 +67,7 @@ public class UserService {
         return true;
     }
 
-    boolean invalidateUser(AppUser admin, String userName) throws Exception{
+    public boolean invalidateUser(AppUser admin, String userName) throws Exception{
         AppUser user;
         if(!admin.isAdmin()){
             throw new UserRoleException("Only admin can create user");
@@ -96,7 +85,7 @@ public class UserService {
         return true;
     }
 
-    AppUser updateSession(String userName, String token, String ipAddress, String page, String stompId){
+    public AppUser updateSession(String userName, String token, String ipAddress, String page, String stompId){
         AppUser user = userList.searchList(userName);
         if(user == null){
             return null;
@@ -114,7 +103,7 @@ public class UserService {
         return user;
     }
 
-    AppUser updateSession(String userName, String token, String ipAddress, String page){
+    public AppUser updateSession(String userName, String token, String ipAddress, String page){
         AppUser user = userList.searchList(userName);
         if(user == null){
             return null;
@@ -131,7 +120,7 @@ public class UserService {
         return user;
     }
 
-    AppUser logOn(String userName, String password, String ipAddress) throws Exception{
+    public AppUser logOn(String userName, String password, String ipAddress) throws Exception{
         AppUser user = userList.searchList(userName);
         //password = CryptTools.generateEncodedSHA256Password(password);
         if(user != null){
@@ -169,7 +158,7 @@ public class UserService {
         }
     }
 
-    boolean logOff(String userName){
+    public boolean logOff(String userName){
         AppUser user = userList.searchList(userName);
         if(user == null){
             return false;
@@ -182,6 +171,11 @@ public class UserService {
             user = null;
             return true;
         }
+    }
+
+    public RestUser getRestUser(String username){
+        AppUser user = userList.searchList(username);
+        return restUserFactory(user);
     }
 
     @Scheduled(fixedDelay = 60000)
@@ -208,6 +202,14 @@ public class UserService {
         /*BigInteger token = (new BigInteger(hash));
         System.out.println(token.toString());*/
         return Base64.getEncoder().encodeToString(hash);
+    }
+
+    private static RestUser restUserFactory(AppUser user){
+        if(user == null){
+            return new RestUser();
+        }
+        UserSession session = user.getUserSession();
+        return new RestUser(user.getUserName(), session.getToken(), session.getPage(), session.getIpAddress(), session.getStompId());
     }
 
     private static Long getExpirationTime(){

@@ -1,4 +1,4 @@
-package com.kirchnersolutions.PiCenter.servers.http;
+package com.kirchnersolutions.PiCenter.servers.rest;
 
 import com.kirchnersolutions.PiCenter.servers.beans.LogonForm;
 import com.kirchnersolutions.PiCenter.Wrapper;

@@ -1,10 +1,17 @@
 package com.kirchnersolutions.PiCenter.servers.beans;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+
+@AllArgsConstructor
 public class LogonForm {
 
+    @Getter
+    @Setter
     private String username, password;
 
-    public void setUsername(String username){
+/*    public void setUsername(String username){
         this.username = username;
     }
 
@@ -18,6 +25,6 @@ public class LogonForm {
 
     public String getPassword() {
         return password;
-    }
+    }*/
 
 }

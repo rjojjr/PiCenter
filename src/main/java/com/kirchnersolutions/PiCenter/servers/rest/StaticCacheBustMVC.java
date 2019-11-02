@@ -1,4 +1,4 @@
-package com.kirchnersolutions.PiCenter.servers.http;
+package com.kirchnersolutions.PiCenter.servers.rest;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

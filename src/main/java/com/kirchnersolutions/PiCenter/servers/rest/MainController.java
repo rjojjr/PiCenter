@@ -1,11 +1,11 @@
-package com.kirchnersolutions.PiCenter.servers.http;
+package com.kirchnersolutions.PiCenter.servers.rest;
 
-import com.kirchnersolutions.PiCenter.servers.beans.LogonForm;
-import com.kirchnersolutions.PiCenter.Wrapper;
-import org.springframework.stereotype.Controller;
+import com.kirchnersolutions.PiCenter.servers.UserService;
+import com.kirchnersolutions.PiCenter.servers.beans.RestResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -13,32 +13,24 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.util.List;
 
-@Controller
-public class HTTPController {
+@RestController
+public class MainController {
+
+    @Autowired
+    private UserService userService;
 
     @GetMapping("/")
-    public String home(Model model, HttpServletResponse response) throws Exception{
+    public RestResponse home(Model model, HttpServletResponse response) throws Exception{
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes())
                 .getRequest();
         //ServletWebRequest servletWebRequest=new ServletWebRequest(request);
         //HttpServletResponse response=servletWebRequest.getResponse();
         HttpSession httpSession = cookie(request, response);
         if(httpSession.getAttribute("username") == null){
-            model.addAttribute("form", new LogonForm());
-            return "logon";
+            return new RestResponse();
         }
-        /*
-        Users users = Users.getInstance();
-        List<List<Wrapper>> values = users.getTempList((String)httpSession.getAttribute("username"));
-        model.addAttribute("lrlist", values.get(2));
-        model.addAttribute("oflist", values.get(0));
-        model.addAttribute("brlist", values.get(3));
-        model.addAttribute("srlist", values.get(1));
-
-         */
-        return "home";
+        return new RestResponse(userService.getRestUser((String)httpSession.getAttribute("username")));
     }
 
     private static HttpSession getSession() {
