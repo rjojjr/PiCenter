@@ -7,6 +7,7 @@ Build 100104
     Added restuser bean.
     Added getrestuser to userservice.
     Added "/" mapping to main rest controller.
+    Added logon form to ui.
 
 10/27/2019
 Build 100103
