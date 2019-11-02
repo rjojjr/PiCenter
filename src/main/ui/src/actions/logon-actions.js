@@ -12,8 +12,9 @@ export const isLoggingOn = () => ({
 });
 
 export const IS_LOGGED_ON = 'LOGGED_ON'
-export const isLoggedOn = () => ({
-    type: IS_LOGGED_ON
+export const isLoggedOn = (user) => ({
+    type: IS_LOGGED_ON,
+    user: user
 });
 
 export const loadAppThunk = (username, password) => async dispatch => {
@@ -21,7 +22,7 @@ export const loadAppThunk = (username, password) => async dispatch => {
         dispatch(isLoggingOn());
         const response = await logOn(username, password);
         const user = response.data.user;
-        user.userName !== null ? dispatch(isLoggedOn(user)) : dispatch(logonError(initiationResponse.data.responseBody.body));
+        user.userName !== null ? dispatch(isLoggedOn(user)) : dispatch(logonError(response.data.responseBody.body));
     } catch (error) {
         dispatch(logonError(error));
     }

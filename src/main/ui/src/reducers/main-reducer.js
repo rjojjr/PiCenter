@@ -5,6 +5,11 @@ import {
     IS_LOADING
 } from "../actions/loader-actions";
 
+import {
+    IS_LOGGED_ON,
+    IS_LOGGING_ON,
+    LOGON_ERROR
+} from "../actions/logon-actions";
 
 
 export const initialState = () => ({
@@ -14,7 +19,8 @@ export const initialState = () => ({
     message: '',
     isShowMsg: false,
     errorMsg: '',
-    isLoggedOn: false
+    isLoggedOn: false,
+    isLoggingOn: false
 });
 
 export default (state = initialState(), action = { type: undefined }) => {
@@ -55,11 +61,37 @@ export default (state = initialState(), action = { type: undefined }) => {
                 user: null,
                 isLoading: false,
                 isError: true,
-                isShowMsg: false,
                 errorMsg: action.msg,
                 isLoggedOn: false
             };
         };
+        case LOGON_ERROR: {
+            return {
+                ...state,
+                user: null,
+                isLoggingOn: false,
+                isShowMsg: true,
+               message: action.msg,
+                isLoggedOn: false
+            };
+        };
+        case IS_LOGGING_ON: {
+            return {
+                ...state,
+                isLoggingOn: true,
+                isShowMsg: false,
+                isError: false,
+                isLoggedOn: false
+            };
+        };
+        case LOGGED_ON: {
+            return {
+                ...state,
+                isLoggingOn: false,
+                user: action.user,
+                isLoggedOn: true
+            }
+        }
         default:
             return state;
     }

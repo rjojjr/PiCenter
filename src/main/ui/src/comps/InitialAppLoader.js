@@ -7,10 +7,8 @@ import PageSelector from './PageSelector';
 
 const InitialAppLoader = ({
                               isError,
-                              isShowMsg,
                               loadApp,
                               errorMsg,
-                              message,
                               isLoading,
                              user
                           }) => {
@@ -24,9 +22,9 @@ const InitialAppLoader = ({
             {isError &&(
                 <p className="message">{errorMsg}</p>
             )}
-            {isShowMsg &&(
+            {/*{isShowMsg &&(
                 <p className="message">{message}</p>
-            )}
+            )}*/}
             {user !== null && <PageSelector user={user}/>}
             {user === null && <PageSelector user={{page: '/logon'} }/>}
         </div>
@@ -34,9 +32,7 @@ const InitialAppLoader = ({
 };
 
 const mapStateToProps = state => ({
-    isShowMsg: state.isShowMsg,
     isError: state.isError,
-    message: state.message,
     errorMsg: state.errorMsg,
     isLoading: state.isLoading,
     user: state.user
