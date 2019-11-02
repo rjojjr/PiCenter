@@ -11,6 +11,11 @@ import {
     LOGON_ERROR
 } from "../actions/logon-actions";
 
+import {
+    RESET_IS_ERROR,
+    RESET_IS_SHOW_MSG
+} from "../actions/universal-actions";
+
 
 export const initialState = () => ({
     user: null,
@@ -23,8 +28,24 @@ export const initialState = () => ({
     isLoggingOn: false
 });
 
-export default (state = initialState(), action = { type: undefined }) => {
+export default (state = initialState(), action = {type: undefined}) => {
     switch (action.type) {
+        case RESET_IS_ERROR: {
+            return {
+                ...state,
+                isError: false,
+                errorMsg: ''
+            };
+        }
+            ;
+        case RESET_IS_SHOW_MSG: {
+            return {
+                ...state,
+                isShowMsg: false,
+                message: ''
+            };
+        }
+            ;
         case IS_LOADING: {
             return {
                 ...state,
@@ -33,7 +54,8 @@ export default (state = initialState(), action = { type: undefined }) => {
                 isError: false,
                 isLoggedOn: false
             };
-        };
+        }
+            ;
         case LOGGED_ON: {
             return {
                 ...state,
@@ -43,7 +65,8 @@ export default (state = initialState(), action = { type: undefined }) => {
                 isError: false,
                 isLoggedOn: true
             };
-        };
+        }
+            ;
         case NOT_LOGGED_ON: {
             return {
                 ...state,
@@ -54,7 +77,8 @@ export default (state = initialState(), action = { type: undefined }) => {
                 message: action.msg,
                 isLoggedOn: false
             };
-        };
+        }
+            ;
         case LOADING_ERROR: {
             return {
                 ...state,
@@ -64,17 +88,19 @@ export default (state = initialState(), action = { type: undefined }) => {
                 errorMsg: action.msg,
                 isLoggedOn: false
             };
-        };
+        }
+            ;
         case LOGON_ERROR: {
             return {
                 ...state,
                 user: null,
                 isLoggingOn: false,
                 isShowMsg: true,
-               message: action.msg,
+                message: action.msg,
                 isLoggedOn: false
             };
-        };
+        }
+            ;
         case IS_LOGGING_ON: {
             return {
                 ...state,
@@ -83,7 +109,8 @@ export default (state = initialState(), action = { type: undefined }) => {
                 isError: false,
                 isLoggedOn: false
             };
-        };
+        }
+            ;
         case LOGGED_ON: {
             return {
                 ...state,

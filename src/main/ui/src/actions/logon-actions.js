@@ -17,7 +17,7 @@ export const isLoggedOn = (user) => ({
     user: user
 });
 
-export const loadAppThunk = (username, password) => async dispatch => {
+export const logOnThunk = (username, password) => async dispatch => {
     try {
         dispatch(isLoggingOn());
         const response = await logOn(username, password);
