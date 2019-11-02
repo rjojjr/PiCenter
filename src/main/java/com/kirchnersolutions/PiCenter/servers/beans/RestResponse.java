@@ -19,4 +19,8 @@ public class RestResponse {
         this.restUser = restUser;
     }
 
+    public RestResponse(String responseBody){
+        this.responseBody = responseBody;
+    }
+
 }

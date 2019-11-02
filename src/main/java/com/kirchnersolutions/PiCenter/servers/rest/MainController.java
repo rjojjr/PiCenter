@@ -1,6 +1,8 @@
 package com.kirchnersolutions.PiCenter.servers.rest;
 
+import com.kirchnersolutions.PiCenter.entites.AppUser;
 import com.kirchnersolutions.PiCenter.servers.UserService;
+import com.kirchnersolutions.PiCenter.servers.beans.LogonForm;
 import com.kirchnersolutions.PiCenter.servers.beans.RestResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
@@ -35,15 +37,19 @@ public class MainController {
     }
 
     @PostMapping("/login")
-    public RestResponse home(Model model, HttpServletResponse response) throws Exception{
+    public RestResponse home(Model model, HttpServletResponse response, LogonForm logonForm) throws Exception{
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes())
                 .getRequest();
         //ServletWebRequest servletWebRequest=new ServletWebRequest(request);
         //HttpServletResponse response=servletWebRequest.getResponse();
         HttpSession httpSession = cookie(request, response);
         if(httpSession.getAttribute("username") == null){
-
-            return new RestResponse();
+            AppUser user = userService.logOn(logonForm.getUsername(), logonForm.getPassword(), request.getRemoteAddr());
+            if(user != null){
+                httpSession.setAttribute("username", user.getUserName());
+                return new RestResponse(userService.getRestUser(user.getUserName()));
+            }
+            return new RestResponse("{body: 'Wrong username or password'}");
         }
         return new RestResponse(userService.getRestUser((String)httpSession.getAttribute("username")));
     }
