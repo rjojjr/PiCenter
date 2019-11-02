@@ -36,16 +36,14 @@ export default (state = initialState(), action = {type: undefined}) => {
                 isError: false,
                 errorMsg: ''
             };
-        }
-            ;
+        };
         case RESET_IS_SHOW_MSG: {
             return {
                 ...state,
                 isShowMsg: false,
                 message: ''
             };
-        }
-            ;
+        };
         case IS_LOADING: {
             return {
                 ...state,
@@ -54,8 +52,7 @@ export default (state = initialState(), action = {type: undefined}) => {
                 isError: false,
                 isLoggedOn: false
             };
-        }
-            ;
+        };
         case LOGGED_ON: {
             return {
                 ...state,
@@ -65,8 +62,7 @@ export default (state = initialState(), action = {type: undefined}) => {
                 isError: false,
                 isLoggedOn: true
             };
-        }
-            ;
+        };
         case NOT_LOGGED_ON: {
             return {
                 ...state,
@@ -88,8 +84,7 @@ export default (state = initialState(), action = {type: undefined}) => {
                 errorMsg: action.msg,
                 isLoggedOn: false
             };
-        }
-            ;
+        };
         case LOGON_ERROR: {
             return {
                 ...state,
@@ -99,8 +94,7 @@ export default (state = initialState(), action = {type: undefined}) => {
                 message: action.msg,
                 isLoggedOn: false
             };
-        }
-            ;
+        };
         case IS_LOGGING_ON: {
             return {
                 ...state,
@@ -109,16 +103,15 @@ export default (state = initialState(), action = {type: undefined}) => {
                 isError: false,
                 isLoggedOn: false
             };
-        }
-            ;
+        };
         case LOGGED_ON: {
             return {
                 ...state,
                 isLoggingOn: false,
                 user: action.user,
                 isLoggedOn: true
-            }
-        }
+            };
+        };
         default:
             return state;
     }

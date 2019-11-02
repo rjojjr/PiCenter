@@ -1,5 +1,5 @@
 export const RESET_IS_SHOW_MSG = 'RESET_IS_SHOW_MSG'
-export const resetIsSHowMsg = () => ({
+export const resetIsShowMsg = () => ({
     type: RESET_IS_SHOW_MSG
 });
 
