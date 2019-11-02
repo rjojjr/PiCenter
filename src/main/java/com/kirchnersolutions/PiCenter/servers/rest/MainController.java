@@ -49,7 +49,7 @@ public class MainController {
                 httpSession.setAttribute("username", user.getUserName());
                 return new RestResponse(userService.getRestUser(user.getUserName()));
             }
-            return new RestResponse("{body: 'Wrong username or password'}");
+            return new RestResponse("{ body: 'Wrong username or password' }");
         }
         return new RestResponse(userService.getRestUser((String)httpSession.getAttribute("username")));
     }
