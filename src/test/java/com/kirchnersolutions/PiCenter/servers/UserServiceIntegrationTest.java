@@ -3,6 +3,7 @@ package com.kirchnersolutions.PiCenter.servers;
 import com.kirchnersolutions.PiCenter.MainConfig;
 import com.kirchnersolutions.PiCenter.dev.exceptions.UserRoleException;
 import com.kirchnersolutions.PiCenter.entites.*;
+import com.kirchnersolutions.PiCenter.servers.beans.RestUser;
 import com.kirchnersolutions.utilities.CryptTools;
 import org.junit.After;
 import org.junit.Before;
@@ -141,7 +142,6 @@ public class UserServiceIntegrationTest {
 
     @Test
     public void whenDeleteUserByAdmin_ReturnTrue() throws Exception{
-        //updateUsers();
         admin = userService.logOn(admin.getUserName(), admin.getPassword(), "null");
         assertNotNull("admin user logon null", admin);
         assertTrue("delete user by admin false", userService.removeUser(admin, "TestUser"));
@@ -149,6 +149,28 @@ public class UserServiceIntegrationTest {
         //testUser = appUserRepository.saveAndFlush(testUser);
         userService.logOff(admin.getUserName());
         //admin = null;
+    }
+
+    @Test
+    public void whenGetRestUserByNotLoggedOnUser_ReturnDefaultRestUser() throws Exception{
+        RestUser restUser = userService.getRestUser("null");
+        assertTrue("userName != null", restUser.getUserName().equals(new RestUser().getUserName()));
+        assertTrue("token != null", restUser.getToken().equals(new RestUser().getToken()));
+        assertTrue("page != /login", restUser.getPage().equals(new RestUser().getPage()));
+        assertTrue("ip != null", restUser.getIp().equals(new RestUser().getIp()));
+        assertTrue("stompId != null", restUser.getStompId().equals(new RestUser().getStompId()));
+    }
+
+    @Test
+    public void whenGetRestUserByLoggedOnUser_ReturnProperRestUser() throws Exception{
+        admin = userService.logOn(admin.getUserName(), admin.getPassword(), "null");
+        RestUser restUser = userService.getRestUser(admin.getUserName());
+        assertTrue("userName = null", restUser.getUserName().equals(admin.getUserName()));
+        assertTrue("token = null", admin.getUserSession().getToken().compareTo(restUser.getToken()) == 0);
+        assertTrue("page = /login", restUser.getPage().equals(admin.getUserSession().getPage()));
+        assertTrue("ip = null", restUser.getIp().equals(admin.getUserSession().getIpAddress()));
+        assertTrue("stompId = null", restUser.getStompId().equals("null"));
+        userService.logOff(admin.getUserName());
     }
 
    @After

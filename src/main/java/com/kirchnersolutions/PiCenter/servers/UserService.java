@@ -103,6 +103,22 @@ public class UserService {
         return user;
     }
 
+    public AppUser updateSession(String userName, String token, String ipAddress){
+        AppUser user = userList.searchList(userName);
+        if(user == null){
+            return null;
+        }
+        UserSession userSession = user.getUserSession();
+        if(userSession.getToken().compareTo(token) != 0){
+            return null;
+        }
+        userSession.setExpirationTime(getExpirationTime());
+        userSession.setIpAddress(ipAddress);
+        user.setUserSession(userSession);
+        //appUserRepository.saveAndFlush(user);
+        return user;
+    }
+
     public AppUser updateSession(String userName, String token, String ipAddress, String page){
         AppUser user = userList.searchList(userName);
         if(user == null){
@@ -209,7 +225,23 @@ public class UserService {
             return new RestUser();
         }
         UserSession session = user.getUserSession();
-        return new RestUser(user.getUserName(), session.getToken(), session.getPage(), session.getIpAddress(), session.getStompId());
+        String token = session.getToken();
+        String page = session.getPage();
+        String ip = session.getIpAddress();
+        String stompId = session.getStompId();
+        if(token == null){
+            token = "null";
+        }
+        if(page == null){
+            page = "null";
+        }
+        if(ip == null){
+            ip = "null";
+        }
+        if(stompId == null){
+            stompId = "null";
+        }
+        return new RestUser(user.getUserName(), token, page, ip, stompId);
     }
 
     private static Long getExpirationTime(){

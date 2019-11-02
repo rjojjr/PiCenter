@@ -2,7 +2,6 @@ package com.kirchnersolutions.PiCenter.servers.beans;
 
 import lombok.*;
 
-import javax.jws.Oneway;
 
 @NoArgsConstructor
 @AllArgsConstructor
