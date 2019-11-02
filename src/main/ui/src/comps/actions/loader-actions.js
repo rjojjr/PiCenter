@@ -1,5 +1,10 @@
 import {load} from "../../services/axios-service";
 
+export const IS_LOADING = 'IS_LOADING'
+export const isLoading = () => ({
+    type: IS_LOADING
+});
+
 export const LOGGED_ON = 'LOGGED_ON'
 export const loggedOn = user => ({
     type: LOGGED_ON,
@@ -20,7 +25,7 @@ export const loadingError = msg => ({
 
 export const loadAppThunk = teamName => async dispatch => {
     try {
-        //dispatch(beginInitiatingSurvey());
+        dispatch(isLoading());
         const initiationResponse = await load();
         const user = initiationResponse.data.user;
         user.userName !== null ? dispatch(loggedOn(user)) : dispatch(notLoggedOn(initiationResponse.data.responseBody.body));
