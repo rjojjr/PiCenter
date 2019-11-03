@@ -1,11 +1,8 @@
 import React, {useState} from 'react';
-import {connect} from 'react-redux';
 
-import {isLoggingOn, logOnThunk} from "../../actions/logon-actions";
-import {resetIsShowMsg} from "../../actions/universal-actions";
 import PageSelector from "../PageSelector";
 
-const LogOnPage = ({logOn, message, user, isHowMsg, resetShowMsg}) => {
+const LogOnPage = ({logOn, message, user, isShowMsg, resetIsShowMsg, isLoggingOn}) => {
 
     const[username, setUsername] = useState('');
     const[password, setPassword] = useState('');
@@ -57,19 +54,4 @@ const LogOnPage = ({logOn, message, user, isHowMsg, resetShowMsg}) => {
     )
 };
 
-const mapStateToProps = state => ({
-    message: state.message,
-    user: state.user,
-    isShowMsg: state.isShowMsg,
-    isLoggingOn: state.isLoggingOn
-});
-
-const mapDispatchToProps = {
-    logOn: logOnThunk,
-    resetIsSHowMsg: resetIsShowMsg
-};
-
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(LogOnPage);
+export default LogOnPage;

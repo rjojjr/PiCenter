@@ -23,7 +23,7 @@ public class MainController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/")
+    @GetMapping("/summary")
     public RestResponse initClient(Model model, HttpServletResponse response) throws Exception{
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes())
                 .getRequest();

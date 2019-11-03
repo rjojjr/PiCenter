@@ -1,19 +1,15 @@
 import React from "react";
 
-import{
-    LOADING_PAGE,
-    MSG_PAGE,
-    LOGIN_PAGE,
-    SUMMARY_PAGE
-} from "../constants/page-constants";
+import * as constants from "../constants/page-constants";
 
-import LoginPage from './login/LogOnPage';
+import LoginPageContainer from './login/LogOnPageContainer';
 
 const PageSelector = ({user}) =>{
     const page = user.page;
     return(
-        <div>
-            {page === LOGIN_PAGE && <LoginPage />}
+        <div className={"pageSelector"}>
+            {page === constants.LOGIN_PAGE && <LoginPageContainer />}
+            {page === constants.SUMMARY_PAGE && <LoginPage />}
         </div>
     )
 }

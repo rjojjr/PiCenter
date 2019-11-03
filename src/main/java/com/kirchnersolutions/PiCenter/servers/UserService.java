@@ -161,7 +161,7 @@ public class UserService {
             UserLog userLog = new UserLog(user.getId(), "logon", System.currentTimeMillis());
             userLogRepository.saveAndFlush(userLog);
             Long time = System.currentTimeMillis();
-            UserSession userSession = new UserSession(time, getExpirationTime(), createToken(userName, password, ipAddress), "/", ipAddress);
+            UserSession userSession = new UserSession(time, getExpirationTime(), createToken(userName, password, ipAddress), "/summary", ipAddress);
             user.setUserSession(userSession);
             //appUserRepository.saveAndFlush(user);
             return user;
