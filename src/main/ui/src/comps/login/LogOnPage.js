@@ -5,7 +5,7 @@ import {isLoggingOn, logOnThunk} from "../../actions/logon-actions";
 import {resetIsShowMsg} from "../../actions/universal-actions";
 import PageSelector from "../PageSelector";
 
-const LogonPage = ({logOn, message, user, isHowMsg, resetShowMsg}) => {
+const LogOnPage = ({logOn, message, user, isHowMsg, resetShowMsg}) => {
 
     const[username, setUsername] = useState('');
     const[password, setPassword] = useState('');
@@ -32,6 +32,7 @@ const LogonPage = ({logOn, message, user, isHowMsg, resetShowMsg}) => {
             {user.username !== undefined && <PageSelector user={user}/>}
             <p className={"message"}>{message}</p>
             <table>
+                <tbody>
                 <tr>
                     <td>
                         <p>Username: </p>
@@ -48,6 +49,7 @@ const LogonPage = ({logOn, message, user, isHowMsg, resetShowMsg}) => {
                         <input type={"password"} className={"logonInput"} onChange={handlePasswordOnChange} value={password}/>
                     </td>
                 </tr>
+                </tbody>
             </table>
             <button className={"submit"} type={"button"} onClick={handleOnClick}>Logon</button>
         </div>
@@ -68,6 +70,6 @@ const mapDispatchToProps = {
 };
 
 export default connect(
-    mapDispatchToProps,
-    mapStateToProps
-)(LogonPage);
+    mapStateToProps,
+    mapDispatchToProps
+)(LogOnPage);

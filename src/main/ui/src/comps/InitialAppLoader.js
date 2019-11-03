@@ -25,8 +25,8 @@ const InitialAppLoader = ({
             {/*{isShowMsg &&(
                 <p className="message">{message}</p>
             )}*/}
-            {user !== null && <PageSelector user={user}/>}
-            {user === null && <PageSelector user={{page: '/logon'} }/>}
+            {user !== null && user.userName !== 'null' || user.userName !== undefined && <PageSelector user={user}/>}
+            {user === null || user.userName === 'null' || user.userName === undefined && <PageSelector user={{page: '/logon'} }/>}
         </div>
     );
 };

@@ -28,7 +28,7 @@ export const loadAppThunk = () => async dispatch => {
         dispatch(isLoading());
         const initiationResponse = await load();
         const user = initiationResponse.data.user;
-        user.userName !== null ? dispatch(loggedOn(user)) : dispatch(notLoggedOn(initiationResponse.data.responseBody.body));
+        user !== null && user.userName !== undefined ? dispatch(loggedOn(user)) : dispatch(notLoggedOn(initiationResponse.data.responseBody.body));
     } catch (error) {
         dispatch(loadingError(error));
     }

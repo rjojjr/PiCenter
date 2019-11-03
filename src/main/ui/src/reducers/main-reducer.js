@@ -18,7 +18,7 @@ import {
 
 
 export const initialState = () => ({
-    user: null,
+    user: {},
     isLoading: true,
     isError: false,
     message: '',
