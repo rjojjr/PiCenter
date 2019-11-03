@@ -22,12 +22,11 @@ const LogOnPage = ({logOn, message, user, isShowMsg, resetIsShowMsg, isLoggingOn
     }
 
     return (
-        //Put header here
-        <div className={"logOnForm"}>
+        <div className={"page logOnPage"}>
             <h2>PiCenter Logon</h2>
             {isLoggingOn && <p className={"loading"}>Logging on....</p>}
             {user.username !== undefined && <PageSelector user={user}/>}
-            <p className={"message"}>{message}</p>
+            {isShowMsg && <p className={"message"}>{message}</p>}
             <table>
                 <tbody>
                 <tr>
@@ -50,7 +49,6 @@ const LogOnPage = ({logOn, message, user, isShowMsg, resetIsShowMsg, isLoggingOn
             </table>
             <button className={"submit"} type={"button"} onClick={handleOnClick}>Logon</button>
         </div>
-        //Put footer here
     )
 };
 

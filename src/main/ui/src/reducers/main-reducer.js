@@ -19,7 +19,7 @@ import {
 
 export const initialState = () => ({
     user: {},
-    isLoading: true,
+    isLoading: false,
     isError: false,
     message: '',
     isShowMsg: false,
@@ -66,7 +66,7 @@ export default (state = initialState(), action = {type: undefined}) => {
         case NOT_LOGGED_ON: {
             return {
                 ...state,
-                user: null,
+                user: {},
                 isLoading: false,
                 isError: false,
                 isShowMsg: true,
@@ -88,7 +88,7 @@ export default (state = initialState(), action = {type: undefined}) => {
         case LOGON_ERROR: {
             return {
                 ...state,
-                user: null,
+                user: {},
                 isLoggingOn: false,
                 isShowMsg: true,
                 message: action.msg,

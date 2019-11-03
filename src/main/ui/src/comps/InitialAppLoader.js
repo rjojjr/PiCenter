@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 
 import {loadAppThunk} from '../actions/loader-actions';
 
-import PageSelector from './PageSelector';
+import AppContainer from "./AppContainer";
 
 const InitialAppLoader = ({
                               isError,
@@ -25,8 +25,7 @@ const InitialAppLoader = ({
             {/*{isShowMsg &&(
                 <p className="message">{message}</p>
             )}*/}
-            {user !== null && user.userName !== 'null' || user.userName !== undefined && <PageSelector user={user}/>}
-            {user === null || user.userName === 'null' || user.userName === undefined && <PageSelector user={{page: '/logon'} }/>}
+            {!isError && !isLoading && <AppContainer />}
         </div>
     );
 };

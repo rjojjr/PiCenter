@@ -8,12 +8,78 @@ import mainReducer from '../../reducers/main-reducer';
 import * as axiosService from '../../services/axios-service';
 import LogOnPage from "./LogOnPage";
 import LogOnPageContainer from "./LogOnPageContainer";
+import AppContainer from '../AppContainer';
+import * as constants from '../../constants/page-constants'
+
+describe('redux integration: LogOnPageContainer render tests', () => {
+    let store;
+    let mockLogOn;
+
+    const initialState = {
+        user: {},
+        isLoading: false,
+        isError: false,
+        message: '',
+        isShowMsg: false,
+        errorMsg: '',
+        isLoggedOn: false,
+        isLoggingOn: false
+    };
+
+    beforeEach(() => {
+        store = createStore(mainReducer, initialState, applyMiddleware(thunk));
+    });
+    afterEach(() => {
+
+    });
+
+    test('renders logon page', async () => {
+
+        const { container } = render(
+            <Provider store={store}>
+                <AppContainer />
+            </Provider>
+        )
+
+        await wait();
+
+        expect(
+            container.querySelector('div.logOnPage')
+        ).toBeInTheDocument();
+
+        expect(
+            container.querySelector('input.logonInput')
+        ).toBeInTheDocument();
+
+        expect(
+            container.querySelector('button')
+        ).toBeInTheDocument();
+
+        expect(
+            container.querySelectorAll('input.logonInput').length
+        ).toBe(2);
+
+    });
+
+});
 
 describe('mock axios-service logon: LogOnPageContainer render tests', () => {
     let store;
     let mockLogOn;
+
+    const initialState = {
+        user: {},
+        isLoading: false,
+        isError: false,
+        message: '',
+        isShowMsg: false,
+        errorMsg: '',
+        isLoggedOn: false,
+        isLoggingOn: false
+    };
+
     beforeEach(() => {
-        store = createStore(mainReducer, applyMiddleware(thunk));
+        store = createStore(mainReducer, initialState, applyMiddleware(thunk));
         mockLogOn = jest.fn();
         axiosService.logOn = mockLogOn;
     });
@@ -22,44 +88,20 @@ describe('mock axios-service logon: LogOnPageContainer render tests', () => {
         mockLogOn.mockClear();
     });
 
-    test('renders logon page', () => {
-
-        const {container} = render(
-            <Provider store={store}>
-                <LogOnPageContainer/>
-            </Provider>
-        )
-
-        expect(
-            container.querySelector('div.logOnForm')
-        ).toBeInTheDocument();
-
-        expect(
-            container.querySelector('input.logonInput')
-        ).toBeInTheDocument();
-
-        expect(
-            container.querySelector('button')
-        ).toBeInTheDocument();
-
-        expect(
-            container.querySelectorAll('input.logonInput').length
-        ).toBe(2);
-
-    })
-
-    test('mock successful logon returns valid user', () => {
+    test('mock successful logon returns valid user', async () => {
         
-        mockLogOn.mockReturnValue(Promise.resolve({ data:{ user: {}} }))
+        mockLogOn.mockReturnValue(Promise.resolve({ data:{ user: {userName: 'admin', page: constants.SUMMARY_PAGE}} }))
 
         const {container} = render(
             <Provider store={store}>
-                <LogOnPageContainer/>
+                <AppContainer />
             </Provider>
         )
 
+        await wait();
+
         expect(
-            container.querySelector('div.logOnForm')
+            container.querySelector('div.logOnPage')
         ).toBeInTheDocument();
 
         expect(
@@ -73,17 +115,64 @@ describe('mock axios-service logon: LogOnPageContainer render tests', () => {
         expect(
             container.querySelectorAll('input.logonInput').length
         ).toBe(2);
-
-        const userNameInput = container.querySelectorAll('input')[0];
-        const passwordInput = container.querySelectorAll('input')[1];
-
-        fireEvent.change(userNameInput, {target: {value: 'abcd'}});
-        fireEvent.change(passwordInput, {target: {value: 'abcd'}});
 
         const logOnButton = container.querySelectorAll('button')[0];
 
         fireEvent.click(logOnButton);
-    })
+
+        await wait();
+
+        expect(
+            container.querySelector('div.summaryPage')
+        ).toBeInTheDocument();
+    });
+
+    test('mock unsuccessful logon renders message', async () => {
+
+        mockLogOn.mockReturnValue(Promise.resolve('Network Error'))
+
+        const {container} = render(
+            <Provider store={store}>
+                <AppContainer />
+            </Provider>
+        )
+
+        await wait();
+
+        expect(
+            container.querySelector('input.logonInput')
+        ).toBeInTheDocument();
+
+        expect(
+            container.querySelector('button')
+        ).toBeInTheDocument();
+
+        expect(
+            container.querySelectorAll('input.logonInput').length
+        ).toBe(2);
+
+        const logOnButton = container.querySelectorAll('button')[0];
+
+        fireEvent.click(logOnButton);
+
+        await wait();
+
+        expect(
+            container.querySelector('p.message')
+        ).toBeInTheDocument();
+
+        expect(
+            container.querySelector('input.logonInput')
+        ).toBeInTheDocument();
+
+        expect(
+            container.querySelector('button')
+        ).toBeInTheDocument();
+
+        expect(
+            container.querySelectorAll('input.logonInput').length
+        ).toBe(2);
+    });
 
 });
 
@@ -96,6 +185,10 @@ describe('LogOnPage event tests', () => {
         const {container} = render(
             <LogOnPage user={{userName: undefined}} logOn={mockLogOn} resetIsShowMsg={mockResetIsShowMsg} isShowMsg={false} message={''} isLoggingOn={false}/>
         );
+
+        expect(
+            container.querySelector('div.logOnPage')
+        ).toBeInTheDocument();
 
         const userNameInput = container.querySelectorAll('input')[0];
         const passwordInput = container.querySelectorAll('input')[1];

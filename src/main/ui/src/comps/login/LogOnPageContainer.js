@@ -9,11 +9,9 @@ import LogOnPage from "./LogOnPage";
 const LogOnPageContainer = ({logOn, message, user, isShowMsg, resetIsShowMsg, isLoggingOn}) => {
 
     return (
-        //Put header here
-        <div className={"pageContainer logOnForm"}>
+        <div className={"pageContainer logOnPage"}>
             <LogOnPage user={user} logOn={logOn} resetIsShowMsg={resetIsShowMsg} isShowMsg={isShowMsg} message={message} isLoggingOn={isLoggingOn}/>
         </div>
-        //Put footer here
     )
 };
 
@@ -32,4 +30,4 @@ const mapDispatchToProps = {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(LogOnPage);
+)(LogOnPageContainer);
