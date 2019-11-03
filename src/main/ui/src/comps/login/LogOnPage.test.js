@@ -29,6 +29,7 @@ describe('mock axios-service logon: LogOnPage render tests', () => {
             </Provider>
 
         )
+
         expect(
             container.querySelector('div.logOnForm')
         ).toBeInTheDocument();
@@ -40,5 +41,6 @@ describe('mock axios-service logon: LogOnPage render tests', () => {
         expect(
             container.querySelectorAll('input.logonInput').length
         ).toBe(2);
+
     })
 });
