@@ -12,6 +12,7 @@ import AppContainer from '../AppContainer';
 import * as constants from '../../constants/page-constants'
 
 describe('redux integration: LogOnPageContainer render tests', () => {
+    
     let store;
     let mockLogOn;
 
