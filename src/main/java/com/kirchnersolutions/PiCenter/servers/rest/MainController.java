@@ -1,11 +1,10 @@
 package com.kirchnersolutions.PiCenter.servers.rest;
 
 import com.kirchnersolutions.PiCenter.entites.AppUser;
-import com.kirchnersolutions.PiCenter.servers.UserService;
+import com.kirchnersolutions.PiCenter.servers.services.UserService;
 import com.kirchnersolutions.PiCenter.servers.beans.LogonForm;
 import com.kirchnersolutions.PiCenter.servers.beans.RestResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;

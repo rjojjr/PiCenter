@@ -4,6 +4,7 @@ import com.kirchnersolutions.PiCenter.MainConfig;
 import com.kirchnersolutions.PiCenter.dev.exceptions.UserRoleException;
 import com.kirchnersolutions.PiCenter.entites.*;
 import com.kirchnersolutions.PiCenter.servers.beans.RestUser;
+import com.kirchnersolutions.PiCenter.servers.services.UserService;
 import com.kirchnersolutions.utilities.CryptTools;
 import org.junit.After;
 import org.junit.Before;

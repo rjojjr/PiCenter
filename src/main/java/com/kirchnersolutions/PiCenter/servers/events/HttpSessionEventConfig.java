@@ -1,7 +1,7 @@
 package com.kirchnersolutions.PiCenter.servers.events;
 
 import com.kirchnersolutions.PiCenter.dev.DebuggingService;
-import com.kirchnersolutions.PiCenter.servers.UserService;
+import com.kirchnersolutions.PiCenter.servers.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,13 +28,16 @@ public class HttpSessionEventConfig {
             }
 
             @Override
-            public void sessionDestroyed(HttpSessionEvent se) {
+            public void sessionDestroyed(HttpSessionEvent se){
                 System.out.println("Session Destroyed, Session id:" + se.getSession().getId());
-                try {
-
-                } catch (Exception e) {
-                    e.printStackTrace();
+                if(se.getSession().getAttribute("username") != null){
+                    try {
+                        userService.systemInvalidateUser((String)se.getSession().getAttribute("username"), "Session time out");
+                    } catch (Exception e) {
+                        debuggingService.nonFatalDebug("Error invalidating timed out session", e);
+                    }
                 }
+
             }
         };
     }

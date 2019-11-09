@@ -14,7 +14,7 @@ import java.io.File;
 @Component
 public class DevVars {
 
-    private boolean devExceptions = true, stompDebug = true, debug = true, ipDebug = true, nonFatal = true, socketDebug = true;
+    private boolean devExceptions = true, stompDebug = true, debug = true, ipDebug = true, nonFatal = true, socketDebug = true, trace = true;
     private File devExceptionLogsDir, uncaughtExceptionLogsDir;
 
     /**
@@ -79,10 +79,17 @@ public class DevVars {
             setSocketDebug(false);
             System.out.println("Socket debugging is turned off");
         }
+        if(vars[5].contains("t")){
+            setTrace(true);
+            System.out.println("Tracing is turned on");
+        }else{
+            setTrace(false);
+            System.out.println("Tracing is turned off");
+        }
     }
 
     public String[] getVars(){
-        String[] vars = new String[5];
+        String[] vars = new String[6];
         if(isDevExceptions()){
             vars[0] = "true";
         }else{
@@ -108,11 +115,16 @@ public class DevVars {
         }else{
             vars[4] = "false";
         }
+        if(isTrace()){
+            vars[5] = "true";
+        }else{
+            vars[5] = "false";
+        }
         return vars;
     }
 
     public String[] getVarsNames(){
-        String[] vars = new String[5];
+        String[] vars = new String[6];
         if(isDevExceptions()){
             vars[0] = "Exception Trace:true";
         }else{
@@ -137,6 +149,11 @@ public class DevVars {
             vars[4] = "Socket Debugging:true";
         }else{
             vars[4] = "Socket Debugging:false";
+        }
+        if(isTrace()){
+            vars[5] = "Tracing:true";
+        }else{
+            vars[5] = "Tracing:false";
         }
         return vars;
     }
@@ -187,6 +204,14 @@ public class DevVars {
 
     public void setDebug(boolean debug) {
         this.debug = debug;
+    }
+
+    public void setTrace(boolean trace){
+        this.trace = trace;
+    }
+
+    public boolean isTrace() {
+        return trace;
     }
 
     public File getDevExceptionLogsDir() {
