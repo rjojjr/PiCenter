@@ -21,7 +21,6 @@ public class MainController {
     @Autowired
     private UserService userService;
 
-    @CrossOrigin(origins = {"http://192.168.1.110"})
     @GetMapping("/loading")
     public RestResponse initClient(HttpServletResponse response) throws Exception{
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes())
@@ -35,7 +34,6 @@ public class MainController {
         return new RestResponse(userService.getRestUser((String)httpSession.getAttribute("username")));
     }
 
-    @CrossOrigin(origins = {"http://192.168.1.110"})
     @PostMapping("/login")
     public RestResponse home(HttpServletResponse response, @RequestBody LogonForm logonForm) throws Exception{
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes())
