@@ -29,6 +29,7 @@ public class DebuggingService {
     private File ipDir = new File("SHome/logs/IPDebug");
     private File stompDir = new File("SHome/logs/StompDebug");
     private File socketDir = new File("SHome/logs/SocketDebug");
+    private File traceDir = new File("SHome/logs/Trace");
     private volatile AtomicBoolean stompLock = new AtomicBoolean(false);
 
     public DebuggingService(){
@@ -47,10 +48,15 @@ public class DebuggingService {
         if(!socketDir.exists()){
             socketDir.mkdirs();
         }
+        if(!traceDir.exists()){
+            traceDir.mkdirs();
+        }
     }
 
     public void trace(String msg){
-
+        if(devVars.isTrace()){
+            System.out.println(msg);
+        }
     }
 
     public static String getStackTrace(Exception e){

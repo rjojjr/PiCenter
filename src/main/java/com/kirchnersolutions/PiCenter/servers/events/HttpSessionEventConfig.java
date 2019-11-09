@@ -23,18 +23,19 @@ public class HttpSessionEventConfig {
         return new HttpSessionListener() {
             @Override
             public void sessionCreated(HttpSessionEvent se) {
-                System.out.println("Session Created with session id+" + se.getSession().getId());
+                debuggingService.trace("Session Created with session id+" + se.getSession().getId());
                 se.getSession().setMaxInactiveInterval(30 * 60);
             }
 
             @Override
             public void sessionDestroyed(HttpSessionEvent se){
-                System.out.println("Session Destroyed, Session id:" + se.getSession().getId());
+                debuggingService.trace("Session Destroyed with session id+" + se.getSession().getId());
                 if(se.getSession().getAttribute("username") != null){
                     try {
-                        userService.systemInvalidateUser((String)se.getSession().getAttribute("username"), "Session time out");
+                        userService.systemInvalidateUser((String)se.getSession().getAttribute("username"), "HTTP session time out");
+                        debuggingService.trace("User " + (String)se.getSession().getAttribute("username") + " with session id+" + se.getSession().getId() + " invalidated by system");
                     } catch (Exception e) {
-                        debuggingService.nonFatalDebug("Error invalidating timed out session", e);
+                        debuggingService.nonFatalDebug("Error invalidating timed out session with session id+" + se.getSession().getId(), e);
                     }
                 }
 
