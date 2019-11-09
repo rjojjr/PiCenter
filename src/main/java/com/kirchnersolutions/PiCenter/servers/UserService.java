@@ -138,14 +138,15 @@ public class UserService {
 
     public AppUser logOn(String userName, String password, String ipAddress) throws Exception{
         AppUser user = userList.searchList(userName);
-        //password = CryptTools.generateEncodedSHA256Password(password);
+
         if(user != null){
             return user;
         }
         try{
             //Check not null
             //user = appUserRepository.findByUserNameAndPassword(userName, CryptTools.generateEncodedSHA256Password(password)).get(0);
-            List<AppUser> results = appUserRepository.findByUserNameAndPassword(userName, password);
+
+            List<AppUser> results = appUserRepository.findByUserNameAndPassword(userName, CryptTools.generateEncodedSHA256Password(password));
             if(results.isEmpty()){
                 return null;
             }
@@ -161,16 +162,14 @@ public class UserService {
             UserLog userLog = new UserLog(user.getId(), "logon", System.currentTimeMillis());
             userLogRepository.saveAndFlush(userLog);
             Long time = System.currentTimeMillis();
-            UserSession userSession = new UserSession(time, getExpirationTime(), createToken(userName, password, ipAddress), "/", ipAddress);
+            UserSession userSession = new UserSession(time, getExpirationTime(), createToken(userName, password, ipAddress), "/summary", ipAddress);
             user.setUserSession(userSession);
             //appUserRepository.saveAndFlush(user);
             return user;
         }catch (Exception e){
-
-            //debuggingService.throwDevException(new DevelopmentException("Failed to process password for user " + userName));
-            throw e;
-            //debuggingService.nonFatalDebug("Failed to process password for user " + userName);
-            //return null;
+            debuggingService.throwDevException("Failed to process password for user ", e);
+            debuggingService.nonFatalDebug("Failed to process password for user " + userName, e);
+            return null;
         }
     }
 
@@ -212,7 +211,7 @@ public class UserService {
         byte[] hash = CryptTools.getSHA256(Base64.getEncoder().encode(userName.getBytes()), Base64.getEncoder().encode(password.getBytes()));
         hash = CryptTools.getSHA256(hash, Base64.getEncoder().encode(ipAddress.getBytes()));
         for(int i = 0; i < 1000; i++){
-            rand = CryptTools.generateRandomBytes(1024 * 1024);
+            rand = CryptTools.generateRandomBytes(1024);
             hash = CryptTools.getSHA256(hash, rand);
         }
         /*BigInteger token = (new BigInteger(hash));

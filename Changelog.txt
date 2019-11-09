@@ -2,11 +2,17 @@ PiCenter Changelog
 
 
 1.0.00a
+
+11/03/2019
+Build 100105
+    Added ui logonpage tests.
+
 11/02/2019
 Build 100104
     Added restuser bean.
     Added getrestuser to userservice.
     Added "/" mapping to main rest controller.
+    Added logon form to ui.
 
 10/27/2019
 Build 100103

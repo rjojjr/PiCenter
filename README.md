@@ -20,7 +20,7 @@ controlling ductwork and windows.
 Please feel free to contribute features pertaining to
 your own smart home incorporation.
 
-The program is built with Springboot, React, Redux, Axios and py4j
+The program is built with Springboot, React, Redux, axios and py4j
 Python Java gateway API to incorporate the Raspberry Pi.
 
 

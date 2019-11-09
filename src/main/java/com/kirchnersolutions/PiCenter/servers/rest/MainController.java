@@ -6,9 +6,7 @@ import com.kirchnersolutions.PiCenter.servers.beans.LogonForm;
 import com.kirchnersolutions.PiCenter.servers.beans.RestResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -23,8 +21,8 @@ public class MainController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/")
-    public RestResponse initClient(Model model, HttpServletResponse response) throws Exception{
+    @GetMapping("/loading")
+    public RestResponse initClient(HttpServletResponse response) throws Exception{
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes())
                 .getRequest();
         //ServletWebRequest servletWebRequest=new ServletWebRequest(request);
@@ -37,11 +35,9 @@ public class MainController {
     }
 
     @PostMapping("/login")
-    public RestResponse home(Model model, HttpServletResponse response, LogonForm logonForm) throws Exception{
+    public RestResponse home(HttpServletResponse response, @RequestBody LogonForm logonForm) throws Exception{
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes())
                 .getRequest();
-        //ServletWebRequest servletWebRequest=new ServletWebRequest(request);
-        //HttpServletResponse response=servletWebRequest.getResponse();
         HttpSession httpSession = cookie(request, response);
         if(httpSession.getAttribute("username") == null){
             AppUser user = userService.logOn(logonForm.getUsername(), logonForm.getPassword(), request.getRemoteAddr());
