@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.*;
 
 import com.kirchnersolutions.PiCenter.entites.AppUserRepository;
+import com.kirchnersolutions.utilities.CryptTools;
 import lombok.Cleanup;
 import org.junit.After;
 import org.junit.Before;
@@ -34,8 +35,8 @@ public class AppUserRepositoryIntegrationTest {
     private AppUser user;
 
     @Before
-    public void setUp() {
-        user = new AppUser((Long)System.currentTimeMillis(), "rjojjr", "Robert", "Kirchner", "21122112", true);
+    public void setUp() throws Exception{
+        user = new AppUser((Long)System.currentTimeMillis(), "rjojjr", "Robert", "Kirchner", CryptTools.generateEncodedSHA256Password("21122112"), true);
         AppUser created = appUserRepository.saveAndFlush(user);
         assertNotNull("create and save user null", created);
     }

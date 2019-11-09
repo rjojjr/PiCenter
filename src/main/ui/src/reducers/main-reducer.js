@@ -19,6 +19,8 @@ import {
 
 export const initialState = () => ({
     user: {},
+    isLoadingError: false,
+    loadingErrorMsg: '',
     isLoading: false,
     isError: false,
     message: '',
@@ -80,8 +82,8 @@ export default (state = initialState(), action = {type: undefined}) => {
                 ...state,
                 user: null,
                 isLoading: false,
-                isError: true,
-                errorMsg: action.msg,
+                isLoadingError: true,
+                loadingErrorMsg: action.msg,
                 isLoggedOn: false
             };
         };

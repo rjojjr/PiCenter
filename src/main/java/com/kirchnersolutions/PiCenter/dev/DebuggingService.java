@@ -153,6 +153,20 @@ public class DebuggingService {
         }
     }
 
+    public void nonFatalDebug(String log, Exception e){
+        if(devVars.isNonFatal()){
+            File logf = new File(nonFatDir, "/" + System.currentTimeMillis() + ".txt");
+            try{
+                logf.createNewFile();
+                ByteTools.writeBytesToFile(logf, (CalenderConverter.getMonthDayYearHourMinuteSecond(System.currentTimeMillis(), "/", "~")
+                        + sysVars.getNewLineChar() + log + sysVars.getNewLineChar() + getStack(e)).getBytes("UTF-8"));
+            }catch (Exception ex){
+                ex.printStackTrace();
+            }
+            System.out.println(log + " " + CalenderConverter.getMonthDayYearHourMinuteSecond(System.currentTimeMillis(), "/", "~"));
+        }
+    }
+
     public void socketDebug(String log){
         if(devVars.isSocketDebug()){
             File logf = new File(socketDir, "/" + System.currentTimeMillis() + ".txt");

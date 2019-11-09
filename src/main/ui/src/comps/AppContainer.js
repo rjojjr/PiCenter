@@ -9,7 +9,7 @@ const AppContainer = ({user}) => {
         //Put header here
         <div className={"appContainer"}>
             {user !== null && user.userName !== 'null'  && user.userName !== undefined && <PageSelector user={user}/>}
-            {user === null || user.userName === 'null' || user.userName === undefined && <PageSelector user={{page: constants.LOGIN_PAGE}}/>}
+            {user === null || user.userName === 'null'  && <PageSelector user={{page: constants.LOGIN_PAGE}}/>}
         </div>
         //Put footer here
     )
