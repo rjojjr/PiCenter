@@ -1,4 +1,4 @@
-package com.kirchnersolutions.PiCenter.servers.services;
+package com.kirchnersolutions.PiCenter.services;
 
 import com.kirchnersolutions.PiCenter.dev.DebuggingService;
 import com.kirchnersolutions.PiCenter.dev.DevelopmentException;

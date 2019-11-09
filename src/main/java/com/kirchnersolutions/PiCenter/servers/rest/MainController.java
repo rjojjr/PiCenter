@@ -1,7 +1,7 @@
 package com.kirchnersolutions.PiCenter.servers.rest;
 
 import com.kirchnersolutions.PiCenter.entites.AppUser;
-import com.kirchnersolutions.PiCenter.servers.services.UserService;
+import com.kirchnersolutions.PiCenter.services.UserService;
 import com.kirchnersolutions.PiCenter.servers.beans.LogonForm;
 import com.kirchnersolutions.PiCenter.servers.beans.RestResponse;
 import org.springframework.beans.factory.annotation.Autowired;

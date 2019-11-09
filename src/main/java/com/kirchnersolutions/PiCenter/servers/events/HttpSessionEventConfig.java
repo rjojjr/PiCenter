@@ -1,7 +1,7 @@
 package com.kirchnersolutions.PiCenter.servers.events;
 
 import com.kirchnersolutions.PiCenter.dev.DebuggingService;
-import com.kirchnersolutions.PiCenter.servers.services.UserService;
+import com.kirchnersolutions.PiCenter.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
