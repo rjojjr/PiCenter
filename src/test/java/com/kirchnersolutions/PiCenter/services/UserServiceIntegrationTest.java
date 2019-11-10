@@ -1,4 +1,4 @@
-package com.kirchnersolutions.PiCenter.servers;
+package com.kirchnersolutions.PiCenter.services;
 
 import com.kirchnersolutions.PiCenter.MainConfig;
 import com.kirchnersolutions.PiCenter.dev.exceptions.UserRoleException;
@@ -13,6 +13,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -20,6 +21,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.*;
 
+//@SpringBootTest
 @DependsOn({"userService"})
 @RunWith(SpringJUnit4ClassRunner.class)
 @DataJpaTest
@@ -36,18 +38,20 @@ public class UserServiceIntegrationTest {
         this.userService = userService;
     }
 
-    private AppUser testUser, admin, testUser2;
+    private AppUser testUser, admin;
+
+    private static String adminPassword = "21122112", testPassword = "testUser#";
 
     private void resetUsers() throws Exception{
-        admin = new AppUser(System.currentTimeMillis(), "admin", "Robert", "Kirchner Jr", CryptTools.generateEncodedSHA256Password("21122112"), true);
-        testUser = new AppUser(System.currentTimeMillis(), "TestUser", "Test", "User", CryptTools.generateEncodedSHA256Password("testUser#"), false);
+        admin = new AppUser(System.currentTimeMillis(), "admin", "Robert", "Kirchner Jr", CryptTools.generateEncodedSHA256Password(adminPassword), true);
+        testUser = new AppUser(System.currentTimeMillis(), "TestUser", "Test", "User", CryptTools.generateEncodedSHA256Password(testPassword), false);
     }
 
     @Before
     public void setUp() throws Exception {
         //userService = new UserService();
-        admin = new AppUser(System.currentTimeMillis(), "admin", "Robert", "Kirchner Jr", CryptTools.generateEncodedSHA256Password("21122112"), true);
-        testUser = new AppUser(System.currentTimeMillis(), "TestUser", "Test", "User", CryptTools.generateEncodedSHA256Password("testUser#"), false);
+        admin = new AppUser(System.currentTimeMillis(), "admin", "Robert", "Kirchner Jr", CryptTools.generateEncodedSHA256Password(adminPassword), true);
+        testUser = new AppUser(System.currentTimeMillis(), "TestUser", "Test", "User", CryptTools.generateEncodedSHA256Password(testPassword), false);
         admin = appUserRepository.saveAndFlush(admin);
         testUser = appUserRepository.saveAndFlush(testUser);
         assertNotNull(" admin null", admin);
@@ -61,21 +65,21 @@ public class UserServiceIntegrationTest {
     @Test
     public void whenLogOnExistUser_ReturnUser() throws Exception{
         //testUser2 = userService.logOn("TestUser2", CryptTools.generateEncodedSHA256Password("testUser2#"), "null");
-        testUser = userService.logOn("TestUser", CryptTools.generateEncodedSHA256Password("testUser#"), "null");
+        testUser = userService.logOn("TestUser", testPassword, "null");
         assertNotNull("log on existing testUser null", testUser);
-        testUser = userService.logOn("TestUser", CryptTools.generateEncodedSHA256Password("testUser#"), "null");
+        testUser = userService.logOn("TestUser", testPassword, "null");
         assertNotNull("log on existing testUser null", testUser);
         userService.logOff(testUser.getUserName());
     }
 
     @Test
     public void whenLoggedIn_ReturnDefaultSession() throws Exception{
-        admin = userService.logOn(admin.getUserName(), admin.getPassword(), "null");
+        admin = userService.logOn(admin.getUserName(), adminPassword, "null");
         assertNotNull("admin user logon null", admin);
         UserSession userSession = admin.getUserSession();
         assertNotNull("admin user session null", userSession);
         assertNotNull("admin user session token null", userSession.getToken());
-        assertEquals("admin session page not equal '/'","/", userSession.getPage());
+        assertEquals("admin session page not equal '/summary'","/summary", userSession.getPage());
         assertEquals("admin session ip not equal 'null'","null", userSession.getIpAddress());
         assertNull("admin user session stomp id not null", userSession.getStompId());
         userService.logOff(admin.getUserName());
@@ -83,7 +87,7 @@ public class UserServiceIntegrationTest {
 
     @Test
     public void whenUpdateSession_ReturnNotEqualToDefaultSession() throws Exception{
-        admin = userService.logOn(admin.getUserName(), admin.getPassword(), "null");
+        admin = userService.logOn(admin.getUserName(), adminPassword, "null");
         assertNotNull("admin user logon null", admin);
         UserSession userSession = admin.getUserSession();
         assertNotNull("admin user session null", userSession);
@@ -97,7 +101,7 @@ public class UserServiceIntegrationTest {
 
     @Test
     public void whenAddUserByAdmin_ReturnTrue() throws Exception{
-        admin = userService.logOn(admin.getUserName(), admin.getPassword(), "null");
+        admin = userService.logOn(admin.getUserName(), adminPassword, "null");
         assertNotNull("admin user logon null", admin);
         assertTrue("create testuser2 by admin user false", userService.addUser(admin, "TestUser2", "Test", "User2", CryptTools.generateEncodedSHA256Password("testUser"), true));
         userService.logOff(admin.getUserName());
@@ -105,9 +109,9 @@ public class UserServiceIntegrationTest {
 
     @Test(expected = UserRoleException.class)
     public void whenInvalidateUserByNonAdmin_ThrowUserRoleException() throws Exception{
-        admin = userService.logOn(admin.getUserName(), admin.getPassword(), "null");
+        admin = userService.logOn(admin.getUserName(), adminPassword, "null");
         assertNotNull("admin user logon null", admin);
-        testUser = userService.logOn(testUser.getUserName(), testUser.getPassword(), "null");
+        testUser = userService.logOn(testUser.getUserName(), testPassword, "null");
         assertNotNull("test user logon null", testUser);
         userService.invalidateUser(testUser, admin.getUserName());
         userService.logOff(admin.getUserName());
@@ -116,7 +120,7 @@ public class UserServiceIntegrationTest {
 
     @Test
     public void whenInvalidateUserThatDoesNotExistByAdmin_ReturnFalse() throws Exception{
-        admin = userService.logOn(admin.getUserName(), admin.getPassword(), "null");
+        admin = userService.logOn(admin.getUserName(), adminPassword, "null");
         assertNotNull("admin user logon null", admin);
         assertFalse("invalidate non exist user true", userService.invalidateUser(admin, "dne"));
         userService.logOff(admin.getUserName());
@@ -125,9 +129,9 @@ public class UserServiceIntegrationTest {
     @Test
     public void whenInvalidateUserByAdmin_ReturnTrue() throws Exception{
         //resetUsers();
-        admin = userService.logOn(admin.getUserName(), admin.getPassword(), "null");
+        admin = userService.logOn(admin.getUserName(), adminPassword, "null");
         assertNotNull("admin user logon null", admin);
-        testUser = userService.logOn(testUser.getUserName(), testUser.getPassword(), "null");
+        testUser = userService.logOn(testUser.getUserName(), testPassword, "null");
         assertNotNull("test user logon null", testUser);
         assertTrue("invalidate user false", userService.invalidateUser(admin, testUser.getUserName()));
         userService.logOff(admin.getUserName());
@@ -135,7 +139,7 @@ public class UserServiceIntegrationTest {
 
     @Test(expected = UserRoleException.class)
     public void whenDeleteUserByNonAdmin_ThrowUserRoleException() throws Exception{
-        testUser = userService.logOn(testUser.getUserName(), testUser.getPassword(), "null");
+        testUser = userService.logOn(testUser.getUserName(), testPassword, "null");
         assertNotNull("test user logon null", testUser);
         userService.removeUser(testUser, admin.getUserName());
         userService.logOff(testUser.getUserName());
@@ -143,7 +147,7 @@ public class UserServiceIntegrationTest {
 
     @Test
     public void whenDeleteUserByAdmin_ReturnTrue() throws Exception{
-        admin = userService.logOn(admin.getUserName(), admin.getPassword(), "null");
+        admin = userService.logOn(admin.getUserName(), adminPassword, "null");
         assertNotNull("admin user logon null", admin);
         assertTrue("delete user by admin false", userService.removeUser(admin, "TestUser"));
         testUser = new AppUser(System.currentTimeMillis(), "TestUser", "Test", "User", CryptTools.generateEncodedSHA256Password("testUser#"), false);
@@ -164,7 +168,7 @@ public class UserServiceIntegrationTest {
 
     @Test
     public void whenGetRestUserByLoggedOnUser_ReturnProperRestUser() throws Exception{
-        admin = userService.logOn(admin.getUserName(), admin.getPassword(), "null");
+        admin = userService.logOn(admin.getUserName(), adminPassword, "null");
         RestUser restUser = userService.getRestUser(admin.getUserName());
         assertTrue("userName = null", restUser.getUserName().equals(admin.getUserName()));
         assertTrue("token = null", admin.getUserSession().getToken().compareTo(restUser.getToken()) == 0);
