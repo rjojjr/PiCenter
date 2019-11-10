@@ -7,3 +7,10 @@ export const RESET_IS_ERROR = 'RESET_IS_ERROR'
 export const resetIsError = () => ({
     type: RESET_IS_ERROR
 });
+
+export const SET_USER = 'SET_USER'
+export const setUser = (user, loggedOn) => ({
+    type: SET_USER,
+    user,
+    loggedOn
+});

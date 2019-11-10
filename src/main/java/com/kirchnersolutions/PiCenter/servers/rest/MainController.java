@@ -64,12 +64,13 @@ public class MainController {
             return new RestResponse();
         }
         if(token == null || token.toCharArray().length < 5){
-            return new RestResponse("{error: 'invalid token'}");
+            userService.systemInvalidateUser((String)httpSession.getAttribute("username"), "unauthentic session");
+            return new RestResponse("{body: 'error', error: 'invalid token'}");
         }
         if(!updateSession((String)httpSession.getAttribute("username"), token, request.getRemoteAddr(), "/summary")){
-            return new RestResponse("{error: 'unauthentic session'}", new RestUser());
+            return new RestResponse("{body: 'error', error: 'unauthentic session'}", new RestUser());
         }
-        return new RestResponse(userService.getRestUser((String)httpSession.getAttribute("username")), summaryService.getRoomSummaries(2));
+        return new RestResponse("{body: 'sucess'}", userService.getRestUser((String)httpSession.getAttribute("username")), summaryService.getRoomSummaries(2));
     }
 
     private boolean updateSession(String username, String token, String ip, String page) throws Exception{
