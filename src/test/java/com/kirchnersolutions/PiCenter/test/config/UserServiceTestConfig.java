@@ -1,6 +1,6 @@
 package com.kirchnersolutions.PiCenter.test.config;
 
-import com.kirchnersolutions.PiCenter.servers.UserService;
+import com.kirchnersolutions.PiCenter.services.UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

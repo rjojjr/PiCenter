@@ -1,9 +1,10 @@
-package com.kirchnersolutions.PiCenter.servers;
+package com.kirchnersolutions.PiCenter.services;
 
 import com.kirchnersolutions.PiCenter.dev.DebuggingService;
 import com.kirchnersolutions.PiCenter.dev.DevelopmentException;
 import com.kirchnersolutions.PiCenter.dev.exceptions.UserRoleException;
 import com.kirchnersolutions.PiCenter.entites.*;
+import com.kirchnersolutions.PiCenter.servers.UserList;
 import com.kirchnersolutions.PiCenter.servers.beans.RestUser;
 import com.kirchnersolutions.utilities.CryptTools;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +12,6 @@ import org.springframework.context.annotation.DependsOn;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
-import java.math.BigInteger;
 import java.util.Base64;
 import java.util.List;
 
@@ -82,6 +81,18 @@ public class UserService {
         //appUserRepository.saveAndFlush(user);
         UserLog creatorLog = new UserLog(admin.getId(), "invalidated user " + userName, System.currentTimeMillis());
         userLogRepository.saveAndFlush(creatorLog);
+        return true;
+    }
+
+    public boolean systemInvalidateUser(String userName, String msg) throws Exception{
+        AppUser user;
+        if((user = appUserRepository.findByUserName(userName)) == null){
+            return false;
+        }
+        UserLog userLog = new UserLog(user.getId(), "invalidated by system: " + msg, System.currentTimeMillis());
+        userLogRepository.saveAndFlush(userLog);
+        userList.removeUser(userName);
+        user.setUserSession(new UserSession(null, null, null, null, null));
         return true;
     }
 

@@ -1,6 +1,8 @@
 package com.kirchnersolutions.PiCenter.entites;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -12,5 +14,11 @@ public interface UserLogRepository extends CrudRepository<UserLog, Long>, JpaRep
     List<UserLog> findByUserIdOrderByTimeDesc(Long userId);
 
     UserLog findByUserId(Long userId);
+
+    @Modifying
+    @Query(
+            "delete from UserLog u"
+    )
+    void truncateUserLogs();
 
 }

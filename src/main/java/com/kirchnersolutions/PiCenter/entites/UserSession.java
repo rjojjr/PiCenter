@@ -1,8 +1,6 @@
 package com.kirchnersolutions.PiCenter.entites;
 
-import com.kirchnersolutions.PiCenter.servers.UserService;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;

@@ -11,7 +11,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @EntityScan("com.kirchnersolutions.PiCenter.entites")
 @ComponentScan({"com.kirchnersolutions.PiCenter.entites", "com.kirchnersolutions.PiCenter.Configuration", "com.kirchnersolutions.PiCenter.dev",
         "com.kirchnersolutions.PiCenter.servers.objects", "com.kirchnersolutions.PiCenter.servers",
-        "com.kirchnersolutions.PiCenter.servers.rest", "com.kirchnersolutions.PiCenter.servers.socket"})
+        "com.kirchnersolutions.PiCenter.servers.rest",  "com.kirchnersolutions.PiCenter.servers.beans","com.kirchnersolutions.PiCenter.services", "com.kirchnersolutions.PiCenter.servers.socket"})
 public class MainConfig {
 /*
     @Autowired
