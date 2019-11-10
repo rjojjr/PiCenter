@@ -28,4 +28,7 @@ public interface AppUserRepository extends CrudRepository<AppUser, Long>, JpaRep
     List<AppUser> findByCreateTimeLessThan(Long time);
 
     List<AppUser> findByCreateTimeGreaterThan(Long time);
+
+    @Query("truncate table AppUser")
+    void truncateAppUsers();
 }

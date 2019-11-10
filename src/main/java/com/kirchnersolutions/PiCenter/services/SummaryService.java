@@ -4,6 +4,7 @@ import com.kirchnersolutions.PiCenter.entites.Reading;
 import com.kirchnersolutions.PiCenter.entites.ReadingRepository;
 import com.kirchnersolutions.PiCenter.servers.beans.RoomSummary;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Service;
 import com.kirchnersolutions.PiCenter.constants.RoomConstants;
 import com.kirchnersolutions.PiCenter.constants.StatConstants;
@@ -11,6 +12,7 @@ import com.kirchnersolutions.PiCenter.constants.StatConstants;
 import java.math.BigDecimal;
 import java.util.List;
 
+@DependsOn({"debuggingService", "appUserRepository", "readingRepository"})
 @Service
 public class SummaryService {
 
@@ -33,8 +35,13 @@ public class SummaryService {
         String[] temp = new String[7];
         String[] humidity = new String[7];
         List<Reading> reads = readingRepository.findByTimeBetweenAndRoomOrderByTimeDesc(time - StatConstants.HOUR, time, roomName);
-        temp[0] = reads.get(0).getTemp() + "";
-        humidity[0] = reads.get(0).getHumidity() + "";
+        if(precision > 0){
+            temp[0] = reads.get(0).getTemp() + "." + getZeros(precision);
+            humidity[0] = reads.get(0).getHumidity() + "." + getZeros(precision);
+        }else {
+            temp[0] = reads.get(0).getTemp();
+            humidity[0] = reads.get(0).getHumidity();
+        }
         temp[1] = getTempMean(reads, precision);
         humidity[1] = getHumidityMean(reads, precision);
         reads = readingRepository.findByTimeBetweenAndRoomOrderByTimeDesc(time - StatConstants.TWO_HOUR, time, roomName);
@@ -77,25 +84,35 @@ public class SummaryService {
         return findMean(mean, count, precision);
     }
 
+    private static String getZeros(int howMany){
+        if(howMany == 0) return "";
+        String zeros = "";
+        for(int i = 0; i <= howMany; i++){
+            zeros = zeros + "0";
+        }
+        return zeros;
+    }
+
     private String findMean(BigDecimal sum, int count, int precision){
         sum = sum.divide(new BigDecimal(count));
         String temp = sum.toString();
-        char[] decimals = temp.split(".")[1].toCharArray();
-        if(decimals.length > precision){
-            String part = "";
-            for(int i = 0; i < precision; i++){
-                part+= decimals[i];
+        if(temp.split(".").length > 1){
+            char[] decimals = temp.split(".")[1].toCharArray();
+            if(decimals.length > precision){
+                String part = "";
+                for(int i = 0; i < precision; i++){
+                    part = part + decimals[i];
+                }
+                return temp.split(".")[0] + "." + part;
             }
-            return temp.split(".")[0] + "." + part;
+            if(decimals.length < precision){
+                return temp + getZeros(precision - decimals.length);
+            }
+            return temp;
         }
-        if(decimals.length < precision){
-            String zeros = "";
-            for(int i = decimals.length; i <= precision; i++){
-                zeros+= "0";
-            }
-            return temp + zeros;
+        if(precision > 0){
+            return temp + "." + getZeros(precision);
         }
         return temp;
     }
-
 }
