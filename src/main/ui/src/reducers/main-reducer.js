@@ -12,8 +12,15 @@ import {
 } from "../actions/logon-actions";
 
 import {
+    SUMMARY_LOADING,
+    SET_SUMMARY,
+    SUMMARY_LOADING_ERROR
+} from "../actions/summary-actions";
+
+import {
     RESET_IS_ERROR,
-    RESET_IS_SHOW_MSG
+    RESET_IS_SHOW_MSG,
+    SET_USER
 } from "../actions/universal-actions";
 
 
@@ -27,7 +34,10 @@ export const initialState = () => ({
     isShowMsg: false,
     errorMsg: '',
     isLoggedOn: false,
-    isLoggingOn: false
+    isLoggingOn: false,
+    summary: [],
+    isSummaryLoading: false,
+    isSummaryError: false
 });
 
 export default (state = initialState(), action = {type: undefined}) => {
@@ -112,6 +122,39 @@ export default (state = initialState(), action = {type: undefined}) => {
                 isLoggingOn: false,
                 user: action.user,
                 isLoggedOn: true
+            };
+        };
+        case SET_USER: {
+            return {
+                ...state,
+                user: action.user,
+                isLoggedOn: action.loggedOn
+            };
+        };
+        case SET_SUMMARY: {
+            return {
+                ...state,
+                summary: action.summary,
+                isSummaryError: false,
+                isSummaryLoading: false
+            };
+        };
+        case SUMMARY_LOADING_ERROR: {
+            return {
+                ...state,
+                summary: action.summary,
+                isSummaryError: true,
+                isSummaryLoading: false,
+                isShowMsg: true,
+                message: action.msg,
+            };
+        };
+        case SUMMARY_LOADING: {
+            return {
+                ...state,
+                isSummaryError: false,
+                isSummaryLoading: true,
+                isShowMsg: false
             };
         };
         default:

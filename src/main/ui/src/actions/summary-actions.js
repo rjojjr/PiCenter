@@ -24,7 +24,6 @@ export const loadSummaryThunk = user => async dispatch => {
     dispatch(summaryLoading());
     const summaryResponse = await loadSummary(user);
     if (summaryResponse.data.body === "error") {
-      summaryLoadingError(summaryResponse.data.error);
       setUser({}, false);
       return;
     }
