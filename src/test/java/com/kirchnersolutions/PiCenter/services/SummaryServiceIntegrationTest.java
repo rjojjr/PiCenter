@@ -30,12 +30,9 @@ import static org.junit.Assert.assertNotNull;
 @RunWith(SpringJUnit4ClassRunner.class)
 @DataJpaTest
 @ContextConfiguration(classes = {MainConfig.class})
-//@ContextConfiguration
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 public class SummaryServiceIntegrationTest {
 
-    /*@Autowired
-    ApplicationContext context;*/
     @Autowired
     private ReadingRepository readingRepository;
     @Autowired
@@ -58,28 +55,21 @@ public class SummaryServiceIntegrationTest {
     /*@BeforeClass
     public static void setUp() throws Exception {
         populateTestDB();
-        Long time = System.currentTimeMillis() - (StatConstants.TWELVE_HOUR * 2);
-        Long interval = (StatConstants.TWELVE_HOUR * 2) / 1000;
-        for(String room : RoomConstants.rooms){
-            for(int i = 0; i < 1000; i++){
-                Reading reading = new Reading((i * interval) + time, 77, 51, room);
-                readingRepository.saveAndFlush(reading);
-            }
-        }
     }*/
 
     @Test
     public void whenPrecision2_Return2Zeros(){
         populateTestDB();
-        RoomSummary[] summaries = summaryService.getRoomSummaries(0);
+        RoomSummary[] summaries = summaryService.getRoomSummaries(2);
         for (int i = 0; i < RoomConstants.rooms.length; i++){
             for(String temp : summaries[i].getTemps()){
                 assertEquals("temp != 77.00", "77.00", temp);
             }
             for(String humidity : summaries[i].getHumiditys()){
-                assertEquals("humididty != 51.00", "50.00", humidity);
+                assertEquals("humididty != 51.00", "51.00", humidity);
             }
         }
+        readingRepository.truncateReadings();
     }
 
 }

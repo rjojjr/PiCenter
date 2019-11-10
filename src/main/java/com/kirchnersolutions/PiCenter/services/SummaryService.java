@@ -87,7 +87,7 @@ public class SummaryService {
     private static String getZeros(int howMany){
         if(howMany == 0) return "";
         String zeros = "";
-        for(int i = 0; i <= howMany; i++){
+        for(int i = 0; i < howMany; i++){
             zeros = zeros + "0";
         }
         return zeros;
