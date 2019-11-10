@@ -39,8 +39,8 @@ public class SummaryService {
             temp[0] = reads.get(0).getTemp() + "." + getZeros(precision);
             humidity[0] = reads.get(0).getHumidity() + "." + getZeros(precision);
         }else {
-            temp[0] = reads.get(0).getTemp();
-            humidity[0] = reads.get(0).getHumidity();
+            temp[0] = reads.get(0).getTemp() + "";
+            humidity[0] = reads.get(0).getHumidity() + "";
         }
         temp[1] = getTempMean(reads, precision);
         humidity[1] = getHumidityMean(reads, precision);
