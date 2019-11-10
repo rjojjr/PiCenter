@@ -3,6 +3,9 @@ PiCenter Changelog
 
 1.0.00a
 
+Build 100108
+    Start summary ui page.
+
 11/10/2017
 Build 100107
     Invalidate user on http session expiration.
