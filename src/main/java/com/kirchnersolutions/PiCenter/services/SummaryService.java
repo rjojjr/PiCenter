@@ -17,6 +17,17 @@ public class SummaryService {
     @Autowired
     private ReadingRepository readingRepository;
 
+    public RoomSummary[] getRoomSummaries(int precision){
+        String[] rooms = RoomConstants.rooms;
+        RoomSummary[] summaries = new RoomSummary[rooms.length];
+        int count = 0;
+        for(String room : rooms){
+            summaries[count] = getRoomSummary(room, precision);
+            count++;
+        }
+        return summaries;
+    }
+
     private RoomSummary getRoomSummary(String roomName, int precision){
         Long time = System.currentTimeMillis();
         String[] temp = new String[7];
