@@ -66,7 +66,7 @@ public class SummaryServiceIntegrationTest {
                 assertEquals("temp != 77.00", "77.00", temp);
             }
             for(String humidity : summaries[i].getHumiditys()){
-                assertEquals("humididty != 51.00", "51.00", humidity);
+                assertEquals("humidity != 51.00", "51.00", humidity);
             }
         }
         readingRepository.truncateReadings();

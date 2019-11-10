@@ -12,6 +12,7 @@ public class RoomSummary {
     private String roomName = "";
 
     //0 - instant, 1 - 1hr, 2 - 2hr, 3 - 3hr, 4 - 6hr, 5 - 12hr, 6 - 24hr
-    private String[] temps, humiditys;
+    //<>Devi = standard deviation
+    private String[] temps, humiditys, tempDevi, humidityDevi;
 
 }
