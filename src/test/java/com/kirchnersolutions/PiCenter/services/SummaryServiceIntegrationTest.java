@@ -69,7 +69,6 @@ public class SummaryServiceIntegrationTest {
                 assertEquals("humidity != 51.00", "51.00", humidity);
             }
             for(String temp : summaries[i].getTempDevi()){
-                System.out.println(temp);
                 assertEquals("temp deviation wrong precision", 2, temp.split("\\.")[1].toCharArray().length);
             }
             for(String humidity : summaries[i].getHumidityDevi()){

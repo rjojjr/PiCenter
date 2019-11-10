@@ -1,14 +1,18 @@
 package com.kirchnersolutions.PiCenter.servers.rest;
 
 import com.kirchnersolutions.PiCenter.entites.AppUser;
+import com.kirchnersolutions.PiCenter.servers.beans.RestUser;
+import com.kirchnersolutions.PiCenter.services.SummaryService;
 import com.kirchnersolutions.PiCenter.services.UserService;
 import com.kirchnersolutions.PiCenter.servers.beans.LogonForm;
 import com.kirchnersolutions.PiCenter.servers.beans.RestResponse;
+import org.aspectj.bridge.context.ContextToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.print.DocFlavor;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,6 +23,8 @@ public class MainController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private SummaryService summaryService;
 
     @GetMapping("/loading")
     public RestResponse initClient(HttpServletResponse response) throws Exception{
@@ -34,7 +40,7 @@ public class MainController {
     }
 
     @PostMapping("/login")
-    public RestResponse home(HttpServletResponse response, @RequestBody LogonForm logonForm) throws Exception{
+    public RestResponse login(HttpServletResponse response, @RequestBody LogonForm logonForm) throws Exception{
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes())
                 .getRequest();
         HttpSession httpSession = cookie(request, response);
@@ -47,6 +53,31 @@ public class MainController {
             return new RestResponse("{ body: 'Wrong username or password' }");
         }
         return new RestResponse(userService.getRestUser((String)httpSession.getAttribute("username")));
+    }
+
+    @GetMapping("/summary")
+    public RestResponse showSummary(HttpServletResponse response, @RequestParam(value = "token", required = true) String token ) throws Exception{
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes())
+                .getRequest();
+        HttpSession httpSession = cookie(request, response);
+        if(httpSession.getAttribute("username") == null){
+            return new RestResponse();
+        }
+        if(token == null || token.toCharArray().length < 5){
+            return new RestResponse("{error: 'invalid token'}");
+        }
+        if(!updateSession((String)httpSession.getAttribute("username"), token, request.getRemoteAddr(), "/summary")){
+            return new RestResponse("{error: 'unauthentic session'}", new RestUser());
+        }
+        return new RestResponse(userService.getRestUser((String)httpSession.getAttribute("username")), summaryService.getRoomSummaries(2));
+    }
+
+    private boolean updateSession(String username, String token, String ip, String page) throws Exception{
+        if(userService.updateSession(username, token, ip, page) == null){
+            userService.systemInvalidateUser(username, "unauthentic session");
+            return false;
+        }
+        return true;
     }
 
     private static HttpSession getSession() {
