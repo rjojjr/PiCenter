@@ -17,11 +17,31 @@ public class SummaryService {
     @Autowired
     private ReadingRepository readingRepository;
 
-    private RoomSummary getRoomSummary(String roomName){
+    private RoomSummary getRoomSummary(String roomName, int precision){
         Long time = System.currentTimeMillis();
-        String[] temp = new String[6];
-        String[] humidity = new String[6];
+        String[] temp = new String[7];
+        String[] humidity = new String[7];
         List<Reading> reads = readingRepository.findByTimeBetweenAndRoomOrderByTimeDesc(time - StatConstants.HOUR, time, roomName);
+        temp[0] = reads.get(0).getTemp() + "";
+        humidity[0] = reads.get(0).getHumidity() + "";
+        temp[1] = getTempMean(reads, precision);
+        humidity[1] = getHumidityMean(reads, precision);
+        reads = readingRepository.findByTimeBetweenAndRoomOrderByTimeDesc(time - StatConstants.TWO_HOUR, time, roomName);
+        temp[2] = getTempMean(reads, precision);
+        humidity[2] = getHumidityMean(reads, precision);
+        reads = readingRepository.findByTimeBetweenAndRoomOrderByTimeDesc(time - StatConstants.THREE_HOUR, time, roomName);
+        temp[3] = getTempMean(reads, precision);
+        humidity[3] = getHumidityMean(reads, precision);
+        reads = readingRepository.findByTimeBetweenAndRoomOrderByTimeDesc(time - StatConstants.SIX_HOUR, time, roomName);
+        temp[4] = getTempMean(reads, precision);
+        humidity[4] = getHumidityMean(reads, precision);
+        reads = readingRepository.findByTimeBetweenAndRoomOrderByTimeDesc(time - StatConstants.TWELVE_HOUR, time, roomName);
+        temp[5] = getTempMean(reads, precision);
+        humidity[5] = getHumidityMean(reads, precision);
+        reads = readingRepository.findByTimeBetweenAndRoomOrderByTimeDesc(time - (2 * StatConstants.TWELVE_HOUR ), time, roomName);
+        temp[6] = getTempMean(reads, precision);
+        humidity[6] = getHumidityMean(reads, precision);
+        return new RoomSummary(roomName, temp, humidity);
     }
 
     private String getTempMean(List<Reading> readings, int precision){
