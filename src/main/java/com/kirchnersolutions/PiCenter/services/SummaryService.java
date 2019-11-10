@@ -42,12 +42,14 @@ public class SummaryService {
         if(precision > 0){
             temp[0] = reads.get(0).getTemp() + "." + getZeros(precision);
             humidity[0] = reads.get(0).getHumidity() + "." + getZeros(precision);
+            tempDevi[0] = "0" + "." + getZeros(precision);
+            humidityDevi[0] = "0" + "." + getZeros(precision);
         }else {
             temp[0] = reads.get(0).getTemp() + "";
             humidity[0] = reads.get(0).getHumidity() + "";
+            tempDevi[0] = "0";
+            humidityDevi[0] = "0";
         }
-        tempDevi[0] = "0";
-        humidityDevi[0] = "0";
         String[] stats = getTempStats(reads, precision);
         temp[1] = stats[0];
         tempDevi[1] = stats[1];
@@ -117,21 +119,21 @@ public class SummaryService {
     private static String getZeros(int howMany){
         if(howMany == 0) return "";
         String zeros = "";
-        for(int i = 0; i <= howMany; i++){
+        for(int i = 0; i < howMany; i++){
             zeros = zeros + "0";
         }
         return zeros;
     }
 
     private static String round(String value, int precision){
-        if(value.split(".").length > 1){
-            char[] decimals = value.split(".")[1].toCharArray();
+        if(value.split("\\.").length > 1){
+            char[] decimals = value.split("\\.")[1].toCharArray();
             if(decimals.length > precision){
                 String part = "";
                 for(int i = 0; i < precision; i++){
                     part = part + decimals[i];
                 }
-                return value.split(".")[0] + "." + part;
+                return value.split("\\.")[0] + "." + part;
             }
             if(decimals.length < precision){
                 return value + getZeros(precision - decimals.length);
@@ -147,14 +149,14 @@ public class SummaryService {
     private String[] findStats(int readingType, BigDecimal sum, int precision, List<Reading> readings, boolean sample){
         //0 = mean, 1 = standard deviation
         String[] results = new String[2];
-        results[0] = round(findMean(sum, readings.size()), precision);
-        BigDecimal mean = new BigDecimal(results[0]);
-        BigDecimal deviation = findStandardDeviation(readingType, sum, mean, sample, readings, precision);
-        results[1] = round(deviation.toPlainString(), precision);
+        BigDecimal mean = new BigDecimal(findMean(sum, readings.size()));
+        results[0] = round(mean.toString(), precision);
+        BigDecimal deviation = findStandardDeviation(readingType, mean, sample, readings, precision);
+        results[1] = round(deviation.toString(), precision);
         return results;
     }
 
-    private BigDecimal findStandardDeviation(int readingType, BigDecimal sum, BigDecimal mean, boolean sample, List<Reading> readings, int precision){
+    private BigDecimal findStandardDeviation(int readingType, BigDecimal mean, boolean sample, List<Reading> readings, int precision){
         List<BigDecimal> squares = new ArrayList<>();
         for(Reading reading : readings){
             BigDecimal read;
@@ -166,7 +168,7 @@ public class SummaryService {
             read = read.subtract(mean);
             squares.add(read.multiply(read));
         }
-        sum = new BigDecimal("0");
+        BigDecimal sum = new BigDecimal("0");
         for(BigDecimal square : squares){
             sum.add(square);
         }

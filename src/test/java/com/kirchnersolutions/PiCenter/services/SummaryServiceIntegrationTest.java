@@ -40,10 +40,10 @@ public class SummaryServiceIntegrationTest {
 
     private boolean populateTestDB(){
         Long time = System.currentTimeMillis() - (StatConstants.TWELVE_HOUR * 2);
-        Long interval = (StatConstants.TWELVE_HOUR * 2) / 1000;
+        Long interval = (StatConstants.TWELVE_HOUR * 2) / 100;
         List<Reading> readings = new ArrayList<>();
         for(String room : RoomConstants.rooms){
-            for(int i = 0; i < 1000; i++){
+            for(int i = 0; i < 100; i++){
                 Reading reading = new Reading((i * interval) + time, 77, 51, room);
                 readings.add(reading);
             }
@@ -58,7 +58,7 @@ public class SummaryServiceIntegrationTest {
     }*/
 
     @Test
-    public void whenPrecision2_Return2Zeros(){
+    public void whenPrecision_ReturnZeros(){
         populateTestDB();
         RoomSummary[] summaries = summaryService.getRoomSummaries(2);
         for (int i = 0; i < RoomConstants.rooms.length; i++){
@@ -67,6 +67,13 @@ public class SummaryServiceIntegrationTest {
             }
             for(String humidity : summaries[i].getHumiditys()){
                 assertEquals("humidity != 51.00", "51.00", humidity);
+            }
+            for(String temp : summaries[i].getTempDevi()){
+                System.out.println(temp);
+                assertEquals("temp deviation wrong precision", 2, temp.split("\\.")[1].toCharArray().length);
+            }
+            for(String humidity : summaries[i].getHumidityDevi()){
+                assertEquals("humidity deviation wrong precision", 2, humidity.split("\\.")[1].toCharArray().length);
             }
         }
         readingRepository.truncateReadings();
