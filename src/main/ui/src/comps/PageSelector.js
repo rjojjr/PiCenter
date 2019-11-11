@@ -3,7 +3,7 @@ import React from "react";
 import * as constants from "../constants/page-constants";
 
 import LoginPageContainer from './login/LogOnPageContainer';
-import SummaryPageContainer from "./summary/SummaryPageContainer";
+import SummaryPageContainer from "./summary/SummaryPageLoader";
 
 const PageSelector = ({user}) =>{
     const page = user.page;
