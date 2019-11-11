@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { connect } from "react-redux";
 import { loadSummaryThunk } from "../../actions/summary-actions";
 import SummaryPageContainer from "./SummaryPageContainer";
@@ -11,20 +11,15 @@ const SummaryPageLoader = ({
   isError,
   errorMsg
 }) => {
-  /*let sensorIndex = 0;
 
-  const selectSensor = index => {
-    sensorIndex = index;
-  };*/
+  useEffect(() => {
+    loadSummary();
+  }, [loadSummary]);
 
   return (
-    <div className={"container summaryPageContainer"}>
-      {summary === [] &&
-        !isLoading &&
-        !isError &&
-        user !== {} &&
-        loadSummary(user) && <p>Loading summary...</p>}
+    <div>
       {isLoading && <p>Loading summary...</p>}
+      {isError && <p>`An error has happened: ${errorMsg}`</p>}
       {summary !== [] && !isLoading && !isError && user !== {} && (
         <SummaryPageContainer summary={summary} user={user} />
       )}
