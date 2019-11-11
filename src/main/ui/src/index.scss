@@ -1,0 +1,19 @@
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  //background-image: url('/slate_back.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.headerButtonContainer {
+  display: flex;
+  justify-content: space-between;
+  margin: 0.5rem;
+}
