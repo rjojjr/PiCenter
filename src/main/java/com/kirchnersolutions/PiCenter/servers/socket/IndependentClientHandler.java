@@ -109,13 +109,13 @@ class IndependentClientHandler implements Runnable {
                 }else {
                     debuggingService.trace("Socket client thread: " + Thread.currentThread().getName() + " received client input");
                     String output = Base64.getEncoder().encodeToString(keys.encryptAESRequest(transactionService.inputRequest((keys.decryptAESResponse(inputLine)))));
-                    System.out.println(output);
                     out.flush();
                     debuggingService.trace("Socket client thread: " + Thread.currentThread().getName() + " received response to client");
                 }
             }
             in.close();
             out.close();
+            debuggingService.socketDebug("Client " + ip + " on port " + port + "\r\nConnection closed.");
             debuggingService.trace("Socket client thread: " + Thread.currentThread().getName() + " closed streams");
         } catch (IOException ex) {
             try {
