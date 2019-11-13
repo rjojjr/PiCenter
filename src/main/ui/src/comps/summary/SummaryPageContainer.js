@@ -10,7 +10,8 @@ const SummaryPageContainer = ({
   isError,
   errorMsg,
   isLoading,
-  canLoad
+  canLoad,
+  logOff
 }) => {
   const [sensorIndex, setSensorIndex] = useState(0);
 
@@ -29,33 +30,39 @@ const SummaryPageContainer = ({
   return (
     <div className={"container summaryPageContainer"}>
       <LoadingView isLoading={isLoading} message={"Loading.."} />
-      {canLoad &&
-        !isLoading && (
-          <div>
-            <header>
-              <h2>PiCenter Sensor Summary</h2>
-              <SummaryPageHeader
-                  isLoading={isLoading}
-                  summary={summary}
-                  selectSensor={selectSensor}
+      {canLoad && !isLoading && (
+        <div>
+          <header>
+            <h2>PiCenter Sensor Summary</h2>
+            <SummaryPageHeader
+              isLoading={isLoading}
+              summary={summary}
+              selectSensor={selectSensor}
+            />
+          </header>
+          <div id="main">
+            <section>
+              <SummaryPage
+                canRender={canLoad}
+                isLoading={isLoading}
+                summary={showSummary()}
               />
-            </header>
-            <div id="main">
-              <section>
-                <SummaryPage canRender={canLoad} isLoading={isLoading} summary={showSummary()} />
-              </section>
-              <nav><b>Summary</b></nav>
-              <aside>
-                <h4>Logged on as: {user.userName}</h4>
-                <button
-              </aside>
-            </div>
-            <footer>
-              <a href={"github.com/rjojjr"}>Visit me on github</a>
-            </footer>
-
+            </section>
+            <nav>
+              <b>Summary</b>
+            </nav>
+            <aside>
+              <h4>Logged on as: {user.userName}</h4>
+              <button type={"button"} onClick={logOff}>
+                Logout
+              </button>
+            </aside>
           </div>
-        )}
+          <footer>
+            <a href={"github.com/rjojjr"}>Visit me on github</a>
+          </footer>
+        </div>
+      )}
     </div>
   );
 };

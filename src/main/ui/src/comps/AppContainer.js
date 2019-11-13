@@ -2,6 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import PageSelector from "./PageSelector";
 import * as constants from '../constants/page-constants';
+import{ logOff} from '../actions/universal-actions';
 
 const AppContainer = ({user}) => {
 
@@ -20,7 +21,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-
+    logOff 
 };
 
 export default connect(

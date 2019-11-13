@@ -18,6 +18,7 @@ import {
 } from "../actions/summary-actions";
 
 import {
+    LOGOUT,
     RESET_IS_ERROR,
     RESET_IS_SHOW_MSG,
     SET_USER
@@ -175,6 +176,26 @@ export default (state = initialState(), action = {type: undefined}) => {
                 isSummaryError: false,
                 isSummaryLoading: false,
                 isShowMsg: false
+            };
+        };
+        case LOGOUT: {
+            return {
+                ...state,
+                user: {},
+                isLoadingError: false,
+                loadingErrorMsg: '',
+                isLoading: false,
+                isError: false,
+                message: '',
+                isShowMsg: false,
+                errorMsg: '',
+                isLoggedOn: false,
+                isLoggingOn: false,
+                summary: [],
+                isSummaryLoading: false,
+                isSummaryError: false,
+                loaded: false,
+                canRenderSummary: false
             };
         };
         default:

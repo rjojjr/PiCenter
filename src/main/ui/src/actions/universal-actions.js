@@ -1,3 +1,5 @@
+import {logOut} from "../services/axios-service";
+
 export const RESET_IS_SHOW_MSG = 'RESET_IS_SHOW_MSG'
 export const resetIsShowMsg = () => ({
     type: RESET_IS_SHOW_MSG
@@ -13,4 +15,14 @@ export const setUser = (user, loggedOn) => ({
     type: SET_USER,
     user,
     loggedOn
+});
+
+export const logOff = () => async dispatch => {
+    await logOut();
+    dispatch(logout());
+}
+
+export const LOGOUT = 'LOGOUT'
+export const logout = () => ({
+    type: LOGOUT
 });

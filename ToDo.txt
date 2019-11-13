@@ -1,3 +1,4 @@
 ToDo List
 
 fix standard deviation
+userlist not removing user at logout

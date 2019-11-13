@@ -1,9 +1,6 @@
 import axios from "axios";
 import * as constants from "../constants/page-constants";
 
-const loadEndpoint = constants.LOADING_PAGE;
-const logOnEndpoint = constants.LOGIN_PAGE;
-
 /*const getEndpoint = endpoint => {
   return process.env.NODE_ENV === "development" ||
     process.env.NODE_ENV === "test"
@@ -28,3 +25,7 @@ export const logOn = (username, password) => {
 
   return axios.post(constants.LOGIN_PAGE, LogonForm);
 };
+
+export const logOut = () => {
+  return axios.get(constants.LOGOUT);
+}

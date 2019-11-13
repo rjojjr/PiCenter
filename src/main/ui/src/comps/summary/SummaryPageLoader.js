@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { loadSummaryThunk } from "../../actions/summary-actions";
 import SummaryPageContainer from "./SummaryPageContainer";
+import {logOff} from '../../actions/universal-actions';
 
 const SummaryPageLoader = ({
   loadSummary,
@@ -10,7 +11,8 @@ const SummaryPageLoader = ({
   isLoading,
   isError,
   errorMsg,
-  canLoad
+  canLoad,
+    logOff
 }) => {
   /*useEffect(() => {
     loadSummary(user);
@@ -28,6 +30,7 @@ const SummaryPageLoader = ({
         user={user}
         isLoading={isLoading}
         canLoad={canLoad}
+        logOff={logOff}
       />
     </div>
   );
@@ -43,7 +46,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  loadSummary: loadSummaryThunk
+  loadSummary: loadSummaryThunk,
+  logOff
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SummaryPageLoader);
