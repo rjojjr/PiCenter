@@ -208,11 +208,11 @@ public class UserService {
         if(user == null){
             return false;
         }else{
+            userList.removeUser(userName);
             UserLog userLog = new UserLog(user.getId(), "logoff", System.currentTimeMillis());
             userLogRepository.saveAndFlush(userLog);
             userSessionRepository.delete(user.getUserSession());
             //appUserRepository.saveAndFlush(user);
-            userList.removeUser(user.getUserName());
             user = null;
             return true;
         }

@@ -18,7 +18,7 @@ const SummaryPageLoader = ({
     loadSummary(user);
   }, [loadSummary]);*/
 
-  if (summary.length === 0 && !isLoading) {
+  if (isLoading ){
     loadSummary(user);
   }
 

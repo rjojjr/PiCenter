@@ -37,7 +37,7 @@ export const initialState = () => ({
     isLoggedOn: false,
     isLoggingOn: false,
     summary: [],
-    isSummaryLoading: false,
+    isSummaryLoading: true,
     isSummaryError: false,
     loaded: false,
     canRenderSummary: false

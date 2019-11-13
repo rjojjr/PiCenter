@@ -23,7 +23,7 @@ const LogOnPageContainer = ({
   return (
     <div className={"pageContainer logOnPage"}>
       <header>
-        <h2>PiCenter Logon</h2>
+        <h2 className={"lightText"}>PiCenter Logon</h2>
       </header>
       <div id="main">
         <section>
@@ -36,11 +36,11 @@ const LogOnPageContainer = ({
             isLoggingOn={isLoggingOn}
           />
         </section>
-        <nav>Sign in</nav>
+          <nav><p className={"lightText"}>Sign in</p></nav>
         <aside></aside>
       </div>
       <footer>
-        <a href={"github.com/rjojjr"}>Visit me on github</a>
+        <a className={"lightText"} href={"github.com/rjojjr"}>Visit me on github</a>
       </footer>
     </div>
   );

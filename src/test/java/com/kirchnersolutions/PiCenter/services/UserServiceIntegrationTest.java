@@ -137,6 +137,18 @@ public class UserServiceIntegrationTest {
         userService.logOff(admin.getUserName());
     }
 
+    @Test
+    public void whenLoggedOn_LogOffReturnTrue() throws Exception{
+        admin = userService.logOn(admin.getUserName(), adminPassword, "null");
+        assertNotNull("admin user logon null", admin);
+        assertTrue("failed to log admin user out",userService.logOff(admin.getUserName()));
+    }
+
+    @Test
+    public void whenNotLoggedOn_LogOffReturnFalse() throws Exception{
+        assertFalse("returned true",userService.logOff("Robert"));
+    }
+
     @Test(expected = UserRoleException.class)
     public void whenDeleteUserByNonAdmin_ThrowUserRoleException() throws Exception{
         testUser = userService.logOn(testUser.getUserName(), testPassword, "null");
