@@ -23,7 +23,7 @@ const LogOnPage = ({logOn, message, user, isShowMsg, resetIsShowMsg, isLoggingOn
 
     return (
         <div className={"page logOnPage"}>
-            <h2>PiCenter Logon</h2>
+
             {isLoggingOn && <p className={"loading"}>Logging on....</p>}
             {user.username !== undefined && <PageSelector user={user}/>}
             {isShowMsg && <p className={"message"}>{message}</p>}
