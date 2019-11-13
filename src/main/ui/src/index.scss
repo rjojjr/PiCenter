@@ -1,38 +1,82 @@
-
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  height: 100%;
+}
+#main {
+  display: flex;
+  min-height: calc(100vh - 40vh);
+  height: 100%;
+}
+#main > article {
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+}
+#main > nav,
+#main > aside {
+  flex: 0 0 20vw;
+  background: beige;
+}
+#main > nav {
+  order: -1;
+}
+header, footer, article, nav, aside {
+  padding: 1em;
+}
+header, footer {
+  background: sandybrown;
+  height: 10vh;
+}
+/*
 html {
   height: 100%;
 }
 
 .pageContainer {
   height: 100%;
-  overflow: hidden;  /*makes the body non-scrollable (we will add scrolling to the sidebar and main content containers)*/
-  margin: 0px;  /*removes default style*/
-  display: flex;  /*enables flex content for its children*/
+  overflow: hidden;  //!*makes the body non-scrollable (we will add scrolling to the sidebar and main content containers)*!
+  margin: 0px;  //!*removes default style*!
+  display: flex;  //!*enables flex content for its children*!
   box-sizing: border-box;
 }
 
-.column {
-  height: 100%;  /*allows both columns to span the full height of the browser window*/
+.column-right {
+  height: 100%;  !*allows both columns to span the full height of the browser window*!
   display: flex;
-  flex-direction: column;  /*places the left and right headers above the bottom content*/
+  align-items: center;
+  flex: 5;
+  flex-direction: column;  !*places the left and right headers above the bottom content*!
 }
 
+
+.column-left {
+  height: 100%;  !*allows both columns to span the full height of the browser window*!
+  //display: flex;
+  align-items: stretch;
+  flex: 1;
+  flex-direction: column;  !*places the left and right headers above the bottom content*!
+}
 #left {
-  flex-shrink: 0;  /*makes sure that content is not cut off in a smaller browser window*/
-  flex: 1 0 0;
+  flex-shrink: 0;  !*makes sure that content is not cut off in a smaller browser window*!
+  flex: 1;
 }
 
 #right {
-  flex: 2 0 0;
+  flex: 5;
 }
 
 .top-left {
   flex-shink: 0;
+  height: 150px;
 }
 
 .top-right {
   flex-shrink: 0;
   display: inline-flex;
+  height: 150px;
 }
 
 ul {
@@ -41,18 +85,20 @@ ul {
 }
 
 .bottom {
-  flex-grow: 1;  /*ensures that the container will take up the full height of the parent container*/
-  overflow-y: auto;  /*adds scroll to this container*/
+  flex-grow: 1;  !*ensures that the container will take up the full height of the parent container*!
+  overflow-y: auto;  !*adds scroll to this container*!
 }
 body {
   display: flex;
-  justify-content: center;
-  align-items: center;
+  //justify-content: center;
+  //align-items: center;
   width: 100%;
   //background-image: url('/picenterbkgd.webp');
-  background-repeat: no-repeat;
+  //background-repeat: no-repeat;
   background-size: 100% 100%;
   background-attachment: fixed;
+  flex-direction: row;
+  width: 100%;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -64,15 +110,15 @@ body {
   margin: 0.5rem;
 }
 
-/*.logOnPage {
+!*.logOnPage {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   margin: 0.5rem;
 
-}*/
+}*!
 
 .summaryTable{
   width: 100%;
-}
+}*/

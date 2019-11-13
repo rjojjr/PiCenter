@@ -177,12 +177,12 @@ public class SummaryService {
             }else {
                 read = new BigDecimal(reading.getHumidity());
             }
-            read = read.subtract(mean);
-            squares.add(read.multiply(read));
+            read = new BigDecimal(read.doubleValue() - mean.doubleValue());
+            squares.add(new BigDecimal(read.doubleValue() * read.doubleValue()));
         }
         BigDecimal sum = new BigDecimal("0");
         for(BigDecimal square : squares){
-            sum.add(square);
+            sum = sum.add(square);
         }
         BigDecimal square;
         if(sample){
@@ -190,7 +190,7 @@ public class SummaryService {
         }else {
             square = new BigDecimal(findMean(sum, squares.size()));
         }
-        square = BigDecimalMath.bigSqrt(square);
+        square = BigDecimalMath.sqrt(square, 100);
         return square;
     }
 

@@ -21,13 +21,28 @@ const LogOnPageContainer = ({
   isLoggingOn
 }) => {
   return (
-    <div className={"pageContainer logOnPage"}>
-      <LeftContentContainer>
-        <LeftContentHeader>
-          <h3>Sign In</h3>
-        </LeftContentHeader>
-        <LeftContent>
 
+    <div className={"pageContainer logOnPage"}>
+
+      <header><h2>PiCenter Logon</h2></header>
+      <div id="main">
+        <article>
+          <LogOnPage
+              user={user}
+              logOn={logOn}
+              resetIsShowMsg={resetIsShowMsg}
+              isShowMsg={isShowMsg}
+              message={message}
+              isLoggingOn={isLoggingOn}
+          />
+        </article>
+        <nav>Sign in</nav>
+        <aside></aside>
+      </div>
+      <footer>Footer</footer>
+      {/*<LeftContentContainer>
+        <LeftContent>
+          <h3>Sign In</h3>
         </LeftContent>
       </LeftContentContainer>
       <MainContentContainer>
@@ -44,7 +59,7 @@ const LogOnPageContainer = ({
               isLoggingOn={isLoggingOn}
           />
         </MainContent>
-      </MainContentContainer>
+      </MainContentContainer>*/}
 
     </div>
   );

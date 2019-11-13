@@ -133,7 +133,6 @@ public class UserService {
     public AppUser updateSession(String userName, String token, String ipAddress, String page){
         AppUser user = userList.searchList(userName);
         if(user == null){
-            System.out.println("notInList");
             return null;
         }
         UserSession userSession = user.getUserSession();
@@ -228,7 +227,7 @@ public class UserService {
         }
         String temp = Base64.getEncoder().encodeToString(hash);
 
-        return temp.replaceAll("/", "s");
+        return temp.replaceAll("/", "s").replaceAll("\\.", "pE").replaceAll("=", "EQ").replaceAll(",", "Co").replaceAll("\\+", "pl");
     }
 
     private static RestUser restUserFactory(AppUser user){

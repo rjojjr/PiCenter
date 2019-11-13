@@ -3,7 +3,11 @@ package com.kirchnersolutions.utilities;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
+import static java.math.BigDecimal.ROUND_HALF_UP;
+
 public class BigDecimalMath {
+
+    private static final BigDecimal TWO = BigDecimal.valueOf(2);
 
     private static final BigDecimal SQRT_DIG = new BigDecimal(150);
     private static final BigDecimal SQRT_PRE = new BigDecimal(10).pow(SQRT_DIG.intValue());
@@ -36,6 +40,19 @@ public class BigDecimalMath {
      */
     public static BigDecimal bigSqrt(BigDecimal c){
         return sqrtNewtonRaphson(c,new BigDecimal(1),new BigDecimal(1).divide(SQRT_PRE));
+    }
+
+    public static BigDecimal sqrt(BigDecimal A, final int SCALE) {
+        BigDecimal x0 = new BigDecimal("0");
+        BigDecimal x1 = new BigDecimal(Math.sqrt(A.doubleValue()));
+        while (!x0.equals(x1)) {
+            x0 = x1;
+            x1 = A.divide(x0, SCALE, ROUND_HALF_UP);
+            x1 = x1.add(x0);
+            x1 = x1.divide(TWO, SCALE, ROUND_HALF_UP);
+
+        }
+        return x1;
     }
 
 }
