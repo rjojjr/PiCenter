@@ -190,13 +190,12 @@ public class SummaryService {
         }else {
             square = new BigDecimal(findMean(sum, squares.size()));
         }
-        MathContext mc = new MathContext(3, RoundingMode.HALF_UP);
         square = BigDecimalMath.bigSqrt(square);
         return square;
     }
 
     private String findMean(BigDecimal sum, int count){
-        MathContext mc = new MathContext(3, RoundingMode.HALF_UP);
+        MathContext mc = new MathContext(10, RoundingMode.HALF_UP);
         sum = sum.divide(new BigDecimal(count), mc);
         return sum.toString();
     }

@@ -1,4 +1,3 @@
 ToDo List
 
-InitialAppLoader axios mock tests.
-Finish trace impl.
+fix standard deviation
