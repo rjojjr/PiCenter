@@ -10,3 +10,4 @@ Append #<Your handle> to end of item completed
 5. Admin database console.
 6. Graphing API.
 7. Probability distribution, data modeling and hypothesis testing.
+8. Cleanup springboot logging
