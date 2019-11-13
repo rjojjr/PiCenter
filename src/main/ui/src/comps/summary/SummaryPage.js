@@ -18,7 +18,7 @@ const SummaryPage = ({ summary, user, isLoading, canRender }) => {
       {!isLoading && (
         <div>
           <h2>Sensor {summary.roomName} Summary</h2>
-          <table>
+          <table className={"summaryTable"}>
             <tbody>
               <tr>
                 <th>Time</th>

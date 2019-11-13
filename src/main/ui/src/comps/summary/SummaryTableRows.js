@@ -4,11 +4,11 @@ const SummaryTableRows = ({ summary, interval, index }) => {
   return (
     <Fragment>
       <tr>
-        <td>`${interval}`</td>
-        <td>`${summary.temps[index]}`</td>
-        <td>`${summary.humiditys[index]}`</td>
-        <td>`${summary.tempDevi[index]}`</td>
-        <td>`${summary.humidityDevi[index]}`</td>
+        <td>{interval}</td>
+        <td>{summary.temps[index]}</td>
+        <td>{summary.humiditys[index]}</td>
+        <td>{summary.tempDevi[index]}</td>
+        <td>{summary.humidityDevi[index]}</td>
       </tr>
     </Fragment>
   );
