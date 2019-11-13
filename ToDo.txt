@@ -1,4 +1,9 @@
 ToDo List
 
-fix standard deviation
-userlist not removing user at logout
+1. Make user list searches asynchronous.
+2. Licenses and Documents.
+2. Consolidate actions and state objects.
+3. Split root reducer into multiples.
+4. Admin user and database console.
+4. Graphing API.
+5. Probability distribution, data modeling and hypothesis testing.

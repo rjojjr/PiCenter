@@ -1,0 +1,4 @@
+Bug List
+
+1. Freeze on failed login attempt.
+2. userlist not removing user at logout.
