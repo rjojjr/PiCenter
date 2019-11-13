@@ -2,7 +2,7 @@ ToDo List
 
 Append #<Your handle> to end of item completed
 
-1. Make user list searches asynchronous.
+1. Make user list searches asynchronous.#rjojjr
 2. Licenses and Documents.
 2. Consolidate actions and state objects.
 3. Split root reducer into multiples.
