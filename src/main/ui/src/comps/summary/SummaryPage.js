@@ -15,9 +15,9 @@ const SummaryPage = ({ summary, user, isLoading, canRender }) => {
 
   return (
     <div className={"page summaryPage"}>
-      {isLoading && (
+      {!isLoading && (
         <div>
-          <h2>`Sensor ${summary.roomName} Summary`</h2>
+          <h2>Sensor {summary.roomName} Summary</h2>
           <table>
             <tbody>
               <tr>
@@ -26,22 +26,17 @@ const SummaryPage = ({ summary, user, isLoading, canRender }) => {
                 <th>Humidity Average</th>
                 <th>Temp & Humidity Sample Standard Deviation</th>
               </tr>
-              <tr>
                 {intervals.map((interval, index) => {
                   return (
-                    <div>
                       <SummaryTableRows
                         interval={interval}
                         index={index}
                         summary={summary}
                       />
-                    </div>
                   );
                 })}
-              </tr>
             </tbody>
           </table>
-          )
         </div>
       )}
     </div>

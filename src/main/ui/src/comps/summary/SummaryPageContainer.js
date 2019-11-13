@@ -36,7 +36,7 @@ const SummaryPageContainer = ({
               summary={summary}
               selectSensor={selectSensor}
             />
-            <SummaryPage canRender={canLoad} isLoading={isLoading} summary={() => showSummary()} />
+            <SummaryPage canRender={canLoad} isLoading={isLoading} summary={showSummary()} />
           </div>
         )}
     </div>
