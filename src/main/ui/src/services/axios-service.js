@@ -14,7 +14,10 @@ const logOnEndpoint = constants.LOGIN_PAGE;
 export const load = () => axios.get(constants.LOADING_PAGE);
 
 export const loadSummary = (user) => {
-  return axios.get(`${constants.SUMMARY_PAGE}?token=${user.token}`)
+  const params = {
+    userId: user.token
+  }
+  return axios.get(constants.SUMMARY_PAGE + '?userId=' + user.token);
 } 
 
 export const logOn = (username, password) => {

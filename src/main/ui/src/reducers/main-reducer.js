@@ -2,7 +2,7 @@ import {
     LOGGED_ON,
     NOT_LOGGED_ON,
     LOADING_ERROR,
-    IS_LOADING
+    IS_LOADING, IS_NOT_LOADING
 } from "../actions/loader-actions";
 
 import {
@@ -14,7 +14,7 @@ import {
 import {
     SUMMARY_LOADING,
     SET_SUMMARY,
-    SUMMARY_LOADING_ERROR
+    SUMMARY_LOADING_ERROR, SUMMARY_DONE_LOADING, SUMMARY_CAN_RENDER
 } from "../actions/summary-actions";
 
 import {
@@ -37,7 +37,9 @@ export const initialState = () => ({
     isLoggingOn: false,
     summary: [],
     isSummaryLoading: false,
-    isSummaryError: false
+    isSummaryError: false,
+    loaded: false,
+    canRenderSummary: false
 });
 
 export default (state = initialState(), action = {type: undefined}) => {
@@ -59,22 +61,23 @@ export default (state = initialState(), action = {type: undefined}) => {
         case IS_LOADING: {
             return {
                 ...state,
+                user: {},
                 isLoading: true,
                 isShowMsg: false,
                 isError: false,
-                isLoggedOn: false
+                isLoggedOn: false,
+                loaded: true
             };
         };
-        case LOGGED_ON: {
+        case IS_NOT_LOADING: {
             return {
                 ...state,
-                user: action.user,
                 isLoading: false,
                 isShowMsg: false,
                 isError: false,
-                isLoggedOn: true
+                loaded: true
             };
-        };
+        };;
         case NOT_LOGGED_ON: {
             return {
                 ...state,
@@ -90,7 +93,7 @@ export default (state = initialState(), action = {type: undefined}) => {
         case LOADING_ERROR: {
             return {
                 ...state,
-                user: null,
+                user: {},
                 isLoading: false,
                 isLoadingError: true,
                 loadingErrorMsg: action.msg,
@@ -119,34 +122,43 @@ export default (state = initialState(), action = {type: undefined}) => {
         case LOGGED_ON: {
             return {
                 ...state,
-                isLoggingOn: false,
                 user: action.user,
                 isLoggedOn: true
             };
         };
         case SET_USER: {
+            const loggedOn = () => {
+                if(action.user.userName !== 'null') {
+                    return true;
+                }
+                return false;
+            }
             return {
                 ...state,
                 user: action.user,
-                isLoggedOn: action.loggedOn
+                isLoggedOn: loggedOn()
             };
         };
         case SET_SUMMARY: {
             return {
                 ...state,
                 summary: action.summary,
-                isSummaryError: false,
-                isSummaryLoading: false
+                isSummaryError: false
+            };
+        };
+        case SUMMARY_CAN_RENDER: {
+            return {
+                ...state,
+                canRenderSummary: action.canRender
             };
         };
         case SUMMARY_LOADING_ERROR: {
             return {
                 ...state,
-                summary: action.summary,
                 isSummaryError: true,
                 isSummaryLoading: false,
                 isShowMsg: true,
-                message: action.msg,
+                message: action.msg
             };
         };
         case SUMMARY_LOADING: {
@@ -154,6 +166,14 @@ export default (state = initialState(), action = {type: undefined}) => {
                 ...state,
                 isSummaryError: false,
                 isSummaryLoading: true,
+                isShowMsg: false
+            };
+        };
+        case SUMMARY_DONE_LOADING: {
+            return {
+                ...state,
+                isSummaryError: false,
+                isSummaryLoading: false,
                 isShowMsg: false
             };
         };

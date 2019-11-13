@@ -2,21 +2,15 @@ package com.kirchnersolutions.PiCenter.servers.beans;
 
 import lombok.*;
 
-
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class RestResponse {
 
-    @Getter
-    @Setter
     private String responseBody = "{ body: 'null' }";
 
-    @Getter
-    @Setter
     private RestUser restUser = new RestUser();
 
-    @Getter
-    @Setter
     private RoomSummary[] summary = new RoomSummary[0];
 
     public RestResponse(String responseBody){

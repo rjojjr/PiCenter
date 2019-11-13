@@ -1,10 +1,16 @@
 import {load} from "../services/axios-service";
 import {isLoggedOn} from "./logon-actions";
 import * as debugConstants from '../constants/debug-constants'
+import {setUser} from "./universal-actions";
 
 export const IS_LOADING = 'IS_LOADING'
 export const isLoading = () => ({
     type: IS_LOADING
+});
+
+export const IS_NOT_LOADING = 'IS_NOT_LOADING'
+export const isNotLoading = () => ({
+    type: IS_NOT_LOADING
 });
 
 export const LOGGED_ON = 'LOGGED_ON'
@@ -30,7 +36,10 @@ export const loadAppThunk = () => async dispatch => {
         dispatch(isLoading());
         const initiationResponse = await load();
         const user = initiationResponse.data.restUser;
-        user.userName !== undefined ? dispatch(isLoggedOn(user)) : dispatch(notLoggedOn(initiationResponse.data.responseBody.body));
+
+        dispatch(setUser(user));
+        dispatch(isNotLoading());
+        return
     } catch (error) {
         if (process.env.NODE_ENV === 'development' && debugConstants.ALERT_DEBUG_THUNKS){
             alert(error);

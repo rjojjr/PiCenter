@@ -11,6 +11,8 @@ import com.kirchnersolutions.PiCenter.constants.RoomConstants;
 import com.kirchnersolutions.PiCenter.constants.StatConstants;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,6 +41,16 @@ public class SummaryService {
         String[] tempDevi = new String[7];
         String[] humidityDevi = new String[7];
         List<Reading> reads = readingRepository.findByTimeBetweenAndRoomOrderByTimeDesc(time - StatConstants.HOUR, time, roomName);
+        if(reads.isEmpty()){
+            System.out.println("Empty " + roomName);
+            for(int i = 0; i < 7; i++){
+                temp[i] = "0";
+                humidity[i] = "0";
+                tempDevi[i] = "0";
+                humidityDevi[i] = "0";
+                return new RoomSummary(roomName, temp, humidity, tempDevi, humidityDevi);
+            }
+        }
         if(precision > 0){
             temp[0] = reads.get(0).getTemp() + "." + getZeros(precision);
             humidity[0] = reads.get(0).getHumidity() + "." + getZeros(precision);
@@ -178,12 +190,14 @@ public class SummaryService {
         }else {
             square = new BigDecimal(findMean(sum, squares.size()));
         }
+        MathContext mc = new MathContext(3, RoundingMode.HALF_UP);
         square = BigDecimalMath.bigSqrt(square);
         return square;
     }
 
     private String findMean(BigDecimal sum, int count){
-        sum = sum.divide(new BigDecimal(count));
+        MathContext mc = new MathContext(3, RoundingMode.HALF_UP);
+        sum = sum.divide(new BigDecimal(count), mc);
         return sum.toString();
     }
 }

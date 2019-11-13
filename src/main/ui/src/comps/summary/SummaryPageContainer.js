@@ -1,21 +1,44 @@
-import React, {useState} from "react";
-import { connect } from "react-redux";
-import { loadSummaryThunk } from "../../actions/summary-actions";
+import React, { useState } from "react";
 import SummaryPage from "./SummaryPage";
 import SummaryPageHeader from "./SummaryPageHeader";
+import LoadingView from "../global/LoadingView";
 
-const SummaryPageContainer = ({ summary, user, isError, errorMsg }) => {
-
+const SummaryPageContainer = ({
+  summary,
+  user,
+  isError,
+  errorMsg,
+  isLoading,
+  canLoad
+}) => {
   const [sensorIndex, setSensorIndex] = useState(0);
 
   const selectSensor = index => {
     setSensorIndex(index);
   };
 
+  const showSummary = () => {
+    if (summary.length === 0) {
+      return "";
+    } else {
+      return summary[sensorIndex];
+    }
+  };
+
   return (
     <div className={"container summaryPageContainer"}>
-      <SummaryPageHeader summary={summary} selectSensor={selectSensor} />
-      <SummaryPage summary={summary[sensorIndex]} />
+      <LoadingView isLoading={isLoading} message={"Loading.."} />
+      {canLoad &&
+        !isLoading && (
+          <div>
+            <SummaryPageHeader
+              isLoading={isLoading}
+              summary={summary}
+              selectSensor={selectSensor}
+            />
+            <SummaryPage canRender={canLoad} isLoading={isLoading} summary={() => showSummary()} />
+          </div>
+        )}
     </div>
   );
 };

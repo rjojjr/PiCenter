@@ -56,21 +56,21 @@ public class MainController {
     }
 
     @GetMapping("/summary")
-    public RestResponse showSummary(HttpServletResponse response, @RequestParam(value = "token", required = true) String token ) throws Exception{
+    public RestResponse showSummary(HttpServletResponse response, @RequestParam String userId ) throws Exception{
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes())
                 .getRequest();
         HttpSession httpSession = cookie(request, response);
         if(httpSession.getAttribute("username") == null){
             return new RestResponse();
         }
-        if(token == null || token.toCharArray().length < 5){
+        if(userId == null || userId.toCharArray().length < 5){
             userService.systemInvalidateUser((String)httpSession.getAttribute("username"), "unauthentic session");
             return new RestResponse("{body: 'error', error: 'invalid token'}");
         }
-        if(!updateSession((String)httpSession.getAttribute("username"), token, request.getRemoteAddr(), "/summary")){
+        if(!updateSession((String)httpSession.getAttribute("username"), userId, request.getRemoteAddr(), "/summary")){
             return new RestResponse("{body: 'error', error: 'unauthentic session'}", new RestUser());
         }
-        return new RestResponse("{body: 'sucess'}", userService.getRestUser((String)httpSession.getAttribute("username")), summaryService.getRoomSummaries(2));
+        return new RestResponse("{body: 'success'}", userService.getRestUser((String)httpSession.getAttribute("username")), summaryService.getRoomSummaries(2));
     }
 
     private boolean updateSession(String username, String token, String ip, String page) throws Exception{

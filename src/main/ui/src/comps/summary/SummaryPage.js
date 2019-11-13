@@ -1,7 +1,8 @@
 import React, { Fragment } from "react";
 import SummaryTableRows from "./SummaryTableRows";
+import { isLoading } from "../../actions/loader-actions";
 
-const SummaryPage = ({ summary, user }) => {
+const SummaryPage = ({ summary, user, isLoading, canRender }) => {
   const intervals = [
     "Right Now",
     "1 Hour",
@@ -14,28 +15,35 @@ const SummaryPage = ({ summary, user }) => {
 
   return (
     <div className={"page summaryPage"}>
-      <h2>`Sensor ${summary.roomName} Summary`</h2>
-      <table>
-        <tbody>
-          <tr>
-            <th>Time</th>
-            <th>Temperature Average</th>
-            <th>Humidity Average</th>
-            <th>Temp & Humidity Sample Standard Deviation</th>
-          </tr>
-          <tr>
-            {intervals.map((interval, index) => {
-              return [
-                <SummaryTableRows
-                  interval={interval}
-                  index={index}
-                  summary={summary}
-                />
-              ];
-            })}
-          </tr>
-        </tbody>
-      </table>
+      {isLoading && (
+        <div>
+          <h2>`Sensor ${summary.roomName} Summary`</h2>
+          <table>
+            <tbody>
+              <tr>
+                <th>Time</th>
+                <th>Temperature Average</th>
+                <th>Humidity Average</th>
+                <th>Temp & Humidity Sample Standard Deviation</th>
+              </tr>
+              <tr>
+                {intervals.map((interval, index) => {
+                  return (
+                    <div>
+                      <SummaryTableRows
+                        interval={interval}
+                        index={index}
+                        summary={summary}
+                      />
+                    </div>
+                  );
+                })}
+              </tr>
+            </tbody>
+          </table>
+          )
+        </div>
+      )}
     </div>
   );
 };
