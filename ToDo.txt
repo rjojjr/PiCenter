@@ -6,6 +6,7 @@ Append #<Your handle> to end of item completed
 2. Licenses and Documents.
 2. Consolidate actions and state objects.
 3. Split root reducer into multiples.
-4. Admin user and database console.
-4. Graphing API.
-5. Probability distribution, data modeling and hypothesis testing.
+4. Admin user console
+5. Admin database console.
+6. Graphing API.
+7. Probability distribution, data modeling and hypothesis testing.
