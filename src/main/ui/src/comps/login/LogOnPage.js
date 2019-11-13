@@ -47,7 +47,7 @@ const LogOnPage = ({logOn, message, user, isShowMsg, resetIsShowMsg, isLoggingOn
                 </tr>
                 </tbody>
             </table>
-            <button className={"submit"} type={"button"} onClick={handleOnClick}>Logon</button>
+            <button className={"submitLogin"} type={"button"} onClick={handleOnClick}>Logon</button>
         </div>
     )
 };

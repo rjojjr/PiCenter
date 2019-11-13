@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
+import LoadingView from "./global/LoadingView";
 
 import { loadAppThunk } from "../actions/loader-actions";
 
@@ -12,19 +13,19 @@ const InitialAppLoader = ({ isError, loadApp, errorMsg, isLoading }) => {
 
   return (
     <div>
-      {isLoading && <p className="message">One moment...</p>}
-      {isError && <p className="message">{errorMsg}</p>}
+      <LoadingView isLoading={isLoading} message={"Loading..."}/>
+      {/*//{isError && <p className="message">{errorMsg}</p>}*/}
       {/*{isShowMsg &&(
                 <p className="message">{message}</p>
             )}*/}
-      {!isError && !isLoading && <AppContainer />}
+      {!isLoading && <AppContainer />}
     </div>
   );
 };
 
 const mapStateToProps = state => ({
-  isError: state.isLoadingError,
-  errorMsg: state.loadingErrorMsg,
+  //isError: state.isLoadingError,
+  //errorMsg: state.loadingErrorMsg,
   isLoading: state.isLoading
 });
 

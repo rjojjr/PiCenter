@@ -102,7 +102,7 @@ public class UserService {
             return null;
         }
         UserSession userSession = user.getUserSession();
-        if(userSession.getToken().compareTo(token) != 0){
+        if(!userSession.getToken().equals(token)){
             return null;
         }
         userSession.setExpirationTime(getExpirationTime());
@@ -120,7 +120,7 @@ public class UserService {
             return null;
         }
         UserSession userSession = user.getUserSession();
-        if(userSession.getToken().compareTo(token) != 0){
+        if(!userSession.getToken().equals(token)){
             return null;
         }
         userSession.setExpirationTime(getExpirationTime());
@@ -133,10 +133,11 @@ public class UserService {
     public AppUser updateSession(String userName, String token, String ipAddress, String page){
         AppUser user = userList.searchList(userName);
         if(user == null){
+            System.out.println("notInList");
             return null;
         }
         UserSession userSession = user.getUserSession();
-        if(userSession.getToken().compareTo(token) != 0){
+        if(!userSession.getToken().equals(token)){
             return null;
         }
         userSession.setExpirationTime(getExpirationTime());
@@ -225,9 +226,9 @@ public class UserService {
             rand = CryptTools.generateRandomBytes(1024);
             hash = CryptTools.getSHA256(hash, rand);
         }
-        /*BigInteger token = (new BigInteger(hash));
-        System.out.println(token.toString());*/
-        return Base64.getEncoder().encodeToString(hash);
+        String temp = Base64.getEncoder().encodeToString(hash);
+
+        return temp.replaceAll("/", "s");
     }
 
     private static RestUser restUserFactory(AppUser user){
