@@ -15,6 +15,13 @@ body {
   align-items: center;
   flex: 1;
 }
+
+#main > section {
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+  height: 85vh;
+}
 #main > nav,
 #main > aside {
   flex: 0 0 20vw;
@@ -23,12 +30,16 @@ body {
 #main > nav {
   order: -1;
 }
-header, footer, article, nav, aside {
+header, footer, article, section, nav, aside {
   padding: 1em;
 }
-header, footer {
-  background: sandybrown;
+header{
   height: 10vh;
+  background: sandybrown;
+}
+footer {
+  background: sandybrown;
+  height: 5vh;
 }
 /*
 html {

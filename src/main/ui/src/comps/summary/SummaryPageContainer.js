@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import SummaryPage from "./SummaryPage";
 import SummaryPageHeader from "./SummaryPageHeader";
 import LoadingView from "../global/LoadingView";
+import LogOnPage from "../login/LogOnPage";
 
 const SummaryPageContainer = ({
   summary,
@@ -31,12 +32,28 @@ const SummaryPageContainer = ({
       {canLoad &&
         !isLoading && (
           <div>
-            <SummaryPageHeader
-              isLoading={isLoading}
-              summary={summary}
-              selectSensor={selectSensor}
-            />
-            <SummaryPage canRender={canLoad} isLoading={isLoading} summary={showSummary()} />
+            <header>
+              <h2>PiCenter Sensor Summary</h2>
+              <SummaryPageHeader
+                  isLoading={isLoading}
+                  summary={summary}
+                  selectSensor={selectSensor}
+              />
+            </header>
+            <div id="main">
+              <section>
+                <SummaryPage canRender={canLoad} isLoading={isLoading} summary={showSummary()} />
+              </section>
+              <nav><b>Summary</b></nav>
+              <aside>
+                <h4>Logged on as: {user.userName}</h4>
+                <button
+              </aside>
+            </div>
+            <footer>
+              <a href={"github.com/rjojjr"}>Visit me on github</a>
+            </footer>
+
           </div>
         )}
     </div>

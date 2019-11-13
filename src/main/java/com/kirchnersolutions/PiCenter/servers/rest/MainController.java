@@ -55,6 +55,20 @@ public class MainController {
         return new RestResponse(userService.getRestUser((String)httpSession.getAttribute("username")));
     }
 
+    @GetMapping("/logout")
+    public RestResponse logoutClient(HttpServletResponse response) throws Exception{
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes())
+                .getRequest();
+        //ServletWebRequest servletWebRequest=new ServletWebRequest(request);
+        //HttpServletResponse response=servletWebRequest.getResponse();
+        HttpSession httpSession = cookie(request, response);
+        if(httpSession.getAttribute("username") == null){
+            return new RestResponse();
+        }
+        userService.logOff((String)httpSession.getAttribute("username"));
+        return new RestResponse("{body: logged off}");
+    }
+
     @GetMapping("/summary")
     public RestResponse showSummary(HttpServletResponse response, @RequestParam String userId ) throws Exception{
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes())
