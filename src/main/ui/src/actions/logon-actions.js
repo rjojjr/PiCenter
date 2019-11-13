@@ -25,7 +25,6 @@ export const logOnThunk = (username, password) => async dispatch => {
         user.userName !== "null"
           ? dispatch(isLoggedOn(user))
           : dispatch(logonError(response.data.responseBody.body));
-        //user.userName !== 'null' ? dispatch(isLoggedOn(user)) : window.reload();
     } catch (error) {
         dispatch(logonError('Try again later'));
     }
