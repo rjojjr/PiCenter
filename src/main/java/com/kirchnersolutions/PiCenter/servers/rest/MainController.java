@@ -69,6 +69,7 @@ public class MainController {
             return new RestResponse();
         }
         if(userService.logOff((String)httpSession.getAttribute("username"))){
+            debuggingService.trace("user logged off");
             httpSession.setAttribute("username", null);
             return new RestResponse("{body: logged off}");
         }

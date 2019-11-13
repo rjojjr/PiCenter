@@ -32,7 +32,7 @@ public class HttpSessionEventConfig {
                 debuggingService.trace("Session Destroyed with session id+" + se.getSession().getId());
                 if(se.getSession().getAttribute("username") != null){
                     try {
-                        userService.systemInvalidateUser((String)se.getSession().getAttribute("username"), "HTTP session time out");
+                        userService.systemInvalidateUser((String)se.getSession().getAttribute("username"), "HTTP session destroyed");
                         debuggingService.trace("User " + (String)se.getSession().getAttribute("username") + " with session id+" + se.getSession().getId() + " invalidated by system");
                     } catch (Exception e) {
                         debuggingService.nonFatalDebug("Error invalidating timed out session with session id+" + se.getSession().getId(), e);
