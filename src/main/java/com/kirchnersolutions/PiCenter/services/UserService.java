@@ -24,7 +24,6 @@ import com.kirchnersolutions.PiCenter.dev.DebuggingService;
 import com.kirchnersolutions.PiCenter.dev.DevelopmentException;
 import com.kirchnersolutions.PiCenter.dev.exceptions.UserRoleException;
 import com.kirchnersolutions.PiCenter.entites.*;
-import com.kirchnersolutions.PiCenter.servers.UserList;
 import com.kirchnersolutions.PiCenter.servers.beans.RestUser;
 import com.kirchnersolutions.utilities.CryptTools;
 import org.springframework.beans.factory.annotation.Autowired;
