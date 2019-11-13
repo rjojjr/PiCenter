@@ -1,5 +1,6 @@
 package com.kirchnersolutions.PiCenter.servers.rest;
 
+import com.kirchnersolutions.PiCenter.dev.DebuggingService;
 import com.kirchnersolutions.PiCenter.entites.AppUser;
 import com.kirchnersolutions.PiCenter.servers.beans.RestUser;
 import com.kirchnersolutions.PiCenter.services.SummaryService;
@@ -25,6 +26,8 @@ public class MainController {
     private UserService userService;
     @Autowired
     private SummaryService summaryService;
+    @Autowired
+    private DebuggingService debuggingService;
 
     @GetMapping("/loading")
     public RestResponse initClient(HttpServletResponse response) throws Exception{
@@ -65,8 +68,16 @@ public class MainController {
         if(httpSession.getAttribute("username") == null){
             return new RestResponse();
         }
-        userService.logOff((String)httpSession.getAttribute("username"));
-        return new RestResponse("{body: logged off}");
+        if(userService.logOff((String)httpSession.getAttribute("username"))){
+            debuggingService.trace("user logged off");
+            httpSession.setAttribute("username", null);
+            if(httpSession.getAttribute("username") == null){
+                debuggingService.trace("HTTP user is null ");
+            }
+            return new RestResponse("{body: logged off}");
+        }
+        debuggingService.trace("Failed to log off user " + (String)httpSession.getAttribute("username"));
+        return new RestResponse("{body: log off failed}");
     }
 
     @GetMapping("/summary")

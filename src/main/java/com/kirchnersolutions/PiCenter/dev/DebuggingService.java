@@ -59,6 +59,13 @@ public class DebuggingService {
         }
     }
 
+    public void trace(String msg, Exception e){
+        if(devVars.isTrace()){
+            System.out.println(msg);
+            System.out.println(getStack(e));
+        }
+    }
+
     public static String getStackTrace(Exception e){
         String stackTrace = "";
         for(StackTraceElement trace : e.getStackTrace()){

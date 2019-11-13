@@ -1,1 +1,0 @@
-insert into app_users (admin, creation_time,

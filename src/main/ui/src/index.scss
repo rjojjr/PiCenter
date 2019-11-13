@@ -1,3 +1,11 @@
+
+$mainHeaderColor: #808080;
+$childHeaderColor: #d9d9d9;
+$mainContentColor: #ffffff;
+$navColor: 	#cccccc;
+$lightTextColor: #f7e8ff;
+$midDarkTextColor: 	#990000;
+
 * {
   box-sizing: border-box;
 }
@@ -20,26 +28,37 @@ body {
   justify-content: center;
   align-items: center;
   flex: 1;
-  height: 80vh;
+  height: 75vh;
+  overflow: auto;
+}
+
+.lightText {
+  color: $lightTextColor;
+}
+
+.medDarkText{
+  color: $midDarkTextColor;
 }
 #main > nav,
 #main > aside {
   flex: 0 0 20vw;
-  background: beige;
-}
+  background: $navColor;
+ }
 #main > nav {
   order: -1;
 }
 header, footer, article, section, nav, aside {
   padding: 1em;
 }
+
+
 header{
   height: 15vh;
-  background: sandybrown;
+  background: $mainHeaderColor;
 }
 footer {
-  background: sandybrown;
-  height: 5vh;
+  background: $mainHeaderColor;
+  height: 15vh;
 }
 /*
 html {

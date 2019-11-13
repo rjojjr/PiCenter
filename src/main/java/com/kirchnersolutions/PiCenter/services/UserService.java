@@ -24,7 +24,6 @@ import com.kirchnersolutions.PiCenter.dev.DebuggingService;
 import com.kirchnersolutions.PiCenter.dev.DevelopmentException;
 import com.kirchnersolutions.PiCenter.dev.exceptions.UserRoleException;
 import com.kirchnersolutions.PiCenter.entites.*;
-import com.kirchnersolutions.PiCenter.servers.UserList;
 import com.kirchnersolutions.PiCenter.servers.beans.RestUser;
 import com.kirchnersolutions.utilities.CryptTools;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -209,11 +208,11 @@ public class UserService {
         if(user == null){
             return false;
         }else{
+            userList.removeUser(userName);
             UserLog userLog = new UserLog(user.getId(), "logoff", System.currentTimeMillis());
             userLogRepository.saveAndFlush(userLog);
             userSessionRepository.delete(user.getUserSession());
             //appUserRepository.saveAndFlush(user);
-            userList.removeUser(user.getUserName());
             user = null;
             return true;
         }

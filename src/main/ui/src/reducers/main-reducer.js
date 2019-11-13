@@ -37,7 +37,7 @@ export const initialState = () => ({
     isLoggedOn: false,
     isLoggingOn: false,
     summary: [],
-    isSummaryLoading: false,
+    isSummaryLoading: true,
     isSummaryError: false,
     loaded: false,
     canRenderSummary: false
@@ -167,7 +167,8 @@ export default (state = initialState(), action = {type: undefined}) => {
                 ...state,
                 isSummaryError: false,
                 isSummaryLoading: true,
-                isShowMsg: false
+                isShowMsg: false,
+                canRenderSummary: false
             };
         };
         case SUMMARY_DONE_LOADING: {
@@ -181,7 +182,7 @@ export default (state = initialState(), action = {type: undefined}) => {
         case LOGOUT: {
             return {
                 ...state,
-                user: {},
+                user: action.user,
                 isLoadingError: false,
                 loadingErrorMsg: '',
                 isLoading: false,
@@ -192,7 +193,7 @@ export default (state = initialState(), action = {type: undefined}) => {
                 isLoggedOn: false,
                 isLoggingOn: false,
                 summary: [],
-                isSummaryLoading: false,
+                isSummaryLoading: true,
                 isSummaryError: false,
                 loaded: false,
                 canRenderSummary: false
