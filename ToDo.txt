@@ -1,5 +1,7 @@
 ToDo List
 
+Append #<Your handle> to end of item completed
+
 1. Make user list searches asynchronous.
 2. Licenses and Documents.
 2. Consolidate actions and state objects.

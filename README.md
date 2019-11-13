@@ -23,6 +23,8 @@ your own smart home incorporation.
 The program is built with Springboot, React, Redux, axios and py4j
 Python Java gateway API to incorporate the Raspberry Pi.
 
+Branches will be named by toDo-<ToDo number> or bug-<Bug number> or s-<Story number>
+
 
 
 
