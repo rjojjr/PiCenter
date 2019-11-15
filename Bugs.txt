@@ -4,3 +4,4 @@ Append #<Your handle> to end of item completed
 
 1. Logout corrupts session data.#rjojjr
 2. Freeze on failed login attempt.
+3. Links point internally.
