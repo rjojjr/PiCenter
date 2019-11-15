@@ -13,6 +13,7 @@ Append #<Your handle> to end of item completed
 8. Cleanup springboot logging.
 9. Handle failed login attempt.
 10. Add user info on left aside.
-11. Create HTTP session list, and delete all user sessions that exist on log out.
-12. Many to one user sessions for multiple pages.
+11. Create HTTP session list, and delete all user sessions that exist on log out.(stretch)
+12. Many to one user sessions for multiple pages. Use tokens.(stretch)
 13. Add sensor status api.
+14. Add user info page with password reset.
