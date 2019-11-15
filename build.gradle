@@ -59,10 +59,10 @@ task copyWebApp(type: Copy) {
 }
 
 //Bundle react ui with boot jar for production.
+
 /*appNpmBuild.dependsOn appNpmInstall
 copyWebApp.dependsOn appNpmBuild
 compileJava.dependsOn copyWebApp*/
-
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	//compile 'org.springframework.mobile:spring-mobile-device:2.0.0.BUILD-SNAPSHOT'
