@@ -21,11 +21,19 @@ const SummaryPage = ({ summary, user, isLoading, canRender }) => {
           <table className={"summaryTable"}>
             <tbody>
               <tr>
-                <th>Time</th>
+                <th>Interval</th>
                 <th>Temperature Average</th>
                 <th>Humidity Average</th>
-                <th>Temp & Humidity Sample Standard Deviation</th>
+                <th>Sample Standard Deviation</th>
               </tr>
+              <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td><b>Temp</b></td>
+                <td><b>Humidity</b></td>
+
+                              </tr>
                 {intervals.map((interval, index) => {
                   return (
                       <SummaryTableRows
