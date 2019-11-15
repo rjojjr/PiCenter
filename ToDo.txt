@@ -12,3 +12,4 @@ Append #<Your handle> to end of item completed
 7. Probability distribution, data modeling and hypothesis testing.
 8. Cleanup springboot logging.
 9. Handle failed login attempt.
+10. Add user info on left aside.
