@@ -1,0 +1,5 @@
+Styling ToDo
+
+1. Change footer to flex.
+2. Set content to flexgrow > 1.
+3. Add gradients to header and footer.
