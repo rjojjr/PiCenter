@@ -13,3 +13,4 @@ Append #<Your handle> to end of item completed
 8. Cleanup springboot logging.
 9. Handle failed login attempt.
 10. Add user info on left aside.
+11. Create HTTP session list, and delete all user sessions that exist on log out.
