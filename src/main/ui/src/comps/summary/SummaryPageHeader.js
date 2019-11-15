@@ -3,9 +3,11 @@ import React from "react";
 const SummaryPageHeader = ({ selectSensor, summary, isLoading }) => {
   return (
     <div className={"summaryHeader headerButtonContainer"}>
+      <h3 >Sensors</h3>
       {!isLoading && (
+         
         <div>
-          <h3>Sensors</h3>
+          
           {summary.map((sum, index) => (
             <button
               key={index}

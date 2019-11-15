@@ -12,6 +12,7 @@ $midDarkTextColor: 	#990000;
 body {
   margin: 0;
   height: 100%;
+  padding: 0;
 }
 #main {
   display: flex;
@@ -28,7 +29,7 @@ body {
   justify-content: center;
   align-items: center;
   flex: 1;
-  height: 75vh;
+  height: 86vh;
   overflow: auto;
 }
 
@@ -51,15 +52,31 @@ header, footer, article, section, nav, aside {
   padding: 1em;
 }
 
+.page{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  h2{
+    text-align: center;
+  }
+}
 
 header{
-  height: 15vh;
+  height: 7vh;
   background: $mainHeaderColor;
+  color: $lightTextColor;
 }
 footer {
   background: $mainHeaderColor;
-  height: 15vh;
+  height: 7vh;
 }
+
+.headerButtonContainer {
+  display: flex;
+  justify-content: space-between;
+  margin: 0.5rem;
+}
+
 /*
 html {
   height: 100%;
@@ -134,11 +151,6 @@ body {
   box-sizing: border-box;
 }
 
-.headerButtonContainer {
-  display: flex;
-  justify-content: space-between;
-  margin: 0.5rem;
-}
 
 !*.logOnPage {
   display: flex;
