@@ -8,6 +8,7 @@ HELP.md
 SHome
 oldSrc
 /src/main/ui/node_modules
+/src/main/ui/build
 /src/main/ui/package-lock.json
 Database
 ### STS ###
