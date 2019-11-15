@@ -34,14 +34,18 @@ const SummaryPageContainer = ({
         <div>
           <header>
             <h2>PiCenter Sensor Summary</h2>
-            <SummaryPageHeader
-              isLoading={isLoading}
-              summary={summary}
-              selectSensor={selectSensor}
-            />
+            
           </header>
           <div id="main">
             <section>
+              <header >
+                <SummaryPageHeader
+                    isLoading={isLoading}
+                    summary={summary}
+                    selectSensor={selectSensor}
+                />
+                
+              </header>
               <SummaryPage
                 canRender={canLoad}
                 isLoading={isLoading}
