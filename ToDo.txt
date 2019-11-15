@@ -15,3 +15,4 @@ Append #<Your handle> to end of item completed
 10. Add user info on left aside.
 11. Create HTTP session list, and delete all user sessions that exist on log out.
 12. Many to one user sessions for multiple pages.
+13. Add sensor status api.
