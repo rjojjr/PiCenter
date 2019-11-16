@@ -3,6 +3,8 @@ import React from "react";
 import {changePage} from "../../actions/universal-actions";
 import * as pageConstants from "../../constants/page-constants";
 
+import {logOff} from "../../actions/universal-actions";
+
 const CreateUserPage = ({user}) => {
     
     return(
@@ -20,10 +22,23 @@ const CreateUserPage = ({user}) => {
                 </section>
                 <nav>
                     <ul>
-                        <b>Users</b>
-                        <ul>
-                            <a onClick={() => changePage(pageConstants.SUMMARY_PAGE)}>Summary</a>
-                        </ul>
+                        <li>
+                            <ul>
+                                <li><b>Users</b>
+                                    <ul>
+                                        <li>
+                                            <b>Create User</b>
+                                        </li>
+                                    </ul>
+                                </li>
+                                
+                            </ul>
+                            
+                            <ul>
+                                <li><a onClick={() => changePage(pageConstants.SUMMARY_PAGE)}>Summary</a></li>
+                            </ul> 
+                        </li>
+                        
                     </ul>
                 </nav>
                 <aside>

@@ -57,10 +57,16 @@ const SummaryPageContainer = ({
                         </section>
                         <nav>
                             <ul>
-                                <b>Summary</b>
-                                <ul>
-                                    <a onClick={() => changePage(pageConstants.USERS)}>Users</a>
-                                </ul>
+                                <li>
+                                    <ul>
+                                        <li>
+                                            <b>Summary</b>
+                                        </li>
+                                    </ul>
+                                    <ul>
+                                        <li><a onClick={() => changePage(pageConstants.USERS)}>Users</a></li>
+                                    </ul>
+                                </li>
                             </ul>
                         </nav>
                         <aside>
