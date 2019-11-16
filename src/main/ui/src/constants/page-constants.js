@@ -3,3 +3,4 @@ export const MSG_PAGE = '/msg';
 export const SUMMARY_PAGE = '/summary';
 export const LOGIN_PAGE = '/login';
 export const LOGOUT = '/logout';
+export const UPDATE_SESSION = '/update';

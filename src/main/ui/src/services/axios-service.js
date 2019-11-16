@@ -29,3 +29,12 @@ export const logOn = (username, password) => {
 export const logOut = () => {
   return axios.get(constants.LOGOUT);
 }
+
+export const updateSession = (page) => {
+
+  const UpdateSession = {
+      page: page
+  }
+  
+  return axios.post(constants.UPDATE_SESSION, page);
+}
