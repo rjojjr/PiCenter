@@ -86,6 +86,18 @@ public class UserService {
         return true;
     }
 
+    public boolean resetPasswordByUser(AppUser user, String oldPassword, String newPassword) throws Exception{
+        if(CryptTools.generateEncodedSHA256Password(oldPassword) != user.getPassword()){
+            return false;
+        }
+        newPassword = CryptTools.generateEncodedSHA256Password(newPassword);
+        user.setPassword(newPassword);
+        user = appUserRepository.saveAndFlush(user);
+        UserLog userLog = new UserLog(user.getId(), "password reset", System.currentTimeMillis());
+        userLogRepository.saveAndFlush(userLog);
+        return true;
+    }
+
     public boolean removeUser(AppUser creator, String userName) throws Exception{
         AppUser user;
         if(!creator.isAdmin()){
