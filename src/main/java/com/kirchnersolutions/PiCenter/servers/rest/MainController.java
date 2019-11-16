@@ -98,8 +98,8 @@ public class MainController {
         return new RestResponse("{body: 'success'}", userService.getRestUser((String)httpSession.getAttribute("username")), summaryService.getRoomSummaries(2));
     }
 
-    @PostMapping("/users/create")
-    public RestResponse creatUser(HttpServletResponse response, @RequestParam String userId ) throws Exception{
+    @PostMapping("/update")
+    public RestResponse updateSession(HttpServletResponse response, @RequestParam String userId, @RequestParam String page ) throws Exception{
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes())
                 .getRequest();
         HttpSession httpSession = cookie(request, response);
@@ -111,6 +111,25 @@ public class MainController {
             return new RestResponse("{body: 'error', error: 'invalid token'}");
         }
         if(!updateSession((String)httpSession.getAttribute("username"), userId, request.getRemoteAddr(), "/summary")){
+            return new RestResponse("{body: 'error', error: 'unauthentic session'}", new RestUser());
+        }
+        return new RestResponse("{body: 'success'}", userService.getRestUser((String)httpSession.getAttribute("username")), summaryService.getRoomSummaries(2));
+    }
+
+    @PostMapping("/users/create")
+    public RestResponse creatUser(HttpServletResponse response, @RequestParam String token ) throws Exception{
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes())
+                .getRequest();
+        HttpSession httpSession = cookie(request, response);
+
+        if(httpSession.getAttribute("username")u == null){
+            return new RestResponse();
+        }
+        if(token == null){
+            userService.systemInvalidateUser((String)httpSession.getAttribute("username"), "unauthentic session");
+            return new RestResponse("{body: 'error', error: 'invalid token'}");
+        }
+        if(!updateSession((String)httpSession.getAttribute("username"), token, request.getRemoteAddr(), "/users")){
             return new RestResponse("{body: 'error', error: 'unauthentic session'}", new RestUser());
         }
         return new RestResponse("{body: 'success'}", userService.getRestUser((String)httpSession.getAttribute("username")), summaryService.getRoomSummaries(2));
