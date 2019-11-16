@@ -7,7 +7,7 @@ const GenericPageHeader = ({ onClickHandler, tabs, currentTabIndex, isLoading })
     }
 
     return (
-        <div className={"summaryHeader headerButtonContainer"}>
+        <div className={"genericHeader headerButtonContainer"}>
             <h3 >{tabs[currentTabIndex]}</h3>
             {!isLoading && (
 

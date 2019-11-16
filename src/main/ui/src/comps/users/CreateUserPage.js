@@ -4,8 +4,11 @@ import {changePage} from "../../actions/universal-actions";
 import * as pageConstants from "../../constants/page-constants";
 
 import {logOff} from "../../actions/universal-actions";
+import GenericPageHeader from "../global/GenericPageHeader";
 
-const CreateUserPage = ({user}) => {
+const CreateUserPage = ({user, isLoading}) => {
+    
+    changePage(pageConstants.CREATE_USER);
     
     return(
         <div>
@@ -16,7 +19,7 @@ const CreateUserPage = ({user}) => {
             <div id="main">
                 <section>
                     <header>
-                        
+                        <GenericPageHeader isLoading={isLoading}/>
                     </header>
                     
                 </section>
@@ -54,3 +57,4 @@ const CreateUserPage = ({user}) => {
         </div>
     )
 }
+export default CreateUserPage

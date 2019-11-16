@@ -1,7 +1,14 @@
 import React, {useEffect} from "react";
 import {connect} from "react-redux";
-import {logOff} from '../../actions/universal-actions';
+
+import {logOff, changePage} from '../../actions/universal-actions';
+
 import {usersIsLoading, usersLoadingError} from "../../actions/user-actions";
+import CreateUserPage from "./CreateUserPage";
+
+import {updateSession} from "../../services/axios-service";
+
+import * as pageConstants from "../../constants/page-constants";
 
 const UserPageContainer = ({
                                user,
@@ -9,8 +16,20 @@ const UserPageContainer = ({
                                errorMsg, logOff, usersIsLoading, usersLoadingError
                            }) => {
 
+    const tabClickHandler = (tabIndex) => {
+        switch (tabIndex) {
+            case 0: {
+                changePage(pageConstants.CREATE_USER);
+            };
+            default: {
+                changePage(pageConstants.USERS);
+            }
+        }
+    }
+
     return (
         <div>
+            <CreateUserPage/>
         </div>
     );
 };

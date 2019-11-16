@@ -9,3 +9,5 @@ export const UPDATE_SESSION = '/update';
 export const USERS = '/users';
 export const CREATE_USER = '/users/create';
 
+export const USERS_TABS = ['Create User'];
+
