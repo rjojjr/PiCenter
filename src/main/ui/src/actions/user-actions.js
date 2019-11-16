@@ -10,7 +10,7 @@ export const usersDoneLoading = () => ({
 });
 
 export const USERS_LOADING_ERROR = 'USERS_LOADING_ERROR'
-export const usersLoadingError = (msg) => ({
+export const usersLoadingError = (msg, error) => ({
     type: USERS_LOADING_ERROR,
-    msg
+    msg, error
 });

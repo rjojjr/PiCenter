@@ -24,6 +24,7 @@ import {
     RESET_IS_SHOW_MSG,
     SET_USER
 } from "../actions/universal-actions";
+import {USERS_IS_LOADING, USERS_LOADING_ERROR} from "../actions/user-actions";
 
 
 export const initialState = () => ({
@@ -216,6 +217,19 @@ export default (state = initialState(), action = {type: undefined}) => {
             return {
                 ...state,
                 user: newUser
+            };
+        };
+        case USERS_IS_LOADING: {
+            return {
+                ...state,
+                isUserLoading: action.loading
+            };
+        };
+        case USERS_LOADING_ERROR: {
+            return {
+                ...state,
+                isUserError: action.error,
+                errorMsg: action.msg
             };
         };
         default:
