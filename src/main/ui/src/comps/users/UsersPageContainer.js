@@ -1,9 +1,12 @@
 import React, {useEffect} from "react";
 import {connect} from "react-redux";
 import {logOff} from '../../actions/universal-actions';
+import {usersIsLoading, usersLoadingError} from "../../actions/user-actions";
 
 const UserPageContainer = ({
-                               page
+                              user,
+    isLoading, isError,
+    errorMsg, logOff, usersIsLoading, usersLoadingError
                            }) => {
 
     return (
@@ -14,13 +17,16 @@ const UserPageContainer = ({
 
 const mapStateToProps = state => ({
     user: state.user,
-    isLoading: state.isSummaryLoading,
-    isError: state.isSummaryError,
+    isLoading: state.isUserLoading,
+    isError: state.isUserError,
     errorMsg: state.message
 });
 
 const mapDispatchToProps = {
-    logOff
+    logOff,
+    usersIsLoading,
+    usersLoadingError
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserPageContainer);
+

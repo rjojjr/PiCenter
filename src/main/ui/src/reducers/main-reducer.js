@@ -229,7 +229,7 @@ export default (state = initialState(), action = {type: undefined}) => {
             return {
                 ...state,
                 isUserError: action.error,
-                errorMsg: action.msg
+                message: action.msg
             };
         };
         default:
