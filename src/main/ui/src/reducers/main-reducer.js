@@ -210,6 +210,14 @@ export default (state = initialState(), action = {type: undefined}) => {
                 canRenderSummary: false
             };
         };
+        case CHANGE_PAGE: {
+            const newUser = {...state.user};
+            newUser.page = action.page;
+            return {
+                ...state,
+                user: newUser
+            };
+        };
         default:
             return state;
     }
