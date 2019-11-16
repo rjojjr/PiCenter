@@ -98,6 +98,24 @@ public class MainController {
         return new RestResponse("{body: 'success'}", userService.getRestUser((String)httpSession.getAttribute("username")), summaryService.getRoomSummaries(2));
     }
 
+    @PostMapping("/users/create")
+    public RestResponse creatUser(HttpServletResponse response, @RequestParam String userId ) throws Exception{
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes())
+                .getRequest();
+        HttpSession httpSession = cookie(request, response);
+        if(httpSession.getAttribute("username") == null){
+            return new RestResponse();
+        }
+        if(userId == null || userId.toCharArray().length < 5){
+            userService.systemInvalidateUser((String)httpSession.getAttribute("username"), "unauthentic session");
+            return new RestResponse("{body: 'error', error: 'invalid token'}");
+        }
+        if(!updateSession((String)httpSession.getAttribute("username"), userId, request.getRemoteAddr(), "/summary")){
+            return new RestResponse("{body: 'error', error: 'unauthentic session'}", new RestUser());
+        }
+        return new RestResponse("{body: 'success'}", userService.getRestUser((String)httpSession.getAttribute("username")), summaryService.getRoomSummaries(2));
+    }
+
     private boolean updateSession(String username, String token, String ip, String page) throws Exception{
         if(userService.updateSession(username, token, ip, page) == null){
             userService.systemInvalidateUser(username, "unauthentic session");
