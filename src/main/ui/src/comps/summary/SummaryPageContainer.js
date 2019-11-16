@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import SummaryPage from "./SummaryPage";
 import SummaryPageHeader from "./SummaryPageHeader";
 import LoadingView from "../global/LoadingView";
-import LogOnPage from "../login/LogOnPage";
+
+import * as pageConstants from '../../constants/page-constants';
 
 const SummaryPageContainer = ({
   summary,
@@ -54,6 +55,9 @@ const SummaryPageContainer = ({
             </section>
             <nav>
               <b>Summary</b>
+              <ul>
+                <a onClick={}
+              </ul>
             </nav>
             <aside>
               <h4>Logged on as: {user.userName}</h4>
