@@ -2,11 +2,9 @@ package com.kirchnersolutions.PiCenter.servers.rest;
 
 import com.kirchnersolutions.PiCenter.dev.DebuggingService;
 import com.kirchnersolutions.PiCenter.entites.AppUser;
-import com.kirchnersolutions.PiCenter.servers.beans.RestUser;
+import com.kirchnersolutions.PiCenter.servers.beans.*;
 import com.kirchnersolutions.PiCenter.services.SummaryService;
 import com.kirchnersolutions.PiCenter.services.UserService;
-import com.kirchnersolutions.PiCenter.servers.beans.LogonForm;
-import com.kirchnersolutions.PiCenter.servers.beans.RestResponse;
 import org.aspectj.bridge.context.ContextToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -99,7 +97,7 @@ public class MainController {
     }
 
     @PostMapping("/update")
-    public RestResponse updateSession(HttpServletResponse response, @RequestParam String userId, @RequestParam String page ) throws Exception{
+    public RestResponse updateSession(HttpServletResponse response, @RequestParam String userId, SessionUpdate sessionUpdate) throws Exception{
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes())
                 .getRequest();
         HttpSession httpSession = cookie(request, response);
@@ -110,19 +108,19 @@ public class MainController {
             userService.systemInvalidateUser((String)httpSession.getAttribute("username"), "unauthentic session");
             return new RestResponse("{body: 'error', error: 'invalid token'}");
         }
-        if(!updateSession((String)httpSession.getAttribute("username"), userId, request.getRemoteAddr(), "/summary")){
+        if(!updateSession((String)httpSession.getAttribute("username"), userId, request.getRemoteAddr(), sessionUpdate.getPage())){
             return new RestResponse("{body: 'error', error: 'unauthentic session'}", new RestUser());
         }
-        return new RestResponse("{body: 'success'}", userService.getRestUser((String)httpSession.getAttribute("username")), summaryService.getRoomSummaries(2));
+        return new RestResponse("{body: 'success updating session'}", userService.getRestUser((String)httpSession.getAttribute("username")));
     }
 
     @PostMapping("/users/create")
-    public RestResponse creatUser(HttpServletResponse response, @RequestParam String token ) throws Exception{
+    public RestResponse creatUser(HttpServletResponse response, @RequestParam String token, CreateUser createUser) throws Exception{
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes())
                 .getRequest();
         HttpSession httpSession = cookie(request, response);
 
-        if(httpSession.getAttribute("username")u == null){
+        if(httpSession.getAttribute("username") == null){
             return new RestResponse();
         }
         if(token == null){
