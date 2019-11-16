@@ -35,6 +35,6 @@ export const updateSession = (page) => {
   const UpdateSession = {
       page: page
   }
-  
-  return axios.post(constants.UPDATE_SESSION, page);
+
+  axios.post(constants.UPDATE_SESSION, page);
 }

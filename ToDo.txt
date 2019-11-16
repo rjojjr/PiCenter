@@ -18,3 +18,4 @@ Append #<Your handle> to end of item completed
 13. Add sensor status api.
 14. Add user info page with password reset.
 15. Application properties external file for production.
+16. Add loading modals.
