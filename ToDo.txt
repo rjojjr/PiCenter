@@ -17,3 +17,4 @@ Append #<Your handle> to end of item completed
 12. Many to one user sessions for multiple pages. Use tokens.(stretch)
 13. Add sensor status api.
 14. Add user info page with password reset.
+15. Application properties external file for production.

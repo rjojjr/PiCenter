@@ -22,6 +22,7 @@ group = 'com.kirchnersolutions'
 version = '1.0.00a'
 def build = '100110'
 sourceCompatibility = '1.8'
+def PRODUCTION_BUILD = true
 
 
 repositories {
@@ -54,10 +55,9 @@ task appNpmBuild(type: NpmTask) {
 }
 
 task copyWebApp(type: Copy) {
-	from 'src/main/webapp/build'
+	from 'src/main/ui/build'
 	into 'build/resources/main/static/.'
 }
-
 //Bundle react ui with boot jar for production.
 
 /*appNpmBuild.dependsOn appNpmInstall
