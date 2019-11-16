@@ -4,7 +4,7 @@ import {connect} from "react-redux";
 import {logOff, changePage} from '../../actions/universal-actions';
 
 import {usersIsLoading, usersLoadingError} from "../../actions/user-actions";
-import CreateUserPage from "./CreateUserPage";
+import CreateUserPage from "./create-user/CreateUserPage";
 
 import {updateSession} from "../../services/axios-service";
 
