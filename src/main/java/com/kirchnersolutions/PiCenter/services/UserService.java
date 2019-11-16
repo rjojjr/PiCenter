@@ -55,7 +55,7 @@ public class UserService {
         if(!creator.isAdmin()){
             throw new UserRoleException("Only admin can create user");
         }
-        //password = CryptTools.generateEncodedSHA256Password(password);
+        password = CryptTools.generateEncodedSHA256Password(password);
         if(appUserRepository.findByUserName(userName) != null){
             return false;
         }
@@ -64,6 +64,24 @@ public class UserService {
         UserLog userLog = new UserLog(user.getId(), "created", System.currentTimeMillis());
         userLogRepository.saveAndFlush(userLog);
         UserLog creatorLog = new UserLog(creator.getId(), "created user " + userName, System.currentTimeMillis());
+        userLogRepository.saveAndFlush(creatorLog);
+        return true;
+    }
+
+    public boolean resetPasswordByAdmin(AppUser admin, String userName, String password) throws Exception{
+        if(!admin.isAdmin()){
+            throw new UserRoleException("Only admin can reset user password");
+        }
+        password = CryptTools.generateEncodedSHA256Password(password);
+        AppUser user = appUserRepository.findByUserName(userName);
+        if(user == null){
+            return false;
+        }
+        user.setPassword(password);
+        user = appUserRepository.saveAndFlush(user);
+        UserLog userLog = new UserLog(user.getId(), "password reset by admin", System.currentTimeMillis());
+        userLogRepository.saveAndFlush(userLog);
+        UserLog creatorLog = new UserLog(admin.getId(), "reset user " + userName + " password", System.currentTimeMillis());
         userLogRepository.saveAndFlush(creatorLog);
         return true;
     }
