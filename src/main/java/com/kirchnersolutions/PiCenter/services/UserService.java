@@ -24,6 +24,7 @@ import com.kirchnersolutions.PiCenter.dev.DebuggingService;
 import com.kirchnersolutions.PiCenter.dev.DevelopmentException;
 import com.kirchnersolutions.PiCenter.dev.exceptions.UserRoleException;
 import com.kirchnersolutions.PiCenter.entites.*;
+import com.kirchnersolutions.PiCenter.servers.beans.CreateUser;
 import com.kirchnersolutions.PiCenter.servers.beans.RestUser;
 import com.kirchnersolutions.utilities.CryptTools;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,6 +51,14 @@ public class UserService {
     private UserLogRepository userLogRepository;
     @Autowired
     private UserSessionRepository userSessionRepository;
+
+    public boolean createUser(String userName, CreateUser createUser) throws Exception{
+        AppUser creator = userList.searchList(userName);
+        if(creator == null){
+            return false;
+        }
+        return addUser(creator, createUser.getUserName(), createUser.getFirstName(), createUser.getLastName(), createUser.getPassword(), createUser.isAdmin());
+    }
 
     public boolean addUser(AppUser creator, String userName, String firstName, String lastName, String password, boolean admin) throws Exception{
         if(!creator.isAdmin()){

@@ -119,7 +119,6 @@ public class MainController {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes())
                 .getRequest();
         HttpSession httpSession = cookie(request, response);
-
         if(httpSession.getAttribute("username") == null){
             return new RestResponse();
         }
@@ -130,7 +129,10 @@ public class MainController {
         if(!updateSession((String)httpSession.getAttribute("username"), token, request.getRemoteAddr(), "/users")){
             return new RestResponse("{body: 'error', error: 'unauthentic session'}", new RestUser());
         }
-        return new RestResponse("{body: 'success'}", userService.getRestUser((String)httpSession.getAttribute("username")), summaryService.getRoomSummaries(2));
+        if(userService.createUser((String)httpSession.getAttribute("username"), createUser)){
+            return new RestResponse("{body: 'success'}", userService.getRestUser((String)httpSession.getAttribute("username")));
+        }
+        return new RestResponse("{body: 'error', error; 'failed to create user'}", userService.getRestUser((String)httpSession.getAttribute("username")));
     }
 
     private boolean updateSession(String username, String token, String ip, String page) throws Exception{
