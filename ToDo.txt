@@ -6,7 +6,7 @@ Append #<Your handle> to end of item completed
 2. Licenses and Documents.
 2. Consolidate actions and state objects.
 3. Split root reducer into multiples.
-4. Admin user console
+4. Admin create user.
 5. Admin database console.
 6. Graphing API.
 7. Probability distribution, data modeling and hypothesis testing.
@@ -19,3 +19,4 @@ Append #<Your handle> to end of item completed
 14. Add user info page with password reset.
 15. Application properties external file for production.
 16. Add loading modals.
+17. Admin active users.

@@ -4,9 +4,9 @@ import {logOff} from '../../actions/universal-actions';
 import {usersIsLoading, usersLoadingError} from "../../actions/user-actions";
 
 const UserPageContainer = ({
-                              user,
-    isLoading, isError,
-    errorMsg, logOff, usersIsLoading, usersLoadingError
+                               user,
+                               isLoading, isError,
+                               errorMsg, logOff, usersIsLoading, usersLoadingError
                            }) => {
 
     return (
