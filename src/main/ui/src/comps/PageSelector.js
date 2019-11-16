@@ -6,6 +6,7 @@ import LoginPageContainer from './login/LogOnPageContainer';
 import SummaryPageLoader from "./summary/SummaryPageLoader";
 
 import {updateSession} from "../services/axios-service";
+import UserPageContainer from "./users/UsersPageContainer";
 
 const PageSelector = ({user}) =>{
     const page = user.page;
@@ -16,6 +17,7 @@ const PageSelector = ({user}) =>{
         <div className={"pageSelector"}>
             {page === constants.LOGIN_PAGE && <LoginPageContainer />}
             {page === constants.SUMMARY_PAGE && <SummaryPageLoader />}
+            {page.contains(constants.USERS) && <UserPageContainer />}
         </div>
     )
 }
