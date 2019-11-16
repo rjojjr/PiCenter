@@ -1,8 +1,8 @@
 import React from 'react';
-import {changePage} from "../../../actions/universal-actions";
+
 import * as pageConstants from "../../../constants/page-constants";
 
-const CreateUserNav = () => {
+const CreateUserNav = (changePage) => {
     return (
         <div className={"nav createUserNav"}>
             <ul>

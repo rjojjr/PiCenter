@@ -4,8 +4,7 @@ import SummaryPageHeader from "./SummaryPageHeader";
 import LoadingView from "../global/LoadingView";
 
 import * as pageConstants from '../../constants/page-constants';
-
-import {changePage} from "../../actions/universal-actions";
+import SummaryNav from "./SummaryNav";
 
 const SummaryPageContainer = ({
                                   summary,
@@ -14,7 +13,8 @@ const SummaryPageContainer = ({
                                   errorMsg,
                                   isLoading,
                                   canLoad,
-                                  logOff
+                                  logOff,
+                                    changePage
                               }) => {
     const [sensorIndex, setSensorIndex] = useState(0);
 
@@ -56,18 +56,7 @@ const SummaryPageContainer = ({
                             />
                         </section>
                         <nav>
-                            <ul>
-                                <li>
-                                    <ul>
-                                        <li>
-                                            <b>Summary</b>
-                                        </li>
-                                    </ul>
-                                    <ul>
-                                        <li><a onClick={() => changePage(pageConstants.USERS)}>Users</a></li>
-                                    </ul>
-                                </li>
-                            </ul>
+                            <SummaryNav changePage={changePage}/>
                         </nav>
                         <aside>
                             <h4>Logged on as: {user.userName}</h4>
@@ -77,7 +66,7 @@ const SummaryPageContainer = ({
                         </aside>
                     </div>
                     <footer>
-                        <a href={"github.com/rjojjr"}>Visit me on github</a>
+                        <a href={"http://github.com/rjojjr"}>Visit me on github</a>
                     </footer>
                 </div>
             )}

@@ -20,3 +20,5 @@ Append #<Your handle> to end of item completed
 15. Application properties external file for production.
 16. Add loading modals.
 17. Admin active users.
+18. Add global footer component.
+19. Add global aside component.

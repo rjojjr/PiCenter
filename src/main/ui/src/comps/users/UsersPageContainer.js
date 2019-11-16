@@ -29,7 +29,7 @@ const UserPageContainer = ({
 
     return (
         <div>
-            <CreateUserPage/>
+            <CreateUserPage changePage={changePage} logOff={logOff}/>
         </div>
     );
 };
@@ -44,7 +44,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
     logOff,
     usersIsLoading,
-    usersLoadingError
+    usersLoadingError,
+    changePage
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserPageContainer);

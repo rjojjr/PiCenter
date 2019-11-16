@@ -1,13 +1,12 @@
 import React from "react";
 
-import {changePage} from "../../../actions/universal-actions";
 import * as pageConstants from "../../../constants/page-constants";
 
-import {logOff} from "../../../actions/universal-actions";
 import GenericPageHeader from "../../global/GenericPageHeader";
 import LoadingView from "../../global/LoadingView";
+import CreateUserNav from "./CreateUserNav";
 
-const CreateUserPage = ({user, isLoading}) => {
+const CreateUserPage = ({user, isLoading, logOff, changePage}) => {
 
     return (
         <div className={"page createUserPage"}>
@@ -26,7 +25,7 @@ const CreateUserPage = ({user, isLoading}) => {
 
                         </section>
                         <nav>
-
+                            <CreateUserNav changePage={changePage}/>
                         </nav>
                         <aside>
                             <h4>Logged on as: {user.userName}</h4>
@@ -36,7 +35,7 @@ const CreateUserPage = ({user, isLoading}) => {
                         </aside>
                     </div>
                     <footer>
-                        <a href={"github.com/rjojjr"}>Visit me on github</a>
+                        <a href={"http://github.com/rjojjr"}>Visit me on github</a>
                     </footer>
                 </div>
             )}
