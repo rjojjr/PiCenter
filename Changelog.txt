@@ -3,9 +3,16 @@ PiCenter Changelog
 
 1.0.00a
 
+Build 100111
+    Edit documents.
+    Styling.
+    First production build.
+
+11/16/2019
 Build 100110
     Edit documents.
     Styling.
+    First production build.
 
 11/13/2019
 Build 100109
