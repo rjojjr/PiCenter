@@ -18,6 +18,7 @@ import {
 } from "../actions/summary-actions";
 
 import {
+    CHANGE_PAGE,
     LOGOUT,
     RESET_IS_ERROR,
     RESET_IS_SHOW_MSG,
@@ -177,6 +178,14 @@ export default (state = initialState(), action = {type: undefined}) => {
                 isSummaryError: false,
                 isSummaryLoading: false,
                 isShowMsg: false
+            };
+        };
+        case CHANGE_PAGE: {
+            const newUser = {...state.user};
+            newUser.page = action.page;
+            return {
+                ...state,
+                user: newUser
             };
         };
         case LOGOUT: {
