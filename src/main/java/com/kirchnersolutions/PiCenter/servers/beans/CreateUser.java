@@ -13,10 +13,6 @@ public class CreateUser {
     private String firstName = "null";
     private String lastName = "null";
     private String password = "null";
-    @Getter
-    @Setter
     private boolean admin = false;
 
-    /*public boolean getAdmin() {
-    }*/
 }

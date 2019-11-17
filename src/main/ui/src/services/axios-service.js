@@ -30,11 +30,11 @@ export const logOut = () => {
   return axios.get(constants.LOGOUT);
 }
 
-export const updateSession = (page) => {
+export const updateSession = (page, user) => {
 
   const UpdateSession = {
       page: page
   }
 
-  axios.post(constants.UPDATE_SESSION, page);
+  axios.post(constants.UPDATE_SESSION + '?userId=' + user.token, page);
 }

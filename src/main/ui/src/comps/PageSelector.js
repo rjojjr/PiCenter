@@ -11,7 +11,7 @@ import UserPageContainer from "./users/UsersPageContainer";
 const PageSelector = ({user}) =>{
     const page = user.page;
 
-    updateSession(page);
+    updateSession(page, user);
 
     return(
         <div className={"pageSelector"}>
