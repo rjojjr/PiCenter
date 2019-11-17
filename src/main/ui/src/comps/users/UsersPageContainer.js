@@ -29,7 +29,7 @@ const UserPageContainer = ({
 
     return (
         <div>
-            <CreateUserPage changePage={changePage} logOff={logOff}/>
+            <CreateUserPage changePage={changePage} logOff={logOff} user={user} onClickHandler={tabClickHandler}/>
         </div>
     );
 };

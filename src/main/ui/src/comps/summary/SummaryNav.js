@@ -2,7 +2,7 @@ import React from 'react';
 
 import * as pageConstants from "../../constants/page-constants";
 
-const SummaryNav = (changePage) => {
+const SummaryNav = ({changePage}) => {
     return (
         <div className={"nav summaryNav"}>
             <ul>

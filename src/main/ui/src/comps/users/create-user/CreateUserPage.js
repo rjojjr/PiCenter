@@ -6,7 +6,7 @@ import GenericPageHeader from "../../global/GenericPageHeader";
 import LoadingView from "../../global/LoadingView";
 import CreateUserNav from "./CreateUserNav";
 
-const CreateUserPage = ({user, isLoading, logOff, changePage}) => {
+const CreateUserPage = ({user, isLoading, logOff, changePage, onClickHandler}) => {
 
     return (
         <div className={"page createUserPage"}>
@@ -20,12 +20,12 @@ const CreateUserPage = ({user, isLoading, logOff, changePage}) => {
                     <div id="main">
                         <section>
                             <header>
-                                <GenericPageHeader isLoading={isLoading}/>
+                                <GenericPageHeader isLoading={isLoading} currentTabIndex={0} onClickHandler={onClickHandler} tabs={pageConstants.USERS_TABS}/>
                             </header>
 
                         </section>
                         <nav>
-                            <CreateUserNav changePage={changePage}/>
+                            <CreateUserNav changePage={changePage} />
                         </nav>
                         <aside>
                             <h4>Logged on as: {user.userName}</h4>

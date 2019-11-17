@@ -17,7 +17,7 @@ const PageSelector = ({user}) =>{
         <div className={"pageSelector"}>
             {page === constants.LOGIN_PAGE && <LoginPageContainer />}
             {page === constants.SUMMARY_PAGE && <SummaryPageLoader />}
-            {page.contains(constants.USERS) && <UserPageContainer />}
+            {page.includes(constants.USERS) && <UserPageContainer />}
         </div>
     )
 }
