@@ -18,11 +18,13 @@ import {
 } from "../actions/summary-actions";
 
 import {
+    CHANGE_PAGE,
     LOGOUT,
     RESET_IS_ERROR,
     RESET_IS_SHOW_MSG,
     SET_USER
 } from "../actions/universal-actions";
+import {USERS_IS_LOADING, USERS_LOADING_ERROR} from "../actions/user-actions";
 
 
 export const initialState = () => ({
@@ -39,6 +41,8 @@ export const initialState = () => ({
     summary: [],
     isSummaryLoading: true,
     isSummaryError: false,
+    isUserLoading: true,
+    isUserError: false,
     loaded: false,
     canRenderSummary: false
 });
@@ -179,6 +183,14 @@ export default (state = initialState(), action = {type: undefined}) => {
                 isShowMsg: false
             };
         };
+        case CHANGE_PAGE: {
+            const newUser = {...state.user};
+            newUser.page = action.page;
+            return {
+                ...state,
+                user: newUser
+            };
+        };
         case LOGOUT: {
             return {
                 ...state,
@@ -197,6 +209,19 @@ export default (state = initialState(), action = {type: undefined}) => {
                 isSummaryError: false,
                 loaded: false,
                 canRenderSummary: false
+            };
+        };
+        case USERS_IS_LOADING: {
+            return {
+                ...state,
+                isUserLoading: action.loading
+            };
+        };
+        case USERS_LOADING_ERROR: {
+            return {
+                ...state,
+                isUserError: action.error,
+                message: action.msg
             };
         };
         default:

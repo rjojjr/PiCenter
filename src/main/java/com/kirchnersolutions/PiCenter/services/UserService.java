@@ -24,6 +24,7 @@ import com.kirchnersolutions.PiCenter.dev.DebuggingService;
 import com.kirchnersolutions.PiCenter.dev.DevelopmentException;
 import com.kirchnersolutions.PiCenter.dev.exceptions.UserRoleException;
 import com.kirchnersolutions.PiCenter.entites.*;
+import com.kirchnersolutions.PiCenter.servers.beans.CreateUser;
 import com.kirchnersolutions.PiCenter.servers.beans.RestUser;
 import com.kirchnersolutions.utilities.CryptTools;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,11 +52,19 @@ public class UserService {
     @Autowired
     private UserSessionRepository userSessionRepository;
 
+    public boolean createUser(String userName, CreateUser createUser) throws Exception{
+        AppUser creator = userList.searchList(userName);
+        if(creator == null){
+            return false;
+        }
+        return addUser(creator, createUser.getUserName(), createUser.getFirstName(), createUser.getLastName(), createUser.getPassword(), createUser.isAdmin());
+    }
+
     public boolean addUser(AppUser creator, String userName, String firstName, String lastName, String password, boolean admin) throws Exception{
         if(!creator.isAdmin()){
             throw new UserRoleException("Only admin can create user");
         }
-        //password = CryptTools.generateEncodedSHA256Password(password);
+        password = CryptTools.generateEncodedSHA256Password(password);
         if(appUserRepository.findByUserName(userName) != null){
             return false;
         }
@@ -65,6 +74,36 @@ public class UserService {
         userLogRepository.saveAndFlush(userLog);
         UserLog creatorLog = new UserLog(creator.getId(), "created user " + userName, System.currentTimeMillis());
         userLogRepository.saveAndFlush(creatorLog);
+        return true;
+    }
+
+    public boolean resetPasswordByAdmin(AppUser admin, String userName, String password) throws Exception{
+        if(!admin.isAdmin()){
+            throw new UserRoleException("Only admin can reset user password");
+        }
+        password = CryptTools.generateEncodedSHA256Password(password);
+        AppUser user = appUserRepository.findByUserName(userName);
+        if(user == null){
+            return false;
+        }
+        user.setPassword(password);
+        user = appUserRepository.saveAndFlush(user);
+        UserLog userLog = new UserLog(user.getId(), "password reset by admin", System.currentTimeMillis());
+        userLogRepository.saveAndFlush(userLog);
+        UserLog creatorLog = new UserLog(admin.getId(), "reset user " + userName + " password", System.currentTimeMillis());
+        userLogRepository.saveAndFlush(creatorLog);
+        return true;
+    }
+
+    public boolean resetPasswordByUser(AppUser user, String oldPassword, String newPassword) throws Exception{
+        if(CryptTools.generateEncodedSHA256Password(oldPassword) != user.getPassword()){
+            return false;
+        }
+        newPassword = CryptTools.generateEncodedSHA256Password(newPassword);
+        user.setPassword(newPassword);
+        user = appUserRepository.saveAndFlush(user);
+        UserLog userLog = new UserLog(user.getId(), "password reset", System.currentTimeMillis());
+        userLogRepository.saveAndFlush(userLog);
         return true;
     }
 

@@ -20,8 +20,9 @@ repositories {
 
 group = 'com.kirchnersolutions'
 version = '1.0.00a'
-def build = '100110'
+def build = '100111'
 sourceCompatibility = '1.8'
+def PRODUCTION_BUILD = true
 
 
 repositories {
@@ -54,15 +55,15 @@ task appNpmBuild(type: NpmTask) {
 }
 
 task copyWebApp(type: Copy) {
-	from 'src/main/webapp/build'
-	into 'build/resources/main/static/.'
+	from 'src/main/ui/build'
+	into 'build/resources/main/static'
 }
-
 //Bundle react ui with boot jar for production.
 
-/*appNpmBuild.dependsOn appNpmInstall
+appNpmBuild.dependsOn appNpmInstall
 copyWebApp.dependsOn appNpmBuild
-compileJava.dependsOn copyWebApp*/
+compileJava.dependsOn copyWebApp
+
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	//compile 'org.springframework.mobile:spring-mobile-device:2.0.0.BUILD-SNAPSHOT'

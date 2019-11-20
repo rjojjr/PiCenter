@@ -2,11 +2,9 @@ package com.kirchnersolutions.PiCenter.servers.rest;
 
 import com.kirchnersolutions.PiCenter.dev.DebuggingService;
 import com.kirchnersolutions.PiCenter.entites.AppUser;
-import com.kirchnersolutions.PiCenter.servers.beans.RestUser;
+import com.kirchnersolutions.PiCenter.servers.beans.*;
 import com.kirchnersolutions.PiCenter.services.SummaryService;
 import com.kirchnersolutions.PiCenter.services.UserService;
-import com.kirchnersolutions.PiCenter.servers.beans.LogonForm;
-import com.kirchnersolutions.PiCenter.servers.beans.RestResponse;
 import org.aspectj.bridge.context.ContextToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -96,6 +94,45 @@ public class MainController {
             return new RestResponse("{body: 'error', error: 'unauthentic session'}", new RestUser());
         }
         return new RestResponse("{body: 'success'}", userService.getRestUser((String)httpSession.getAttribute("username")), summaryService.getRoomSummaries(2));
+    }
+
+    @PostMapping("/update")
+    public RestResponse updateSession(HttpServletResponse response, @RequestParam String userId, SessionUpdate sessionUpdate) throws Exception{
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes())
+                .getRequest();
+        HttpSession httpSession = cookie(request, response);
+        if(httpSession.getAttribute("username") == null){
+            return new RestResponse();
+        }
+        if(userId == null || userId.toCharArray().length < 5){
+            userService.systemInvalidateUser((String)httpSession.getAttribute("username"), "unauthentic session");
+            return new RestResponse("{body: 'error', error: 'invalid token'}");
+        }
+        if(!updateSession((String)httpSession.getAttribute("username"), userId, request.getRemoteAddr(), sessionUpdate.getPage())){
+            return new RestResponse("{body: 'error', error: 'unauthentic session'}", new RestUser());
+        }
+        return new RestResponse("{body: 'success updating session'}", userService.getRestUser((String)httpSession.getAttribute("username")));
+    }
+
+    @PostMapping("/users/create")
+    public RestResponse creatUser(HttpServletResponse response, @RequestParam String token, CreateUser createUser) throws Exception{
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes())
+                .getRequest();
+        HttpSession httpSession = cookie(request, response);
+        if(httpSession.getAttribute("username") == null){
+            return new RestResponse();
+        }
+        if(token == null){
+            userService.systemInvalidateUser((String)httpSession.getAttribute("username"), "unauthentic session");
+            return new RestResponse("{body: 'error', error: 'invalid token'}");
+        }
+        if(!updateSession((String)httpSession.getAttribute("username"), token, request.getRemoteAddr(), "/users")){
+            return new RestResponse("{body: 'error', error: 'unauthentic session'}", new RestUser());
+        }
+        if(userService.createUser((String)httpSession.getAttribute("username"), createUser)){
+            return new RestResponse("{body: 'success'}", userService.getRestUser((String)httpSession.getAttribute("username")));
+        }
+        return new RestResponse("{body: 'error', error; 'failed to create user'}", userService.getRestUser((String)httpSession.getAttribute("username")));
     }
 
     private boolean updateSession(String username, String token, String ip, String page) throws Exception{

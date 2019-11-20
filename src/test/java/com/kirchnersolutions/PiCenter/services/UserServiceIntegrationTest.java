@@ -190,6 +190,18 @@ public class UserServiceIntegrationTest {
         userService.logOff(admin.getUserName());
     }
 
+    @Test
+    public void whenGetRestPasswordByAdmin_ReturnProperUser() throws Exception{
+        admin = userService.logOn(admin.getUserName(), adminPassword, "null");
+        RestUser restUser = userService.getRestUser(admin.getUserName());
+        assertTrue("userName = null", restUser.getUserName().equals(admin.getUserName()));
+        assertTrue("token = null", admin.getUserSession().getToken().compareTo(restUser.getToken()) == 0);
+        assertTrue("page = /login", restUser.getPage().equals(admin.getUserSession().getPage()));
+        assertTrue("ip = null", restUser.getIp().equals(admin.getUserSession().getIpAddress()));
+        assertTrue("stompId = null", restUser.getStompId().equals("null"));
+        userService.logOff(admin.getUserName());
+    }
+
    @After
     public void cleanUp()throws Exception{
         appUserRepository.delete(admin);
