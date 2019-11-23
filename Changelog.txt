@@ -2,9 +2,9 @@ PiCenter Changelog
 
 
 1.0.00a
-
+11/23/2019
 Build 100111
-    wip
+    Wrap login input in form.
 
 11/16/2019
 Build 100110
