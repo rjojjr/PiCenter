@@ -20,7 +20,7 @@ const PageSelector = ({user}) =>{
         }
     }
 
-    checkPage();
+    //checkPage();
 
     return(
         <div className={"pageSelector"}>

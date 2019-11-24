@@ -10,7 +10,7 @@ export const usersIsLoading = (loading) => ({
 });
 
 export const RESET_USER_SHOW_MSG = 'RESET_USER_SHOW_MSG'
-export const resetUserSHowMsg = () => ({
+export const resetUserShowMsg = () => ({
     type: RESET_USER_SHOW_MSG
 });
 

@@ -41,7 +41,7 @@ export const initialState = () => ({
     summary: [],
     isSummaryLoading: true,
     isSummaryError: false,
-    isUserLoading: true,
+    isUserLoading: false,
     isUserError: false,
     loaded: false,
     canRenderSummary: false,

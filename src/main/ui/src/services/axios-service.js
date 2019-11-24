@@ -15,7 +15,7 @@ export const loadSummary = (user) => {
     userId: user.token
   }
   return axios.get(constants.SUMMARY_PAGE + '?userId=' + user.token);
-} 
+} ;
 
 export const logOn = (username, password) => {
   const LogonForm = {
@@ -28,16 +28,16 @@ export const logOn = (username, password) => {
 
 export const logOut = () => {
   return axios.get(constants.LOGOUT);
-}
+};
 
-export const updateSession = (page, user) => {
+export const updateSession = (currentPage, user) => {
 
-  const UpdateSession = {
-    page: page
-  }
+  const SessionUpdate = {
+    page: currentPage
+  };
 
-  axios.post(constants.UPDATE_SESSION + '?userId=' + user.token, page);
-}
+  axios.post(constants.UPDATE_SESSION + '?userId=' + user.token, SessionUpdate);
+};
 
 export const createUser = (user, username, firstName, lastName, password, admin) => {
 
@@ -47,7 +47,7 @@ export const createUser = (user, username, firstName, lastName, password, admin)
     lastName: lastName,
     password: password,
     admin: admin
-  }
+  };
 
   axios.post(constants.CREATE_USER + '?token=' + user.token, newUser);
-}
+};
