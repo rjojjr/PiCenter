@@ -1,17 +1,12 @@
 import React, {useState} from "react";
 
-import * as pageConstants from "../../../constants/page-constants";
-
-import GenericPageHeader from "../../global/GenericPageHeader";
-import LoadingView from "../../global/LoadingView";
-import CreateUserNav from "./CreateUserNav";
-
 const CreateUserPage = ({user, isLoading, logOff, changePage, onClickHandler, resetMsg, createUser}) => {
 
     const [userName, setUserName] = useState('');
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [password, setPassword] = useState('');
+    const [adminText, setAdminText] = useState('False');
     const [admin, setAdmin] = useState(false);
 
     const handleUserNameOnChange = (e) => {
@@ -34,14 +29,19 @@ const CreateUserPage = ({user, isLoading, logOff, changePage, onClickHandler, re
         resetMsg();
     }
 
-    const handleAdminOnChange = (e) => {
-        const temp = e.target.value;
-        if(temp.toLowerCase().includes('t')){
+    const handleAdminOnChange = () => {
+        if(admin){
             setAdmin(true);
+            setAdminText('true');
         }else{
             setAdmin(false);
+            setAdminText('false');
         }
         resetMsg();
+    }
+
+    const handleOnSubmit = () => {
+        createUser(userName, firstName, lastName, password, admin);
     }
 
     return (
@@ -82,8 +82,20 @@ const CreateUserPage = ({user, isLoading, logOff, changePage, onClickHandler, re
                                 <input type={"text"} value={password} onChange={handleLastNameOnChange}/>
                             </td>
                         </tr>
+                        <tr>
+                            <td>
+                                Admin
+                            </td>
+                            <td>
+                                {adminText}
+                            </td>
+                            <td>
+                                <button onClick={handleAdminOnChange}>Change</button>
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
+                <button onClick={handleOnSubmit}>Create User</button>
             </form>
         </div>
     )
