@@ -24,7 +24,7 @@ import {
     RESET_IS_SHOW_MSG,
     SET_USER
 } from "../actions/universal-actions";
-import {USERS_IS_LOADING, USERS_LOADING_ERROR} from "../actions/user-actions";
+import {RESET_USER_SHOW_MSG, USERS_IS_LOADING, USERS_LOADING_ERROR, USERS_SHOW_MSG} from "../actions/user-actions";
 
 
 export const initialState = () => ({
@@ -44,11 +44,24 @@ export const initialState = () => ({
     isUserLoading: true,
     isUserError: false,
     loaded: false,
-    canRenderSummary: false
+    canRenderSummary: false,
+    userMsg: ''
 });
 
 export default (state = initialState(), action = {type: undefined}) => {
     switch (action.type) {
+        case RESET_USER_SHOW_MSG: {
+            return {
+                ...state,
+                userMsg: ''
+            };
+        };
+        case USERS_SHOW_MSG: {
+            return {
+                ...state,
+                userMsg: action.msg
+            };
+        };
         case RESET_IS_ERROR: {
             return {
                 ...state,

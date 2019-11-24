@@ -9,13 +9,13 @@ export const usersIsLoading = (loading) => ({
     loading
 });
 
-export const RESET_SHOW_MSG = 'RESET_SHOW_MSG'
-export const resetSHowMsg = () => ({
-    type: RESET_SHOW_MSG
+export const RESET_USER_SHOW_MSG = 'RESET_USER_SHOW_MSG'
+export const resetUserSHowMsg = () => ({
+    type: RESET_USER_SHOW_MSG
 });
 
 export const USERS_SHOW_MSG = 'USERS_SHOW_MSG'
-export const sHowMsg = (msg) => ({
+export const usersSHowMsg = (msg) => ({
     type: USERS_SHOW_MSG
 });
 
