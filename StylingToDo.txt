@@ -8,4 +8,5 @@ Styling ToDo
 */
 4. Style Create User page.
 5. Implement Material design
-6 Put Temp and humidity in row below average on summary table.
+6  Put Temp and humidity in row below average on summary table.
+7. Change vh to %.
