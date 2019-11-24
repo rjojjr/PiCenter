@@ -22,7 +22,7 @@ const LogOnPage = ({logOn, message, user, isShowMsg, resetIsShowMsg, isLoggingOn
     }
 
     return (
-        <div className={"page logOnPage"}>
+        <div className={"pageContainer creeateUserPage"}>
 
             {isLoggingOn && <p className={"loading"}>Logging on....</p>}
             {user.username !== undefined && <PageSelector user={user}/>}
