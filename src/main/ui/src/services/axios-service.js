@@ -33,8 +33,21 @@ export const logOut = () => {
 export const updateSession = (page, user) => {
 
   const UpdateSession = {
-      page: page
+    page: page
   }
 
   axios.post(constants.UPDATE_SESSION + '?userId=' + user.token, page);
+}
+
+export const createUser = (user, username, firstName, lastName, password, admin) => {
+
+  const newUser = {
+    userName: username,
+    firstName: firstName,
+    lastName: lastName,
+    password: password,
+    admin: admin
+  }
+
+  axios.post(constants.CREATE_USER + '?token=' + user.token, newUser);
 }
