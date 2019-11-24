@@ -4,7 +4,7 @@ import * as pageConstants from "../../../constants/page-constants";
 import CreateUserNav from "./CreateUserNav";
 import React from "react";
 
-const CreateUserConyainer = ({user, isLoading, logOff, changePage, onClickHandler}) => {
+const CreateUserContainer = ({user, isLoading, logOff, changePage, onClickHandler}) => {
 
     return (
         <div className={"page createUserPage"}>
