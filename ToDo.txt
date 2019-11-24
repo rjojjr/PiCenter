@@ -23,3 +23,4 @@ Append #<Your handle> to end of item completed
 18. Add global footer component.
 19. Add global aside component.
 20. Wrap login input in form. #rjojjr
+21. Handle create user error.
