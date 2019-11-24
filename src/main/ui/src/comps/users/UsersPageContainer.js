@@ -14,7 +14,7 @@ import CreateUserContainer from "./create-user/CreateUserContainer";
 const UserPageContainer = ({
                                user,
                                isLoading, isError,
-                               errorMsg, logOff, usersIsLoading, usersLoadingError
+                               errorMsg, logOff, usersIsLoading, usersLoadingError, userMsg
                            }) => {
 
     const tabClickHandler = (tabIndex) => {
