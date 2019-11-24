@@ -1,5 +1,6 @@
 package com.kirchnersolutions.PiCenter.dev;
 
+import com.kirchnersolutions.PiCenter.Configuration.Constants;
 import com.kirchnersolutions.PiCenter.Configuration.DevVars;
 import com.kirchnersolutions.PiCenter.Configuration.SocketServerConfiguration;
 import com.kirchnersolutions.PiCenter.Configuration.SysVars;
@@ -24,12 +25,13 @@ public class DebuggingService {
     @Autowired
     private SocketServerConfiguration socketServerConfiguration;
 
-    private File exDir = new File("SHome/Dev/Trace/DevelopmentExceptions");
-    private File nonFatDir = new File("SHome/Dev/Trace/NonFatalExceptions");
-    private File ipDir = new File("SHome/logs/IPDebug");
-    private File stompDir = new File("SHome/logs/StompDebug");
-    private File socketDir = new File("SHome/logs/SocketDebug");
-    private File traceDir = new File("SHome/logs/Trace");
+    private File dir = new File(Constants.MAIN_DIR);
+    private File exDir = new File(dir, "/Dev/Trace/DevelopmentExceptions");
+    private File nonFatDir = new File(dir, "/Dev/Trace/NonFatalExceptions");
+    private File ipDir = new File(dir, "logs/IPDebug");
+    private File stompDir = new File(dir, "logs/StompDebug");
+    private File socketDir = new File(dir, "logs/SocketDebug");
+    private File traceDir = new File(dir, "logs/Trace");
     private volatile AtomicBoolean stompLock = new AtomicBoolean(false);
 
     public DebuggingService(){

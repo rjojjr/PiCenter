@@ -21,7 +21,7 @@ public class DevVars {
      * Creates DevelopmentException Log directory.
      */
     public DevVars(){
-        File dir = new File("Database");
+        File dir = new File(Constants.MAIN_DIR);
         uncaughtExceptionLogsDir = new File(dir, "/Dev/Trace/UncaughtExceptions");
         devExceptionLogsDir = new File(dir, "/Dev/Trace/DevelopmentExceptions");
         if(!devExceptionLogsDir.exists()){

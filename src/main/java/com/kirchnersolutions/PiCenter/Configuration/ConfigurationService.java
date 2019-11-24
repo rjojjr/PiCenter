@@ -43,7 +43,7 @@ public class ConfigurationService {
 
     @PostConstruct
     public void init() throws Exception{
-        File temp = new File("SHome");
+        File temp = new File(Constants.MAIN_DIR);
         configDir = new File(temp, "/Configuration/Files");
         devConfig = new File(configDir, "/DeveloperConfig.dbs");
         sysConfig = new File(configDir, "/SystemConfig.dbs");
