@@ -3,12 +3,13 @@ import {connect} from "react-redux";
 
 import {logOff, changePage} from '../../actions/universal-actions';
 
-import {usersIsLoading, usersLoadingError} from "../../actions/user-actions";
+import {usersIsLoading, usersLoadingError, resetUserSHowMsg, createUserThunk} from "../../actions/user-actions";
 import CreateUserPage from "./create-user/CreateUserPage";
 
-import {updateSession} from "../../services/axios-service";
+import {createUser, updateSession} from "../../services/axios-service";
 
 import * as pageConstants from "../../constants/page-constants";
+import CreateUserContainer from "./create-user/CreateUserContainer";
 
 const UserPageContainer = ({
                                user,
@@ -29,7 +30,7 @@ const UserPageContainer = ({
 
     return (
         <div>
-            <CreateUserPage changePage={changePage} logOff={logOff} user={user} onClickHandler={tabClickHandler}/>
+            <CreateUserContainer changePage={changePage} logOff={logOff} user={user} onClickHandler={tabClickHandler} resetUserMsg={resetUserSHowMsg} createUser={createUser} userMsg={userMsg}/>
         </div>
     );
 };
@@ -38,14 +39,17 @@ const mapStateToProps = state => ({
     user: state.user,
     isLoading: state.isUserLoading,
     isError: state.isUserError,
-    errorMsg: state.message
+    errorMsg: state.message,
+    userMsg: state.userMsg
 });
 
 const mapDispatchToProps = {
     logOff,
     usersIsLoading,
     usersLoadingError,
-    changePage
+    changePage,
+    resetUserSHowMsg,
+    createUser: createUserThunk
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserPageContainer);

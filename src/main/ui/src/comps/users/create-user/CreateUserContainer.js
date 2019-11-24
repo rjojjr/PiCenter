@@ -3,8 +3,9 @@ import GenericPageHeader from "../../global/GenericPageHeader";
 import * as pageConstants from "../../../constants/page-constants";
 import CreateUserNav from "./CreateUserNav";
 import React from "react";
+import CreateUserPage from "./CreateUserPage";
 
-const CreateUserContainer = ({user, isLoading, logOff, changePage, onClickHandler}) => {
+const CreateUserContainer = ({user, userMsg, isLoading, logOff, changePage, onClickHandler, resetUserMsg, createUser}) => {
 
     return (
         <div className={"page createUserPage"}>
@@ -20,7 +21,8 @@ const CreateUserContainer = ({user, isLoading, logOff, changePage, onClickHandle
                             <header>
                                 <GenericPageHeader isLoading={isLoading} currentTabIndex={0} onClickHandler={onClickHandler} tabs={pageConstants.USERS_TABS}/>
                             </header>
-
+                            <p>{userMsg}</p>
+                            <CreateUserPage resetMsg={resetUserMsg} createUser={createUser}/>
                         </section>
                         <nav>
                             <CreateUserNav changePage={changePage} />
