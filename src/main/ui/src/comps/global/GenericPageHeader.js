@@ -3,7 +3,7 @@ import React from "react";
 const GenericPageHeader = ({ onClickHandler, tabs, currentTabIndex, isLoading }) => {
 
     const isDisable = (index) => {
-        return index === currentTabIndex ? true : false;
+        return index === currentTabIndex
     }
 
     return (

@@ -8,7 +8,7 @@ import CreateUserPage from "./CreateUserPage";
 const CreateUserContainer = ({user, userMsg, isLoading, logOff, changePage, onClickHandler, resetUserMsg, createUser}) => {
 
     return (
-        <div className={"page createUserPage"}>
+        <div className={"pageContainer createUserPage"}>
             <LoadingView isLoading={isLoading} message={"Loading.."}/>
             {!isLoading && (
                 <div>
