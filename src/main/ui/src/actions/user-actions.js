@@ -15,7 +15,7 @@ export const resetUserSHowMsg = () => ({
 });
 
 export const USERS_SHOW_MSG = 'USERS_SHOW_MSG'
-export const usersSHowMsg = (msg) => ({
+export const usersShowMsg = (msg) => ({
     type: USERS_SHOW_MSG
 });
 
@@ -33,9 +33,10 @@ export const usersLoadingError = (msg, error) => ({
 export const createUserThunk = () => async dispatch => {
     try {
         dispatch(usersIsLoading(true));
-        const initiationResponse = await createUser();
-
-        dispatch(setUser(user));
+        const response = await createUser();
+        if(response.data.responseBody.body === 'success'){
+            usersShowMsg('User created successfully')
+        }
         dispatch(isNotLoading());
         return
     } catch (error) {
