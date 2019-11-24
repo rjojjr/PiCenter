@@ -60,22 +60,31 @@ task copyWebApp(type: Copy) {
 	into 'build/resources/main/static'
 }
 //Bundle react ui with boot jar for production.
-task prodBuild(type: Copy){
-	if (test == true){
+
+task testBuild(type: Copy) {
 		from 'src/builds/test'
 		into 'src/main/resources'
-	}else{
-		from 'src/builds/prod'
-		into 'src/main/resources'
-	}
 }
 
-wrapper.dependsOn prodBuild
+task prodBuild(type: Copy){
+		from 'src/builds/prod'
+		into 'src/main/resources'
+}
+
+task nonProdBuild(type: Copy){
+	from 'src/builds/nonprod'
+	into 'src/main/resources'
+}
 
 if (PRODUCTION_BUILD == true && test == false){
+	wrapper.dependsOn prodBuild
 	appNpmBuild.dependsOn appNpmInstall
 	copyWebApp.dependsOn appNpmBuild
 	compileJava.dependsOn copyWebApp
+}else if(test == true){
+	wrapper.dependsOn testBuild
+}else{
+	wrapper.dependsOn nonProdBuild
 }
 
 task prod(type: Jar){

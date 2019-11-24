@@ -1,12 +1,13 @@
 package com.kirchnersolutions.PiCenter.servers.beans;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.*;
 
-@Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class SessionUpdate {
 
-    private String page = "null";
+    @Getter
+    @Setter
+    private String page;
 
 }

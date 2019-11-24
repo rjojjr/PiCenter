@@ -97,7 +97,7 @@ public class MainController {
     }
 
     @PostMapping("/update")
-    public RestResponse updateSession(HttpServletResponse response, @RequestParam String userId, SessionUpdate sessionUpdate) throws Exception{
+    public RestResponse updateSession(HttpServletResponse response, @RequestParam String userId, @RequestBody SessionUpdate sessionUpdate) throws Exception{
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes())
                 .getRequest();
         HttpSession httpSession = cookie(request, response);
@@ -136,6 +136,7 @@ public class MainController {
     }
 
     private boolean updateSession(String username, String token, String ip, String page) throws Exception{
+        debuggingService.trace("Update username: " + username + " token: " + token + " ip: " + ip + " page: " + page);
         if(userService.updateSession(username, token, ip, page) == null){
             userService.systemInvalidateUser(username, "unauthentic session");
             return false;

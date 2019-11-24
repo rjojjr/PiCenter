@@ -14,14 +14,14 @@ import CreateUserContainer from "./create-user/CreateUserContainer";
 const UserPageContainer = ({
                                user,
                                isLoading, isError,
-                               errorMsg, logOff, usersIsLoading, usersLoadingError, userMsg
+                               errorMsg, logOff, usersIsLoading, usersLoadingError, userMsg, changePage
                            }) => {
 
     const tabClickHandler = (tabIndex) => {
         switch (tabIndex) {
             case 0: {
                 changePage(pageConstants.CREATE_USER);
-                updateSession(pageConstants.CREATE_USER, user);
+
             };
             default: {
                 changePage(pageConstants.USERS);
@@ -29,7 +29,7 @@ const UserPageContainer = ({
             }
         }
     }
-
+    updateSession(user.page, user);
     return (
         <div>
             <CreateUserContainer changePage={changePage} logOff={logOff} user={user} onClickHandler={tabClickHandler} resetUserMsg={resetUserSHowMsg} createUser={createUser} userMsg={userMsg}/>
