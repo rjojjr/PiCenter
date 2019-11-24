@@ -93,7 +93,12 @@ public class UserServiceIntegrationTest {
         assertNotNull("admin user session null", userSession);
         admin = userService.updateSession("admin", admin.getUserSession().getToken(), "192.168.1.168", "/test", "stomp");
         assertNotNull("admin user session token null", userSession.getToken());
-        assertNotEquals("admin session page equal '/'","/", userSession.getPage());
+        assertEquals("admin session page equal '/'","/test", userSession.getPage());
+        assertNotEquals("admin session ip equal 'null'","null", userSession.getIpAddress());
+        assertNotNull("admin session stomp id equal null",userSession.getStompId());
+        admin = userService.updateSession("admin", admin.getUserSession().getToken(), "192.168.1.168", "/test");
+        assertNotNull("admin user session token null", userSession.getToken());
+        assertEquals("admin session page equal '/'","/test", userSession.getPage());
         assertNotEquals("admin session ip equal 'null'","null", userSession.getIpAddress());
         assertNotNull("admin session stomp id equal null",userSession.getStompId());
         userService.logOff(admin.getUserName());
