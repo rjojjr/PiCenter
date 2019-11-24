@@ -3,10 +3,7 @@ Styling ToDo
 1. Change footer to flex.
 2. Set content to flexgrow > 1.
 3. Add gradients to header and footer.
-/*
-    Need to change container html structure to match login page container.
-*/
-4. Style Create User page.
+4. Style Create User page.#rjojjr
 5. Implement Material design
 6  Put Temp and humidity in row below average on summary table.
 7. Change vh to %.
