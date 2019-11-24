@@ -188,7 +188,7 @@ public class UserService {
         return user;
     }
 
-    public AppUser updateSession(String userName, String token, String ipAddress, String page){
+    public synchronized AppUser updateSession(String userName, String token, String ipAddress, String page){
         AppUser user = userList.searchList(userName);
         if(user == null){
             return null;

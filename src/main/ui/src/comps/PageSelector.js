@@ -9,11 +9,11 @@ import {updateSession} from "../services/axios-service";
 import UserPageContainer from "./users/UsersPageContainer";
 
 const PageSelector = ({user}) =>{
-    
+
     const page = user.page;
 
     const checkPage = () => {
-        if(user !== {} && user.userName !== 'null'  && user.userName !== undefined && user.page === 'null'){
+        if(user !== {} && user.userName !== 'null'  && user.userName !== undefined && user.page === "null"){
             updateSession(constants.SUMMARY_PAGE, user);
         }else {
             updateSession(page, user);

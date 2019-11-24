@@ -24,7 +24,7 @@ const CreateUserPage = ({user, isLoading, logOff, changePage, onClickHandler, re
         resetMsg();
     }
 
-    const handlePasswordNameOnChange = (e) => {
+    const handlePasswordOnChange = (e) => {
         setPassword(e.target.value);
         resetMsg();
     }
@@ -79,7 +79,7 @@ const CreateUserPage = ({user, isLoading, logOff, changePage, onClickHandler, re
                                 Password
                             </td>
                             <td>
-                                <input type={"text"} value={password} onChange={handleLastNameOnChange}/>
+                                <input type={"text"} value={password} onChange={handlePasswordOnChange}/>
                             </td>
                         </tr>
                         <tr>
