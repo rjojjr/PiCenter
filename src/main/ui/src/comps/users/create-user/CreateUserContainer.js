@@ -8,7 +8,7 @@ import CreateUserPage from "./CreateUserPage";
 const CreateUserContainer = ({user, userMsg, isLoading, logOff, changePage, onClickHandler, resetUserMsg, createUser}) => {
 
     return (
-        <div className={"pageContainer createUserPage"}>
+        <div className={"pageContainer createUserPageContainer"}>
             <LoadingView isLoading={isLoading} message={"Loading.."}/>
             {!isLoading && (
                 <div>
@@ -17,17 +17,17 @@ const CreateUserContainer = ({user, userMsg, isLoading, logOff, changePage, onCl
 
                     </header>
                     <div id="main">
-                        <section>
-                            <header>
+                        <section className={"createUserPage"}>
+                            <header className={"createUserPage"}>
                                 <GenericPageHeader isLoading={isLoading} currentTabIndex={0} onClickHandler={onClickHandler} tabs={pageConstants.USERS_TABS}/>
                             </header>
                             <p>{userMsg}</p>
                             <CreateUserPage resetMsg={resetUserMsg} createUser={createUser}/>
                         </section>
-                        <nav>
+                        <nav className={"createUserPage"}>
                             <CreateUserNav changePage={changePage} />
                         </nav>
-                        <aside>
+                        <aside className={"createUserPage"}>
                             <h4>Logged on as: {user.userName}</h4>
                             <button type={"button"} onClick={logOff}>
                                 Logout

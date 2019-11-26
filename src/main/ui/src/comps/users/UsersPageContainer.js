@@ -10,7 +10,7 @@ import {updateSession} from "../../services/axios-service";
 import * as pageConstants from "../../constants/page-constants";
 import CreateUserContainer from "./create-user/CreateUserContainer";
 
-const UserPageContainer = ({
+const UsersPageContainer = ({
                                user, changePage,
                                isLoading, isError,
     createUser,
@@ -33,7 +33,7 @@ const UserPageContainer = ({
     }
     updateSession(user.page, user);
     return (
-        <div>
+        <div className={"pageContainer usersPageContainer"}>
             <CreateUserContainer changePage={changePage} isLoading={isLoading} logOff={logOff} user={user} onClickHandler={tabClickHandler}
                                  resetUserMsg={resetUserShowMsg} createUser={createUser} userMsg={userMsg}/>
         </div>
@@ -57,5 +57,5 @@ const mapDispatchToProps = {
     createUser: createUserThunk
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserPageContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(UsersPageContainer);
 
