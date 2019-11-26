@@ -24,4 +24,7 @@ Append #<Your handle> to end of item completed
 19. Add global aside component.
 20. Wrap login input in form. #rjojjr
 21. Handle create user error.
-22. Test create user.
+22. Test create user react-redux integration.
+23. At socket server to Pis to execute tasks.
+24. Algorithm to detect when furnace/AC turns on/off.
+25. Discover furnace trends based on time of day.
