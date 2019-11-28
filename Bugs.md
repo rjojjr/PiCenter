@@ -1,6 +1,6 @@
-Bug List
+#Bug List
 
-Append #<Your handle> to end of item completed
+###***Append #<Your handle> to end of item completed***
 
 1. Logout corrupts session data.#rjojjr
 2. Freeze on failed login attempt.

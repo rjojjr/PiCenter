@@ -1,6 +1,6 @@
-ToDo List
+#ToDo List
 
-Append #<Your handle> to end of item completed
+###***Append #<Your handle> to end of item completed***
 
 1. Make user list searches asynchronous.#rjojjr
 2. Licenses and Documents.
@@ -28,3 +28,6 @@ Append #<Your handle> to end of item completed
 23. At socket server to Pis to execute tasks.
 24. Algorithm to detect when furnace/AC turns on/off.
 25. Discover furnace trends based on time of day.
+26. Implement Spring Rest Template to make rest request to new [PiRest controller](https://github.com/rjojjr/PiScalaRestController)
+27. Add endpoints to fetch/delete logs.
+28. Use repositories to backup tables as csv(and restore).

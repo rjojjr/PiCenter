@@ -16,6 +16,8 @@ and predicting ways to increase efficiency. We will slowly
 add features like lighting and such, and when time allows, 
 controlling ductwork and windows.
 
+The application uses MySQL and Spring CRUD repositories to persist data.
+
 The source for the Raspberry Pi application and be found [here](https://github.com/rjojjr/pitemp)
 
 Please feel free to contribute features pertaining to
@@ -24,7 +26,7 @@ your own smart home incorporation.
 The program is built with Springboot, React, Redux, axios, Scala and py4j
 Python Java gateway API to incorporate the Raspberry Pi.
 
-Branches will be named by toDo-<ToDo number> or bug-<Bug number> or s-<Story number>
+_Branches will be named by toDo-<ToDo number> or bug-<Bug number> or s-<Story number>_
 
 
 
