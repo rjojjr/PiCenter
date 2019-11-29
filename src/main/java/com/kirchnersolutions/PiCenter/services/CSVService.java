@@ -4,6 +4,8 @@ import com.kirchnersolutions.PiCenter.entites.AppUser;
 import com.kirchnersolutions.PiCenter.entites.AppUserRepository;
 import com.kirchnersolutions.PiCenter.entites.ReadingRepository;
 import com.kirchnersolutions.PiCenter.entites.UserLogRepository;
+import com.kirchnersolutions.PiCenter.services.interfaces.AppUserCSVImpl;
+import com.kirchnersolutions.PiCenter.services.interfaces.DBItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -36,8 +38,8 @@ public class CSVService {
         }
     }
 
-    private String parseAppUserCSV(List<AppUser> users){
-        String csv = "username,"
+    private String parseAppUserCSV(List<DBItem> users){
+        return new AppUserCSVImpl().parseToCSV(users);
     }
 
 }
