@@ -27,6 +27,9 @@ Database
 *.ipr
 out/
 
+### Program ###
+/PiCenter
+
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/
