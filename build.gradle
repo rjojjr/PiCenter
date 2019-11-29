@@ -98,4 +98,5 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	compile name: 'Utilities-1.0.00'
 	runtimeOnly 'mysql:mysql-connector-java:8.0.11'
+	compile "com.h2database:h2:1.4.197"
 }

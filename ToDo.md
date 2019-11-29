@@ -32,3 +32,4 @@
 27. Add endpoints to fetch/delete logs.
 28. Use repositories to backup tables as csv(and restore).
 29. Fix logOnPage.test.js
+30. Add H2 test Datasource.
