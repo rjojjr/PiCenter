@@ -1,11 +1,9 @@
 package com.kirchnersolutions.PiCenter.services;
 
-import com.kirchnersolutions.PiCenter.entites.AppUser;
-import com.kirchnersolutions.PiCenter.entites.AppUserRepository;
-import com.kirchnersolutions.PiCenter.entites.ReadingRepository;
-import com.kirchnersolutions.PiCenter.entites.UserLogRepository;
+import com.kirchnersolutions.PiCenter.entites.*;
 import com.kirchnersolutions.PiCenter.services.interfaces.AppUserCSVImpl;
 import com.kirchnersolutions.PiCenter.services.interfaces.DBItem;
+import com.kirchnersolutions.PiCenter.services.interfaces.ReadingCSVImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -38,8 +36,28 @@ public class CSVService {
         }
     }
 
-    private String parseAppUserCSV(List<DBItem> users){
+    private String parseAppUserToCSV(List<DBItem> users){
+        if(users == null || users.size() == 0){
+            return null;
+        }
+        try{
+            AppUser typeTest = (AppUser)users.get(0);
+        }catch (Exception e){
+            throw new IllegalArgumentException("Invalid item type: AppUser required");
+        }
         return new AppUserCSVImpl().parseToCSV(users);
+    }
+
+    private String parseReadingToCSV(List<DBItem> readings){
+        if(readings == null || readings.size() == 0){
+            return null;
+        }
+        try{
+            Reading typeTest = (Reading)readings.get(0);
+        }catch (Exception e){
+            throw new IllegalArgumentException("Invalid item type: AppUser required");
+        }
+        return new ReadingCSVImpl().parseToCSV(readings);
     }
 
 }

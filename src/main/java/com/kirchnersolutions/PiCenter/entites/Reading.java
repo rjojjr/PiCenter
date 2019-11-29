@@ -46,4 +46,12 @@ public class Reading implements DBItem {
         this.room = room;
     }
 
+    public Reading(Long id, Long time, int temp, int humidity, String room){
+        this.id = id;
+        this.time = time;
+        this.temp = temp;
+        this.humidity = humidity;
+        this.room = room;
+    }
+
 }
