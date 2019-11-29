@@ -49,5 +49,5 @@ export const createUser = (user, username, firstName, lastName, password, admin)
     admin: admin
   };
 
-  axios.post(constants.CREATE_USER + '?token=' + user.token, newUser);
+  return axios.post(constants.CREATE_USER + '?token=' + user.token, newUser);
 };

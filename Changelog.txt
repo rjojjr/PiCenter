@@ -3,8 +3,9 @@ PiCenter Changelog
 
 1.0.00a
 
+11/29/2019
 Build 100113
-    Fix Create User Page bug.
+    Fix Create User Page bugs.
 
 11/24/2019
 Build 100112

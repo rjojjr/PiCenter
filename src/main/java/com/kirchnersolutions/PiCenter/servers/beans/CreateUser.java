@@ -13,6 +13,6 @@ public class CreateUser {
     private String firstName = "null";
     private String lastName = "null";
     private String password = "null";
-    private boolean admin = false;
+    private String admin = "false";
 
 }

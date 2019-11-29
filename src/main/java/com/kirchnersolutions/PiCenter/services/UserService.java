@@ -54,10 +54,14 @@ public class UserService {
 
     public boolean createUser(String userName, CreateUser createUser) throws Exception{
         AppUser creator = userList.searchList(userName);
+        boolean isAdmin = false;
         if(creator == null){
             return false;
         }
-        return addUser(creator, createUser.getUserName(), createUser.getFirstName(), createUser.getLastName(), createUser.getPassword(), createUser.isAdmin());
+        if(createUser.getAdmin().contains("t")){
+            isAdmin = true;
+        }
+        return addUser(creator, createUser.getUserName(), createUser.getFirstName(), createUser.getLastName(), createUser.getPassword(), isAdmin);
     }
 
     public boolean addUser(AppUser creator, String userName, String firstName, String lastName, String password, boolean admin) throws Exception{

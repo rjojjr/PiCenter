@@ -13,7 +13,7 @@ const SummaryNav = ({changePage}) => {
                         </li>
                     </ul>
                     <ul>
-                        <li><a onClick={() => changePage(pageConstants.USERS)}>Users</a></li>
+                        <li><a className={'link usersLink'} onClick={() => changePage(pageConstants.USERS)}>Users</a></li>
                     </ul>
                 </li>
             </ul>

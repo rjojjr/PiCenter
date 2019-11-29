@@ -2,7 +2,7 @@ import React from 'react';
 
 import * as pageConstants from "../../../constants/page-constants";
 
-const CreateUserNav = (changePage) => {
+const CreateUserNav = ({changePage}) => {
     return (
         <div className={"nav createUserNav"}>
             <ul>
@@ -19,7 +19,7 @@ const CreateUserNav = (changePage) => {
                     </ul>
 
                     <ul>
-                        <li><a onClick={() => changePage(pageConstants.SUMMARY_PAGE)}>Summary</a></li>
+                        <li><a className={'link summaryLink'} onClick={() => changePage(pageConstants.SUMMARY_PAGE)}>Summary</a></li>
                     </ul>
                 </li>
 
