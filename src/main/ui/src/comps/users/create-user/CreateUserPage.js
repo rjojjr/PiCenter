@@ -31,17 +31,17 @@ const CreateUserPage = ({user, isLoading, logOff, changePage, onClickHandler, re
 
     const handleAdminOnChange = () => {
         if(admin){
-            setAdmin(true);
-            setAdminText('true');
-        }else{
             setAdmin(false);
             setAdminText('false');
+        }else{
+            setAdmin(true);
+            setAdminText('true');
         }
         resetMsg();
     }
 
     const handleOnSubmit = () => {
-        createUser(userName, firstName, lastName, password, admin);
+        createUser(user, userName, firstName, lastName, password, admin);
     }
 
     return (
@@ -95,7 +95,7 @@ const CreateUserPage = ({user, isLoading, logOff, changePage, onClickHandler, re
                         </tr>
                     </tbody>
                 </table>
-                <button onClick={handleOnSubmit}>Create User</button>
+                <button className={"button createUserButton"} onClick={handleOnSubmit}>Create User</button>
             </form>
         </div>
     )

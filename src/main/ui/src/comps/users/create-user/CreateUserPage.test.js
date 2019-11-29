@@ -11,7 +11,7 @@ import UsersPageContainer from "../UsersPageContainer";
 describe('redux integration tests', () => {
 
     let store;
-    let mockLogOn;
+    let mockCreateUser;
 
     const initialState = {
         user: {userName: 'admin', token: 'nasfdjkbkjsdakjaqw34dscf', page: '/users/create', ip: '192.168.1.25'},
@@ -28,9 +28,13 @@ describe('redux integration tests', () => {
     };
 
     beforeEach(() => {
+
         store = createStore(mainReducer, initialState, applyMiddleware(thunk));
+        mockCreateUser = jest.fn();
+        axiosService.createUser= mockCreateUser;
     });
-    afterEach(() => {});
+
+    afterEach(() => {mockCreateUser.mockClear()});
 
     test('create user page renders', async () => {
 
@@ -68,5 +72,40 @@ describe('redux integration tests', () => {
 
         expect(container.querySelectorAll("button").length).toBe(4);
     })
+
+    test('create user sends correct API call', async () => {
+
+        const { container, getByText } = render(
+            <Provider store={store}>
+                <UsersPageContainer/>
+            </Provider>
+        );
+
+        await wait();
+
+        const userNameInput = container.querySelectorAll('input')[0];
+        const firstNameInput = container.querySelectorAll('input')[1];
+        const lastNameInput = container.querySelectorAll('input')[2];
+        const passwordInput = container.querySelectorAll('input')[3];
+        const adminButton = getByText(/Change/);
+        const submitButton = container.querySelector('button.createUserButton');
+
+        fireEvent.change(userNameInput, { target: { value: "admin" } });
+        fireEvent.change(firstNameInput, { target: { value: "Robert" } });
+        fireEvent.change(lastNameInput, { target: { value: 'Kirchner JR' } });
+        fireEvent.change(passwordInput, { target: { value: "admin" } });
+        fireEvent.click(adminButton);
+        fireEvent.click(submitButton);
+
+        expect(mockCreateUser).toHaveBeenCalledWith(
+            {userName: 'admin', token: 'nasfdjkbkjsdakjaqw34dscf', page: '/users/create', ip: '192.168.1.25'},
+            'admin',
+            'Robert',
+            'Kirchner JR',
+            'admin',
+            true
+        );
+
+    });
 
 })
