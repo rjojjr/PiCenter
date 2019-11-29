@@ -90,11 +90,14 @@ describe('redux integration tests', () => {
         const adminButton = getByText(/Change/);
         const submitButton = container.querySelector('button.createUserButton');
 
-        fireEvent.change(userNameInput, { target: { value: "admin" } });
-        fireEvent.change(firstNameInput, { target: { value: "Robert" } });
+        fireEvent.change(userNameInput, { target: { value: 'admin' } });
+        fireEvent.change(firstNameInput, { target: { value: 'Robert' } });
         fireEvent.change(lastNameInput, { target: { value: 'Kirchner JR' } });
-        fireEvent.change(passwordInput, { target: { value: "admin" } });
+        fireEvent.change(passwordInput, { target: { value: 'admin'} });
         fireEvent.click(adminButton);
+
+        expect(getByText(/true/)).toBeInTheDocument();
+
         fireEvent.click(submitButton);
 
         expect(mockCreateUser).toHaveBeenCalledWith(

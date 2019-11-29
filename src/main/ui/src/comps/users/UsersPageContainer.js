@@ -22,7 +22,7 @@ const UsersPageContainer = ({
         switch (tabIndex) {
             case 0: {
                 changePage(pageConstants.CREATE_USER);
-
+                updateSession(pageConstants.CREATE_USER, user);
             }
                 ;
             default: {

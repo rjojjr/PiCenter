@@ -16,7 +16,7 @@ const GenericPageHeader = ({ onClickHandler, tabs, currentTabIndex, isLoading })
                     {tabs.map((tab, index) => (
                         <button
                             key={index}
-                            disabled={() => isDisable(index)}
+                            //disabled={() => isDisable(index)}
                             className={"tabSelector"}
                             onClick={() => {
                                 onClickHandler(index);

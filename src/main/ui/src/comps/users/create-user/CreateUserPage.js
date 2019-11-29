@@ -6,9 +6,15 @@ const CreateUserPage = ({user, isLoading, logOff, changePage, onClickHandler, re
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [password, setPassword] = useState('');
-    const [adminText, setAdminText] = useState('False');
+    const [adminText, setAdminText] = useState('false');
     const [admin, setAdmin] = useState(false);
 
+    /*let adminText = 'false';
+
+    const setAdminText = (adminTxt) => {
+        adminText = adminTxt;
+    }
+*/
     const handleUserNameOnChange = (e) => {
         setUserName(e.target.value);
         resetMsg();
@@ -29,15 +35,15 @@ const CreateUserPage = ({user, isLoading, logOff, changePage, onClickHandler, re
         resetMsg();
     }
 
-    const handleAdminOnChange = () => {
+    const handleAdminOnChange = (e) => {
+        e.preventDefault();
         if(admin){
-            setAdmin(false);
             setAdminText('false');
+            setAdmin(false);
         }else{
-            setAdmin(true);
             setAdminText('true');
+            setAdmin(true);
         }
-        resetMsg();
     }
 
     const handleOnSubmit = () => {
@@ -86,7 +92,7 @@ const CreateUserPage = ({user, isLoading, logOff, changePage, onClickHandler, re
                             <td>
                                 Admin
                             </td>
-                            <td>
+                            <td className={'adminStatus'}>
                                 {adminText}
                             </td>
                             <td>

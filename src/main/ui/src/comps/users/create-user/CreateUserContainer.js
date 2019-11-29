@@ -22,7 +22,7 @@ const CreateUserContainer = ({user, userMsg, isLoading, logOff, changePage, onCl
                                 <GenericPageHeader isLoading={isLoading} currentTabIndex={0} onClickHandler={onClickHandler} tabs={pageConstants.USERS_TABS}/>
                             </header>
                             <p>{userMsg}</p>
-                            <CreateUserPage resetMsg={resetUserMsg} createUser={createUser}/>
+                            <CreateUserPage user={user} resetMsg={resetUserMsg} createUser={createUser}/>
                         </section>
                         <nav className={"createUserPage"}>
                             <CreateUserNav changePage={changePage} />
