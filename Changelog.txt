@@ -4,7 +4,7 @@ PiCenter Changelog
 1.0.00a
 
 Build 100114
-    Fix Create User Page bugs.
+    Add entity cvs parsers.
 
 11/29/2019
 Build 100113
