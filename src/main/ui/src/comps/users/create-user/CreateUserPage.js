@@ -7,7 +7,7 @@ const CreateUserPage = ({user, isLoading, logOff, changePage, onClickHandler, re
     const [lastName, setLastName] = useState('');
     const [password, setPassword] = useState('');
     const [adminText, setAdminText] = useState('false');
-    const [admin, setAdmin] = useState(false);
+    const [isAdmin, setAdmin] = useState(false);
 
     /*let adminText = 'false';
 
@@ -37,7 +37,7 @@ const CreateUserPage = ({user, isLoading, logOff, changePage, onClickHandler, re
 
     const handleAdminOnChange = (e) => {
         e.preventDefault();
-        if(admin){
+        if(isAdmin){
             setAdminText('false');
             setAdmin(false);
         }else{
@@ -46,8 +46,9 @@ const CreateUserPage = ({user, isLoading, logOff, changePage, onClickHandler, re
         }
     }
 
-    const handleOnSubmit = () => {
-        createUser(user, userName, firstName, lastName, password, admin);
+    const handleOnSubmit = (e) => {
+        e.preventDefault();
+        createUser(user, userName, firstName, lastName, password, isAdmin);
     }
 
     return (

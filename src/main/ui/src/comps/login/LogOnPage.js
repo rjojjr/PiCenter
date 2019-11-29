@@ -17,12 +17,13 @@ const LogOnPage = ({logOn, message, user, isShowMsg, resetIsShowMsg, isLoggingOn
         resetIsShowMsg()
     }
 
-    const handleOnClick = () => {
+    const handleOnClick = (e) => {
+        e.preventDefault();
         logOn(username, password)
     }
 
     return (
-        <div className={"pageContainer creeateUserPage"}>
+        <div className={"page logOnPage"}>
 
             {isLoggingOn && <p className={"loading"}>Logging on....</p>}
             {user.username !== undefined && <PageSelector user={user}/>}

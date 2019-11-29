@@ -30,10 +30,10 @@ export const usersLoadingError = (msg, error) => ({
     msg, error
 });
 
-export const createUserThunk = (userName, firstName, lastName, password, admin) => async dispatch => {
+export const createUserThunk = (user, userName, firstName, lastName, password, admin) => async dispatch => {
     try {
         dispatch(usersIsLoading(true));
-        const response = await createUser(userName, firstName, lastName, password, admin);
+        const response = await createUser(user, userName, firstName, lastName, password, admin);
         if(response.data.responseBody.body === 'success'){
             usersShowMsg('User created successfully')
         }

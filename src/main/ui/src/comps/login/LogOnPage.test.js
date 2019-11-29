@@ -10,6 +10,7 @@ import LogOnPage from "./LogOnPage";
 import LogOnPageContainer from "./LogOnPageContainer";
 import AppContainer from "../AppContainer";
 import * as constants from "../../constants/page-constants";
+import InitialAppLoader from "../InitialAppLoader";
 
 describe("redux integration: LogOnPageContainer render tests", () => {
   let store;
@@ -17,13 +18,23 @@ describe("redux integration: LogOnPageContainer render tests", () => {
 
   const initialState = {
     user: {},
+    isLoadingError: false,
+    loadingErrorMsg: '',
     isLoading: false,
     isError: false,
-    message: "",
+    message: '',
     isShowMsg: false,
-    errorMsg: "",
+    errorMsg: '',
     isLoggedOn: false,
-    isLoggingOn: false
+    isLoggingOn: false,
+    summary: [],
+    isSummaryLoading: true,
+    isSummaryError: false,
+    isUserLoading: false,
+    isUserError: false,
+    loaded: false,
+    canRenderSummary: false,
+    userMsg: ''
   };
 
   beforeEach(() => {
@@ -32,13 +43,15 @@ describe("redux integration: LogOnPageContainer render tests", () => {
   afterEach(() => {});
 
   test("renders logon page", async () => {
-    const { container } = render(
+    const { container, debug } = render(
       <Provider store={store}>
         <AppContainer />
       </Provider>
     );
 
-    await wait();
+    await wait(() => container.querySelector("div.logOnPage"));
+
+    debug();
 
     expect(container.querySelector("div.logOnPage")).toBeInTheDocument();
 
@@ -56,13 +69,23 @@ describe("mock axios-service logon: LogOnPageContainer render tests", () => {
 
   const initialState = {
     user: {},
+    isLoadingError: false,
+    loadingErrorMsg: '',
     isLoading: false,
     isError: false,
-    message: "",
+    message: '',
     isShowMsg: false,
-    errorMsg: "",
+    errorMsg: '',
     isLoggedOn: false,
-    isLoggingOn: false
+    isLoggingOn: false,
+    summary: [],
+    isSummaryLoading: true,
+    isSummaryError: false,
+    isUserLoading: false,
+    isUserError: false,
+    loaded: false,
+    canRenderSummary: false,
+    userMsg: ''
   };
 
   beforeEach(() => {
