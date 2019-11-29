@@ -52,6 +52,14 @@ public class CSVService {
         return new AppUserCSVImpl().parseToCSV(users);
     }
 
+    private List<DBItem> parseCSVToAppUserWithId(String CSV){
+        return new AppUserCSVImpl().parseToList(CSV);
+    }
+
+    private List<DBItem> parseCSVToAppUserWithoutId(String CSV){
+        return new AppUserCSVImpl().parseToListWithoutId(CSV);
+    }
+
     private String parseReadingToCSV(List<DBItem> readings){
         if(readings == null || readings.size() == 0){
             return null;
@@ -64,6 +72,14 @@ public class CSVService {
         return new ReadingCSVImpl().parseToCSV(readings);
     }
 
+    private List<DBItem> parseCSVToReadingWithId(String CSV){
+        return new ReadingCSVImpl().parseToList(CSV);
+    }
+
+    private List<DBItem> parseCSVToReadingWithoutId(String CSV){
+        return new ReadingCSVImpl().parseToListWithoutId(CSV);
+    }
+
     private String parseUserLogToCSV(List<DBItem> userLogs){
         if(userLogs == null || userLogs.size() == 0){
             return null;
@@ -74,6 +90,14 @@ public class CSVService {
             throw new IllegalArgumentException("Invalid item type: UserLogs required");
         }
         return new UserLogCSVImpl().parseToCSV(userLogs);
+    }
+
+    private List<DBItem> parseCSVToUserLogWithId(String CSV){
+        return new UserLogCSVImpl().parseToList(CSV);
+    }
+
+    private List<DBItem> parseCSVToUserLogWithoutId(String CSV){
+        return new UserLogCSVImpl().parseToListWithoutId(CSV);
     }
 
 }
