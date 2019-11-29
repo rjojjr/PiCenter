@@ -11,6 +11,9 @@ import java.util.List;
 @Repository
 public interface ReadingRepository extends CrudRepository<Reading, Long>, JpaRepository<Reading, Long> {
 
+    @Query("SELECT u FROM Reading u")
+    List<Reading> getAll();
+
     List<Reading> findByTimeOrderByTimeDesc(Long time);
 
     List<Reading> findByTimeAndRoomOrderByTimeDesc(Long time, String room);

@@ -6,8 +6,13 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface UserSessionRepository extends CrudRepository<UserSession, Long>, JpaRepository<UserSession, Long> {
+
+    @Query("SELECT u FROM UserSession u")
+    List<UserSession> getAll();
 
     @Modifying
     @Query(
