@@ -33,3 +33,4 @@
 28. Use repositories to backup tables as csv(and restore).
 29. Fix logOnPage.test.js
 30. Add H2 test Datasource.
+31. Covert all components to constructor injection.

@@ -9,13 +9,15 @@ import org.springframework.stereotype.Service;
 @Service
 public class CSVService {
 
-    @Autowired
     ReadingRepository readingRepository;
-    @Autowired
     UserLogRepository userLogRepository;
-    @Autowired
     AppUserRepository appUserRepository;
 
-
+    @Autowired
+    public CSVService(AppUserRepository appUserRepository, UserLogRepository userLogRepository, ReadingRepository readingRepository){
+        this.appUserRepository = appUserRepository;
+        this.readingRepository = readingRepository;
+        this.userLogRepository = userLogRepository;
+    }
 
 }
