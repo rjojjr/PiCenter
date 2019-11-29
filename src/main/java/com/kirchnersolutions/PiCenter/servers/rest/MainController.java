@@ -115,7 +115,7 @@ public class MainController {
     }
 
     @PostMapping("/users/create")
-    public RestResponse creatUser(HttpServletResponse response, @RequestParam String token, CreateUser createUser) throws Exception{
+    public RestResponse creatUser(HttpServletResponse response, @RequestParam String token, @RequestBody CreateUser createUser) throws Exception{
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes())
                 .getRequest();
         HttpSession httpSession = cookie(request, response);

@@ -37,7 +37,7 @@ export const createUserThunk = (user, userName, firstName, lastName, password, a
         if(response.data.responseBody.body === 'success'){
             usersShowMsg('User created successfully')
         }
-        dispatch(isNotLoading());
+        dispatch(usersIsLoading(false));
         return
     } catch (error) {
         if (process.env.NODE_ENV === 'development' && debugConstants.ALERT_DEBUG_THUNKS){

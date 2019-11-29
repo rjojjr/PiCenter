@@ -48,7 +48,7 @@ const CreateUserPage = ({user, isLoading, logOff, changePage, onClickHandler, re
 
     const handleOnSubmit = (e) => {
         e.preventDefault();
-        createUser(user, userName, firstName, lastName, password, isAdmin);
+        createUser(user, userName, firstName, lastName, password, adminText);
     }
 
     return (

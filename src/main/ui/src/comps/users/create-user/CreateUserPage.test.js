@@ -106,9 +106,11 @@ describe('redux integration tests', () => {
             'Robert',
             'Kirchner JR',
             'admin',
-            true
+            'true'
         );
 
     });
+
+    test()
 
 })

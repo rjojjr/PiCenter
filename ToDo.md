@@ -24,10 +24,11 @@
 19. Add global aside component.
 20. Wrap login input in form. #rjojjr
 21. Handle create user error.
-22. Test create user react-redux integration.
+22. Test create user react-redux integration.#rjojjr
 23. At socket server to Pis to execute tasks.
 24. Algorithm to detect when furnace/AC turns on/off.
 25. Discover furnace trends based on time of day.
 26. Implement Spring Rest Template to make rest request to new [PiRest controller](https://github.com/rjojjr/PiScalaRestController)
 27. Add endpoints to fetch/delete logs.
 28. Use repositories to backup tables as csv(and restore).
+29. Fix logOnPage.test.js
