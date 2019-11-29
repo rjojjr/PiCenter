@@ -38,6 +38,13 @@ public class UserLog implements DBItem {
         this.action = action;
         this.time = time;
     }
+
+    public UserLog(Long id, Long userId, String action, Long time){
+        this.id = id;
+        this.userId = userId;
+        this.action = action;
+        this.time = time;
+    }
 /*
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="userId")

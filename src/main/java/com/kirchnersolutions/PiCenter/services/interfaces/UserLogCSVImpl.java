@@ -1,20 +1,19 @@
 package com.kirchnersolutions.PiCenter.services.interfaces;
 
-import com.kirchnersolutions.PiCenter.entites.Reading;
+
+import com.kirchnersolutions.PiCenter.entites.UserLog;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ReadingCSVImpl implements CSVParser {
+public class UserLogCSVImpl implements CSVParser{
 
-    @Override
     public String parseToCSV(List<DBItem> items) {
-       return getCSV(items);
+        return getCSV(items);
     }
 
-    @Override
     public List<DBItem> parseToList(String CSV) {
-       return getDbItems(CSV, true);
+        return getDbItems(CSV, true);
     }
 
     public List<DBItem> parseToListWithoutId(String CSV) {
@@ -22,36 +21,33 @@ public class ReadingCSVImpl implements CSVParser {
     }
 
     private String getCSV(List<DBItem> items) {
-        StringBuilder CSV = new StringBuilder("id,reading_time,temperature,humidity,room_name");
+        StringBuilder CSV = new StringBuilder("id,user_id,action,time");
         for (DBItem item : items) {
-            Reading reading = (Reading) item;
+            UserLog userLog = (UserLog) item;
             CSV.append("\r\r" +
-                    reading.getId() + "," +
-                    reading.getTime() + "," +
-                    reading.getTemp() + "," +
-                    reading.getHumidity() + "," +
-                    reading.getRoom());
+                    userLog.getId() + "," +
+                    userLog.getUserId() + "," +
+                    userLog.getAction() + "," +
+                    userLog.getTime());
         }
         return CSV.toString();
     }
 
 
-    private Reading toItem(String string, boolean withId){
+    private UserLog toItem(String string, boolean withId){
         String[] columns = string.split(",");
         if(withId){
-        return new Reading(
-                Long.parseLong(columns[0]),
-                Long.parseLong(columns[1]),
-                Integer.parseInt(columns[2]),
-                Integer.parseInt(columns[3]),
-                columns[4]
-        );
-        }else{
-            return new Reading(
+            return new UserLog(
+                    Long.parseLong(columns[0]),
                     Long.parseLong(columns[1]),
-                    Integer.parseInt(columns[2]),
-                    Integer.parseInt(columns[3]),
-                    columns[4]
+                    columns[2],
+                    Long.parseLong(columns[3])
+            );
+        }else {
+            return new UserLog(
+                    Long.parseLong(columns[1]),
+                    columns[2],
+                    Long.parseLong(columns[3])
             );
         }
     }

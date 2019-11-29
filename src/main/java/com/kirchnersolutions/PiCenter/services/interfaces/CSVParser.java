@@ -9,4 +9,6 @@ public interface CSVParser {
 
     public List<DBItem> parseToList(String CSV);
 
+    public List<DBItem> parseToListWithoutId(String CSV);
+
 }

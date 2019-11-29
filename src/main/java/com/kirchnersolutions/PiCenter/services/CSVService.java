@@ -4,7 +4,9 @@ import com.kirchnersolutions.PiCenter.entites.*;
 import com.kirchnersolutions.PiCenter.services.interfaces.AppUserCSVImpl;
 import com.kirchnersolutions.PiCenter.services.interfaces.DBItem;
 import com.kirchnersolutions.PiCenter.services.interfaces.ReadingCSVImpl;
+import com.kirchnersolutions.PiCenter.services.interfaces.UserLogCSVImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -16,14 +18,16 @@ public class CSVService {
     ReadingRepository readingRepository;
     UserLogRepository userLogRepository;
     AppUserRepository appUserRepository;
+    ThreadPoolTaskExecutor threadPoolTaskExecutor;
 
     private File dir, appUserDir, userLogDir, readingDir;
 
     @Autowired
-    public CSVService(AppUserRepository appUserRepository, UserLogRepository userLogRepository, ReadingRepository readingRepository){
+    public CSVService(AppUserRepository appUserRepository, UserLogRepository userLogRepository, ReadingRepository readingRepository, ThreadPoolTaskExecutor threadPoolTaskExecutor){
         this.appUserRepository = appUserRepository;
         this.readingRepository = readingRepository;
         this.userLogRepository = userLogRepository;
+        this.threadPoolTaskExecutor = threadPoolTaskExecutor;
         dir = new File("PiCenter/Backup");
         appUserDir = new File(dir, "/AppUsers");
         userLogDir = new File(dir, "/UserLogs");
@@ -43,7 +47,7 @@ public class CSVService {
         try{
             AppUser typeTest = (AppUser)users.get(0);
         }catch (Exception e){
-            throw new IllegalArgumentException("Invalid item type: AppUser required");
+            throw new IllegalArgumentException("Invalid item type: AppUsers required");
         }
         return new AppUserCSVImpl().parseToCSV(users);
     }
@@ -55,9 +59,21 @@ public class CSVService {
         try{
             Reading typeTest = (Reading)readings.get(0);
         }catch (Exception e){
-            throw new IllegalArgumentException("Invalid item type: AppUser required");
+            throw new IllegalArgumentException("Invalid item type: Readings required");
         }
         return new ReadingCSVImpl().parseToCSV(readings);
+    }
+
+    private String parseUserLogToCSV(List<DBItem> userLogs){
+        if(userLogs == null || userLogs.size() == 0){
+            return null;
+        }
+        try{
+            UserLog typeTest = (UserLog)userLogs.get(0);
+        }catch (Exception e){
+            throw new IllegalArgumentException("Invalid item type: UserLogs required");
+        }
+        return new UserLogCSVImpl().parseToCSV(userLogs);
     }
 
 }

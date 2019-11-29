@@ -12,7 +12,11 @@ public class AppUserCSVImpl implements CSVParser{
     }
 
     public List<DBItem> parseToList(String CSV) {
-        return getDbItems(CSV);
+        return getDbItems(CSV, true);
+    }
+
+    public List<DBItem> parseToListWithoutId(String CSV) {
+        return getDbItems(CSV, false);
     }
 
     private String getCSV(List<DBItem> items) {
@@ -35,24 +39,36 @@ public class AppUserCSVImpl implements CSVParser{
         return CSV.toString();
     }
 
-    private AppUser toItem(String string){
+    private AppUser toItem(String string, boolean withId){
         boolean admin = false;
         String[] columns = string.split(",");
         if(columns[5].contains("t")){
             admin = true;
         }
-        return new AppUser(
-                Long.parseLong(columns[0]),
-                Long.parseLong(columns[6]),
-                columns[1],
-                columns[2],
-                columns[3],
-                columns[5],
-                admin
-        );
+        if(withId){
+            return new AppUser(
+                    Long.parseLong(columns[0]),
+                    Long.parseLong(columns[6]),
+                    columns[1],
+                    columns[2],
+                    columns[3],
+                    columns[5],
+                    admin
+            );
+        }else{
+            return new AppUser(
+                    Long.parseLong(columns[6]),
+                    columns[1],
+                    columns[2],
+                    columns[3],
+                    columns[5],
+                    admin
+            );
+        }
+
     }
 
-    private List<DBItem> getDbItems(String CSV) {
+    private List<DBItem> getDbItems(String CSV, boolean withId) {
         boolean first = true;
         List<DBItem> output = new ArrayList<>();
         String[] items = CSV.split("\r\n");
@@ -60,7 +76,7 @@ public class AppUserCSVImpl implements CSVParser{
             if (first) {
                 first = false;
             } else {
-                output.add(toItem(item));
+                output.add(toItem(item, withId));
             }
         }
         return output;
