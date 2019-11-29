@@ -11,10 +11,13 @@ import java.util.List;
 @Repository
 public interface AppUserRepository extends CrudRepository<AppUser, Long>, JpaRepository<AppUser, Long> {
 
+    @Query("SELECT u FROM AppUser u")
+    List<AppUser> getAll();
+
     @Query("SELECT u.id FROM AppUser u WHERE LOWER(u.userName) = LOWER(:userName)")
     Long getUserIdByUserName(String userName);
 
-    List<AppUser > findByUserNameAndPassword(String userName, String password);
+    List<AppUser> findByUserNameAndPassword(String userName, String password);
 
     AppUser findByUserName(String username);
 
