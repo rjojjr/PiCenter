@@ -11,7 +11,7 @@ import java.math.BigInteger;
 @Setter
 @Entity
 @Table(name = "user_sessions")
-public class UserSession {
+public class UserSession implements DBItem{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

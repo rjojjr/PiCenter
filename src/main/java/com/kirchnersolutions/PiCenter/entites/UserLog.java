@@ -9,7 +9,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Entity
 @Table(name = "user_logs")
-public class UserLog {
+public class UserLog implements DBItem{
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)

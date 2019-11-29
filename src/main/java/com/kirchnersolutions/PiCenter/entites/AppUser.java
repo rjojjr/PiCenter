@@ -10,7 +10,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Entity
 @Table(name = "app_users")
-public class AppUser {
+public class AppUser implements DBItem{
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
