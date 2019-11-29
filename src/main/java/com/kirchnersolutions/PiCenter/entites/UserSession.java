@@ -1,17 +1,16 @@
 package com.kirchnersolutions.PiCenter.entites;
 
+import com.kirchnersolutions.PiCenter.services.interfaces.DBItem;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.math.BigDecimal;
-import java.math.BigInteger;
 
 @Getter
 @Setter
 @Entity
 @Table(name = "user_sessions")
-public class UserSession implements DBItem{
+public class UserSession implements DBItem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

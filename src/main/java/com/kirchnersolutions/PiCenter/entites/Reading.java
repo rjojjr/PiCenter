@@ -1,8 +1,8 @@
 package com.kirchnersolutions.PiCenter.entites;
 
+import com.kirchnersolutions.PiCenter.services.interfaces.DBItem;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Getter @Setter
 @Entity
 @Table(name = "readings")
-public class Reading implements DBItem{
+public class Reading implements DBItem {
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)

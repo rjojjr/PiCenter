@@ -1,5 +1,6 @@
 package com.kirchnersolutions.PiCenter.entites;
 
+import com.kirchnersolutions.PiCenter.services.interfaces.DBItem;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -9,7 +10,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Entity
 @Table(name = "user_logs")
-public class UserLog implements DBItem{
+public class UserLog implements DBItem {
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)

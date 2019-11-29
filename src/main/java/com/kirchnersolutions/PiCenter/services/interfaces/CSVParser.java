@@ -4,8 +4,8 @@ import java.util.List;
 
 public interface CSVParser {
 
-    public String parseToCSV(List<Object> items);
+    public String parseToCSV(List<DBItem> items);
 
-    public List<Object> parseToList(String CSV);
+    public List<DBItem> parseToList(String CSV);
 
 }
