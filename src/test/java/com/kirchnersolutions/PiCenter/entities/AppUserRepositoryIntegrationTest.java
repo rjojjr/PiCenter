@@ -20,6 +20,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.List;
+
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
@@ -39,6 +41,13 @@ public class AppUserRepositoryIntegrationTest {
         user = new AppUser((Long)System.currentTimeMillis(), "rjojjr", "Robert", "Kirchner", CryptTools.generateEncodedSHA256Password("21122112"), true);
         AppUser created = appUserRepository.saveAndFlush(user);
         assertNotNull("create and save user null", created);
+    }
+
+    @Test
+    public void whenFindAll_returnAll(){
+        List<AppUser> found = appUserRepository.findAll();
+        assertNotNull("find all null", found);
+        assertEquals(1, found.size());
     }
 
     @Test
