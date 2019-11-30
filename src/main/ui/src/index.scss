@@ -42,16 +42,16 @@ body {
 }
 
 .lightText {
-  color: $lightTextColor;
+  color: $textIconColor;
 }
 
 .medDarkText{
-  color: $midDarkTextColor;
+  color: $primaryTextColor;
 }
 #main > nav,
 #main > aside {
   flex: 0 0 20%;
-  background: $navColor;
+  background: $primaryLightColor;
  }
 #main > nav {
   order: -1;
@@ -82,11 +82,11 @@ footer{
 
 header{
   height: 7%;
-  background: $mainHeaderColor;
-  color: $lightTextColor;
+  background: $primaryDarkColor;
+  color: $textIconColor;
 }
 footer {
-  background: $mainHeaderColor;
+  background: $primaryDarkColor;
   height: 7%;
 }
 
