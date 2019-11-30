@@ -2,14 +2,14 @@
 
 **_Smart home statistics, control, integration and prediction center._**
 
-This application is built around Raspberry Pi and DHT temperature and humididty sensors to detect 
+This application is built around Raspberry Pi and DHT temperature and humidity sensors to detect 
 trends between temperature and furnace/AC usage. The project will eventually
 grow to be an IoT smart home command center.
 
 The core of this program will be an analytical engine,
 that will calculate various statistics and hopefully make 
 accurate predictions, and draw useful conclusions within
-a decent realm of certainty.
+a decent realm of certainty around energy efficiency.
 
 Initially the program will be built around temperature,
 and predicting ways to increase efficiency. We will slowly
@@ -19,6 +19,8 @@ controlling ductwork and windows.
 The application uses MySQL and Spring CRUD repositories to persist data.
 
 The source for the Raspberry Pi application and be found [here](https://github.com/rjojjr/pitemp)
+
+The scheduled backup service can be found [here](https://github.com/rjojjr/PiCenterBackup)
 
 Please feel free to contribute features pertaining to
 your own smart home incorporation.
