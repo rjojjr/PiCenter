@@ -4,10 +4,7 @@ import com.kirchnersolutions.PiCenter.dev.DebuggingService;
 import com.kirchnersolutions.PiCenter.entites.*;
 import com.kirchnersolutions.PiCenter.services.parsers.CSVParserImpl;
 import com.kirchnersolutions.PiCenter.entites.DBItem;
-import com.kirchnersolutions.utilities.ByteTools;
-import com.kirchnersolutions.utilities.CalenderConverter;
-import com.kirchnersolutions.utilities.CryptTools;
-import com.kirchnersolutions.utilities.ZipTools;
+import com.kirchnersolutions.utilities.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
@@ -55,18 +52,39 @@ public class CSVService {
         }
     }
 
-    private boolean backup(String table){
+    boolean backup(String table) throws Exception{
         try{
             if(makeCSVSwitch(table)){
                 downloadFile.createNewFile();
                 List<File> zipFiles = Arrays.asList(downloadFileTempDir.listFiles());
-                ZipTools.zip(zipFiles, downloadFile.getPath());
+                if(ZipTools.zip(zipFiles, downloadFile.getPath())){
+                    List<File> files = new ArrayList<>();
+                    files.add(downloadFileTempDir);
+                    DeleteTools.delete(files);
+                    return true;
+                }
+                List<File> files = new ArrayList<>();
+                files.add(downloadFileTempDir);
+                files.add(downloadFile);
+                DeleteTools.delete(files);
+                debuggingService.nonFatalDebug("Failed to generate backup package");
+                return false;
             }
         }catch (Exception e){
             e.printStackTrace();
             debuggingService.nonFatalDebug("Failed to generate backup package", e);
+            List<File> files = new ArrayList<>();
+            files.add(downloadFileTempDir);
+            files.add(downloadFile);
+            DeleteTools.delete(files);
+            return false;
         }
-
+        List<File> files = new ArrayList<>();
+        files.add(downloadFileTempDir);
+        files.add(downloadFile);
+        DeleteTools.delete(files);
+        debuggingService.nonFatalDebug("Failed to generate backup package");
+        return false;
     }
 
     private boolean makeCSVSwitch(String table) throws IOException, Exception {
