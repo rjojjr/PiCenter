@@ -30,7 +30,7 @@ public class CSVService {
     ThreadPoolTaskExecutor threadPoolTaskExecutor;
     DebuggingService debuggingService;
 
-    private File dir, appUserDir, userLogDir, readingDir, downloadDir, downloadFileTempDir, downloadFile;
+    private File dir, appUserDir, userLogDir, readingDir, downloadDir, downloadFileTempDir, downloadFile, restoreDir;
 
     @Autowired
     public CSVService(AppUserRepository appUserRepository, UserLogRepository userLogRepository, ReadingRepository readingRepository, ThreadPoolTaskExecutor threadPoolTaskExecutor, DebuggingService debuggingService){
@@ -46,11 +46,13 @@ public class CSVService {
         downloadDir = new File(dir, "/Download");
         downloadFileTempDir = new File(downloadDir, "/PiCenterBackup");
         downloadFile = new File(downloadDir, "/PiCenterBackup.zip");
+        restoreDir = new File(dir, "/Restore");
         if(!dir.exists()){
             dir.mkdirs();
             appUserDir.mkdirs();
             userLogDir.mkdirs();
             readingDir.mkdirs();
+            restoreDir.mkdirs();
         }
     }
 
@@ -61,6 +63,41 @@ public class CSVService {
             debuggingService.nonFatalDebug("Failed to delete backup temp files", e);
             return false;
         }
+    }
+
+    public boolean restoreCSV(){
+        try{
+            return restore();
+        }catch (Exception e){
+            debuggingService.nonFatalDebug("Failed to restore CSV", e);
+            return false;
+        }
+    }
+
+    private boolean restore() throws Exception{
+        for(File csv : restoreDir.listFiles()){
+            List<DBItem> items = new ArrayList<>();
+            String CSV = new String(ByteTools.readBytesFromFile(csv), "UTF-8");
+            items = (new CSVParserImpl()).parseToListWithoutId(CSV);
+            switch(items.get(0).getType()){
+                case "AppUser":
+                    for(DBItem item : items){
+                        appUserRepository.saveAndFlush((AppUser)item);
+                    }
+                    break;
+                case "Reading":
+                    for(DBItem item : items){
+                        readingRepository.saveAndFlush((Reading) item);
+                    }
+                    break;
+                case "UserLog":
+                    for(DBItem item : items){
+                        userLogRepository.saveAndFlush((UserLog) item);
+                    }
+                    break;
+            }
+        }
+        return DeleteTools.delete(restoreDir.listFiles());
     }
 
     private boolean GenerateDownload(String table) throws Exception{
