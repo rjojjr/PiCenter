@@ -1,6 +1,5 @@
 package com.kirchnersolutions.PiCenter.entites;
 
-import com.kirchnersolutions.PiCenter.services.interfaces.DBItem;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -44,6 +43,39 @@ public class UserLog implements DBItem {
         this.userId = userId;
         this.action = action;
         this.time = time;
+    }
+
+    public String getCSVHeader() {
+        return "id,user_id,action,time";
+    }
+
+
+
+    public String getType(){
+        return "UserLog";
+    }
+
+
+    public String toCSV() {
+        return this.getId() + "," +
+                this.getUserId() + "," +
+                this.getAction() + "," +
+                this.getTime();
+    }
+
+    public void fromCSV(String csv, boolean withId) {
+        String[] columns = csv.split(",");
+        if (withId) {
+            this.id = Long.parseLong(columns[0]);
+            this.userId = Long.parseLong(columns[1]);
+            this.action= columns[2];
+            this.time = Long.parseLong(columns[3]);
+
+        } else {
+            this.userId = Long.parseLong(columns[1]);
+            this.action= columns[2];
+            this.time = Long.parseLong(columns[3]);
+        }
     }
 /*
     @ManyToOne(fetch=FetchType.LAZY)

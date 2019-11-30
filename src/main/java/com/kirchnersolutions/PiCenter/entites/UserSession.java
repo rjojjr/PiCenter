@@ -1,6 +1,5 @@
 package com.kirchnersolutions.PiCenter.entites;
 
-import com.kirchnersolutions.PiCenter.services.interfaces.DBItem;
 import lombok.Getter;
 import lombok.Setter;
 

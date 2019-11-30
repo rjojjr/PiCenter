@@ -34,5 +34,6 @@
 29. Fix logOnPage.test.js
 30. Add H2 test Datasource.
 31. Covert all components to constructor injection.
-32. Add to/from CSV to DBItem interface and implement in entities.
+32. Add to/from CSV to DBItem interface and implement in entities.#rjojjr
 33. Add token param to download link.
+34. Create controller interfaces, so logic can be extracted and tested.

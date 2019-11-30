@@ -1,10 +1,8 @@
 package com.kirchnersolutions.PiCenter.services;
 
 import com.kirchnersolutions.PiCenter.entites.*;
-import com.kirchnersolutions.PiCenter.services.interfaces.AppUserCSVImpl;
-import com.kirchnersolutions.PiCenter.services.interfaces.DBItem;
-import com.kirchnersolutions.PiCenter.services.interfaces.ReadingCSVImpl;
-import com.kirchnersolutions.PiCenter.services.interfaces.UserLogCSVImpl;
+import com.kirchnersolutions.PiCenter.services.parsers.CSVParserImpl;
+import com.kirchnersolutions.PiCenter.entites.DBItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
@@ -41,64 +39,19 @@ public class CSVService {
         }
     }
 
-    private String parseAppUserToCSV(List<DBItem> users){
-        if(users == null || users.size() == 0){
+    private String parseItemToCSV(List<DBItem> dbItems){
+        if(dbItems == null || dbItems.size() == 0){
             return null;
         }
-        try{
-            AppUser typeTest = (AppUser)users.get(0);
-        }catch (Exception e){
-            throw new IllegalArgumentException("Invalid item type: AppUsers required");
-        }
-        return new AppUserCSVImpl().parseToCSV(users);
+        return new CSVParserImpl().parseToCSV(dbItems);
     }
 
-    private List<DBItem> parseCSVToAppUserWithId(String CSV){
-        return new AppUserCSVImpl().parseToList(CSV);
+    private List<DBItem> parseCSVToItemWithId(String CSV){
+        return new CSVParserImpl().parseToList(CSV);
     }
 
-    private List<DBItem> parseCSVToAppUserWithoutId(String CSV){
-        return new AppUserCSVImpl().parseToListWithoutId(CSV);
-    }
-
-    private String parseReadingToCSV(List<DBItem> readings){
-        if(readings == null || readings.size() == 0){
-            return null;
-        }
-        try{
-            Reading typeTest = (Reading)readings.get(0);
-        }catch (Exception e){
-            throw new IllegalArgumentException("Invalid item type: Readings required");
-        }
-        return new ReadingCSVImpl().parseToCSV(readings);
-    }
-
-    private List<DBItem> parseCSVToReadingWithId(String CSV){
-        return new ReadingCSVImpl().parseToList(CSV);
-    }
-
-    private List<DBItem> parseCSVToReadingWithoutId(String CSV){
-        return new ReadingCSVImpl().parseToListWithoutId(CSV);
-    }
-
-    private String parseUserLogToCSV(List<DBItem> userLogs){
-        if(userLogs == null || userLogs.size() == 0){
-            return null;
-        }
-        try{
-            UserLog typeTest = (UserLog)userLogs.get(0);
-        }catch (Exception e){
-            throw new IllegalArgumentException("Invalid item type: UserLogs required");
-        }
-        return new UserLogCSVImpl().parseToCSV(userLogs);
-    }
-
-    private List<DBItem> parseCSVToUserLogWithId(String CSV){
-        return new UserLogCSVImpl().parseToList(CSV);
-    }
-
-    private List<DBItem> parseCSVToUserLogWithoutId(String CSV){
-        return new UserLogCSVImpl().parseToListWithoutId(CSV);
+    private List<DBItem> parseCSVToItemWithoutId(String CSV){
+        return new CSVParserImpl().parseToListWithoutId(CSV);
     }
 
 }
