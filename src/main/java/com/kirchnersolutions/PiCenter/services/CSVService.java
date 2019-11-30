@@ -20,7 +20,7 @@ public class CSVService {
     AppUserRepository appUserRepository;
     ThreadPoolTaskExecutor threadPoolTaskExecutor;
 
-    private File dir, appUserDir, userLogDir, readingDir;
+    private File dir, appUserDir, userLogDir, readingDir, downloadDir;
 
     @Autowired
     public CSVService(AppUserRepository appUserRepository, UserLogRepository userLogRepository, ReadingRepository readingRepository, ThreadPoolTaskExecutor threadPoolTaskExecutor){
@@ -32,6 +32,7 @@ public class CSVService {
         appUserDir = new File(dir, "/AppUsers");
         userLogDir = new File(dir, "/UserLogs");
         readingDir = new File(dir, "/Readings");
+        downloadDir = new File(dir, "/Download");
         if(!dir.exists()){
             dir.mkdirs();
             appUserDir.mkdirs();
