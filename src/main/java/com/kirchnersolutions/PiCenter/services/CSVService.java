@@ -7,6 +7,7 @@ import com.kirchnersolutions.PiCenter.entites.DBItem;
 import com.kirchnersolutions.utilities.ByteTools;
 import com.kirchnersolutions.utilities.CalenderConverter;
 import com.kirchnersolutions.utilities.CryptTools;
+import com.kirchnersolutions.utilities.ZipTools;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
@@ -15,8 +16,11 @@ import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Base64;
 import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.Future;
 
 @Service
 public class CSVService {
@@ -51,13 +55,46 @@ public class CSVService {
         }
     }
 
-    private boolean makeCSVSwitch(String table) throws IOException {
+    private boolean backup(String table){
+        try{
+            if(makeCSVSwitch(table)){
+                downloadFile.createNewFile();
+                List<File> zipFiles = Arrays.asList(downloadFileTempDir.listFiles());
+                ZipTools.zip(zipFiles, downloadFile.getPath());
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            debuggingService.nonFatalDebug("Failed to generate backup package", e);
+        }
+
+    }
+
+    private boolean makeCSVSwitch(String table) throws IOException, Exception {
         if(!downloadFileTempDir.exists()){
             downloadFileTempDir.mkdirs();
         }
         File out;
         boolean success = false;
         switch (table.toLowerCase()){
+            case "all":
+                success = true;
+                Future<Boolean>[] futures = new Future[3];
+                futures[0] = threadPoolTaskExecutor.submit(new CSVThread("users"));
+                futures[1] = threadPoolTaskExecutor.submit(new CSVThread("readings"));
+                futures[2] = threadPoolTaskExecutor.submit(new CSVThread("userlogs"));
+                boolean temp = futures[0].get();
+                if(!temp){
+                    success = false;
+                }
+                temp = futures[1].get();
+                if(!temp){
+                    success = false;
+                }
+                temp = futures[2].get();
+                if(!temp){
+                    success = false;
+                }
+                break;
             case "users":
                 out = new File(downloadFileTempDir, "/Users_" + CalenderConverter.getMonthDayYear(System.currentTimeMillis(), "-", "-") + ".csv");
                 out.createNewFile();
@@ -69,7 +106,7 @@ public class CSVService {
                 success = makeReadingCSV(out);
                 break;
             case "userlogs" :
-                out = new File(downloadFileTempDir, "/UserLogss_" + CalenderConverter.getMonthDayYear(System.currentTimeMillis(), "-", "-") + ".csv");
+                out = new File(downloadFileTempDir, "/UserLogs_" + CalenderConverter.getMonthDayYear(System.currentTimeMillis(), "-", "-") + ".csv");
                 out.createNewFile();
                 success = makeUserLogCSV(out);
                 break;
@@ -77,6 +114,20 @@ public class CSVService {
                 break;
         }
         return success;
+    }
+
+    private class CSVThread implements Callable<Boolean>{
+
+        private String table;
+
+        CSVThread(String table){
+            this.table = table;
+        }
+
+        public Boolean call() throws Exception{
+            return makeCSVSwitch(table);
+        }
+
     }
 
     private boolean makeUserCSV(File out){
