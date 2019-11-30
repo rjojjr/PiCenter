@@ -3,11 +3,14 @@ package com.kirchnersolutions.PiCenter.services;
 import com.kirchnersolutions.PiCenter.entites.*;
 import com.kirchnersolutions.PiCenter.services.parsers.CSVParserImpl;
 import com.kirchnersolutions.PiCenter.entites.DBItem;
+import com.kirchnersolutions.utilities.CryptTools;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
+import java.io.UnsupportedEncodingException;
+import java.util.Base64;
 import java.util.List;
 
 @Service
@@ -52,6 +55,18 @@ public class CSVService {
 
     private List<DBItem> parseCSVToItemWithoutId(String CSV){
         return new CSVParserImpl().parseToListWithoutId(CSV);
+    }
+
+    private String hashCSV(String csv) throws UnsupportedEncodingException, Exception {
+        byte[] hash = new byte[1];
+        for(String line : csv.split("\r\n")){
+            hash = CryptTools.getSHA512(csv.getBytes("UTF-8"), hash);
+        }
+        return Base64.getEncoder().encodeToString(hash);
+    }
+
+    private boolean compareHash(String hash1, String hash2){
+        return hash1.equals(hash2);
     }
 
 }
