@@ -3,6 +3,7 @@ package com.kirchnersolutions.PiCenter.servers.rest;
 import com.kirchnersolutions.PiCenter.dev.DebuggingService;
 import com.kirchnersolutions.PiCenter.entites.AppUser;
 import com.kirchnersolutions.PiCenter.servers.beans.*;
+import com.kirchnersolutions.PiCenter.services.CSVService;
 import com.kirchnersolutions.PiCenter.services.SummaryService;
 import com.kirchnersolutions.PiCenter.services.UserService;
 import org.aspectj.bridge.context.ContextToken;
@@ -20,12 +21,18 @@ import javax.servlet.http.HttpSession;
 @RestController
 public class MainController {
 
-    @Autowired
     private UserService userService;
-    @Autowired
     private SummaryService summaryService;
-    @Autowired
     private DebuggingService debuggingService;
+    private CSVService csvService
+
+    @Autowired
+    public MainController(UserService userService, SummaryService summaryService, DebuggingService debuggingService, CSVService csvService){
+        this.userService = userService;
+        this.summaryService = summaryService;
+        this.debuggingService = debuggingService;
+        this.csvService = csvService;
+    }
 
     @GetMapping("/loading")
     public RestResponse initClient(HttpServletResponse response) throws Exception{
@@ -80,6 +87,24 @@ public class MainController {
 
     @GetMapping("/summary")
     public RestResponse showSummary(HttpServletResponse response, @RequestParam String userId ) throws Exception{
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes())
+                .getRequest();
+        HttpSession httpSession = cookie(request, response);
+        if(httpSession.getAttribute("username") == null){
+            return new RestResponse();
+        }
+        if(userId == null || userId.toCharArray().length < 5){
+            userService.systemInvalidateUser((String)httpSession.getAttribute("username"), "unauthentic session");
+            return new RestResponse("{body: 'error', error: 'invalid token'}");
+        }
+        if(!updateSession((String)httpSession.getAttribute("username"), userId, request.getRemoteAddr(), "/summary")){
+            return new RestResponse("{body: 'error', error: 'unauthentic session'}", new RestUser());
+        }
+        return new RestResponse("{body: 'success'}", userService.getRestUser((String)httpSession.getAttribute("username")), summaryService.getRoomSummaries(2));
+    }
+
+    @GetMapping("/backup/csv")
+    public RestResponse getCSV(HttpServletResponse response, @RequestParam String userId, @RequestParam String table) throws Exception{
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes())
                 .getRequest();
         HttpSession httpSession = cookie(request, response);

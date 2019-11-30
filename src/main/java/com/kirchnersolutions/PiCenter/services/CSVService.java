@@ -52,7 +52,16 @@ public class CSVService {
         }
     }
 
-    boolean backup(String table) throws Exception{
+    public boolean generateDownload(String table){
+        try{
+            return GenerateDownload(table);
+        }catch (Exception e){
+            debuggingService.nonFatalDebug("Failed to delete backup temp files", e);
+            return false;
+        }
+    }
+
+    private boolean GenerateDownload(String table) throws Exception{
         try{
             if(makeCSVSwitch(table)){
                 downloadFile.createNewFile();
