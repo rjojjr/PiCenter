@@ -30,7 +30,7 @@
 25. Discover furnace trends based on time of day.
 26. Implement Spring Rest Template to make rest request to new [PiRest controller](https://github.com/rjojjr/PiScalaRestController)
 27. Add endpoints to fetch/delete logs.
-28. Use repositories to backup tables as csv(and restore).
+28. Use repositories to backup tables as csv(and restore).#rjojjr
 29. Fix logOnPage.test.js
 30. Add H2 test Datasource.
 31. Covert all components to constructor injection.
