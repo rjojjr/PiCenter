@@ -37,3 +37,4 @@
 32. Add to/from CSV to DBItem interface and implement in entities.#rjojjr
 33. Add token param to download link.
 34. Create controller interfaces, so logic can be extracted and tested.
+35. Add csv ui comp.
