@@ -24,7 +24,7 @@ public class MainController {
     private UserService userService;
     private SummaryService summaryService;
     private DebuggingService debuggingService;
-    private CSVService csvService
+    private CSVService csvService;
 
     @Autowired
     public MainController(UserService userService, SummaryService summaryService, DebuggingService debuggingService, CSVService csvService){
@@ -103,7 +103,7 @@ public class MainController {
         return new RestResponse("{body: 'success'}", userService.getRestUser((String)httpSession.getAttribute("username")), summaryService.getRoomSummaries(2));
     }
 
-    @GetMapping("/backup/csv")
+    @GetMapping("data/csv")
     public RestResponse getCSV(HttpServletResponse response, @RequestParam String userId, @RequestParam String table) throws Exception{
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes())
                 .getRequest();
@@ -115,10 +115,20 @@ public class MainController {
             userService.systemInvalidateUser((String)httpSession.getAttribute("username"), "unauthentic session");
             return new RestResponse("{body: 'error', error: 'invalid token'}");
         }
-        if(!updateSession((String)httpSession.getAttribute("username"), userId, request.getRemoteAddr(), "/summary")){
+        if(!updateSession((String)httpSession.getAttribute("username"), userId, request.getRemoteAddr(), "/data/csv")){
             return new RestResponse("{body: 'error', error: 'unauthentic session'}", new RestUser());
         }
-        return new RestResponse("{body: 'success'}", userService.getRestUser((String)httpSession.getAttribute("username")), summaryService.getRoomSummaries(2));
+        if(!userService.isAdmin((String)httpSession.getAttribute("username"))){
+            return new RestResponse("{body: 'failed not authorized'}", userService.getRestUser((String)httpSession.getAttribute("username")));
+        }
+        if(table != null){
+            if(csvService.generateDownload(table)){
+                response.setHeader("Location", "/download/backup");
+                response.setStatus(302);
+                return new RestResponse("{body: 'success'}", userService.getRestUser((String)httpSession.getAttribute("username")));
+            }
+        }
+        return new RestResponse("{body: 'failed to generate package'}", userService.getRestUser((String)httpSession.getAttribute("username")));
     }
 
     @PostMapping("/update")

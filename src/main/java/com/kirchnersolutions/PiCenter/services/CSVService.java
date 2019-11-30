@@ -6,6 +6,7 @@ import com.kirchnersolutions.PiCenter.services.parsers.CSVParserImpl;
 import com.kirchnersolutions.PiCenter.entites.DBItem;
 import com.kirchnersolutions.utilities.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +20,7 @@ import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
 
+@DependsOn({"threadPoolTaskExecutor"})
 @Service
 public class CSVService {
 
@@ -184,9 +186,8 @@ public class CSVService {
         }
         try{
             ByteTools.writeBytesToFile(out,
-                    Base64.getEncoder().encode(
                             csv.getBytes("UTF-8")
-                    ));
+                    );
             return true;
         }catch (Exception e){
             //Log here

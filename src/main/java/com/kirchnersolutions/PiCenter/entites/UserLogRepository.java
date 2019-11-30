@@ -11,7 +11,7 @@ import java.util.List;
 @Repository
 public interface UserLogRepository extends CrudRepository<UserLog, Long>, JpaRepository<UserLog, Long> {
 
-    @Query("SELECT u FROM Userlog u")
+    @Query("SELECT u FROM UserLog u")
     List<UserLog> getAll();
 
     List<UserLog> findByUserIdOrderByTimeDesc(Long userId);

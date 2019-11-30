@@ -9,7 +9,7 @@ import javax.persistence.*;
 @Setter
 @Entity
 @Table(name = "user_sessions")
-public class UserSession implements DBItem {
+public class UserSession {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

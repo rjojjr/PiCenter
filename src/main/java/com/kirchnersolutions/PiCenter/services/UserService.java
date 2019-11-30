@@ -158,6 +158,14 @@ public class UserService {
         return true;
     }
 
+    public boolean isAdmin(String username){
+        AppUser user = userList.searchList(username);
+        if(user == null){
+            return false;
+        }
+        return user.isAdmin();
+    }
+
     public AppUser updateSession(String userName, String token, String ipAddress, String page, String stompId){
         AppUser user = userList.searchList(userName);
         if(user == null){
