@@ -1,4 +1,4 @@
 #Licenses
 
-GPL2 w/ CPE: jaxb-api
-MIT: Project Lombok
+GPL2 w/ CPE:        jaxb-api
+MIT:                Project Lombok
