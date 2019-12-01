@@ -1,4 +1,4 @@
-import LoadingView from "../../../../oldSrc/LoadingView";
+import LoadingView from "../../global/LoadingView";
 import GenericPageHeader from "../../global/GenericPageHeader";
 import * as pageConstants from "../../../constants/page-constants";
 import CreateUserNav from "./CreateUserNav";

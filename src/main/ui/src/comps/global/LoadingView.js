@@ -23,7 +23,7 @@ const LoadingView = ({ isLoading }) => {
       <ReactLoading
         className="loadingBubbles"
         type={'spinningBubbles'}
-        color={'#1d435d'}
+        color={'#1976D2'}
         height={'10rem'}
         width={'10rem'}
       />

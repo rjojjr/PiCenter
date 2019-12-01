@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
-import LoadingView from "../../oldSrc/LoadingView";
+import LoadingView from "./global/LoadingView";
 
 import { loadAppThunk } from "../actions/loader-actions";
 
