@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 
 import PageSelector from "../PageSelector";
+import Button from 'react-bootstrap/Button';
 
 const LogOnPage = ({logOn, message, user, isShowMsg, resetIsShowMsg, isLoggingOn}) => {
 
@@ -52,7 +53,7 @@ const LogOnPage = ({logOn, message, user, isShowMsg, resetIsShowMsg, isLoggingOn
                     </tbody>
                 </table>
             </form>
-            <button className={"submitLogin"} type={"button"} onClick={handleOnClick}>Logon</button>
+            <Button variant={"primary"} className={"submitLogin"} type={"button"} onClick={handleOnClick}>Logon</Button>
         </div>
     )
 };

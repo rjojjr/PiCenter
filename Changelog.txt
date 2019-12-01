@@ -5,6 +5,7 @@ PiCenter Changelog
 
 Build 100115
     Change UI color scheme.
+    Add react-bootstrap.
 
 11/30/2019
 Build 100114

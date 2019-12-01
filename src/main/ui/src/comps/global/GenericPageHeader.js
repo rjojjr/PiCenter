@@ -1,4 +1,5 @@
 import React from "react";
+import Button from 'react-bootstrap/Button';
 
 const GenericPageHeader = ({ onClickHandler, tabs, currentTabIndex, isLoading }) => {
 
@@ -14,7 +15,8 @@ const GenericPageHeader = ({ onClickHandler, tabs, currentTabIndex, isLoading })
                 <div>
 
                     {tabs.map((tab, index) => (
-                        <button
+                        <Button
+                            variant={"primary"}
                             key={index}
                             //disabled={() => isDisable(index)}
                             className={"tabSelector"}
@@ -23,7 +25,7 @@ const GenericPageHeader = ({ onClickHandler, tabs, currentTabIndex, isLoading })
                             }}
                         >
                             {tab}
-                        </button>
+                        </Button>
                     ))}
                 </div>
             )}

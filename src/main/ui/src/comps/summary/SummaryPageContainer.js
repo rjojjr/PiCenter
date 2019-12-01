@@ -2,6 +2,8 @@ import React, {useState} from "react";
 import SummaryPage from "./SummaryPage";
 import SummaryPageHeader from "./SummaryPageHeader";
 import LoadingView from "../global/LoadingView";
+import Button from 'react-bootstrap/Button';
+
 
 import * as pageConstants from '../../constants/page-constants';
 import SummaryNav from "./SummaryNav";
@@ -31,7 +33,7 @@ const SummaryPageContainer = ({
     };
 
     return (
-        <div className={"container summaryPageContainer"}>
+        <div className={"pageContainer summaryPageContainer"}>
             <LoadingView isLoading={isLoading} message={"Loading.."}/>
             {canLoad && !isLoading && (
                 <div>
@@ -40,8 +42,8 @@ const SummaryPageContainer = ({
 
                     </header>
                     <div id="main">
-                        <section>
-                            <header>
+                        <section className={"summaryPage"}>
+                            <header className={"summaryPage"}>
                                 <SummaryPageHeader
                                     isLoading={isLoading}
                                     summary={summary}
@@ -55,17 +57,17 @@ const SummaryPageContainer = ({
                                 summary={showSummary()}
                             />
                         </section>
-                        <nav>
+                        <nav className={"summaryPage"}>
                             <SummaryNav changePage={changePage}/>
                         </nav>
-                        <aside>
+                        <aside className={"summaryPage"}>
                             <h4>Logged on as: {user.userName}</h4>
-                            <button type={"button"} onClick={logOff}>
+                            <Button variant={"primary"} type={"button"} onClick={logOff}>
                                 Logout
-                            </button>
+                            </Button>
                         </aside>
                     </div>
-                    <footer>
+                    <footer className={"summaryPage"}>
                         <a href={"http://github.com/rjojjr"}>Visit me on github</a>
                     </footer>
                 </div>

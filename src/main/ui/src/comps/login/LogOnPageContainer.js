@@ -5,12 +5,9 @@ import { isLoggingOn, logOnThunk } from "../../actions/logon-actions";
 import { resetIsShowMsg } from "../../actions/universal-actions";
 import PageSelector from "../PageSelector";
 import LogOnPage from "./LogOnPage";
-import MainContent from "../layout/MainContent";
-import MainContentHeader from "../layout/MainContentHeader";
-import MainContentContainer from "../layout/MainContentConainer";
-import LeftContentContainer from "../layout/LeftContentContainer";
-import LeftContentHeader from "../layout/LeftContentHeader";
-import LeftContent from "../layout/LeftContent";
+
+
+
 
 const LogOnPageContainer = ({
   logOn,

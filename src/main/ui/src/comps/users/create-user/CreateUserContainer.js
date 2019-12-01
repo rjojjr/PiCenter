@@ -4,6 +4,7 @@ import * as pageConstants from "../../../constants/page-constants";
 import CreateUserNav from "./CreateUserNav";
 import React from "react";
 import CreateUserPage from "./CreateUserPage";
+import Button from 'react-bootstrap/Button';
 
 const CreateUserContainer = ({user, userMsg, isLoading, logOff, changePage, onClickHandler, resetUserMsg, createUser}) => {
 
@@ -29,9 +30,9 @@ const CreateUserContainer = ({user, userMsg, isLoading, logOff, changePage, onCl
                         </nav>
                         <aside className={"createUserPage"}>
                             <h4>Logged on as: {user.userName}</h4>
-                            <button type={"button"} onClick={logOff}>
+                            <Button variant={"primary"} type={"button"} onClick={logOff}>
                                 Logout
-                            </button>
+                            </Button>
                         </aside>
                     </div>
                     <footer>
