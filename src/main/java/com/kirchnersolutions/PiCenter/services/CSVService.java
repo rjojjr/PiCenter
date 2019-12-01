@@ -30,7 +30,7 @@ public class CSVService {
     ThreadPoolTaskExecutor threadPoolTaskExecutor;
     DebuggingService debuggingService;
 
-    private File dir, appUserDir, userLogDir, readingDir, downloadDir, downloadFileTempDir, downloadFile, restoreDir;
+    private File dir, appUserDir, userLogDir, readingDir, downloadDir, downloadFileTempDir, downloadFile, restoreDir, auto, manual;
 
     @Autowired
     public CSVService(AppUserRepository appUserRepository, UserLogRepository userLogRepository, ReadingRepository readingRepository, ThreadPoolTaskExecutor threadPoolTaskExecutor, DebuggingService debuggingService){
@@ -44,15 +44,16 @@ public class CSVService {
         userLogDir = new File(dir, "/UserLogs");
         readingDir = new File(dir, "/Readings");
         downloadDir = new File(dir, "/Download");
+        auto = new File(dir, "/automated");
+        manual = new File(dir, "/manual");
         downloadFileTempDir = new File(downloadDir, "/PiCenterBackup");
         downloadFile = new File(downloadDir, "/PiCenterBackup.zip");
         restoreDir = new File(dir, "/Restore");
         if(!dir.exists()){
             dir.mkdirs();
-            appUserDir.mkdirs();
-            userLogDir.mkdirs();
-            readingDir.mkdirs();
             restoreDir.mkdirs();
+            auto.mkdirs();
+            manual.mkdirs();
         }
     }
 
@@ -63,6 +64,10 @@ public class CSVService {
             debuggingService.nonFatalDebug("Failed to delete backup temp files", e);
             return false;
         }
+    }
+
+    public boolean generateManualBackup(){
+        return manual();
     }
 
     public boolean restoreCSV(){
@@ -98,6 +103,35 @@ public class CSVService {
             }
         }
         return DeleteTools.delete(restoreDir.listFiles());
+    }
+
+    private boolean manual(){
+        try{
+            if(makeCSVSwitch("all")){
+                File manBk = new File(manual, "/PiCenterManualBackup_" + CalenderConverter.getMonthDayYearHourMinute(System.currentTimeMillis(), "-", ":") + ".zip");
+                manBk.createNewFile();
+                List<File> zipFiles = Arrays.asList(downloadFileTempDir.listFiles());
+                if(ZipTools.zip(zipFiles, manBk.getPath())){
+                    List<File> files = new ArrayList<>();
+                    files.add(downloadFileTempDir);
+                    DeleteTools.delete(files);
+                    return true;
+                }
+                List<File> files = new ArrayList<>();
+                files.add(downloadFileTempDir);
+                files.add(manBk);
+                DeleteTools.delete(files);
+                debuggingService.nonFatalDebug("Failed to generate backup package");
+                return false;
+            }
+            List<File> files = new ArrayList<>();
+            files.add(downloadFileTempDir);
+            DeleteTools.delete(files);
+            return false;
+        }catch (Exception e){
+            debuggingService.nonFatalDebug("Failed to generate manual download", e);
+            return false;
+        }
     }
 
     private boolean GenerateDownload(String table) throws Exception{
