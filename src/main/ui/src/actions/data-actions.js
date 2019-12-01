@@ -9,6 +9,12 @@ export const isDataLoading = (loading) => ({
     loading
 });
 
+export const IS_DOWNLOAD = 'IS_DOWNLOAD'
+export const isDownload = (loading) => ({
+    type: IS_DOWNLOAD,
+    loading
+});
+
 export const IS_DATA_ERROR = 'IS_DATA_ERROR'
 export const isDataError = (error, msg) => {
     if (!error) {
@@ -29,6 +35,7 @@ export const getReadingsCSVThunk = (user) => async dispatch => {
         if (!response.data.responseBody.includes('success')){
             dispatch(isDataError('Error getting CSV...'));
         }
+        dispatch(isDownload(true));
         dispatch(isDataLoading(false));
         return
     } catch (error) {

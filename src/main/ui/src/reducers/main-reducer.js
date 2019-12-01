@@ -27,7 +27,7 @@ import {
 
 import {
     IS_DATA_LOADING,
-    IS_DATA_ERROR
+    IS_DATA_ERROR, IS_DOWNLOAD
 } from "../actions/data-actions";
 
 import {
@@ -59,7 +59,8 @@ export const initialState = () => ({
     userMsg: '',
     isDataLoading: false,
     isDataError: false,
-    dataMsg: ''
+    dataMsg: '',
+    isDownloadAvailable: false
 });
 
 export default (state = initialState(), action = {type: undefined}) => {
@@ -264,6 +265,12 @@ export default (state = initialState(), action = {type: undefined}) => {
                 dataMsg: action.msg
             };
         };
+        case IS_DOWNLOAD: {
+            return {
+                ...state,
+                isDownloadAvailable: action.loading
+            }
+        }
         default:
             return state;
     }

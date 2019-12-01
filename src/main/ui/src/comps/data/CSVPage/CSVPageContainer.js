@@ -5,8 +5,9 @@ import * as pageConstants from "../../../constants/page-constants";
 import React from "react";
 import Button from 'react-bootstrap/Button';
 import CSVPage from "./CSVPage";
+import DownloadAlert from "./DownloadAlert";
 
-const CSVPageContainer = ({user, changePage, updateSession, isLoading, isError, errorMsg, isDataError, logOff, onClickHandler, getCSV}) => {
+const CSVPageContainer = ({user, changePage, updateSession, isLoading, isError, errorMsg, isDataError, logOff, onClickHandler, getCSV, isDownload, isDownloadAvailable}) => {
     
     updateSession(pageConstants.CSV_EXPORT, user);
 
@@ -28,6 +29,7 @@ const CSVPageContainer = ({user, changePage, updateSession, isLoading, isError, 
                             <CSVPage user={user} isDataError={isDataError} getCSV={getCSV}/>
                         </section>
                         <nav className={"csvPagee"}>
+                            <DownloadAlert show={isDownloadAvailable} isDownload={isDownload}/>
                             <CSVPageNav changePage={changePage} />
                         </nav>
                         <aside className={"csvPage"}>
