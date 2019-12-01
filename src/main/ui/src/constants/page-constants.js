@@ -13,4 +13,5 @@ export const DATA = '/data'
 export const CSV_EXPORT = '/data/csv'
 
 export const USERS_TABS = ['Create User'];
+export const DATA_TABS = ['Export CSV'];
 

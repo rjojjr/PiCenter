@@ -25,3 +25,4 @@ const CSVPageNav = ({changePage}) => {
         </div>
     );
 }
+export default CSVPageNav

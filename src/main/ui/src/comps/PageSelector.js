@@ -7,6 +7,7 @@ import SummaryPageLoader from "./summary/SummaryPageLoader";
 
 import {updateSession} from "../services/axios-service";
 import UserPageContainer from "./users/UsersPageContainer";
+import DataPageContainer from "./data/DataPageContainer";
 
 const PageSelector = ({user}) =>{
 
@@ -27,6 +28,7 @@ const PageSelector = ({user}) =>{
             {page === constants.LOGIN_PAGE && <LoginPageContainer />}
             {page === constants.SUMMARY_PAGE && <SummaryPageLoader />}
             {page.includes(constants.USERS) && <UserPageContainer />}
+            {page.includes(constants.DATA) && <DataPageContainer />}
         </div>
     )
 }

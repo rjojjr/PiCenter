@@ -1,4 +1,5 @@
 import React from "react";
+import ButtonToolbar from 'react-bootstrap/ButtonToolbar';
 import Button from 'react-bootstrap/Button';
 
 const SummaryPageHeader = ({ selectSensor, summary, isLoading }) => {
@@ -8,7 +9,7 @@ const SummaryPageHeader = ({ selectSensor, summary, isLoading }) => {
       {!isLoading && (
          
         <div>
-          
+          <ButtonToolbar>
           {summary.map((sum, index) => (
             <Button
               key={index}
@@ -21,6 +22,7 @@ const SummaryPageHeader = ({ selectSensor, summary, isLoading }) => {
               {sum.roomName}
             </Button>
           ))}
+          </ButtonToolbar>
         </div>
       )}
     </div>

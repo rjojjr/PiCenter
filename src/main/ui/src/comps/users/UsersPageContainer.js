@@ -34,6 +34,7 @@ const UsersPageContainer = ({
     }
     updateSession(user.page, user);
     return (
+        //User if selection when more pages added.
         <div className={"pageContainer usersPageContainer"}>
             <CreateUserContainer changePage={changePage} isLoading={isLoading} logOff={logOff} user={user} onClickHandler={tabClickHandler}
                                  resetUserMsg={resetUserShowMsg} createUser={createUser} userMsg={userMsg}/>
