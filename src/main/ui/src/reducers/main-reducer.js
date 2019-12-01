@@ -24,7 +24,18 @@ import {
     RESET_IS_SHOW_MSG,
     SET_USER
 } from "../actions/universal-actions";
-import {RESET_USER_SHOW_MSG, USERS_IS_LOADING, USERS_LOADING_ERROR, USERS_SHOW_MSG} from "../actions/user-actions";
+
+import {
+    IS_DATA_LOADING,
+    IS_DATA_ERROR
+} from "../actions/data-actions";
+
+import {
+    RESET_USER_SHOW_MSG,
+    USERS_IS_LOADING,
+    USERS_LOADING_ERROR,
+    USERS_SHOW_MSG
+} from "../actions/user-actions";
 
 
 export const initialState = () => ({
@@ -45,7 +56,10 @@ export const initialState = () => ({
     isUserError: false,
     loaded: false,
     canRenderSummary: false,
-    userMsg: ''
+    userMsg: '',
+    isDataLoading: false,
+    isDataError: false,
+    dataMsg: ''
 });
 
 export default (state = initialState(), action = {type: undefined}) => {
@@ -235,6 +249,19 @@ export default (state = initialState(), action = {type: undefined}) => {
                 ...state,
                 isUserError: action.error,
                 message: action.msg
+            };
+        };
+        case IS_DATA_LOADING: {
+            return {
+                ...state,
+                isDataLoading: action.loading
+            };
+        };
+        case IS_DATA_ERROR: {
+            return {
+                ...state,
+                isDataError: action.error,
+                dataMsg: action.msg
             };
         };
         default:

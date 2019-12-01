@@ -10,8 +10,9 @@ export const isDataLoading = (loading) => ({
 });
 
 export const IS_DATA_ERROR = 'IS_DATA_ERROR'
-export const isDataError = (msg) => ({
+export const isDataError = (error, msg) => ({
     type: IS_DATA_ERROR,
+    isError: error,
     msg
 });
 
