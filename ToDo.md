@@ -12,7 +12,7 @@
 7. Probability distribution, data modeling and hypothesis testing.
 8. Cleanup springboot logging.
 9. Handle failed login attempt.
-10. Add user info on left aside.
+10. Add user info on left aside.#rjojjr
 11. Create HTTP session list, and delete all user sessions that exist on log out.(stretch)
 12. Many to one user sessions for multiple pages. Use tokens.(stretch)
 13. Add sensor status api.
@@ -35,6 +35,6 @@
 30. Add H2 test Datasource.
 31. Covert all components to constructor injection.
 32. Add to/from CSV to DBItem interface and implement in entities.#rjojjr
-33. Add token param to download link.
+33. Add token param to download link/Make download controller more robust.
 34. Create controller interfaces, so logic can be extracted and tested.
 35. Add csv ui comp.#rjojjr
