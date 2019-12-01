@@ -26,10 +26,10 @@ const CSVPageContainer = ({user, changePage, updateSession, isLoading, isError, 
                                 <GenericPageHeader isLoading={isLoading} currentTabIndex={0} onClickHandler={onClickHandler} tabs={pageConstants.DATA_TABS}/>
                             </header>
                             <p>{errorMsg}</p>
+                            <DownloadAlert show={isDownloadAvailable} isDownload={isDownload}/>
                             <CSVPage user={user} isDataError={isDataError} getCSV={getCSV}/>
                         </section>
-                        <nav className={"csvPagee"}>
-                            <DownloadAlert show={isDownloadAvailable} isDownload={isDownload}/>
+                        <nav className={"csvPage"}>
                             <CSVPageNav changePage={changePage} />
                         </nav>
                         <aside className={"csvPage"}>
