@@ -107,10 +107,12 @@ public class CSVService {
                 List<File> zipFiles = Arrays.asList(downloadFileTempDir.listFiles());
                 if(ZipTools.zip(zipFiles, downloadFile.getPath())){
                     List<File> files = new ArrayList<>();
+                    System.gc();
                     files.add(downloadFileTempDir);
                     DeleteTools.delete(files);
                     return true;
                 }
+                System.gc();
                 List<File> files = new ArrayList<>();
                 files.add(downloadFileTempDir);
                 files.add(downloadFile);
@@ -121,12 +123,14 @@ public class CSVService {
         }catch (Exception e){
             e.printStackTrace();
             debuggingService.nonFatalDebug("Failed to generate backup package", e);
+            System.gc();
             List<File> files = new ArrayList<>();
             files.add(downloadFileTempDir);
             files.add(downloadFile);
             DeleteTools.delete(files);
             return false;
         }
+        System.gc();
         List<File> files = new ArrayList<>();
         files.add(downloadFileTempDir);
         files.add(downloadFile);

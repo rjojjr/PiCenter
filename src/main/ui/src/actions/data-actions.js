@@ -10,22 +10,32 @@ export const isDataLoading = (loading) => ({
 });
 
 export const IS_DATA_ERROR = 'IS_DATA_ERROR'
-export const isDataError = (error, msg) => ({
-    type: IS_DATA_ERROR,
-    isError: error,
-    msg
-});
+export const isDataError = (error, msg) => {
+    if (!error) {
+        msg = '';
+    }
+    return ({
+        type: IS_DATA_ERROR,
+        isError: error,
+        msg
+    });
+};
 
 export const getReadingsCSVThunk = (user) => async dispatch => {
     try {
         dispatch(isDataLoading(true));
+        dispatch(isDataError(false, ""));
         const response = await getReadingsCSV(user);
+        if (!response.data.responseBody.includes('success')){
+            dispatch(isDataError('Error getting CSV...'));
+        }
         dispatch(isDataLoading(false));
         return
     } catch (error) {
-        if (process.env.NODE_ENV === 'development' && debugConstants.ALERT_DEBUG_THUNKS){
+        dispatch(isDataLoading(false));
+        if (process.env.NODE_ENV === 'development' && debugConstants.ALERT_DEBUG_THUNKS) {
             alert(error);
         }
-        dispatch(loadingError('Network error'));
+        dispatch(isDataError('Error getting CSV...'));
     }
 };

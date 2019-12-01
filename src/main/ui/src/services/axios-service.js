@@ -54,5 +54,5 @@ export const createUser = (user, username, firstName, lastName, password, admin)
 
 export const getReadingsCSV = (user) => {
 
-  return axios.post(constants.CSV_EXPORT + '?userId=' + user.token);
+  return axios.get(constants.CSV_EXPORT + '?userId=' + user.token + "&table=readings");
 };
