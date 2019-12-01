@@ -21,15 +21,15 @@ const SummaryPage = ({ summary, user, isLoading, canRender }) => {
           <table className={"summaryTable"}>
             <tbody>
               <tr>
-                <th>Interval</th>
-                <th>Temperature Average</th>
-                <th>Humidity Average</th>
+                <th>                </th>
+                <th>Average</th>
+                <th></th>
                 <th>Sample Standard Deviation</th>
               </tr>
               <tr>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td><b>Interval </b></td>
+                <td><b>Temp</b></td>
+                <td><b>Humidity</b></td>
                 <td><b>Temp</b></td>
                 <td><b>Humidity</b></td>
 
