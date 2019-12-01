@@ -18,7 +18,7 @@
 13. Add sensor status api.
 14. Add user info page with password reset.
 15. Application properties external file for production.
-16. Add loading modals.
+16. Add loading modals.#rjojjr
 17. Admin active users.
 18. Add global footer component.
 19. Add global aside component.

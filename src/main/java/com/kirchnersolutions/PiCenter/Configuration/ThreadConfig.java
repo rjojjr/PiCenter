@@ -17,7 +17,6 @@ import org.springframework.web.context.annotation.ApplicationScope;
 public class ThreadConfig {
 
     @Bean
-    @ApplicationScope
     public ThreadPoolTaskExecutor threadPoolTaskExecutor() {
 
 

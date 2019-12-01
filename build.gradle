@@ -20,10 +20,11 @@ repositories {
 
 group = 'com.kirchnersolutions'
 version = '1.0.00a'
-def build = '100115'
+def build = '100116'
 sourceCompatibility = '1.8'
 def PRODUCTION_BUILD = true
 def test = false
+//def test = true
 
 
 repositories {
@@ -36,10 +37,8 @@ repositories {
 node {
 	download = true
 
-	// Set the work directory for unpacking node
 	workDir = file("${project.buildDir}/nodejs")
 
-	// Set the work directory for NPM
 	npmWorkDir = file("${project.buildDir}/npm")
 }
 
@@ -59,7 +58,6 @@ task copyWebApp(type: Copy) {
 	from 'src/main/ui/build'
 	into 'build/resources/main/static'
 }
-//Bundle react ui with boot jar for production.
 
 task testBuild(type: Copy) {
 		from 'src/builds/test'

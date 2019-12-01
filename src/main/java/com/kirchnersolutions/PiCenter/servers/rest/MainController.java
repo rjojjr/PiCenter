@@ -123,8 +123,9 @@ public class MainController {
         }
         if(table != null){
             if(csvService.generateDownload(table)){
-                response.setHeader("Location", "/download/backup");
-                response.setStatus(302);
+                /*String url = "http://picenter.kirchnerbusinesssolutions.com/download/backup";
+                response.setHeader("Location", url);
+                response.setStatus(302);*/
                 return new RestResponse("{body: 'success'}", userService.getRestUser((String)httpSession.getAttribute("username")));
             }
         }
