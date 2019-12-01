@@ -14,6 +14,7 @@ const SummaryNav = ({changePage}) => {
                     </ul>
                     <ul>
                         <li><a className={'link usersLink lightText'} onClick={() => changePage(pageConstants.USERS)}>Users</a></li>
+                        <li><a className={'link dataLink lightText'} onClick={() => changePage(pageConstants.DATA)}>Data</a></li>
                     </ul>
                 </li>
             </ul>

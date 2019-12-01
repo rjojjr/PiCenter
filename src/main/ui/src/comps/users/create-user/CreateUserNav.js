@@ -20,6 +20,7 @@ const CreateUserNav = ({changePage}) => {
 
                     <ul>
                         <li><a className={'link summaryLink lightText'} onClick={() => changePage(pageConstants.SUMMARY_PAGE)}>Summary</a></li>
+                        <li><a className={'link dataLink lightText'} onClick={() => changePage(pageConstants.DATA)}>Data</a></li>
                     </ul>
                 </li>
 
