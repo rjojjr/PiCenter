@@ -107,12 +107,10 @@ public class CSVService {
                 List<File> zipFiles = Arrays.asList(downloadFileTempDir.listFiles());
                 if(ZipTools.zip(zipFiles, downloadFile.getPath())){
                     List<File> files = new ArrayList<>();
-                    System.gc();
                     files.add(downloadFileTempDir);
                     DeleteTools.delete(files);
                     return true;
                 }
-                System.gc();
                 List<File> files = new ArrayList<>();
                 files.add(downloadFileTempDir);
                 files.add(downloadFile);
@@ -123,14 +121,12 @@ public class CSVService {
         }catch (Exception e){
             e.printStackTrace();
             debuggingService.nonFatalDebug("Failed to generate backup package", e);
-            System.gc();
             List<File> files = new ArrayList<>();
             files.add(downloadFileTempDir);
             files.add(downloadFile);
             DeleteTools.delete(files);
             return false;
         }
-        System.gc();
         List<File> files = new ArrayList<>();
         files.add(downloadFileTempDir);
         files.add(downloadFile);
@@ -143,7 +139,7 @@ public class CSVService {
         if(!downloadFileTempDir.exists()){
             downloadFileTempDir.mkdirs();
         }
-        File out;
+
         boolean success = false;
         switch (table.toLowerCase()){
             case "all":
@@ -166,19 +162,19 @@ public class CSVService {
                 }
                 break;
             case "users":
-                out = new File(downloadFileTempDir, "/Users_" + CalenderConverter.getMonthDayYear(System.currentTimeMillis(), "-", "-") + ".csv");
-                out.createNewFile();
-                success = makeUserCSV(out);
+                File userOut = new File(downloadFileTempDir, "/Users_" + CalenderConverter.getMonthDayYear(System.currentTimeMillis(), "-", "-") + ".csv");
+                userOut.createNewFile();
+                success = makeUserCSV(userOut);
                 break;
             case "readings" :
-                out = new File(downloadFileTempDir, "/Readings_" + CalenderConverter.getMonthDayYear(System.currentTimeMillis(), "-", "-") + ".csv");
-                out.createNewFile();
-                success = makeReadingCSV(out);
+                File readingOut = new File(downloadFileTempDir, "/Readings_" + CalenderConverter.getMonthDayYear(System.currentTimeMillis(), "-", "-") + ".csv");
+                readingOut.createNewFile();
+                success = makeReadingCSV(readingOut);
                 break;
             case "userlogs" :
-                out = new File(downloadFileTempDir, "/UserLogs_" + CalenderConverter.getMonthDayYear(System.currentTimeMillis(), "-", "-") + ".csv");
-                out.createNewFile();
-                success = makeUserLogCSV(out);
+                File logOut = new File(downloadFileTempDir, "/UserLogs_" + CalenderConverter.getMonthDayYear(System.currentTimeMillis(), "-", "-") + ".csv");
+                logOut.createNewFile();
+                success = makeUserLogCSV(logOut);
                 break;
             default:
                 break;
