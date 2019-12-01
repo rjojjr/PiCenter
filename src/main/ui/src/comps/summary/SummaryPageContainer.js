@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import SummaryPage from "./SummaryPage";
 import SummaryPageHeader from "./SummaryPageHeader";
-import LoadingView from "../global/LoadingView";
+import LoadingView from "../../../oldSrc/LoadingView";
 import Button from 'react-bootstrap/Button';
 
 
