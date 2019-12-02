@@ -28,7 +28,7 @@ public class CSVParserImpl implements CSVParser{
         }
         StringBuilder CSV = new StringBuilder(items.get(0).getType() + "." + items.get(0).getCSVHeader());
         for (DBItem item : items) {
-            CSV.append("\r\r" +
+            CSV.append("\r\n" +
                     item.toCSV());
         }
         return CSV.toString();
