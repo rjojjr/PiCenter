@@ -4,7 +4,7 @@ PiCenter Changelog
 1.0.00a
 
 Build 100117
-    
+    Added /data/backup endpoint.
 
 12/01/2019
 Build 100116
