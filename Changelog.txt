@@ -5,6 +5,7 @@ PiCenter Changelog
 
 Build 100117
     Fixed bug that caused CSV file rows to be interlaced with blank lines.
+    Added /data/backup endpoint.
 
 12/01/2019
 Build 100116
