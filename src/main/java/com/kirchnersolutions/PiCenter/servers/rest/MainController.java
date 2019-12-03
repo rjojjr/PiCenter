@@ -122,7 +122,7 @@ public class MainController {
             return new RestResponse("{body: 'failed not authorized'}", userService.getRestUser((String) httpSession.getAttribute("username")));
         }
         if (table != null) {
-            if (csvService.generateDownload(table)) {
+            if (csvService.generateDownload(table, false)) {
                 /*String url = "http://picenter.kirchnerbusinesssolutions.com/download/backup";
                 response.setHeader("Location", url);
                 response.setStatus(302);*/

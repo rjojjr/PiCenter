@@ -215,6 +215,9 @@ public class SummaryService {
 
     private String findMean(BigDecimal sum, int count){
         MathContext mc = new MathContext(10, RoundingMode.HALF_UP);
+        if(count == 0){
+            return "0.00";
+        }
         sum = sum.divide(new BigDecimal(count), mc);
         return sum.toString();
     }

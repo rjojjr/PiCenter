@@ -54,12 +54,13 @@ public class CSVService {
             restoreDir.mkdirs();
             auto.mkdirs();
             manual.mkdirs();
+            downloadDir.mkdirs();
         }
     }
 
-    public boolean generateDownload(String table){
+    public boolean generateDownload(String table, boolean hash){
         try{
-            return GenerateDownload(table);
+            return GenerateDownload(table, hash);
         }catch (Exception e){
             debuggingService.nonFatalDebug("Failed to delete backup temp files", e);
             return false;
@@ -107,7 +108,7 @@ public class CSVService {
 
     private boolean manual(){
         try{
-            if(makeCSVSwitch("all")){
+            if(makeCSVSwitch("all", true)){
                 File manBk = new File(manual, "/PiCenterManualBackup_" + CalenderConverter.getMonthDayYearHourMinute(System.currentTimeMillis(), "-", ":") + ".zip");
                 manBk.createNewFile();
                 List<File> zipFiles = Arrays.asList(downloadFileTempDir.listFiles());
@@ -134,9 +135,9 @@ public class CSVService {
         }
     }
 
-    private boolean GenerateDownload(String table) throws Exception{
+    private boolean GenerateDownload(String table, boolean hash) throws Exception{
         try{
-            if(makeCSVSwitch(table)){
+            if(makeCSVSwitch(table, hash)){
                 downloadFile.createNewFile();
                 List<File> zipFiles = Arrays.asList(downloadFileTempDir.listFiles());
                 if(ZipTools.zip(zipFiles, downloadFile.getPath())){
@@ -169,7 +170,7 @@ public class CSVService {
         return false;
     }
 
-    private boolean makeCSVSwitch(String table) throws IOException, Exception {
+    private boolean makeCSVSwitch(String table, boolean hash) throws IOException, Exception {
         if(!downloadFileTempDir.exists()){
             downloadFileTempDir.mkdirs();
         }
@@ -179,9 +180,9 @@ public class CSVService {
             case "all":
                 success = true;
                 Future<Boolean>[] futures = new Future[3];
-                futures[0] = threadPoolTaskExecutor.submit(new CSVThread("users"));
-                futures[1] = threadPoolTaskExecutor.submit(new CSVThread("readings"));
-                futures[2] = threadPoolTaskExecutor.submit(new CSVThread("userlogs"));
+                futures[0] = threadPoolTaskExecutor.submit(new CSVThread("users", hash));
+                futures[1] = threadPoolTaskExecutor.submit(new CSVThread("readings", hash));
+                futures[2] = threadPoolTaskExecutor.submit(new CSVThread("userlogs", hash));
                 boolean temp = futures[0].get();
                 if(!temp){
                     success = false;
@@ -198,17 +199,17 @@ public class CSVService {
             case "users":
                 File userOut = new File(downloadFileTempDir, "/Users_" + CalenderConverter.getMonthDayYear(System.currentTimeMillis(), "-", "-") + ".csv");
                 userOut.createNewFile();
-                success = makeUserCSV(userOut);
+                success = makeUserCSV(userOut, hash);
                 break;
             case "readings" :
                 File readingOut = new File(downloadFileTempDir, "/Readings_" + CalenderConverter.getMonthDayYear(System.currentTimeMillis(), "-", "-") + ".csv");
                 readingOut.createNewFile();
-                success = makeReadingCSV(readingOut);
+                success = makeReadingCSV(readingOut, hash);
                 break;
             case "userlogs" :
                 File logOut = new File(downloadFileTempDir, "/UserLogs_" + CalenderConverter.getMonthDayYear(System.currentTimeMillis(), "-", "-") + ".csv");
                 logOut.createNewFile();
-                success = makeUserLogCSV(logOut);
+                success = makeUserLogCSV(logOut, hash);
                 break;
             default:
                 break;
@@ -219,42 +220,47 @@ public class CSVService {
     private class CSVThread implements Callable<Boolean>{
 
         private String table;
+        private boolean hash;
 
-        CSVThread(String table){
+        CSVThread(String table, boolean hash){
             this.table = table;
+            this.hash = hash;
         }
 
         public Boolean call() throws Exception{
-            return makeCSVSwitch(table);
+            return makeCSVSwitch(table, hash);
         }
 
     }
 
-    private boolean makeUserCSV(File out){
-        return makeCSV(out, new ArrayList<>(appUserRepository.getAll()));
+    private boolean makeUserCSV(File out, boolean hash){
+        return makeCSV(out, new ArrayList<>(appUserRepository.getAll()), hash);
     }
 
-    private boolean makeReadingCSV(File out){
-        return makeCSV(out, new ArrayList<>(readingRepository.getAll()));
+    private boolean makeReadingCSV(File out, boolean hash){
+        return makeCSV(out, new ArrayList<>(readingRepository.getAll()), hash);
     }
 
-    private boolean makeUserLogCSV(File out){
-        return makeCSV(out, new ArrayList<>(userLogRepository.getAll()));
+    private boolean makeUserLogCSV(File out, boolean hash){
+        return makeCSV(out, new ArrayList<>(userLogRepository.getAll()), hash);
     }
 
-    private boolean makeCSV(File out, List<DBItem> items) {
+    private boolean makeCSV(File out, List<DBItem> items, boolean hash) {
         if(!out.exists()){
             return false;
         }
         String csv = parseItemsToCSV(items);
-        try{
-            File hash = new File(downloadFileTempDir, "/" + out.getName() + ".sha512");
-            hash.createNewFile();
-            ByteTools.writeBytesToFile(hash, hashCSV(csv));
-        }catch (Exception e){
-            e.printStackTrace();
-            debuggingService.nonFatalDebug("Failed to generate CSV hash", e);
+        if(hash){
+            try{
+                File hashFile = new File(downloadFileTempDir, "/" + out.getName() + ".sha512");
+                hashFile.createNewFile();
+                ByteTools.writeBytesToFile(hashFile, hashCSV(csv));
+            }catch (Exception e){
+                e.printStackTrace();
+                debuggingService.nonFatalDebug("Failed to generate CSV hash", e);
+            }
         }
+
         try{
             ByteTools.writeBytesToFile(out,
                             csv.getBytes("UTF-8")
