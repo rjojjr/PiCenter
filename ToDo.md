@@ -35,8 +35,9 @@
 30. Add H2 test Datasource.
 31. Covert all components to constructor injection.
 32. Add to/from CSV to DBItem interface and implement in entities.#rjojjr
-33. Add token param to download link/Make download controller more robust.
+33. Add token param to download link/Make download controller more robust.#rjojjr
 34. Create controller interfaces, so logic can be extracted and tested.
 35. Add csv ui comp.#rjojjr
 36. Add manual backup endpoint.#rjojjr
 37. Add backup UI components and allow custom csv export filters. 
+38. Pass tokens through auth header.
