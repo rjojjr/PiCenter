@@ -274,6 +274,8 @@ public class UserService {
         return restUserFactory(user);
     }
 
+
+
     @Scheduled(fixedDelay = 60000)
     private void bootExpired(){
         List<AppUser> expiredUsers = userList.searchExpired();
