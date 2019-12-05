@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import Alert from "react-bootstrap/Alert";
 
-const DownloadAlert = ({show, isDownload}) => {
+const DownloadAlert = ({show, isDownload, link}) => {
 
     const [showAlert, setShowAlert] = useState(show);
 
@@ -16,7 +16,7 @@ const DownloadAlert = ({show, isDownload}) => {
                 <Alert variant="success" onClose={close} dismissible>
                     <Alert.Heading>Your download is ready!</Alert.Heading>
                    <p>
-                       <a href="/download/backup">Click here to download</a>
+                       <a href={`${link}`}>Click here to download</a>
                    </p>
                 </Alert>
             )}
