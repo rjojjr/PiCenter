@@ -269,10 +269,37 @@ public class UserService {
         }
     }
 
+    public boolean validateToken(String token){
+        if(userList.findByToken(token) != null) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean validateAdminToken(String token){
+        AppUser user = userList.findByToken(token);
+        if(user != null && user.isAdmin()) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean logDownload(String token, String downloadLink){
+        AppUser user = userList.findByToken(token);
+        if(user == null){
+            return false;
+        }
+        UserLog log = new UserLog(user.getId(), "download " + downloadLink, System.currentTimeMillis());
+        userLogRepository.saveAndFlush(log);
+        return true;
+    }
+
     public RestUser getRestUser(String username){
         AppUser user = userList.searchList(username);
         return restUserFactory(user);
     }
+
+
 
     @Scheduled(fixedDelay = 60000)
     private void bootExpired(){

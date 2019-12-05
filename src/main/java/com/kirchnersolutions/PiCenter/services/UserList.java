@@ -94,6 +94,10 @@ public class UserList {
         return result;
     }
 
+    public AppUser findByToken(String token){
+        return searchListByToken(token, copyList());
+    }
+
     private List<AppUser> remove(String userName, List<AppUser> list) {
         List<AppUser> newList = new ArrayList<>();
         boolean result = false;
@@ -113,6 +117,15 @@ public class UserList {
     private static AppUser searchList(String userName, List<AppUser> list) {
         for (AppUser user : list) {
             if (user.getUserName().equals(userName)) {
+                return user;
+            }
+        }
+        return null;
+    }
+
+    private static AppUser searchListByToken(String token, List<AppUser> list) {
+        for (AppUser user : list) {
+            if (user.getUserSession().getToken().equals(token)) {
                 return user;
             }
         }
