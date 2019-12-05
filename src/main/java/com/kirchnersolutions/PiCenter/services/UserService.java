@@ -269,6 +269,13 @@ public class UserService {
         }
     }
 
+    public boolean validateToken(String token){
+        if(userList.findByToken(token) != null) {
+            return true;
+        }
+        return false;
+    }
+
     public RestUser getRestUser(String username){
         AppUser user = userList.searchList(username);
         return restUserFactory(user);
