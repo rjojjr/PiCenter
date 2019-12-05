@@ -4,15 +4,19 @@ export const isSessionStorageAvailible = () =>{
 
 export const writeToken = (token) => {
     if(isSessionStorageAvailible()){
-        function getCert() {
             sessionStorage.setItem("token", token);
-        }
+            return true;
     }
+    return false;
 }
 
 export const readToken = () => {
     if(isSessionStorageAvailible()){
-        return sessionStorage.getItem("token");
+        const token = sessionStorage.getItem("token");
+        if(token === null){
+            return undefined;
+        }
+        return token;
     }
     return undefined;
 }
