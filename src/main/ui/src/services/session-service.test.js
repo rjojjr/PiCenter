@@ -11,4 +11,5 @@ describe('session storage tests', () => {
         expect(isSessionStorageAvailible()).toBe(true);
         expect(readToken()).toBe('some_token');
     });
+
 })
