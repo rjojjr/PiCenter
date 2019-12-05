@@ -1,6 +1,7 @@
 package com.kirchnersolutions.PiCenter.servers.download;
 
 import com.kirchnersolutions.PiCenter.dev.DebuggingService;
+import com.kirchnersolutions.PiCenter.services.UserService;
 import com.kirchnersolutions.utilities.DeleteTools;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,8 +22,14 @@ import java.util.Arrays;
 @RequestMapping("/download")
 public class FileDownloadController {
 
-    @Autowired
     private DebuggingService debuggingService;
+    private UserService userService;
+
+    @Autowired
+    public FileDownloadController(DebuggingService debuggingService, UserService userService){
+        this.userService = userService;
+        this.debuggingService = debuggingService;
+    }
 
     @RequestMapping("/backup")
     public void downloadCSV( HttpServletRequest request,
