@@ -44,6 +44,8 @@ public class FileDownloadController {
                 response.getOutputStream().flush();
             } catch (IOException ex) {
                 ex.printStackTrace();
+                response.setContentType("application/zip");
+                response.addHeader("Content-Disposition", "attachment; filename=PiCenterBackup.zip");
             }
         }
         try {
@@ -60,18 +62,31 @@ public class FileDownloadController {
         Path file = Paths.get("PiCenter/Backup/automated/PiCenterBackup_" + date + ".zip");
         if (Files.exists(file)) {
             response.setContentType("application/zip");
-            response.addHeader("Content-Disposition", "attachment; filename=PiCenterBackup.zip");
+            response.addHeader("Content-Disposition", "attachment; filename=PiCenterBackup_" + date + ".zip");
             try {
                 Files.copy(file, response.getOutputStream());
                 response.getOutputStream().flush();
             } catch (IOException ex) {
                 ex.printStackTrace();
+                response.setStatus( HttpServletResponse.SC_INTERNAL_SERVER_ERROR );
             }
-        }
-        try {
-            file.toFile().delete();
-        }catch (Exception e){
-            debuggingService.nonFatalDebug("Failed to delete backup download file", e);
+        }else{
+            File[] files = (new File("PiCenter/Backup/automated")).listFiles();
+            if(files.length > 0){
+                String filePath = files[0].getPath();
+                Path altFile = Paths.get(filePath);
+                String fileName = filePath.split("/")[filePath.split("/").length - 1];
+                response.setContentType("application/zip");
+                response.addHeader("Content-Disposition", "attachment; filename=PiCenterBackup_" + date + ".zip");
+                try {
+                    Files.copy(file, response.getOutputStream());
+                    response.getOutputStream().flush();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                    response.setStatus( HttpServletResponse.SC_INTERNAL_SERVER_ERROR );
+                }
+            }
+            response.setStatus( HttpServletResponse.SC_NOT_FOUND );
         }
     }
 }

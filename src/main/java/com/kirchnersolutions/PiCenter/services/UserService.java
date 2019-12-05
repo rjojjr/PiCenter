@@ -276,6 +276,16 @@ public class UserService {
         return false;
     }
 
+    public boolean logDownload(String token, String downloadLink){
+        AppUser user = userList.findByToken(token);
+        if(user == null){
+            return false;
+        }
+        UserLog log = new UserLog(user.getId(), "download " + downloadLink, System.currentTimeMillis());
+        userLogRepository.saveAndFlush(log);
+        return true;
+    }
+
     public RestUser getRestUser(String username){
         AppUser user = userList.searchList(username);
         return restUserFactory(user);
