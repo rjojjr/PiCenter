@@ -276,6 +276,14 @@ public class UserService {
         return false;
     }
 
+    public boolean validateAdminToken(String token){
+        AppUser user = userList.findByToken(token);
+        if(user != null && user.isAdmin()) {
+            return true;
+        }
+        return false;
+    }
+
     public boolean logDownload(String token, String downloadLink){
         AppUser user = userList.findByToken(token);
         if(user == null){

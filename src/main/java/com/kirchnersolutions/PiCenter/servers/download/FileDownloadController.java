@@ -33,8 +33,15 @@ public class FileDownloadController {
 
     @RequestMapping("/backup")
     public void downloadCSV( HttpServletRequest request,
-                              HttpServletResponse response) throws Exception{
+                              HttpServletResponse response, @RequestParam String token) throws Exception{
         //Authorized user will download the file
+        if(token != null){
+            if(!userService.validateToken(token)){
+                response.setStatus( HttpServletResponse.SC_UNAUTHORIZED );
+                return;
+            }
+        }
+        userService.logDownload(token, request.getRequestURI());
         Path file = Paths.get("PiCenter/Backup/Download/PiCenterBackup.zip");
         if (Files.exists(file)) {
             response.setContentType("application/zip");
@@ -57,9 +64,21 @@ public class FileDownloadController {
 
     @RequestMapping("/backup/auto")
     public void downloadBackup(HttpServletRequest request,
-                               HttpServletResponse response, @RequestParam String date) throws Exception{
-        //Authorized user will download the file
+                               HttpServletResponse response, @RequestParam String date, @RequestParam String token) throws Exception{
+        if(token != null){
+            if(!userService.validateAdminToken(token)){
+                response.setStatus( HttpServletResponse.SC_UNAUTHORIZED );
+                return;
+            }
+        }
+        userService.logDownload(token, request.getRequestURI());
         Path file = Paths.get("PiCenter/Backup/automated/PiCenterBackup_" + date + ".zip");
+        if(date == null){
+            downloadFallback(response, date);
+            return;
+
+        }
+        //Authorized user will download the file
         if (Files.exists(file)) {
             response.setContentType("application/zip");
             response.addHeader("Content-Disposition", "attachment; filename=PiCenterBackup_" + date + ".zip");
@@ -71,21 +90,26 @@ public class FileDownloadController {
                 response.setStatus( HttpServletResponse.SC_INTERNAL_SERVER_ERROR );
             }
         }else{
-            File[] files = (new File("PiCenter/Backup/automated")).listFiles();
-            if(files.length > 0){
-                String filePath = files[0].getPath();
-                Path altFile = Paths.get(filePath);
-                String fileName = filePath.split("/")[filePath.split("/").length - 1];
-                response.setContentType("application/zip");
-                response.addHeader("Content-Disposition", "attachment; filename=PiCenterBackup_" + date + ".zip");
-                try {
-                    Files.copy(file, response.getOutputStream());
-                    response.getOutputStream().flush();
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                    response.setStatus( HttpServletResponse.SC_INTERNAL_SERVER_ERROR );
-                }
+            downloadFallback(response, date);
+        }
+    }
+
+    private void downloadFallback(HttpServletResponse response, @RequestParam String date) {
+        File[] files = (new File("PiCenter/Backup/automated")).listFiles();
+        if(files.length > 0){
+            String filePath = files[0].getPath();
+            Path altFile = Paths.get(filePath);
+            String fileName = filePath.split("/")[filePath.split("/").length - 1];
+            response.setContentType("application/zip");
+            response.addHeader("Content-Disposition", "attachment; filename=" + altFile.getFileName());
+            try {
+                Files.copy(altFile, response.getOutputStream());
+                response.getOutputStream().flush();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+                response.setStatus( HttpServletResponse.SC_INTERNAL_SERVER_ERROR );
             }
+        }else {
             response.setStatus( HttpServletResponse.SC_NOT_FOUND );
         }
     }
