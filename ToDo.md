@@ -43,3 +43,4 @@
 37. Add backup UI components and allow custom csv export filters. 
 38. Pass tokens through auth header.
 39. Add data visualization page to UI.#CURrjojjr
+40. Add data/visual endpoint.#CURrjojjr
