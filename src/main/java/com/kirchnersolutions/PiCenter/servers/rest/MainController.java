@@ -4,15 +4,13 @@ import com.kirchnersolutions.PiCenter.dev.DebuggingService;
 import com.kirchnersolutions.PiCenter.entites.AppUser;
 import com.kirchnersolutions.PiCenter.servers.beans.*;
 import com.kirchnersolutions.PiCenter.services.CSVService;
-import com.kirchnersolutions.PiCenter.services.SummaryService;
+import com.kirchnersolutions.PiCenter.services.StatService;
 import com.kirchnersolutions.PiCenter.services.UserService;
-import org.aspectj.bridge.context.ContextToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import javax.print.DocFlavor;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -22,14 +20,14 @@ import javax.servlet.http.HttpSession;
 public class MainController {
 
     private UserService userService;
-    private SummaryService summaryService;
+    private StatService statService;
     private DebuggingService debuggingService;
     private CSVService csvService;
 
     @Autowired
-    public MainController(UserService userService, SummaryService summaryService, DebuggingService debuggingService, CSVService csvService) {
+    public MainController(UserService userService, StatService statService, DebuggingService debuggingService, CSVService csvService) {
         this.userService = userService;
-        this.summaryService = summaryService;
+        this.statService = statService;
         this.debuggingService = debuggingService;
         this.csvService = csvService;
     }
@@ -100,7 +98,7 @@ public class MainController {
         if (!updateSession((String) httpSession.getAttribute("username"), userId, request.getRemoteAddr(), "/summary")) {
             return new RestResponse("{body: 'error', error: 'unauthentic session'}", new RestUser());
         }
-        return new RestResponse("{body: 'success'}", userService.getRestUser((String) httpSession.getAttribute("username")), summaryService.getRoomSummaries(2));
+        return new RestResponse("{body: 'success'}", userService.getRestUser((String) httpSession.getAttribute("username")), statService.getRoomSummaries(2));
     }
 
     @GetMapping("data/csv")

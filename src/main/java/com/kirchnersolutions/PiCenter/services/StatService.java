@@ -23,6 +23,8 @@ import com.kirchnersolutions.PiCenter.entites.Reading;
 import com.kirchnersolutions.PiCenter.entites.ReadingRepository;
 import com.kirchnersolutions.PiCenter.servers.beans.RoomSummary;
 import com.kirchnersolutions.utilities.BigDecimalMath;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Service;
@@ -37,7 +39,7 @@ import java.util.List;
 
 @DependsOn({"debuggingService", "appUserRepository", "readingRepository"})
 @Service
-public class SummaryService {
+public class StatService {
 
     @Autowired
     private ReadingRepository readingRepository;
@@ -51,6 +53,40 @@ public class SummaryService {
             count++;
         }
         return summaries;
+    }
+
+    /**
+     * Returns array of temp and humidity average of readings between time +- window in room room.
+     * @param time
+     * @param window
+     * @param room
+     * @return
+     */
+    double[] getAverage(long time, long window, String room){
+        long startTime = time - window;
+        long endTime = time + window;
+        List<Reading> readings = readingRepository.findByTimeBetweenAndRoomOrderByTimeDesc(startTime, endTime, room);
+        return getMeans(getSums(readings));
+    }
+
+    double[] getMeans(SumBean sums){
+        double[] means = new double[2];
+        means[0] = Double.parseDouble(round(findMean(sums.getSums()[0], sums.getCount()), 1));
+        means[1] = Double.parseDouble(round(findMean(sums.getSums()[1], sums.getCount()), 1));
+        return means;
+    }
+
+    private SumBean getSums(List<Reading> readings){
+        int count = 0;
+        BigDecimal temp = new BigDecimal("0");
+        BigDecimal humidity = new BigDecimal("0");
+        for(Reading reading : readings){
+            temp = temp.add(new BigDecimal(reading.getTemp()));
+            humidity = humidity.add(new BigDecimal(reading.getHumidity()));
+            count++;
+        }
+        BigDecimal[] sums = {temp, humidity};
+        return new SumBean(sums, count);
     }
 
     private RoomSummary getRoomSummary(String roomName, int precision){
@@ -265,5 +301,12 @@ public class SummaryService {
         }
         sum = sum.divide(new BigDecimal(count), mc);
         return sum.toString();
+    }
+
+    @Data
+    @AllArgsConstructor
+    private class SumBean {
+        BigDecimal[] sums = new BigDecimal[2];
+        int count = 0;
     }
 }

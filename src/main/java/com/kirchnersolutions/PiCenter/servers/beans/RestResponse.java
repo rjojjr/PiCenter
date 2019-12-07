@@ -34,6 +34,12 @@ public class RestResponse {
         this.restUser = restUser;
     }
 
+    public RestResponse(String responseBody, RestUser restUser, RoomSummary[] summary){
+        this.responseBody = responseBody;
+        this.restUser = restUser;
+        this.summary = summary;
+    }
+
     public RestResponse(RestUser restUser, RoomSummary[] summary){
         this.restUser = restUser;
         this.summary = summary;
