@@ -27,7 +27,7 @@ import {
 
 import {
     IS_DATA_LOADING,
-    IS_DATA_ERROR, IS_DOWNLOAD, VISUAL_FROM_DATE, VISUAL_TO_DATE
+    IS_DATA_ERROR, IS_DOWNLOAD, VISUAL_FROM_DATE, VISUAL_TO_DATE, VISUAL_DATA
 } from "../actions/data-actions";
 
 import {
@@ -62,7 +62,8 @@ export const initialState = () => ({
     dataMsg: '',
     isDownloadAvailable: false,
     tempChartStart: new Date(Date.now()),
-    tempChartEnd: new Date(Date.now())
+    tempChartEnd: new Date(Date.now()),
+    chartData: []
 });
 
 export default (state = initialState(), action = {type: undefined}) => {
@@ -283,6 +284,12 @@ export default (state = initialState(), action = {type: undefined}) => {
             return {
                 ...state,
                 tempChartEnd: action.date
+            }
+        };
+        case VISUAL_DATA: {
+            return {
+                ...state,
+                chartData: action.data
             }
         };
         default:

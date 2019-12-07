@@ -6,11 +6,18 @@ import {updateSession} from "../../services/axios-service";
 
 import {changePage, logOff} from "../../actions/universal-actions";
 import {connect} from "react-redux";
-import {isDataError, isDataLoading, getReadingsCSVThunk, isDownload} from "../../actions/data-actions";
+import {
+    isDataError,
+    isDataLoading,
+    getReadingsCSVThunk,
+    isDownload,
+    visualFromDate,
+    visualToDate
+} from "../../actions/data-actions";
 import * as pageConstants from "../../constants/page-constants";
 import CSVPageContainer from "./CSVPage/CSVPageContainer";
 
-const DataPageContainer = ({user, changePage, isLoading, isError, errorMsg, isDataLoading, isDataError, logOff, getCSV, isDownload, isDownloadAvailable}) => {
+const DataPageContainer = ({user, changePage, isLoading, isError, errorMsg, isDataLoading, isDataError, logOff, getCSV, isDownload, isDownloadAvailable, tempChartStart, tempChartEnd, visualFromDate, visualToDate}) => {
 
     const tabClickHandler = (tabIndex) => {
         switch (tabIndex) {
@@ -44,7 +51,9 @@ const mapStateToProps = state => ({
     isLoading: state.isDataLoading,
     isError: state.isDataError,
     errorMsg: state.dataMsg,
-    isDownloadAvailable: state.isDownloadAvailable
+    isDownloadAvailable: state.isDownloadAvailable,
+    tempChartStart: state.tempChartStart,
+    tempChartEnd: state.tempChartEnd
 });
 
 const mapDispatchToProps = {
@@ -53,7 +62,9 @@ const mapDispatchToProps = {
     isDataLoading,
     isDataError,
     getCSV: getReadingsCSVThunk,
-    isDownload
+    isDownload,
+    visualFromDate,
+    visualToDate
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(DataPageContainer);

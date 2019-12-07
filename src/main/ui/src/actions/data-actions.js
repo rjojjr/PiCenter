@@ -47,6 +47,16 @@ export const visualToDate = (date) => ({
     date
 });
 
+/**
+ * Set the temp chart ending date.
+ * @type {string}
+ */
+export const VISUAL_DATA = 'VISUAL_DATA'
+export const visualData = (data) => ({
+    type: VISUAL_DATA,
+    data
+});
+
 export const getReadingsCSVThunk = (user) => async dispatch => {
     try {
         dispatch(isDataLoading(true));
