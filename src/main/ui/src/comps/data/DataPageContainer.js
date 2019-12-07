@@ -17,7 +17,7 @@ import {
 import * as pageConstants from "../../constants/page-constants";
 import CSVPageContainer from "./CSVPage/CSVPageContainer";
 
-const DataPageContainer = ({user, changePage, isLoading, isError, errorMsg, isDataLoading, isDataError, logOff, getCSV, isDownload, isDownloadAvailable, tempChartStart, tempChartEnd, visualFromDate, visualToDate}) => {
+const DataPageContainer = ({user, changePage, isLoading, isError, errorMsg, isDataLoading, isDataError, logOff, getCSV, isDownload, isDownloadAvailable, tempChartStart, tempChartEnd, visualFromDate, visualToDate, chartData}) => {
 
     const tabClickHandler = (tabIndex) => {
         switch (tabIndex) {
@@ -40,7 +40,12 @@ const DataPageContainer = ({user, changePage, isLoading, isError, errorMsg, isDa
     
     return(
         <div className="pageContainer dataPageContainer">
-            <CSVPageContainer user={user} changePage={changePage} updateSession={updateSession} isLoading={isLoading} isError={isError} errorMsg={errorMsg} isDataLoading={isDataLoading} isDataError={isDataError} logOff={logOff} onClickHandler={tabClickHandler} getCSV={getCSV} isDownload={isDownload} isDownloadAvailable={isDownloadAvailable}/>
+            {user.page === pageConstants.DATA || user.page === pageConstants.CSV_EXPORT && (
+                <CSVPageContainer user={user} changePage={changePage} updateSession={updateSession} isLoading={isLoading} isError={isError} errorMsg={errorMsg} isDataLoading={isDataLoading} isDataError={isDataError} logOff={logOff} onClickHandler={tabClickHandler} getCSV={getCSV} isDownload={isDownload} isDownloadAvailable={isDownloadAvailable}/>
+            )};
+            {user.page === pageConstants.DATA_VISUAL && (
+                <VisualPageContainer user={user} changePage={changePage} updateSession={updateSession} isLoading={isLoading} isError={isError} errorMsg={errorMsg} isDataLoading={isDataLoading} isDataError={isDataError} logOff={logOff} onClickHandler={tabClickHandler} tempChartStart={tempChartStart} tempChartEnd={tempChartEnd} visualFromDate={visualFromDate} visualToDate={visualToDate} chartData={chartData}/>
+            )};
         </div>    
     )
     
@@ -53,7 +58,8 @@ const mapStateToProps = state => ({
     errorMsg: state.dataMsg,
     isDownloadAvailable: state.isDownloadAvailable,
     tempChartStart: state.tempChartStart,
-    tempChartEnd: state.tempChartEnd
+    tempChartEnd: state.tempChartEnd,
+    chartData: state.chartData
 });
 
 const mapDispatchToProps = {
