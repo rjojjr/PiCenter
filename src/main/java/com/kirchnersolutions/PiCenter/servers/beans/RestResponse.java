@@ -13,6 +13,8 @@ public class RestResponse {
 
     private RoomSummary[] summary = new RoomSummary[0];
 
+    private ChartResponse chart = new ChartResponse();
+
     public RestResponse(String responseBody){
         this.responseBody = responseBody;
     }
@@ -22,6 +24,12 @@ public class RestResponse {
         this.restUser = restUser;
     }
 
+    public RestResponse(String responseBody, RestUser restUser, ChartResponse chartResponse){
+        this.responseBody = responseBody;
+        this.restUser = restUser;
+        this.chart = chartResponse;
+    }
+
     public RestResponse(RestUser restUser){
         this.restUser = restUser;
     }
@@ -29,6 +37,12 @@ public class RestResponse {
     public RestResponse(RestUser restUser, RoomSummary[] summary){
         this.restUser = restUser;
         this.summary = summary;
+    }
+
+    public RestResponse(RestUser restUser, RoomSummary[] summary, ChartResponse chartResponse){
+        this.restUser = restUser;
+        this.summary = summary;
+        this.chart = chartResponse;
     }
 
 }
