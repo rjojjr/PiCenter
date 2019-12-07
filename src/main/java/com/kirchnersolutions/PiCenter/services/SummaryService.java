@@ -59,69 +59,114 @@ public class SummaryService {
         String[] humidity = new String[7];
         String[] tempDevi = new String[7];
         String[] humidityDevi = new String[7];
+        String[] stats = new String[2];
         List<Reading> reads = readingRepository.findByTimeBetweenAndRoomOrderByTimeDesc(time - StatConstants.HOUR, time, roomName);
         if(reads.isEmpty()){
-            System.out.println("Empty " + roomName);
-            for(int i = 0; i < 7; i++){
+            for(int i = 0; i < 2; i++){
                 temp[i] = "0";
                 humidity[i] = "0";
                 tempDevi[i] = "0";
                 humidityDevi[i] = "0";
-                return new RoomSummary(roomName, temp, humidity, tempDevi, humidityDevi);
             }
+        }else{
+            if(precision > 0){
+                temp[0] = reads.get(0).getTemp() + "." + getZeros(precision);
+                humidity[0] = reads.get(0).getHumidity() + "." + getZeros(precision);
+                tempDevi[0] = "0" + "." + getZeros(precision);
+                humidityDevi[0] = "0" + "." + getZeros(precision);
+            }else {
+                temp[0] = reads.get(0).getTemp() + "";
+                humidity[0] = reads.get(0).getHumidity() + "";
+                tempDevi[0] = "0";
+                humidityDevi[0] = "0";
+            }
+            stats = getTempStats(reads, precision);
+            temp[1] = stats[0];
+            tempDevi[1] = stats[1];
+            stats = getHumidityStats(reads, precision);
+            humidity[1] = stats[0];
+            humidityDevi[1] = stats[1];
         }
-        if(precision > 0){
-            temp[0] = reads.get(0).getTemp() + "." + getZeros(precision);
-            humidity[0] = reads.get(0).getHumidity() + "." + getZeros(precision);
-            tempDevi[0] = "0" + "." + getZeros(precision);
-            humidityDevi[0] = "0" + "." + getZeros(precision);
-        }else {
-            temp[0] = reads.get(0).getTemp() + "";
-            humidity[0] = reads.get(0).getHumidity() + "";
-            tempDevi[0] = "0";
-            humidityDevi[0] = "0";
-        }
-        String[] stats = getTempStats(reads, precision);
-        temp[1] = stats[0];
-        tempDevi[1] = stats[1];
-        stats = getHumidityStats(reads, precision);
-        humidity[1] = stats[0];
-        humidityDevi[1] = stats[1];
         reads = readingRepository.findByTimeBetweenAndRoomOrderByTimeDesc(time - StatConstants.TWO_HOUR, time, roomName);
-        stats = getTempStats(reads, precision);
-        temp[2] = stats[0];
-        tempDevi[2] = stats[1];
-        stats = getHumidityStats(reads, precision);
-        humidity[2] = stats[0];
-        humidityDevi[2] = stats[1];
+        if(reads.isEmpty()){
+            for(int i = 2; i < 3; i++){
+                temp[i] = "0";
+                humidity[i] = "0";
+                tempDevi[i] = "0";
+                humidityDevi[i] = "0";
+            }
+        }else {
+            stats = getTempStats(reads, precision);
+            temp[2] = stats[0];
+            tempDevi[2] = stats[1];
+            stats = getHumidityStats(reads, precision);
+            humidity[2] = stats[0];
+            humidityDevi[2] = stats[1];
+        }
         reads = readingRepository.findByTimeBetweenAndRoomOrderByTimeDesc(time - StatConstants.THREE_HOUR, time, roomName);
-        stats = getTempStats(reads, precision);
-        temp[3] = stats[0];
-        tempDevi[3] = stats[1];
-        stats = getHumidityStats(reads, precision);
-        humidity[3] = stats[0];
-        humidityDevi[3] = stats[1];
+        if(reads.isEmpty()){
+            for(int i = 3; i < 4; i++){
+                temp[i] = "0";
+                humidity[i] = "0";
+                tempDevi[i] = "0";
+                humidityDevi[i] = "0";
+            }
+        }else {
+            stats = getTempStats(reads, precision);
+            temp[3] = stats[0];
+            tempDevi[3] = stats[1];
+            stats = getHumidityStats(reads, precision);
+            humidity[3] = stats[0];
+            humidityDevi[3] = stats[1];
+        }
         reads = readingRepository.findByTimeBetweenAndRoomOrderByTimeDesc(time - StatConstants.SIX_HOUR, time, roomName);
-        stats = getTempStats(reads, precision);
-        temp[4] = stats[0];
-        tempDevi[4] = stats[1];
-        stats = getHumidityStats(reads, precision);
-        humidity[4] = stats[0];
-        humidityDevi[4] = stats[1];
+        if(reads.isEmpty()){
+            for(int i = 4; i < 5; i++){
+                temp[i] = "0";
+                humidity[i] = "0";
+                tempDevi[i] = "0";
+                humidityDevi[i] = "0";
+            }
+        }else {
+            stats = getTempStats(reads, precision);
+            temp[4] = stats[0];
+            tempDevi[4] = stats[1];
+            stats = getHumidityStats(reads, precision);
+            humidity[4] = stats[0];
+            humidityDevi[4] = stats[1];
+        }
         reads = readingRepository.findByTimeBetweenAndRoomOrderByTimeDesc(time - StatConstants.TWELVE_HOUR, time, roomName);
-        stats = getTempStats(reads, precision);
-        temp[5] = stats[0];
-        tempDevi[5] = stats[1];
-        stats = getHumidityStats(reads, precision);
-        humidity[5] = stats[0];
-        humidityDevi[5] = stats[1];
+        if(reads.isEmpty()){
+            for(int i = 5; i < 6; i++){
+                temp[i] = "0";
+                humidity[i] = "0";
+                tempDevi[i] = "0";
+                humidityDevi[i] = "0";
+            }
+        }else {
+            stats = getTempStats(reads, precision);
+            temp[5] = stats[0];
+            tempDevi[5] = stats[1];
+            stats = getHumidityStats(reads, precision);
+            humidity[5] = stats[0];
+            humidityDevi[5] = stats[1];
+        }
         reads = readingRepository.findByTimeBetweenAndRoomOrderByTimeDesc(time - (2 * StatConstants.TWELVE_HOUR ), time, roomName);
-        stats = getTempStats(reads, precision);
-        temp[6] = stats[0];
-        tempDevi[6] = stats[1];
-        stats = getHumidityStats(reads, precision);
-        humidity[6] = stats[0];
-        humidityDevi[6] = stats[1];
+        if(reads.isEmpty()){
+            for(int i = 5; i < 6; i++){
+                temp[i] = "0";
+                humidity[i] = "0";
+                tempDevi[i] = "0";
+                humidityDevi[i] = "0";
+            }
+        }else {
+            stats = getTempStats(reads, precision);
+            temp[6] = stats[0];
+            tempDevi[6] = stats[1];
+            stats = getHumidityStats(reads, precision);
+            humidity[6] = stats[0];
+            humidityDevi[6] = stats[1];
+        }
         return new RoomSummary(roomName, temp, humidity, tempDevi, humidityDevi);
     }
 

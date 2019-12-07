@@ -3,6 +3,11 @@ PiCenter Changelog
 
 1.0.00a
 
+12/06/2019
+Build 100118
+    Fixed bug that caused all stats to be zero if missing some readings.
+
+12/03/2019
 Build 100117
     Fixed bug that caused CSV file rows to be interlaced with blank lines.
     Added /data/backup endpoint.
