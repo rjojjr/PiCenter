@@ -8,7 +8,7 @@
 3. Split root reducer into multiples.
 4. Admin create user. #rjojjr
 5. Admin database console.
-6. Graphing API.
+6. Graphing API.#rjojjr
 7. Probability distribution, data modeling and hypothesis testing.
 8. Cleanup springboot logging.
 9. Handle failed login attempt.
@@ -41,3 +41,4 @@
 36. Add manual backup endpoint.#rjojjr
 37. Add backup UI components and allow custom csv export filters. 
 38. Pass tokens through auth header.
+39. Add data visualization page to UI.
