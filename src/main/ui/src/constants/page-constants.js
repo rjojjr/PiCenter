@@ -9,8 +9,10 @@ export const UPDATE_SESSION = '/update';
 export const USERS = '/users';
 export const CREATE_USER = '/users/create';
 
-export const DATA = '/data'
-export const CSV_EXPORT = '/data/csv'
+export const DATA = '/data';
+export const CSV_EXPORT = '/data/csv';
+
+export const DOWNLOAD_CSV = '/download/backup';
 
 export const USERS_TABS = ['Create User'];
 export const DATA_TABS = ['Export CSV'];

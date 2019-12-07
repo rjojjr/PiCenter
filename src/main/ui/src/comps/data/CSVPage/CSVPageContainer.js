@@ -6,6 +6,7 @@ import React from "react";
 import Button from 'react-bootstrap/Button';
 import CSVPage from "./CSVPage";
 import DownloadAlert from "./DownloadAlert";
+import {DOWNLOAD_CSV} from "../../../constants/page-constants";
 
 const CSVPageContainer = ({user, changePage, updateSession, isLoading, isError, errorMsg, isDataError, logOff, onClickHandler, getCSV, isDownload, isDownloadAvailable}) => {
     
@@ -26,7 +27,7 @@ const CSVPageContainer = ({user, changePage, updateSession, isLoading, isError, 
                                 <GenericPageHeader isLoading={isLoading} currentTabIndex={0} onClickHandler={onClickHandler} tabs={pageConstants.DATA_TABS}/>
                             </header>
                             <p>{errorMsg}</p>
-                            <DownloadAlert show={isDownloadAvailable} isDownload={isDownload}/>
+                            <DownloadAlert show={isDownloadAvailable} isDownload={isDownload} link={`${DOWNLOAD_CSV}/?token=${user.token}`}/>
                             <CSVPage user={user} isDataError={isDataError} getCSV={getCSV}/>
                         </section>
                         <nav className={"csvPage"}>
