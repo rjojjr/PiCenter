@@ -22,9 +22,9 @@ public class ThreadConfig {
 
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
 
-        executor.setCorePoolSize(40);
+        executor.setCorePoolSize(3);
 
-        executor.setMaxPoolSize(1000);
+        executor.setMaxPoolSize(20);
 
         executor.setWaitForTasksToCompleteOnShutdown(true);
 
