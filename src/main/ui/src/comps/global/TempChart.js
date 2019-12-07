@@ -19,8 +19,8 @@ const TempChart = ({data}) => {
             <Tooltip />
             <Legend />
             <Line type="monotone" dataKey="Bedroom" stroke="#8884d8" activeDot={{ r: 8 }} />
-            <Line type="monotone" dataKey="Living Room" stroke="#82ca9d" />
-            <Line type="monotone" dataKey="Server Room" stroke="#ff3346" />
+            <Line type="monotone" dataKey="LivingRoom" stroke="#82ca9d" />
+            <Line type="monotone" dataKey="ServerRoom" stroke="#ff3346" />
             <Line type="monotone" dataKey="Office" stroke="#fff633" />
             <Line type="monotone" dataKey="Outside" stroke="#ff33ff" />
             <Line type="monotone" dataKey="Heat" stroke="#ff3f33" />
