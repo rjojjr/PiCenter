@@ -4,7 +4,8 @@ PiCenter Changelog
 1.0.00a
 
 Build 100119
-
+    Add TempChart ReChart ui component.
+    Add GenericDatePicker react-datepicker ui component.
 
 12/06/2019
 Build 100118
