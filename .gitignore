@@ -30,6 +30,7 @@ out/
 ### Program ###
 /PiCenter
 PiCenter
+sql
 
 ### NetBeans ###
 /nbproject/private/
