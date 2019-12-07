@@ -17,8 +17,11 @@ const DataPageContainer = ({user, changePage, isLoading, isError, errorMsg, isDa
             case 0: {
                 changePage(pageConstants.CSV_EXPORT);
                 updateSession(pageConstants.CSV_EXPORT, user);
-            }
-                ;
+            };
+            case 1: {
+                changePage(pageConstants.DATA_VISUAL);
+                updateSession(pageConstants.DATA_VISUALT, user);
+            };
             default: {
                 changePage(pageConstants.DATA);
                 updateSession(pageConstants.DATA, user);
