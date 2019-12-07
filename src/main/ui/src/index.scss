@@ -80,6 +80,12 @@ footer{
   }
 }
 
+.visualDateContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
 header{
   height: 7%;
   background: $primaryDarkColor;

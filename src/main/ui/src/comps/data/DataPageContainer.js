@@ -1,6 +1,5 @@
 import React, {useState} from "react";
 
-import LoadingView from "../global/LoadingView";
 
 import {updateSession} from "../../services/axios-service";
 
@@ -16,6 +15,7 @@ import {
 } from "../../actions/data-actions";
 import * as pageConstants from "../../constants/page-constants";
 import CSVPageContainer from "./CSVPage/CSVPageContainer";
+import VisualPageContainer from "./Visual/VisualPageContainer";
 
 const DataPageContainer = ({user, changePage, isLoading, isError, errorMsg, isDataLoading, isDataError, logOff, getCSV, isDownload, isDownloadAvailable, tempChartStart, tempChartEnd, visualFromDate, visualToDate, chartData}) => {
 
