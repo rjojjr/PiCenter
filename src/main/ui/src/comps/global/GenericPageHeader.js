@@ -1,6 +1,15 @@
 import React from "react";
 import Button from 'react-bootstrap/Button';
 
+/**
+ * Generic tabbed page header. Meant to be used uniformly in a parent container.
+ * @param onClickHandler
+ * @param tabs
+ * @param currentTabIndex
+ * @param isLoading
+ * @returns {*}
+ * @constructor
+ */
 const GenericPageHeader = ({ onClickHandler, tabs, currentTabIndex, isLoading }) => {
 
     const isDisable = (index) => {

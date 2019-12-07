@@ -27,6 +27,26 @@ export const isDataError = (error, msg) => {
     });
 };
 
+/**
+ * Set the temp chart starting date.
+ * @type {string}
+ */
+export const VISUAL_FROM_DATE = 'VISUAL_FROM_DATE'
+export const visualFromDate = (date) => ({
+    type: VISUAL_FROM_DATE,
+    date
+});
+
+/**
+ * Set the temp chart ending date.
+ * @type {string}
+ */
+export const VISUAL_TO_DATE = 'VISUAL_TO_DATE'
+export const visualToDate = (date) => ({
+    type: VISUAL_TO_DATE,
+    date
+});
+
 export const getReadingsCSVThunk = (user) => async dispatch => {
     try {
         dispatch(isDataLoading(true));
