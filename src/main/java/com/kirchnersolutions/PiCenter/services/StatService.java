@@ -41,8 +41,12 @@ import java.util.List;
 @Service
 public class StatService {
 
-    @Autowired
     private ReadingRepository readingRepository;
+
+    @Autowired
+    public StatService(ReadingRepository readingRepository){
+        this.readingRepository = readingRepository;
+    }
 
     public RoomSummary[] getRoomSummaries(int precision){
         String[] rooms = RoomConstants.rooms;

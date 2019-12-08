@@ -20,8 +20,8 @@ version = '1.0.00a'
 def build = '100119'
 sourceCompatibility = '1.8'
 def PRODUCTION_BUILD = true
-def test = false
-//def test = true
+//def test = false
+def test = true
 
 
 repositories {
@@ -71,22 +71,21 @@ task nonProdBuild(type: Copy){
 	into 'src/main/resources'
 }
 
-bootJar.dependsOn prodBuild
 
-if (PRODUCTION_BUILD == true && test == false){
+if (PRODUCTION_BUILD && !test){
 	wrapper.dependsOn prodBuild
 	appNpmBuild.dependsOn appNpmInstall
 	copyWebApp.dependsOn appNpmBuild
 	compileJava.dependsOn copyWebApp
-}else if(test == true){
+}else if(test){
 	wrapper.dependsOn testBuild
 }else{
 	wrapper.dependsOn nonProdBuild
 }
-
+/*
 task prod(type: Jar){
 
-}
+}*/
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	//compile 'org.springframework.mobile:spring-mobile-device:2.0.0.BUILD-SNAPSHOT'

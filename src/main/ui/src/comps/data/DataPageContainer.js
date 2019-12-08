@@ -27,7 +27,7 @@ const DataPageContainer = ({user, changePage, isLoading, isError, errorMsg, isDa
             };
             case 1: {
                 changePage(pageConstants.DATA_VISUAL);
-                updateSession(pageConstants.DATA_VISUALT, user);
+                updateSession(pageConstants.DATA_VISUAL, user);
             };
             default: {
                 changePage(pageConstants.DATA);

@@ -4,9 +4,9 @@ import VisualPageNav from "./VisualPageNav";
 import * as pageConstants from "../../../constants/page-constants";
 import React from "react";
 import Button from 'react-bootstrap/Button';
-import {DOWNLOAD_CSV} from "../../../constants/page-constants";
+import VisualPage from "./VisualPage";
 
-const VisualageContainer = ({user, changePage, updateSession, isLoading, isError, errorMsg, isDataError, logOff, onClickHandler, tempChartStart, tempChartEnd, visualFromDate, visualToDate, chartData}) => {
+const VisualPageContainer = ({user, changePage, updateSession, isLoading, isError, errorMsg, isDataError, logOff, onClickHandler, tempChartStart, tempChartEnd, visualFromDate, visualToDate, chartData}) => {
 
     updateSession(pageConstants.CSV_EXPORT, user);
 
@@ -25,7 +25,7 @@ const VisualageContainer = ({user, changePage, updateSession, isLoading, isError
                                 <GenericPageHeader isLoading={isLoading} currentTabIndex={1} onClickHandler={onClickHandler} tabs={pageConstants.DATA_TABS}/>
                             </header>
                             <p>{errorMsg}</p>
-                            <VisualPage user={user} isDataError={isDataError} getCSV={getCSV}/>
+                            <VisualPage user={user} isDataError={isDataError}/>
                         </section>
                         <nav className={"visualPage"}>
                             <VisualPageNav changePage={changePage} />

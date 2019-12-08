@@ -11,7 +11,7 @@ const VisualPageNav = ({changePage}) => {
                             <ul>
                                 <li>
                                     <b>Visual</b>
-                                    <li><a className={'link summaryLink lightText'} onClick={() => changePage(pageConstants.CSV_EXPORTL)}>CSV Export</a></li>
+                                    <li><a className={'link summaryLink lightText'} onClick={() => changePage(pageConstants.CSV_EXPORT)}>CSV Export</a></li>
                                 </li>
                             </ul>
                         </li>

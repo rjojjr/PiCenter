@@ -23,10 +23,9 @@ public class ChartService {
     }
 
     private Interval[] getChartData(ChartRequest chartRequest) {
-        int daysBetween = CalenderConverter.getDaysBetween(chartRequest.getFromDate(), chartRequest.getToDate(), "/");
-        if (daysBetween < 2) {
-
-        }
+        String start = chartRequest.getFromDate();
+        String end = chartRequest.getToDate();
+        int interval = getInterval(start, end);
         return null;
     }
 
@@ -61,7 +60,7 @@ public class ChartService {
      * @param interval: n hours
      * @return
      */
-    private List<Long> getTimeIntervals(String start, String end, int interval) {
+    List<Long> getTimeIntervals(String start, String end, int interval) {
         List<Long> intervals = new ArrayList<>();
         long endMillis = CalenderConverter.getMillisFromDateString(end, "/") + CalenderConverter.DAY;
         long startMillis = CalenderConverter.getMillisFromDateString(start, "/");
@@ -70,7 +69,7 @@ public class ChartService {
             if (interval == 24) {
                 intervals.add(CalenderConverter.getMillis(Integer.parseInt(date[0]), Integer.parseInt(date[1]), Integer.parseInt(date[2]), 12, 0, 0));
             } else {
-                for (int i = 0; i <= 24; i += interval) {
+                for (int i = 0; i <= 23; i += interval) {
                     if (i == 24) {
                         intervals.add(CalenderConverter.getMillis(Integer.parseInt(date[0]), Integer.parseInt(date[1]), Integer.parseInt(date[2]), 23, 50, 0));
                     } else {
@@ -85,7 +84,7 @@ public class ChartService {
                 if (interval == 24) {
                     intervals.add(CalenderConverter.getMillis(Integer.parseInt(date[0]), Integer.parseInt(date[1]), Integer.parseInt(date[2]), 12, 0, 0));
                 } else {
-                    for (int i = 0; i <= 24; i += interval) {
+                    for (int i = 0; i <= 23; i += interval) {
                         if (i == 24) {
                             intervals.add(CalenderConverter.getMillis(Integer.parseInt(date[0]), Integer.parseInt(date[1]), Integer.parseInt(date[2]), 23, 50, 0));
                         } else {
@@ -105,7 +104,7 @@ public class ChartService {
                         if (interval == 24) {
                             intervals.add(CalenderConverter.getMillis(Integer.parseInt(date[0]), Integer.parseInt(date[1]), Integer.parseInt(date[2]), 12, 0, 0));
                         } else {
-                            for (int i = 0; i <= 24; i += interval) {
+                            for (int i = 0; i <= 23; i += interval) {
                                 if (i == 24) {
                                     intervals.add(CalenderConverter.getMillis(Integer.parseInt(date[0]), Integer.parseInt(date[1]), Integer.parseInt(date[2]), 23, 50, 0));
                                 } else {
@@ -119,7 +118,7 @@ public class ChartService {
                         if (interval == 24) {
                             intervals.add(CalenderConverter.getMillis(Integer.parseInt(date[0]), Integer.parseInt(date[1]), Integer.parseInt(date[2]), 12, 0, 0));
                         } else {
-                            for (int i = 0; i <= 24; i += interval) {
+                            for (int i = 0; i <= 23; i += interval) {
                                 if (i == 24) {
                                     intervals.add(CalenderConverter.getMillis(Integer.parseInt(date[0]), Integer.parseInt(date[1]), Integer.parseInt(date[2]), 23, 50, 0));
                                 } else {
@@ -146,7 +145,7 @@ public class ChartService {
                             if (interval == 24) {
                                 intervals.add(CalenderConverter.getMillis(Integer.parseInt(date[0]), Integer.parseInt(date[1]), Integer.parseInt(date[2]), 12, 0, 0));
                             } else {
-                                for (int i = 0; i <= 24; i += interval) {
+                                for (int i = 0; i <= 23; i += interval) {
                                     if (i == 24) {
                                         intervals.add(CalenderConverter.getMillis(Integer.parseInt(date[0]), Integer.parseInt(date[1]), Integer.parseInt(date[2]), 23, 50, 0));
                                     } else {
@@ -160,7 +159,7 @@ public class ChartService {
                             if (interval == 24) {
                                 intervals.add(CalenderConverter.getMillis(Integer.parseInt(date[0]), Integer.parseInt(date[1]), Integer.parseInt(date[2]), 12, 0, 0));
                             } else {
-                                for (int i = 0; i <= 24; i += interval) {
+                                for (int i = 0; i <= 23; i += interval) {
                                     if (i == 24) {
                                         intervals.add(CalenderConverter.getMillis(Integer.parseInt(date[0]), Integer.parseInt(date[1]), Integer.parseInt(date[2]), 23, 50, 0));
                                     } else {
