@@ -26,9 +26,33 @@ public class ChartService {
         String start = chartRequest.getFromDate();
         String end = chartRequest.getToDate();
         int interval = getInterval(start, end);
+        List<Long> intervals = getTimeIntervals(start, end, interval);
         return null;
     }
 
+    /**
+     * Generates list of periods to average chart points from.
+     * @param chartIntervals
+     * @param interval
+     * @return
+     */
+    private List<long[]> generateAverageIntervals(List<Long> chartIntervals, int interval){
+        List<long[]> output = new ArrayList<>();
+        long half = interval * CalenderConverter.HOUR;
+        half/= 2;
+        for(Long period : chartIntervals){
+            long[] temp = {period - half, period + half};
+            output.add(temp);
+        }
+        return output;
+    }
+
+    /**
+     * Generates interval based on time between arguments.
+     * @param start
+     * @param end
+     * @return
+     */
     private int getInterval(String start, String end) {
         if (start.equals(end)) {
             return 1;
@@ -45,7 +69,14 @@ public class ChartService {
             }
             return 24;
         } else {
-            if (getDaysBetween(start, end, "/") <= 15) {
+            int dif = getDaysBetween(start, end, "/");
+            if (dif < 6) {
+                return 3;
+            }
+            if (dif < 8) {
+                return 6;
+            }
+            if (dif < 15) {
                 return 12;
             }
             return 24;
