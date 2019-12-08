@@ -30,6 +30,25 @@ public class ChartService {
         return null;
     }
 
+    private int getInterval(String start, String end){
+        if(start.equals(end)){
+            return 1;
+        }else if(isSameMonth(start, end) && isSameYear(start, end)){
+            int dif = Integer.parseInt(end.split("/")[2]) - Integer.parseInt(start.split("/")[2]);
+            if(dif < 4){
+                return 3;
+            }
+            if (dif < 6){
+                return 6;
+            }
+            if(dif < 8){
+                return 12;
+            }
+            return 24;
+        }
+        return 24;
+    }
+
     /**
      * Get list of millis representing each interval between start and end.
      * @param start: MM/DD/YYYY
