@@ -15,9 +15,6 @@ repositories {
 	mavenCentral()
 }
 
-
-
-
 group = 'com.kirchnersolutions'
 version = '1.0.00a'
 def build = '100119'

@@ -69,7 +69,7 @@ public class StatService {
         return getMeans(getSums(readings));
     }
 
-    double[] getMeans(SumBean sums){
+    private double[] getMeans(SumBean sums){
         double[] means = new double[2];
         means[0] = Double.parseDouble(round(findMean(sums.getSums()[0], sums.getCount()), 1));
         means[1] = Double.parseDouble(round(findMean(sums.getSums()[1], sums.getCount()), 1));
