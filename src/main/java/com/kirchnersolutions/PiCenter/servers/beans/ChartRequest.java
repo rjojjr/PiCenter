@@ -8,4 +8,7 @@ public class ChartRequest {
     private String fromDate;
     private String toDate;
 
+    //temp || humidity
+    private String type = "temp";
+
 }
