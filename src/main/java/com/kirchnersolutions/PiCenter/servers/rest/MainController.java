@@ -4,6 +4,7 @@ import com.kirchnersolutions.PiCenter.dev.DebuggingService;
 import com.kirchnersolutions.PiCenter.entites.AppUser;
 import com.kirchnersolutions.PiCenter.servers.beans.*;
 import com.kirchnersolutions.PiCenter.services.CSVService;
+import com.kirchnersolutions.PiCenter.services.ChartService;
 import com.kirchnersolutions.PiCenter.services.StatService;
 import com.kirchnersolutions.PiCenter.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,13 +24,15 @@ public class MainController {
     private StatService statService;
     private DebuggingService debuggingService;
     private CSVService csvService;
+    private ChartService chartService;
 
     @Autowired
-    public MainController(UserService userService, StatService statService, DebuggingService debuggingService, CSVService csvService) {
+    public MainController(UserService userService, StatService statService, DebuggingService debuggingService, CSVService csvService, ChartService chartService) {
         this.userService = userService;
         this.statService = statService;
         this.debuggingService = debuggingService;
         this.csvService = csvService;
+        this.chartService = chartService;
     }
 
     @GetMapping("/loading")
@@ -40,8 +43,10 @@ public class MainController {
         //HttpServletResponse response=servletWebRequest.getResponse();
         HttpSession httpSession = cookie(request, response);
         if (httpSession.getAttribute("username") == null) {
+            response.setStatus( HttpServletResponse.SC_OK );
             return new RestResponse();
         }
+        response.setStatus( HttpServletResponse.SC_OK );
         return new RestResponse(userService.getRestUser((String) httpSession.getAttribute("username")));
     }
 
@@ -56,8 +61,10 @@ public class MainController {
                 httpSession.setAttribute("username", user.getUserName());
                 return new RestResponse(userService.getRestUser(user.getUserName()));
             }
+            response.setStatus( HttpServletResponse.SC_UNAUTHORIZED );
             return new RestResponse("{ body: 'Wrong username or password' }");
         }
+        response.setStatus( HttpServletResponse.SC_OK );
         return new RestResponse(userService.getRestUser((String) httpSession.getAttribute("username")));
     }
 
@@ -77,6 +84,7 @@ public class MainController {
             if (httpSession.getAttribute("username") == null) {
                 debuggingService.trace("HTTP user is null ");
             }
+            response.setStatus( HttpServletResponse.SC_OK );
             return new RestResponse("{body: logged off}");
         }
         debuggingService.trace("Failed to log off user " + (String) httpSession.getAttribute("username"));
@@ -98,7 +106,31 @@ public class MainController {
         if (!updateSession((String) httpSession.getAttribute("username"), userId, request.getRemoteAddr(), "/summary")) {
             return new RestResponse("{body: 'error', error: 'unauthentic session'}", new RestUser());
         }
+        response.setStatus( HttpServletResponse.SC_OK );
         return new RestResponse("{body: 'success'}", userService.getRestUser((String) httpSession.getAttribute("username")), statService.getRoomSummaries(2));
+    }
+
+    @PostMapping("/data/visual")
+    public RestResponse getChart(HttpServletResponse response, @RequestParam String userId, @RequestBody ChartRequest chartRequest) throws Exception {
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes())
+                .getRequest();
+        HttpSession httpSession = cookie(request, response);
+        if (httpSession.getAttribute("username") == null) {
+            return new RestResponse();
+        }
+        if (userId == null || userId.toCharArray().length < 5) {
+            userService.systemInvalidateUser((String) httpSession.getAttribute("username"), "unauthentic session");
+            return new RestResponse("{body: 'error', error: 'invalid token'}");
+        }
+        if (!updateSession((String) httpSession.getAttribute("username"), userId, request.getRemoteAddr(), "/data/visual")) {
+            return new RestResponse("{body: 'error', error: 'unauthentic session'}", new RestUser());
+        }
+        if(chartRequest == null){
+            response.setStatus( HttpServletResponse.SC_BAD_REQUEST );
+            return new RestResponse("{body: 'invalid request'}");
+        }
+        response.setStatus( HttpServletResponse.SC_OK );
+        return new RestResponse("{body: 'success'}", userService.getRestUser((String) httpSession.getAttribute("username")), chartService.getChartData(chartRequest));
     }
 
     @GetMapping("data/csv")
@@ -124,6 +156,7 @@ public class MainController {
                 /*String url = "http://picenter.kirchnerbusinesssolutions.com/download/backup";
                 response.setHeader("Location", url);
                 response.setStatus(302);*/
+                response.setStatus( HttpServletResponse.SC_OK );
                 return new RestResponse("{body: 'success'}", userService.getRestUser((String) httpSession.getAttribute("username")));
             }
         }
@@ -152,6 +185,7 @@ public class MainController {
                 /*String url = "http://picenter.kirchnerbusinesssolutions.com/download/backup";
                 response.setHeader("Location", url);
                 response.setStatus(302);*/
+            response.setStatus( HttpServletResponse.SC_OK );
             return new RestResponse("{body: 'success'}", userService.getRestUser((String) httpSession.getAttribute("username")));
         }
         return new RestResponse("{body: 'failed to generate package'}", userService.getRestUser((String) httpSession.getAttribute("username")));
@@ -172,6 +206,7 @@ public class MainController {
         if (!updateSession((String) httpSession.getAttribute("username"), userId, request.getRemoteAddr(), sessionUpdate.getPage())) {
             return new RestResponse("{body: 'error', error: 'unauthentic session'}", new RestUser());
         }
+        response.setStatus( HttpServletResponse.SC_OK );
         return new RestResponse("{body: 'success updating session'}", userService.getRestUser((String) httpSession.getAttribute("username")));
     }
 
@@ -191,6 +226,7 @@ public class MainController {
             return new RestResponse("{body: 'error', error: 'unauthentic session'}", new RestUser());
         }
         if (userService.createUser((String) httpSession.getAttribute("username"), createUser)) {
+            response.setStatus( HttpServletResponse.SC_OK );
             return new RestResponse("{body: 'success'}", userService.getRestUser((String) httpSession.getAttribute("username")));
         }
         return new RestResponse("{body: 'error', error; 'failed to create user'}", userService.getRestUser((String) httpSession.getAttribute("username")));
