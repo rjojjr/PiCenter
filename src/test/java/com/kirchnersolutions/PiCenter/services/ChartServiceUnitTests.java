@@ -20,7 +20,7 @@ public class ChartServiceUnitTests {
     private ChartService chartService = new  ChartService(new StatService(mockReadingRepository()));
 
     @Test
-    public void getTimeIntervalsTest(){
+    public void getTimeIntervals_returnsCorrectAmountOfIntervals(){
         List<Long> intervals = new ArrayList<>();
         intervals = chartService.getTimeIntervals("12/08/2019", "12/08/2019", 1);
         assertEquals(24, intervals.size());
