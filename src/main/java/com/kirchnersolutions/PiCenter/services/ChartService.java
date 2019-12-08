@@ -31,6 +31,25 @@ public class ChartService {
     }
 
     /**
+     * Returns list of double[] representing the temp([0]) and humidity([1]) at each interval.
+     * @param windows
+     * @param room
+     * @return
+     */
+    List<double[]> getChartValues(List<long[]> windows, String room){
+        List<double[]> values = new ArrayList<>();
+        for(long[] window : windows){
+            double[] value = statService.getAverage(window, room);
+            if(value != null){
+                values.add(value);
+            }else{
+                values.add(new double[]{0, 0});
+            }
+        }
+        return values;
+    }
+
+    /**
      * Generates list of periods to average chart points from.
      * @param chartIntervals
      * @param interval
