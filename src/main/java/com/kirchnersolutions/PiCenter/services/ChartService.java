@@ -209,6 +209,25 @@ public class ChartService {
         }
     }
 
+    private String getIntervalString(long time, boolean withDate){
+        String date = CalenderConverter.getMonthDayYearHour(time, "/", ":");
+        int hour = Integer.parseInt(date.split(" ")[1].split(":")[0]);
+        String hourText = "";
+        if(hour > 12){
+            hourText = hour - 12 + "PM";
+        }else{
+            if(hour == 0){
+                hourText = "12AM";
+            }else{
+                hourText = hour + "AM";
+            }
+        }
+        if(withDate){
+            return date.split(" ")[0] + " " + hourText;
+        }
+        return hourText;
+    }
+
     private boolean isSameMonth(String date1, String date2) {
         return date1.split("/")[0].equals(date2.split("/")[0]);
     }
