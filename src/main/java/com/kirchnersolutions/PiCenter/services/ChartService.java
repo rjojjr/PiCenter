@@ -10,6 +10,8 @@ import org.springframework.web.method.annotation.InitBinderDataBinderFactory;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.kirchnersolutions.utilities.CalenderConverter.getDaysInMonth;
+
 @Service
 public class ChartService {
 
@@ -42,11 +44,63 @@ public class ChartService {
         if(start.equals(end)){
             String[] date = start.split("/");
             for(int i = 0; i < 24; i+= interval){
-                intervals.add(CalenderConverter.getMillis(Integer.parseInt(date[0]) + 1, Integer.parseInt(date[1]), Integer.parseInt(date[2]), i, 0, 0));
+                intervals.add(CalenderConverter.getMillis(Integer.parseInt(date[0]), Integer.parseInt(date[1]), Integer.parseInt(date[2]), i, 0, 0));
             }
             return intervals;
         }else if(isSameMonth(start, end) && isSameYear(start, end)){
-            
+            String[] date = start.split("/");
+            for(int k = Integer.parseInt(date[1]); k <= Integer.parseInt(end.split("/")[1]); k++){
+                for(int i = 0; i < 24; i+= interval){
+                    intervals.add(CalenderConverter.getMillis(Integer.parseInt(date[0]), k, Integer.parseInt(date[2]), i, 0, 0));
+                }
+            }
+            return intervals;
+        }else if(isSameYear(start, end)){
+            int endMonth = Integer.parseInt(end.split("/")[0]);
+            int startMonth = Integer.parseInt(start.split("/")[0]);
+            String[] date = start.split("/");
+            for(int j = startMonth; j <= endMonth; j++){
+                if(j == endMillis){
+                    for(int k = Integer.parseInt(date[1]); k <= Integer.parseInt(end.split("/")[1]); k++){
+                        for(int i = 0; i < 24; i+= interval){
+                            intervals.add(CalenderConverter.getMillis(j, k, Integer.parseInt(date[2]), i, 0, 0));
+                        }
+                    }
+                }else {
+                    for(int k = Integer.parseInt(date[1]); k <= getDaysInMonth(j, Integer.parseInt(date[2])); k++){
+                        for(int i = 0; i < 24; i+= interval){
+                            intervals.add(CalenderConverter.getMillis(j, k, Integer.parseInt(date[2]), i, 0, 0));
+                        }
+                    }
+                }
+            }
+            return intervals;
+        }else if(Integer.parseInt(start.split("/")[2]) > Integer.parseInt(end.split("/")[2])){
+            return null;
+        }else{
+            String[] date = start.split("/");
+            int endMonth = Integer.parseInt(end.split("/")[0]);
+            int startMonth = Integer.parseInt(start.split("/")[0]);
+            int endYear = Integer.parseInt(end.split("/")[2]);
+            int startYear = Integer.parseInt(start.split("/")[2]);
+            for(int u = startYear; u <= endYear; u++){
+                for(int j = startMonth; j <= endMonth; j++){
+                    if(j == endMillis){
+                        for(int k = Integer.parseInt(date[1]); k <= Integer.parseInt(end.split("/")[1]); k++){
+                            for(int i = 0; i < 24; i+= interval){
+                                intervals.add(CalenderConverter.getMillis(j, k, u, i, 0, 0));
+                            }
+                        }
+                    }else {
+                        for(int k = Integer.parseInt(date[1]); k <= getDaysInMonth(j, Integer.parseInt(date[2])); k++){
+                            for(int i = 0; i < 24; i+= interval){
+                                intervals.add(CalenderConverter.getMillis(j, k, u, i, 0, 0));
+                            }
+                        }
+                    }
+                }
+            }
+            return intervals;
         }
     }
 

@@ -71,6 +71,8 @@ task nonProdBuild(type: Copy){
 	into 'src/main/resources'
 }
 
+bootJar.dependsOn prodBuild
+
 if (PRODUCTION_BUILD == true && test == false){
 	wrapper.dependsOn prodBuild
 	appNpmBuild.dependsOn appNpmInstall
