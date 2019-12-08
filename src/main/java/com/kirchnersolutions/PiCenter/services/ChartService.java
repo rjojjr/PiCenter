@@ -1,6 +1,7 @@
 package com.kirchnersolutions.PiCenter.services;
 
 import com.kirchnersolutions.PiCenter.servers.beans.ChartRequest;
+import com.kirchnersolutions.PiCenter.servers.beans.ChartResponse;
 import com.kirchnersolutions.PiCenter.servers.beans.Interval;
 import com.kirchnersolutions.utilities.CalenderConverter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,12 +23,53 @@ public class ChartService {
         this.statService = statService;
     }
 
-    private Interval[] getChartData(ChartRequest chartRequest) {
+    public ChartResponse getChartData(ChartRequest chartRequest){
+        return new ChartResponse(generateChartData(chartRequest));
+    }
+
+    /**
+     *
+     * @param chartRequest
+     * @return
+     */
+    private Interval[] generateChartData(ChartRequest chartRequest) {
         String start = chartRequest.getFromDate();
         String end = chartRequest.getToDate();
         int interval = getInterval(start, end);
         List<Long> intervals = getTimeIntervals(start, end, interval);
-        return null;
+        List<double[]> bedroomValues = getChartValues(generateIntervalWindows(intervals, interval), "bedroom");
+        List<double[]> livingroomValues = getChartValues(generateIntervalWindows(intervals, interval), "livingroom");
+        List<double[]> serverroomValues = getChartValues(generateIntervalWindows(intervals, interval), "serverroom");
+        List<double[]> officeValues = getChartValues(generateIntervalWindows(intervals, interval), "office");
+        List<double[]> outsideValues = getChartValues(generateIntervalWindows(intervals, interval), "outside");
+        Interval[] intervalList = new Interval[intervals.size()];
+        int type = 0;
+        if(chartRequest.getType().contains("hum")){
+            type = 1;
+        }
+        int count = 0;
+        for(Long time : intervals){
+            double br = 0, lr = 0, sr = 0, of = 0, ou = 0;
+            //Check for nulls
+            if(bedroomValues.get(count) != null){
+                br = bedroomValues.get(count)[type];
+            }
+            if(livingroomValues.get(count) != null){
+               lr = livingroomValues.get(count)[type];
+            }
+            if(serverroomValues.get(count) != null){
+                sr = serverroomValues.get(count)[type];
+            }
+            if(officeValues.get(count) != null){
+                of = officeValues.get(count)[type];
+            }
+            if(outsideValues.get(count) != null){
+                ou = outsideValues.get(count)[type];
+            }
+            intervalList[count] = new Interval(getIntervalString(intervals.get(count), !start.equals(end)), br, lr, sr, of, ou, 0);
+            count++;
+        }
+        return intervalList;
     }
 
     /**
@@ -55,7 +97,7 @@ public class ChartService {
      * @param interval
      * @return
      */
-    private List<long[]> generateAverageIntervals(List<Long> chartIntervals, int interval){
+    private List<long[]> generateIntervalWindows(List<Long> chartIntervals, int interval){
         List<long[]> output = new ArrayList<>();
         long half = interval * CalenderConverter.HOUR;
         half/= 2;

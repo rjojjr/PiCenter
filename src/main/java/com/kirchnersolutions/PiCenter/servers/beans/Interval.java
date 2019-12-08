@@ -1,8 +1,10 @@
 package com.kirchnersolutions.PiCenter.servers.beans;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
+@AllArgsConstructor
 public class Interval {
     private String name = "interval";
     private double Bedroom = 0.0;
