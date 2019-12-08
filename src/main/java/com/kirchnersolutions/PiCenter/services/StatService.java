@@ -73,6 +73,22 @@ public class StatService {
         return getMeans(getSums(readings));
     }
 
+    /**
+     * Returns array of temp and humidity average of readings between window[0] and window[1]..
+     * @param window:  long[2]
+     * @param room
+     * @return
+     */
+    double[] getAverage(long window[], String room){
+        if(window.length != 2){
+            return null;
+        }
+        long startTime = window[0];
+        long endTime = window[1];
+        List<Reading> readings = readingRepository.findByTimeBetweenAndRoomOrderByTimeDesc(startTime, endTime, room);
+        return getMeans(getSums(readings));
+    }
+
     private double[] getMeans(SumBean sums){
         double[] means = new double[2];
         means[0] = Double.parseDouble(round(findMean(sums.getSums()[0], sums.getCount()), 1));
