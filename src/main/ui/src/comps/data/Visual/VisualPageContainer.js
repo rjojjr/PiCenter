@@ -9,7 +9,7 @@ import VisualPage from "./VisualPage";
 const VisualPageContainer = ({user, changePage, updateSession, isLoading, isError, errorMsg, isDataError, logOff, onClickHandler, tempChartStart, tempChartEnd, visualFromDate, visualToDate, chartData, getChart}) => {
 
     updateSession(pageConstants.CSV_EXPORT, user);
-    if (chartData === []  && !isDataError){
+    if (chartData === []  && !isError){
         getChart(user, tempChartStart, tempChartEnd, 'temp');
     }
 
@@ -28,7 +28,7 @@ const VisualPageContainer = ({user, changePage, updateSession, isLoading, isErro
                                 <GenericPageHeader isLoading={isLoading} currentTabIndex={1} onClickHandler={onClickHandler} tabs={pageConstants.DATA_TABS}/>
                             </header>
                             <p>{errorMsg}</p>
-                            <VisualPage user={user} isDataError={isDataError}/>
+                            <VisualPage user={user} isDataError={isDataError} visualFromDate={visualFromDate} visualToDate={visualToDate} tempChartStart={tempChartStart} tempChartEnd={tempChartEnd} chartData={chartData} getChart={getChart}/>
                         </section>
                         <nav className={"visualPage"}>
                             <VisualPageNav changePage={changePage} />
