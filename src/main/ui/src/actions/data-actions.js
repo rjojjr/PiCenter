@@ -63,7 +63,7 @@ export const getReadingsCSVThunk = (user) => async dispatch => {
         dispatch(isDataError(false, ""));
         const response = await getReadingsCSV(user);
         if (!response.data.responseBody.includes('success')){
-            dispatch(isDataError('Error getting CSV...'));
+            dispatch(isDataError(true, 'Error getting CSV...'));
         }
         dispatch(isDownload(true));
         dispatch(isDataLoading(false));
@@ -73,6 +73,34 @@ export const getReadingsCSVThunk = (user) => async dispatch => {
         if (process.env.NODE_ENV === 'development' && debugConstants.ALERT_DEBUG_THUNKS) {
             alert(error);
         }
-        dispatch(isDataError('Error getting CSV...'));
+        dispatch(isDataError(true, 'Error getting CSV...'));
+    }
+};
+
+/**
+ * Gets chart data from startDate to endDate.
+ * @param user
+ * @param startDate
+ * @param endDate
+ * @param type: temp || humidity
+ * @returns {function(...[*]=)}
+ */
+export const getChartThunk = (user, startDate, endDate, type) => async dispatch => {
+    try {
+        dispatch(isDataLoading(true));
+        dispatch(isDataError(false, ""));
+        const response = await getReadingsCSV(user);
+        if (!response.data.responseBody.includes('success')){
+            dispatch(isDataError(true, 'Error getting chart data...'));
+        }
+        visualData(response.data.chartData.intervals);
+        dispatch(isDataLoading(false));
+        return
+    } catch (error) {
+        dispatch(isDataLoading(false));
+        if (process.env.NODE_ENV === 'development' && debugConstants.ALERT_DEBUG_THUNKS) {
+            alert(error);
+        }
+        dispatch(isDataError(true, 'Error getting CSV...'));
     }
 };
