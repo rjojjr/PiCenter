@@ -6,9 +6,12 @@ import React from "react";
 import Button from 'react-bootstrap/Button';
 import VisualPage from "./VisualPage";
 
-const VisualPageContainer = ({user, changePage, updateSession, isLoading, isError, errorMsg, isDataError, logOff, onClickHandler, tempChartStart, tempChartEnd, visualFromDate, visualToDate, chartData}) => {
+const VisualPageContainer = ({user, changePage, updateSession, isLoading, isError, errorMsg, isDataError, logOff, onClickHandler, tempChartStart, tempChartEnd, visualFromDate, visualToDate, chartData, getChart}) => {
 
     updateSession(pageConstants.CSV_EXPORT, user);
+    if (chartData === []  && !isDataError){
+        getChart(user, tempChartStart, tempChartEnd, 'temp');
+    }
 
     return (
         <div className={"pageContainer visualPageContainer"}>

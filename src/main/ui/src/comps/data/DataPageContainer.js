@@ -11,13 +11,13 @@ import {
     getReadingsCSVThunk,
     isDownload,
     visualFromDate,
-    visualToDate
+    visualToDate, getChartThunk
 } from "../../actions/data-actions";
 import * as pageConstants from "../../constants/page-constants";
 import CSVPageContainer from "./CSVPage/CSVPageContainer";
 import VisualPageContainer from "./Visual/VisualPageContainer";
 
-const DataPageContainer = ({user, changePage, isLoading, isError, errorMsg, isDataLoading, isDataError, logOff, getCSV, isDownload, isDownloadAvailable, tempChartStart, tempChartEnd, visualFromDate, visualToDate, chartData}) => {
+const DataPageContainer = ({user, changePage, isLoading, isError, errorMsg, isDataLoading, isDataError, logOff, getCSV, isDownload, isDownloadAvailable, tempChartStart, tempChartEnd, visualFromDate, visualToDate, chartData, getChart}) => {
 
     const tabClickHandler = (tabIndex) => {
         switch (tabIndex) {
@@ -44,7 +44,7 @@ const DataPageContainer = ({user, changePage, isLoading, isError, errorMsg, isDa
                 <CSVPageContainer user={user} changePage={changePage} updateSession={updateSession} isLoading={isLoading} isError={isError} errorMsg={errorMsg} isDataLoading={isDataLoading} isDataError={isDataError} logOff={logOff} onClickHandler={tabClickHandler} getCSV={getCSV} isDownload={isDownload} isDownloadAvailable={isDownloadAvailable}/>
             )};
             {user.page === pageConstants.DATA_VISUAL && (
-                <VisualPageContainer user={user} changePage={changePage} updateSession={updateSession} isLoading={isLoading} isError={isError} errorMsg={errorMsg} isDataLoading={isDataLoading} isDataError={isDataError} logOff={logOff} onClickHandler={tabClickHandler} tempChartStart={tempChartStart} tempChartEnd={tempChartEnd} visualFromDate={visualFromDate} visualToDate={visualToDate} chartData={chartData}/>
+                <VisualPageContainer user={user} changePage={changePage} updateSession={updateSession} isLoading={isLoading} isError={isError} errorMsg={errorMsg} isDataLoading={isDataLoading} isDataError={isDataError} logOff={logOff} onClickHandler={tabClickHandler} tempChartStart={tempChartStart} tempChartEnd={tempChartEnd} visualFromDate={visualFromDate} visualToDate={visualToDate} chartData={chartData} getChart={getChart}/>
             )};
         </div>    
     )
@@ -70,7 +70,8 @@ const mapDispatchToProps = {
     getCSV: getReadingsCSVThunk,
     isDownload,
     visualFromDate,
-    visualToDate
+    visualToDate,
+    getChart: getChartThunk
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(DataPageContainer);
