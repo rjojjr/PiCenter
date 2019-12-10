@@ -5,12 +5,17 @@ import * as pageConstants from "../../../constants/page-constants";
 import React from "react";
 import Button from 'react-bootstrap/Button';
 import VisualPage from "./VisualPage";
+import {dateStringFormat} from "../../../services/helper-service";
 
 const VisualPageContainer = ({user, changePage, updateSession, isLoading, isError, errorMsg, isDataError, logOff, onClickHandler, tempChartStart, tempChartEnd, visualFromDate, visualToDate, chartData, getChart}) => {
 
-    updateSession(pageConstants.CSV_EXPORT, user);
+    updateSession(pageConstants.DATA_VISUAL, user);
     if (chartData === []  && !isError){
-        getChart(user, tempChartStart, tempChartEnd, 'temp');
+        getChart(user, dateStringFormat(tempChartStart), dateStringFormat(tempChartEnd), 'temp');
+    }
+
+    const getChartHandler = () => {
+        getChart(user, dateStringFormat(tempChartStart), dateStringFormat(tempChartEnd), 'temp');
     }
 
     return (
@@ -28,7 +33,7 @@ const VisualPageContainer = ({user, changePage, updateSession, isLoading, isErro
                                 <GenericPageHeader isLoading={isLoading} currentTabIndex={1} onClickHandler={onClickHandler} tabs={pageConstants.DATA_TABS}/>
                             </header>
                             <p>{errorMsg}</p>
-                            <VisualPage user={user} isDataError={isDataError} visualFromDate={visualFromDate} visualToDate={visualToDate} tempChartStart={tempChartStart} tempChartEnd={tempChartEnd} chartData={chartData} getChart={getChart}/>
+                            <VisualPage user={user} isDataError={isDataError} visualFromDate={visualFromDate} visualToDate={visualToDate} tempChartStart={tempChartStart} tempChartEnd={tempChartEnd} chartData={chartData} getChart={getChartHandler}/>
                         </section>
                         <nav className={"visualPage"}>
                             <VisualPageNav changePage={changePage} />

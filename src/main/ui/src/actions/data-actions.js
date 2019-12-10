@@ -1,4 +1,4 @@
-import {getReadingsCSV} from "../services/axios-service";
+import {getChart, getReadingsCSV} from "../services/axios-service";
 import {setUser} from "./universal-actions";
 import * as debugConstants from "../constants/debug-constants";
 import {isLoading, isNotLoading, loadingError} from "./loader-actions";
@@ -89,11 +89,11 @@ export const getChartThunk = (user, startDate, endDate, type) => async dispatch 
     try {
         dispatch(isDataLoading(true));
         dispatch(isDataError(false, ""));
-        const response = await getReadingsCSV(user);
+        const response = await getChart(user, startDate, endDate, type);
         if (!response.data.responseBody.includes('success')){
             dispatch(isDataError(true, 'Error getting chart data...'));
         }
-        visualData(response.data.chartData.intervals);
+        dispatch(visualData(response.data.chart.intervals));
         dispatch(isDataLoading(false));
         return
     } catch (error) {

@@ -11,7 +11,7 @@ export const CREATE_USER = '/users/create';
 
 export const DATA = '/data';
 export const CSV_EXPORT = '/data/csv';
-export const DATA_VISUAL = '/data/vi';
+export const DATA_VISUAL = '/data/visual';
 
 export const DOWNLOAD_CSV = '/download/backup';
 

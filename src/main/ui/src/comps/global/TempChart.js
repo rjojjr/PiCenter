@@ -18,12 +18,12 @@ const TempChart = ({data}) => {
             <YAxis />
             <Tooltip />
             <Legend />
-            <Line type="monotone" dataKey="Bedroom" stroke="#8884d8" activeDot={{ r: 8 }} />
-            <Line type="monotone" dataKey="LivingRoom" stroke="#82ca9d" />
-            <Line type="monotone" dataKey="ServerRoom" stroke="#ff3346" />
-            <Line type="monotone" dataKey="Office" stroke="#fff633" />
-            <Line type="monotone" dataKey="Outside" stroke="#ff33ff" />
-            <Line type="monotone" dataKey="Heat" stroke="#ff3f33" />
+            <Line type="monotone" dataKey="bedroom" stroke="#8884d8" activeDot={{ r: 8 }} />
+            <Line type="monotone" dataKey="livingRoom" stroke="#82ca9d" />
+            <Line type="monotone" dataKey="serverRoom" stroke="#ff3346" />
+            <Line type="monotone" dataKey="office" stroke="#fff633" />
+            <Line type="monotone" dataKey="outside" stroke="#ff33ff" />
+            <Line type="monotone" dataKey="heat" stroke="#ff3f33" />
         </LineChart>
     );
 };

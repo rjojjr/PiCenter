@@ -36,6 +36,7 @@ import {
     USERS_LOADING_ERROR,
     USERS_SHOW_MSG
 } from "../actions/user-actions";
+import {dateStringFormat} from "../services/helper-service";
 
 
 export const initialState = () => ({
@@ -61,6 +62,8 @@ export const initialState = () => ({
     isDataError: false,
     dataMsg: '',
     isDownloadAvailable: false,
+    /*tempChartStart: dateStringFormat(Date(Date.now())),
+    tempChartEnd: dateStringFormat(Date(Date.now())),*/
     tempChartStart: new Date(Date.now()),
     tempChartEnd: new Date(Date.now()),
     chartData: []
@@ -277,13 +280,13 @@ export default (state = initialState(), action = {type: undefined}) => {
         case VISUAL_FROM_DATE: {
             return {
                 ...state,
-                tempChartStart: action.date
+                tempChartStart: dateStringFormat(action.date)
             }
         };
         case VISUAL_TO_DATE: {
             return {
                 ...state,
-                tempChartEnd: action.date
+                tempChartEnd: dateStringFormat(action.date)
             }
         };
         case VISUAL_DATA: {

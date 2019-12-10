@@ -40,12 +40,15 @@ const DataPageContainer = ({user, changePage, isLoading, isError, errorMsg, isDa
     
     return(
         <div className="pageContainer dataPageContainer">
-            {user.page === pageConstants.DATA || user.page === pageConstants.CSV_EXPORT && (
+            {user.page === pageConstants.DATA  && (
                 <CSVPageContainer user={user} changePage={changePage} updateSession={updateSession} isLoading={isLoading} isError={isError} errorMsg={errorMsg} isDataLoading={isDataLoading} isDataError={isDataError} logOff={logOff} onClickHandler={tabClickHandler} getCSV={getCSV} isDownload={isDownload} isDownloadAvailable={isDownloadAvailable}/>
-            )};
+            )}
+            {user.page === pageConstants.CSV_EXPORT  && (
+                <CSVPageContainer user={user} changePage={changePage} updateSession={updateSession} isLoading={isLoading} isError={isError} errorMsg={errorMsg} isDataLoading={isDataLoading} isDataError={isDataError} logOff={logOff} onClickHandler={tabClickHandler} getCSV={getCSV} isDownload={isDownload} isDownloadAvailable={isDownloadAvailable}/>
+            )}
             {user.page === pageConstants.DATA_VISUAL && (
                 <VisualPageContainer user={user} changePage={changePage} updateSession={updateSession} isLoading={isLoading} isError={isError} errorMsg={errorMsg} isDataLoading={isDataLoading} isDataError={isDataError} logOff={logOff} onClickHandler={tabClickHandler} tempChartStart={tempChartStart} tempChartEnd={tempChartEnd} visualFromDate={visualFromDate} visualToDate={visualToDate} chartData={chartData} getChart={getChart}/>
-            )};
+            )}
         </div>    
     )
     
