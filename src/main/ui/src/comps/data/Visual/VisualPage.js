@@ -8,6 +8,7 @@ const VisualPage = ({tempChartStart, tempChartEnd, visualFromDate, visualToDate,
 
     return(
       <div className={"page visualDataPage"}>
+          <div>
           <div className={"visualDateContainer"}>
               <GenericDatePicker currentDate={tempChartStart} changeDate={visualFromDate}>Start Date</GenericDatePicker>
               <GenericDatePicker currentDate={tempChartEnd} changeDate={visualToDate}>End Date</GenericDatePicker>
@@ -15,6 +16,7 @@ const VisualPage = ({tempChartStart, tempChartEnd, visualFromDate, visualToDate,
                   Get Chart
               </Button>
 
+          </div>
           </div>
           <div className={"chartContainer"}>
               <TempChart data={chartData} />
