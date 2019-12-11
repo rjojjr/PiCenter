@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Callable;
 
 import static com.kirchnersolutions.utilities.CalenderConverter.getDaysBetween;
 import static com.kirchnersolutions.utilities.CalenderConverter.getDaysInMonth;
@@ -70,6 +71,24 @@ public class ChartService {
             count++;
         }
         return intervalList;
+    }
+
+    private class ChartValuesThread implements Callable<List<double[]>>{
+
+        private List<Long> intervals;
+        private int interval;
+        private String room;
+
+        public ChartValuesThread(List<Long> intervals, int interval, String room){
+            this.intervals = intervals;
+            this.interval = interval;
+            this.room = room;
+        }
+
+        public List<double[]> call(){
+            return getChartValues(generateIntervalWindows(intervals, interval), room);
+        }
+
     }
 
     /**
@@ -260,6 +279,8 @@ public class ChartService {
         }else{
             if(hour == 0){
                 hourText = "12AM";
+            }else if(hour == 12){
+                hourText = hour + "PM";
             }else{
                 hourText = hour + "AM";
             }

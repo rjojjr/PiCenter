@@ -23,7 +23,7 @@ version = '1.0.00a'
 def build = '100119'
 sourceCompatibility = '1.8'
 def PRODUCTION_BUILD = true
-def test = false
+def test = true
 //def test = true
 
 

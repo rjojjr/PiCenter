@@ -280,13 +280,13 @@ export default (state = initialState(), action = {type: undefined}) => {
         case VISUAL_FROM_DATE: {
             return {
                 ...state,
-                tempChartStart: dateStringFormat(action.date)
+                tempChartStart: action.date
             }
         };
         case VISUAL_TO_DATE: {
             return {
                 ...state,
-                tempChartEnd: dateStringFormat(action.date)
+                tempChartEnd:action.date
             }
         };
         case VISUAL_DATA: {
