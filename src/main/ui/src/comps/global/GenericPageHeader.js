@@ -30,7 +30,7 @@ const GenericPageHeader = ({ onClickHandler, tabs, currentTabIndex, isLoading })
                             //disabled={() => isDisable(index)}
                             className={"tabSelector"}
                             onClick={() => {
-                                onClickHandler(index);
+                                onClickHandler(index)
                             }}
                         >
                             {tab}
