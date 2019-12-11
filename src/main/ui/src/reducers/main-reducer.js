@@ -27,7 +27,7 @@ import {
 
 import {
     IS_DATA_LOADING,
-    IS_DATA_ERROR, IS_DOWNLOAD, VISUAL_FROM_DATE, VISUAL_TO_DATE, VISUAL_DATA
+    IS_DATA_ERROR, IS_DOWNLOAD, VISUAL_FROM_DATE, VISUAL_TO_DATE, VISUAL_DATA, SET_CHART_TYPE
 } from "../actions/data-actions";
 
 import {
@@ -66,7 +66,8 @@ export const initialState = () => ({
     tempChartEnd: dateStringFormat(Date(Date.now())),*/
     tempChartStart: new Date(Date.now()),
     tempChartEnd: new Date(Date.now()),
-    chartData: []
+    chartData: [],
+    chartType: 'heat'
 });
 
 export default (state = initialState(), action = {type: undefined}) => {
@@ -293,6 +294,12 @@ export default (state = initialState(), action = {type: undefined}) => {
             return {
                 ...state,
                 chartData: action.data
+            }
+        };
+        case SET_CHART_TYPE: {
+            return {
+                ...state,
+                chartType: action.type
             }
         };
         default:

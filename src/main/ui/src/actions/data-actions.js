@@ -57,6 +57,16 @@ export const visualData = (data) => ({
     data
 });
 
+/**
+ * Set the chart type: temp or humidity
+ * @type {string}
+ */
+export const SET_CHART_TYPE = 'SET_CHART_TYPE'
+export const setChartType = (type) => ({
+    type: SET_CHART_TYPE,
+    date: type
+});
+
 export const getReadingsCSVThunk = (user) => async dispatch => {
     try {
         dispatch(isDataLoading(true));

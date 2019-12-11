@@ -19,5 +19,6 @@ export const USERS_TABS = ['Create User'];
 export const DATA_TABS = ['Export CSV', "Visual"];
 
 export const GRAPH_ELEMENTS = ['Bedroom', 'Living Room', 'Server Room', 'Office', 'Outside', 'Heat'];
-export const GRAPH_PERIODS = ['1 Day', '2 Day', '3 Day', '1 Week', '2 Week', '1 Month', '3 Month']
+export const GRAPH_PERIODS = ['1 Day', '2 Day', '3 Day', '1 Week', '2 Week', '1 Month', '3 Month'];
+
 
