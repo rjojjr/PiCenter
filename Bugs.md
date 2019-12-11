@@ -9,4 +9,4 @@
 5. UpdateSession setting "null" page.#rjojjr
 6. changePage in create users nav is not a function#rjojjr
 7. If room does not have reading in last hour, all stats are empty.#rjojjr
-8. Build 100119 can only connect to two sensors and freezes shortly after boot.#CURrjojjr
+8. Build 100119 can only connect to two sensors and freezes shortly after boot.#rjojjr
