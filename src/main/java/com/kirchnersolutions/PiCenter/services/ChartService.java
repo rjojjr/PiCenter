@@ -53,11 +53,6 @@ public class ChartService {
         List<double[]> serverroomValues = futures[2].get();
         List<double[]> officeValues = futures[3].get();
         List<double[]> outsideValues = futures[4].get();
-        /*List<double[]> bedroomValues = getChartValues(generateIntervalWindows(intervals, interval), "bedroom");
-        List<double[]> livingroomValues = getChartValues(generateIntervalWindows(intervals, interval), "livingroom");
-        List<double[]> serverroomValues = getChartValues(generateIntervalWindows(intervals, interval), "serverroom");
-        List<double[]> officeValues = getChartValues(generateIntervalWindows(intervals, interval), "office");
-        List<double[]> outsideValues = getChartValues(generateIntervalWindows(intervals, interval), "outside");*/
         Interval[] intervalList = new Interval[intervals.size()];
         int type = 0;
         if(chartRequest.getType().contains("hum")){
@@ -82,7 +77,7 @@ public class ChartService {
             if(outsideValues.get(count) != null){
                 ou = outsideValues.get(count)[type];
             }
-            intervalList[count] = new Interval(getIntervalString(intervals.get(count), !start.equals(end)), br, lr, sr, of, ou, 0);
+            intervalList[count] = new Interval(getIntervalString(intervals.get(count), false), br, lr, sr, of, ou, 0);
             count++;
         }
         return intervalList;

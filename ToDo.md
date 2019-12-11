@@ -42,5 +42,7 @@
 36. Add manual backup endpoint.#rjojjr
 37. Add backup UI components and allow custom csv export filters. 
 38. Pass tokens through auth header.
-39. Add data visualization page to UI.#CURrjojjr
+39. Add data visualization page to UI.#rjojjr
 40. Add data/visual endpoint.#rjojjr
+41. Add humidity selector for data visual.
+42. Add filters to CSV export.
