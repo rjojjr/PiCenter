@@ -5,11 +5,13 @@ import com.kirchnersolutions.PiCenter.servers.beans.ChartResponse;
 import com.kirchnersolutions.PiCenter.servers.beans.Interval;
 import com.kirchnersolutions.utilities.CalenderConverter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
+import java.util.concurrent.Future;
 
 import static com.kirchnersolutions.utilities.CalenderConverter.getDaysBetween;
 import static com.kirchnersolutions.utilities.CalenderConverter.getDaysInMonth;
@@ -18,13 +20,15 @@ import static com.kirchnersolutions.utilities.CalenderConverter.getDaysInMonth;
 public class ChartService {
 
     private StatService statService;
+    private ThreadPoolTaskExecutor threadPoolTaskExecutor;
 
     @Autowired
-    public ChartService(StatService statService) {
+    public ChartService(StatService statService, ThreadPoolTaskExecutor threadPoolTaskExecutor) {
         this.statService = statService;
+        this.threadPoolTaskExecutor = threadPoolTaskExecutor;
     }
 
-    public ChartResponse getChartData(ChartRequest chartRequest){
+    public ChartResponse getChartData(ChartRequest chartRequest) throws Exception{
         return new ChartResponse(generateChartData(chartRequest));
     }
 
@@ -33,16 +37,27 @@ public class ChartService {
      * @param chartRequest
      * @return
      */
-    private Interval[] generateChartData(ChartRequest chartRequest) {
+    private Interval[] generateChartData(ChartRequest chartRequest) throws Exception{
         String start = chartRequest.getFromDate();
         String end = chartRequest.getToDate();
         int interval = getInterval(start, end);
         List<Long> intervals = getTimeIntervals(start, end, interval);
-        List<double[]> bedroomValues = getChartValues(generateIntervalWindows(intervals, interval), "bedroom");
+        Future<List<double[]>>[] futures = new Future[5];
+        futures[0] = threadPoolTaskExecutor.submit(new ChartValuesThread(intervals, interval, "bedroom"));
+        futures[1] = threadPoolTaskExecutor.submit(new ChartValuesThread(intervals, interval, "livingroom"));
+        futures[2] = threadPoolTaskExecutor.submit(new ChartValuesThread(intervals, interval, "serverroom"));
+        futures[3] = threadPoolTaskExecutor.submit(new ChartValuesThread(intervals, interval, "office"));
+        futures[4] = threadPoolTaskExecutor.submit(new ChartValuesThread(intervals, interval, "outside"));
+        List<double[]> bedroomValues = futures[0].get();
+        List<double[]> livingroomValues = futures[1].get();
+        List<double[]> serverroomValues = futures[2].get();
+        List<double[]> officeValues = futures[3].get();
+        List<double[]> outsideValues = futures[4].get();
+        /*List<double[]> bedroomValues = getChartValues(generateIntervalWindows(intervals, interval), "bedroom");
         List<double[]> livingroomValues = getChartValues(generateIntervalWindows(intervals, interval), "livingroom");
         List<double[]> serverroomValues = getChartValues(generateIntervalWindows(intervals, interval), "serverroom");
         List<double[]> officeValues = getChartValues(generateIntervalWindows(intervals, interval), "office");
-        List<double[]> outsideValues = getChartValues(generateIntervalWindows(intervals, interval), "outside");
+        List<double[]> outsideValues = getChartValues(generateIntervalWindows(intervals, interval), "outside");*/
         Interval[] intervalList = new Interval[intervals.size()];
         int type = 0;
         if(chartRequest.getType().contains("hum")){
@@ -116,7 +131,7 @@ public class ChartService {
      * @param interval
      * @return
      */
-    private List<long[]> generateIntervalWindows(List<Long> chartIntervals, int interval){
+    List<long[]> generateIntervalWindows(List<Long> chartIntervals, int interval){
         List<long[]> output = new ArrayList<>();
         long half = interval * CalenderConverter.HOUR;
         half/= 2;
