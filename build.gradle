@@ -20,7 +20,7 @@ repositories {
 
 group = 'com.kirchnersolutions'
 version = '1.0.01b'
-def build = '100119'
+def build = '100120'
 sourceCompatibility = '1.8'
 def PRODUCTION_BUILD = true
 //def test = true
