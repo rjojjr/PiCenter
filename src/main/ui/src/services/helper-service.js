@@ -5,3 +5,11 @@ export const dateStringFormat =(time) => {
     const year = date.getFullYear();
     return `${month}/${day}/${year}`;
 }
+
+export const chartTypes = (type) => {
+    if (type.includes(/hu/)){
+        return 'hum';
+    }else{
+        return 'temp';
+    }
+}

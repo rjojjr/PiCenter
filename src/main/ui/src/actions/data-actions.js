@@ -2,6 +2,7 @@ import {getChart, getReadingsCSV} from "../services/axios-service";
 import {setUser} from "./universal-actions";
 import * as debugConstants from "../constants/debug-constants";
 import {isLoading, isNotLoading, loadingError} from "./loader-actions";
+import {chartTypes} from "../services/helper-service";
 
 export const IS_DATA_LOADING = 'IS_DATA_LOADING'
 export const isDataLoading = (loading) => ({
@@ -64,7 +65,7 @@ export const visualData = (data) => ({
 export const SET_CHART_TYPE = 'SET_CHART_TYPE'
 export const setChartType = (type) => ({
     type: SET_CHART_TYPE,
-    date: type
+    data: chartTypes(type)
 });
 
 export const getReadingsCSVThunk = (user) => async dispatch => {
