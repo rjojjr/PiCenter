@@ -46,3 +46,4 @@
 40. Add data/visual endpoint.#rjojjr
 41. Add humidity selector for data visual.
 42. Add filters to CSV export.
+43. Run room summary generators in thread pool.
