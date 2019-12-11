@@ -3,6 +3,7 @@ PiCenter Changelog
 1.0.01b
 
 Build 100120
+    Fix camel case chart legend.
 
 12/11/2019
 Build 100119
