@@ -1,11 +1,13 @@
 PiCenter Changelog
 
-
-1.0.00a
+1.0.01b
 
 Build 100119
+    Added TempChart ReChart ui component.
+    Added GenericDatePicker react-datepicker ui component.
+    Added /data/visual endpoint.
 
-
+1.0.00a
 12/06/2019
 Build 100118
     Fixed bug that caused all stats to be zero if missing some readings.

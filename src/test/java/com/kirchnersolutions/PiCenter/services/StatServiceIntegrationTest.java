@@ -3,19 +3,14 @@ package com.kirchnersolutions.PiCenter.services;
 import com.kirchnersolutions.PiCenter.MainConfig;
 import com.kirchnersolutions.PiCenter.constants.RoomConstants;
 import com.kirchnersolutions.PiCenter.constants.StatConstants;
-import com.kirchnersolutions.PiCenter.entites.AppUser;
 import com.kirchnersolutions.PiCenter.entites.Reading;
 import com.kirchnersolutions.PiCenter.entites.ReadingRepository;
 import com.kirchnersolutions.PiCenter.servers.beans.RoomSummary;
-import com.kirchnersolutions.utilities.CryptTools;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -31,12 +26,12 @@ import static org.junit.Assert.assertNotNull;
 @DataJpaTest
 @ContextConfiguration(classes = {MainConfig.class})
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-public class SummaryServiceIntegrationTest {
+public class StatServiceIntegrationTest {
 
     @Autowired
     private ReadingRepository readingRepository;
     @Autowired
-    private SummaryService summaryService;
+    private StatService statService;
 
     private boolean populateTestDB(){
         Long time = System.currentTimeMillis() - (StatConstants.TWELVE_HOUR * 2);
@@ -60,7 +55,7 @@ public class SummaryServiceIntegrationTest {
     @Test
     public void whenPrecision_ReturnZeros(){
         populateTestDB();
-        RoomSummary[] summaries = summaryService.getRoomSummaries(2);
+        RoomSummary[] summaries = statService.getRoomSummaries(2);
         for (int i = 0; i < RoomConstants.rooms.length; i++){
             for(String temp : summaries[i].getTemps()){
                 assertEquals("temp != 77.00", "77.00", temp);

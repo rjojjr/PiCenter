@@ -19,12 +19,12 @@ repositories {
 
 
 group = 'com.kirchnersolutions'
-version = '1.0.00a'
+version = '1.0.01b'
 def build = '100119'
 sourceCompatibility = '1.8'
 def PRODUCTION_BUILD = true
-def test = false
 //def test = true
+def test = false
 
 
 repositories {
@@ -94,7 +94,7 @@ dependencies {
 	//implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	compile name: 'Utilities-1.0.00'
+	compile name: 'Utilities-1.1.00'
 	runtimeOnly 'mysql:mysql-connector-java:8.0.11'
 	compile "com.h2database:h2:1.4.197"
 }

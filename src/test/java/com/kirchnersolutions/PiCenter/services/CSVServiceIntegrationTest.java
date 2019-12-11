@@ -64,7 +64,7 @@ public class CSVServiceIntegrationTest {
 
     @Test
     public void whenMakeAllCSV_oneFile(){
-        csvService.generateDownload("readings");
+        csvService.generateDownload("readings", false);
         assertEquals(1, downloadDir.listFiles().length);
     }
 

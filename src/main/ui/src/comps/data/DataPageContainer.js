@@ -1,42 +1,64 @@
 import React, {useState} from "react";
 
-import LoadingView from "../global/LoadingView";
 
 import {updateSession} from "../../services/axios-service";
 
 import {changePage, logOff} from "../../actions/universal-actions";
 import {connect} from "react-redux";
-import {isDataError, isDataLoading, getReadingsCSVThunk, isDownload} from "../../actions/data-actions";
+import {
+    isDataError,
+    isDataLoading,
+    getReadingsCSVThunk,
+    isDownload,
+    visualFromDate,
+    visualToDate, getChartThunk
+} from "../../actions/data-actions";
 import * as pageConstants from "../../constants/page-constants";
 import CSVPageContainer from "./CSVPage/CSVPageContainer";
+import VisualPageContainer from "./Visual/VisualPageContainer";
 
-const DataPageContainer = ({user, changePage, isLoading, isError, errorMsg, isDataLoading, isDataError, logOff, getCSV, isDownload, isDownloadAvailable}) => {
+const DataPageContainer = ({user, changePage, isLoading, isError, errorMsg, isDataLoading, isDataError, logOff, getCSV, isDownload, isDownloadAvailable, tempChartStart, tempChartEnd, visualFromDate, visualToDate, chartData, getChart}) => {
 
     const tabClickHandler = (tabIndex) => {
-        switch (tabIndex) {
-            case 0: {
-                changePage(pageConstants.CSV_EXPORT);
-                updateSession(pageConstants.CSV_EXPORT, user);
-            };
-            case 1: {
-                changePage(pageConstants.DATA_VISUAL);
-                updateSession(pageConstants.DATA_VISUALT, user);
-            };
-            default: {
-                changePage(pageConstants.DATA);
-                updateSession(pageConstants.DATA, user);
-            }
+        if (tabIndex === 0) {
+            updateSession(pageConstants.CSV_EXPORT, user);
+            changePage(pageConstants.CSV_EXPORT);
+        }
+        if (tabIndex === 1) {
+            updateSession(pageConstants.DATA_VISUAL, user);
+            changePage(pageConstants.DATA_VISUAL);
         }
     }
-  
-    updateSession(user.page, user);
-    
-    return(
+
+    //updateSession(user.page, user);
+
+    return (
         <div className="pageContainer dataPageContainer">
-            <CSVPageContainer user={user} changePage={changePage} updateSession={updateSession} isLoading={isLoading} isError={isError} errorMsg={errorMsg} isDataLoading={isDataLoading} isDataError={isDataError} logOff={logOff} onClickHandler={tabClickHandler} getCSV={getCSV} isDownload={isDownload} isDownloadAvailable={isDownloadAvailable}/>
-        </div>    
+            {user.page === pageConstants.DATA && (
+                <CSVPageContainer user={user} changePage={changePage} updateSession={updateSession}
+                                  isLoading={isLoading} isError={isError} errorMsg={errorMsg}
+                                  isDataLoading={isDataLoading} isDataError={isDataError} logOff={logOff}
+                                  onClickHandler={tabClickHandler} getCSV={getCSV} isDownload={isDownload}
+                                  isDownloadAvailable={isDownloadAvailable}/>
+            )}
+            {user.page === pageConstants.CSV_EXPORT && (
+                <CSVPageContainer user={user} changePage={changePage} updateSession={updateSession}
+                                  isLoading={isLoading} isError={isError} errorMsg={errorMsg}
+                                  isDataLoading={isDataLoading} isDataError={isDataError} logOff={logOff}
+                                  onClickHandler={tabClickHandler} getCSV={getCSV} isDownload={isDownload}
+                                  isDownloadAvailable={isDownloadAvailable}/>
+            )}
+            {user.page === pageConstants.DATA_VISUAL && (
+                <VisualPageContainer user={user} changePage={changePage} updateSession={updateSession}
+                                     isLoading={isLoading} isError={isError} errorMsg={errorMsg}
+                                     isDataLoading={isDataLoading} isDataError={isDataError} logOff={logOff}
+                                     onClickHandler={tabClickHandler} tempChartStart={tempChartStart}
+                                     tempChartEnd={tempChartEnd} visualFromDate={visualFromDate}
+                                     visualToDate={visualToDate} chartData={chartData} getChart={getChart}/>
+            )}
+        </div>
     )
-    
+
 };
 
 const mapStateToProps = state => ({
@@ -44,7 +66,10 @@ const mapStateToProps = state => ({
     isLoading: state.isDataLoading,
     isError: state.isDataError,
     errorMsg: state.dataMsg,
-    isDownloadAvailable: state.isDownloadAvailable
+    isDownloadAvailable: state.isDownloadAvailable,
+    tempChartStart: state.tempChartStart,
+    tempChartEnd: state.tempChartEnd,
+    chartData: state.chartData
 });
 
 const mapDispatchToProps = {
@@ -53,7 +78,10 @@ const mapDispatchToProps = {
     isDataLoading,
     isDataError,
     getCSV: getReadingsCSVThunk,
-    isDownload
+    isDownload,
+    visualFromDate,
+    visualToDate,
+    getChart: getChartThunk
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(DataPageContainer);

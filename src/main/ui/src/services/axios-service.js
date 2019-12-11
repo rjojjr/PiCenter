@@ -1,5 +1,7 @@
 import axios from "axios";
 import * as constants from "../constants/page-constants";
+import {usersDoneLoading} from "../actions/user-actions";
+import {dateStringFormat} from "./helper-service";
 
 /*const getEndpoint = endpoint => {
   return process.env.NODE_ENV === "development" ||
@@ -56,3 +58,14 @@ export const getReadingsCSV = (user) => {
 
   return axios.get(constants.CSV_EXPORT + '?userId=' + user.token + "&table=readings");
 };
+
+export const getChart = (user, startDate, endDate, type) => {
+
+  const chartRequest = {
+    fromDate: startDate,
+    toDate: endDate,
+    type: type
+  }
+
+  return axios.post(constants.DATA_VISUAL + '?userId=' + user.token, chartRequest);
+}
