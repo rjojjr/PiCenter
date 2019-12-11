@@ -15,6 +15,9 @@ repositories {
 	mavenCentral()
 }
 
+
+
+
 group = 'com.kirchnersolutions'
 version = '1.0.00a'
 def build = '100119'
@@ -71,13 +74,12 @@ task nonProdBuild(type: Copy){
 	into 'src/main/resources'
 }
 
-
-if (PRODUCTION_BUILD && !test){
+if (PRODUCTION_BUILD == true && test == false){
 	wrapper.dependsOn prodBuild
 	appNpmBuild.dependsOn appNpmInstall
 	copyWebApp.dependsOn appNpmBuild
 	compileJava.dependsOn copyWebApp
-}else if(test){
+}else if(test == true){
 	wrapper.dependsOn testBuild
 }else{
 	wrapper.dependsOn nonProdBuild
@@ -92,7 +94,7 @@ dependencies {
 	//implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	compile name: 'Utilities-1.1.00'
+	compile name: 'Utilities-1.0.00'
 	runtimeOnly 'mysql:mysql-connector-java:8.0.11'
 	compile "com.h2database:h2:1.4.197"
 }

@@ -7,12 +7,6 @@ import org.springframework.core.task.TaskExecutor;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.web.context.annotation.ApplicationScope;
 
-/**
-
- * Created by gkatzioura on 4/26/17.
-
- */
-
 @Configuration
 public class ThreadConfig {
 
@@ -22,13 +16,13 @@ public class ThreadConfig {
 
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
 
-        executor.setCorePoolSize(3);
+        executor.setCorePoolSize(10);
 
-        executor.setMaxPoolSize(20);
+        executor.setMaxPoolSize(40);
 
         executor.setWaitForTasksToCompleteOnShutdown(true);
 
-        executor.setKeepAliveSeconds(10);
+        executor.setKeepAliveSeconds(30);
 
         executor.setThreadNamePrefix("picenter_task_executor_thread");
 

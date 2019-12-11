@@ -5,7 +5,8 @@
 1. Logout corrupts session data.#rjojjr
 2. Freeze on failed login attempt.
 3. Links point internally.
-4. Summary link on users page broken.
+4. Summary link on users page broken.#rjojjr
 5. UpdateSession setting "null" page.#rjojjr
 6. changePage in create users nav is not a function#rjojjr
 7. If room does not have reading in last hour, all stats are empty.#rjojjr
+8. Build 100119 can only connect to two sensors and freezes shortly after boot.#CURrjojjr
