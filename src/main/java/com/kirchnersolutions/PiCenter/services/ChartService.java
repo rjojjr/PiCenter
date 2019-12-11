@@ -187,105 +187,130 @@ public class ChartService {
      * @return
      */
     List<Long> getTimeIntervals(String start, String end, int interval) {
+        if (CalenderConverter.getMillisFromDateString(start, "/") > CalenderConverter.getMillisFromDateString(end, "/")) {
+            return getTimeIntervals(end, start, interval);
+        }
         List<Long> intervals = new ArrayList<>();
         long endMillis = CalenderConverter.getMillisFromDateString(end, "/") + CalenderConverter.DAY;
         long startMillis = CalenderConverter.getMillisFromDateString(start, "/");
         if (start.equals(end)) {
             String[] date = start.split("/");
-            if (interval == 24) {
+            if (interval >= 24) {
                 intervals.add(CalenderConverter.getMillis(Integer.parseInt(date[0]), Integer.parseInt(date[1]), Integer.parseInt(date[2]), 12, 0, 0));
             } else {
                 for (int i = 0; i <= 23; i += interval) {
                     intervals.add(CalenderConverter.getMillis(Integer.parseInt(date[0]), Integer.parseInt(date[1]), Integer.parseInt(date[2]), i, 0, 0));
                 }
             }
+            if(interval > 1){
+                date = end.split("/");
+                intervals.add(CalenderConverter.getMillis(Integer.parseInt(date[0]), Integer.parseInt(date[1]), Integer.parseInt(date[2]), 23, 0, 0));
+            }
             return intervals;
         } else if (isSameMonth(start, end) && isSameYear(start, end)) {
             String[] date = start.split("/");
             for (int k = Integer.parseInt(date[1]); k <= Integer.parseInt(end.split("/")[1]); k++) {
-                if (interval == 24) {
-                    intervals.add(CalenderConverter.getMillis(Integer.parseInt(date[0]), Integer.parseInt(date[1]), Integer.parseInt(date[2]), 12, 0, 0));
+                if (interval >= 24) {
+                    intervals.add(CalenderConverter.getMillis(Integer.parseInt(date[0]), k, Integer.parseInt(date[2]), 12, 0, 0));
                 } else {
                     for (int i = 0; i <= 23; i += interval) {
-                        intervals.add(CalenderConverter.getMillis(Integer.parseInt(date[0]), Integer.parseInt(date[1]), Integer.parseInt(date[2]), i, 0, 0));
+                        intervals.add(CalenderConverter.getMillis(Integer.parseInt(date[0]), k, Integer.parseInt(date[2]), i, 0, 0));
                     }
                 }
+            }
+            if(interval > 1){
+                date = end.split("/");
+                intervals.add(CalenderConverter.getMillis(Integer.parseInt(date[0]), Integer.parseInt(date[1]), Integer.parseInt(date[2]), 23, 0, 0));
             }
             return intervals;
         } else if (isSameYear(start, end)) {
             int endMonth = Integer.parseInt(end.split("/")[0]);
             int startMonth = Integer.parseInt(start.split("/")[0]);
             String[] date = start.split("/");
+            int startDay = Integer.parseInt(date[1]);
             for (int j = startMonth; j <= endMonth; j++) {
-                if (j == endMillis) {
-                    for (int k = Integer.parseInt(date[1]); k <= Integer.parseInt(end.split("/")[1]); k++) {
-                        if (interval == 24) {
-                            intervals.add(CalenderConverter.getMillis(Integer.parseInt(date[0]), Integer.parseInt(date[1]), Integer.parseInt(date[2]), 12, 0, 0));
+                if(j > startMonth){
+                    startDay = 1;
+                }
+                if (j == endMonth) {
+                    for (int k = startDay; k <= Integer.parseInt(end.split("/")[1]); k++) {
+                        if (interval >= 24) {
+                            intervals.add(CalenderConverter.getMillis(j, k, Integer.parseInt(date[2]), 12, 0, 0));
                         } else {
                             for (int i = 0; i <= 23; i += interval) {
-                                intervals.add(CalenderConverter.getMillis(Integer.parseInt(date[0]), Integer.parseInt(date[1]), Integer.parseInt(date[2]), i, 0, 0));
+                                intervals.add(CalenderConverter.getMillis(j, k, Integer.parseInt(date[2]), i, 0, 0));
                             }
                         }
                     }
                 } else {
-                    for (int k = Integer.parseInt(date[1]); k <= getDaysInMonth(j, Integer.parseInt(date[2])); k++) {
-                        if (interval == 24) {
-                            intervals.add(CalenderConverter.getMillis(Integer.parseInt(date[0]), Integer.parseInt(date[1]), Integer.parseInt(date[2]), 12, 0, 0));
+                    for (int k = startDay; k <= getDaysInMonth(j, Integer.parseInt(date[2])); k++) {
+                        if (interval >= 24) {
+                            intervals.add(CalenderConverter.getMillis(j, k, Integer.parseInt(date[2]), 12, 0, 0));
                         } else {
                             for (int i = 0; i <= 23; i += interval) {
-                                intervals.add(CalenderConverter.getMillis(Integer.parseInt(date[0]), Integer.parseInt(date[1]), Integer.parseInt(date[2]), i, 0, 0));
+                                intervals.add(CalenderConverter.getMillis(j, k, Integer.parseInt(date[2]), i, 0, 0));
                             }
                         }
                     }
                 }
             }
+            if(interval > 1){
+                date = end.split("/");
+                intervals.add(CalenderConverter.getMillis(Integer.parseInt(date[0]), Integer.parseInt(date[1]), Integer.parseInt(date[2]), 23, 0, 0));
+            }
             return intervals;
-        } else if (Integer.parseInt(start.split("/")[2]) > Integer.parseInt(end.split("/")[2])) {
-            return null;
         } else {
             String[] date = start.split("/");
             int endMonth = Integer.parseInt(end.split("/")[0]);
             int startMonth = Integer.parseInt(start.split("/")[0]);
             int endYear = Integer.parseInt(end.split("/")[2]);
             int startYear = Integer.parseInt(start.split("/")[2]);
+            int startDay = Integer.parseInt(date[1]);
             for (int u = startYear; u <= endYear; u++) {
+                if(u > startYear){
+                    startMonth = 1;
+                }
+                if(u == endYear){
+                    endMonth = Integer.parseInt(end.split("/")[0]);
+                }else{
+                    endMonth = 12;
+                }
                 for (int j = startMonth; j <= endMonth; j++) {
-                    if (j == endMillis) {
-                        for (int k = Integer.parseInt(date[1]); k <= Integer.parseInt(end.split("/")[1]); k++) {
-                            if (interval == 24) {
-                                intervals.add(CalenderConverter.getMillis(Integer.parseInt(date[0]), Integer.parseInt(date[1]), Integer.parseInt(date[2]), 12, 0, 0));
+                    if (j > startMonth || (u > startYear)) {
+                        startDay = 1;
+                    }
+                    if (j == endMonth && u == endYear) {
+                        for (int k = startDay; k <= Integer.parseInt(end.split("/")[1]); k++) {
+                            if (interval >= 24) {
+                                intervals.add(CalenderConverter.getMillis(j, k, u, 12, 0, 0));
                             } else {
                                 for (int i = 0; i <= 23; i += interval) {
-                                    if (i == 24) {
-                                        intervals.add(CalenderConverter.getMillis(Integer.parseInt(date[0]), Integer.parseInt(date[1]), Integer.parseInt(date[2]), 23, 50, 0));
-                                    } else {
-                                        intervals.add(CalenderConverter.getMillis(Integer.parseInt(date[0]), Integer.parseInt(date[1]), Integer.parseInt(date[2]), i, 0, 0));
-                                    }
+                                    intervals.add(CalenderConverter.getMillis(j, k, u, i, 0, 0));
                                 }
                             }
                         }
                     } else {
-                        for (int k = Integer.parseInt(date[1]); k <= getDaysInMonth(j, Integer.parseInt(date[2])); k++) {
-                            if (interval == 24) {
-                                intervals.add(CalenderConverter.getMillis(Integer.parseInt(date[0]), Integer.parseInt(date[1]), Integer.parseInt(date[2]), 12, 0, 0));
+                        for (int k = startDay; k <= getDaysInMonth(j, Integer.parseInt(date[2])); k++) {
+                            if (interval >= 24) {
+                                intervals.add(CalenderConverter.getMillis(j, k, u, 12, 0, 0));
                             } else {
                                 for (int i = 0; i <= 23; i += interval) {
-                                    if (i == 24) {
-                                        intervals.add(CalenderConverter.getMillis(Integer.parseInt(date[0]), Integer.parseInt(date[1]), Integer.parseInt(date[2]), 23, 50, 0));
-                                    } else {
-                                        intervals.add(CalenderConverter.getMillis(Integer.parseInt(date[0]), Integer.parseInt(date[1]), Integer.parseInt(date[2]), i, 0, 0));
-                                    }
+                                    intervals.add(CalenderConverter.getMillis(j, k, u, i, 0, 0));
                                 }
                             }
                         }
                     }
                 }
             }
+            if(interval > 1){
+                date = end.split("/");
+                intervals.add(CalenderConverter.getMillis(Integer.parseInt(date[0]), Integer.parseInt(date[1]), Integer.parseInt(date[2]), 23, 0, 0));
+            }
             return intervals;
         }
     }
 
-    private String getIntervalString(long time, boolean withDate){
+    String getIntervalString(long time, boolean withDate){
         String date = CalenderConverter.getMonthDayYearHour(time, "/", ":");
         int hour = Integer.parseInt(date.split(" ")[1].split(":")[0]);
         String hourText = "";
