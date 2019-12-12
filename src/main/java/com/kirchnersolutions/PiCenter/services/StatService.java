@@ -27,6 +27,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.DependsOn;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 import com.kirchnersolutions.PiCenter.constants.RoomConstants;
 import com.kirchnersolutions.PiCenter.constants.StatConstants;
@@ -36,24 +37,33 @@ import java.math.MathContext;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Future;
 
 @DependsOn({"debuggingService", "appUserRepository", "readingRepository"})
 @Service
 public class StatService {
 
     private ReadingRepository readingRepository;
+    private ThreadPoolTaskExecutor threadPoolTaskExecutor;
 
     @Autowired
-    public StatService(ReadingRepository readingRepository){
+    public StatService(ReadingRepository readingRepository, ThreadPoolTaskExecutor taskExecutor){
         this.readingRepository = readingRepository;
+        this.threadPoolTaskExecutor = taskExecutor;
     }
 
-    public RoomSummary[] getRoomSummaries(int precision){
+    public RoomSummary[] getRoomSummaries(int precision) throws Exception{
         String[] rooms = RoomConstants.rooms;
         RoomSummary[] summaries = new RoomSummary[rooms.length];
+        Future<RoomSummary>[] futures = new Future[rooms.length];
         int count = 0;
         for(String room : rooms){
-            summaries[count] = getRoomSummary(room, precision);
+            futures[count] = threadPoolTaskExecutor.submit(() -> getRoomSummary(room, precision));
+            count++;
+        }
+        count = 0;
+        for(String room : rooms){
+            summaries[count] = futures[count].get();
             count++;
         }
         return summaries;
