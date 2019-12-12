@@ -100,7 +100,7 @@ export const getChartThunk = (user, startDate, endDate, type) => async dispatch 
     try {
         dispatch(isDataLoading(true));
         dispatch(isDataError(false, ""));
-        const response = await getChart(user, startDate, endDate, type);
+        const response = await getChart(user, startDate, endDate, chartTypes(type));
         if (!response.data.responseBody.includes('success')){
             dispatch(isDataError(true, 'Error getting chart data...'));
         }

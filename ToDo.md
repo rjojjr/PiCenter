@@ -44,6 +44,6 @@
 38. Pass tokens through auth header.
 39. Add data visualization page to UI.#rjojjr
 40. Add data/visual endpoint.#rjojjr
-41. Add humidity selector for data visual.#CURrjojjr
+41. Add humidity selector for data visual.#rjojjr
 42. Add filters to CSV export.
 43. Run room summary generators in thread pool.

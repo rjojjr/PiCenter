@@ -4,6 +4,7 @@ PiCenter Changelog
 
 Build 100120
     Fix camel case chart legend.
+    Add drop down chart selector to visual ui page.
 
 12/11/2019
 Build 100119

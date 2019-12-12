@@ -7,7 +7,7 @@ export const dateStringFormat =(time) => {
 }
 
 export const chartTypes = (type) => {
-    if (type.includes(/hu/)){
+    if (type.toLowerCase().includes("hu")){
         return 'hum';
     }else{
         return 'temp';

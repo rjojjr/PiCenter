@@ -67,7 +67,7 @@ export const initialState = () => ({
     tempChartStart: new Date(Date.now()),
     tempChartEnd: new Date(Date.now()),
     chartData: [],
-    chartType: 'heat'
+    chartType: 'temp'
 });
 
 export default (state = initialState(), action = {type: undefined}) => {
@@ -299,7 +299,7 @@ export default (state = initialState(), action = {type: undefined}) => {
         case SET_CHART_TYPE: {
             return {
                 ...state,
-                chartType: action.type
+                chartType: action.data
             }
         };
         default:
