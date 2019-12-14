@@ -4,7 +4,7 @@
 
 1. Logout corrupts session data.#rjojjr
 2. Freeze on failed login attempt.
-3. Links point internally.
+3. Links point internally.#rjojjr
 4. Summary link on users page broken.#rjojjr
 5. UpdateSession setting "null" page.#rjojjr
 6. changePage in create users nav is not a function#rjojjr
