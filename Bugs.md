@@ -11,4 +11,4 @@
 7. If room does not have reading in last hour, all stats are empty.#rjojjr
 8. Build 100119 can only connect to two sensors and freezes shortly after boot.#rjojjr
 9. Room names in chart are camel case.#rjojjr
-10. Flex components only fill there area if enough content.
+10. Flex components only fill there area if enough content.#CURrjojjr
