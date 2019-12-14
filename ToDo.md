@@ -49,3 +49,5 @@
 43. Run room summary generators in thread pool.#rjojjr
 44. Add sensor downtime calculator.
 45. Add temperature high/low charts.#CURrjojjr
+46. Add temperature high/low for each period in summary.
+47. Disable lines in charts.
