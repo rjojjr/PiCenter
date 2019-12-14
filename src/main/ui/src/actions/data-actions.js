@@ -2,6 +2,7 @@ import {getChart, getReadingsCSV} from "../services/axios-service";
 import {setUser} from "./universal-actions";
 import * as debugConstants from "../constants/debug-constants";
 import {isLoading, isNotLoading, loadingError} from "./loader-actions";
+import {chartTypes} from "../services/helper-service";
 
 export const IS_DATA_LOADING = 'IS_DATA_LOADING'
 export const isDataLoading = (loading) => ({
@@ -57,6 +58,16 @@ export const visualData = (data) => ({
     data
 });
 
+/**
+ * Set the chart type: temp or humidity
+ * @type {string}
+ */
+export const SET_CHART_TYPE = 'SET_CHART_TYPE'
+export const setChartType = (type) => ({
+    type: SET_CHART_TYPE,
+    data: chartTypes(type)
+});
+
 export const getReadingsCSVThunk = (user) => async dispatch => {
     try {
         dispatch(isDataLoading(true));
@@ -89,7 +100,7 @@ export const getChartThunk = (user, startDate, endDate, type) => async dispatch 
     try {
         dispatch(isDataLoading(true));
         dispatch(isDataError(false, ""));
-        const response = await getChart(user, startDate, endDate, type);
+        const response = await getChart(user, startDate, endDate, chartTypes(type));
         if (!response.data.responseBody.includes('success')){
             dispatch(isDataError(true, 'Error getting chart data...'));
         }

@@ -63,9 +63,16 @@ public class CSVServiceIntegrationTest {
     }
 
     @Test
-    public void whenMakeAllCSV_oneFile(){
+    public void whenMakeCSV_oneFile(){
         csvService.generateDownload("readings", false);
         assertEquals(1, downloadDir.listFiles().length);
     }
+
+/*    @Test
+    public void whenMakeAllCSV_oneFile() throws Exception{
+        Thread.sleep(2000);
+        csvService.generateDownload("all", true);
+        assertEquals(1, downloadDir.listFiles().length);
+    }*/
 
 }

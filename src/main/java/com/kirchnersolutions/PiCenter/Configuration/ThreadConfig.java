@@ -16,13 +16,13 @@ public class ThreadConfig {
 
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
 
-        executor.setCorePoolSize(20);
+        executor.setCorePoolSize(40);
 
-        executor.setMaxPoolSize(50);
+        executor.setMaxPoolSize(120);
 
         executor.setWaitForTasksToCompleteOnShutdown(true);
 
-        executor.setKeepAliveSeconds(30);
+        executor.setKeepAliveSeconds(20);
 
         executor.setThreadNamePrefix("picenter_task_executor_thread");
 

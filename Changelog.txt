@@ -2,7 +2,12 @@ PiCenter Changelog
 
 1.0.01b
 
+12/14/2019
 Build 100120
+    Fix camel case chart legend.
+    Add drop down chart selector to visual ui page.
+    Room summaries computed in separate threads now.
+    Pages fill entire viewport.
 
 12/11/2019
 Build 100119

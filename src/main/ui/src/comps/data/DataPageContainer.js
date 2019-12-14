@@ -11,13 +11,13 @@ import {
     getReadingsCSVThunk,
     isDownload,
     visualFromDate,
-    visualToDate, getChartThunk
+    visualToDate, getChartThunk, setChartType
 } from "../../actions/data-actions";
 import * as pageConstants from "../../constants/page-constants";
 import CSVPageContainer from "./CSVPage/CSVPageContainer";
 import VisualPageContainer from "./Visual/VisualPageContainer";
 
-const DataPageContainer = ({user, changePage, isLoading, isError, errorMsg, isDataLoading, isDataError, logOff, getCSV, isDownload, isDownloadAvailable, tempChartStart, tempChartEnd, visualFromDate, visualToDate, chartData, getChart}) => {
+const DataPageContainer = ({user, changePage, isLoading, isError, errorMsg, isDataLoading, isDataError, logOff, getCSV, isDownload, isDownloadAvailable, tempChartStart, tempChartEnd, visualFromDate, visualToDate, chartData, getChart, setChartType, chartType}) => {
 
     const tabClickHandler = (tabIndex) => {
         if (tabIndex === 0) {
@@ -54,7 +54,8 @@ const DataPageContainer = ({user, changePage, isLoading, isError, errorMsg, isDa
                                      isDataLoading={isDataLoading} isDataError={isDataError} logOff={logOff}
                                      onClickHandler={tabClickHandler} tempChartStart={tempChartStart}
                                      tempChartEnd={tempChartEnd} visualFromDate={visualFromDate}
-                                     visualToDate={visualToDate} chartData={chartData} getChart={getChart}/>
+                                     visualToDate={visualToDate} chartData={chartData} getChart={getChart}
+                                        setChartType={setChartType} chartType={chartType}/>
             )}
         </div>
     )
@@ -69,7 +70,8 @@ const mapStateToProps = state => ({
     isDownloadAvailable: state.isDownloadAvailable,
     tempChartStart: state.tempChartStart,
     tempChartEnd: state.tempChartEnd,
-    chartData: state.chartData
+    chartData: state.chartData,
+    chartType: state.chartType
 });
 
 const mapDispatchToProps = {
@@ -81,7 +83,8 @@ const mapDispatchToProps = {
     isDownload,
     visualFromDate,
     visualToDate,
-    getChart: getChartThunk
+    getChart: getChartThunk,
+    setChartType: setChartType
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(DataPageContainer);

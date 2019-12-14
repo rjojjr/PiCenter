@@ -7,7 +7,7 @@ import Button from 'react-bootstrap/Button';
 import VisualPage from "./VisualPage";
 import {dateStringFormat} from "../../../services/helper-service";
 
-const VisualPageContainer = ({user, changePage, updateSession, isLoading, isError, errorMsg, isDataError, logOff, onClickHandler, tempChartStart, tempChartEnd, visualFromDate, visualToDate, chartData, getChart}) => {
+const VisualPageContainer = ({user, changePage, updateSession, isLoading, isError, errorMsg, isDataError, logOff, onClickHandler, tempChartStart, tempChartEnd, visualFromDate, visualToDate, chartData, getChart, setChartType, chartType}) => {
 
     updateSession(pageConstants.DATA_VISUAL, user);
 
@@ -15,15 +15,23 @@ const VisualPageContainer = ({user, changePage, updateSession, isLoading, isErro
         getChart(user, dateStringFormat(tempChartStart), dateStringFormat(tempChartEnd), 'temp');
     }
 
-    const getChartHandler = () => {
-        getChart(user, dateStringFormat(tempChartStart), dateStringFormat(tempChartEnd), 'temp');
+    const getChartHandler = (type) => {
+        getChart(user, dateStringFormat(tempChartStart), dateStringFormat(tempChartEnd), chartType);
+    }
+
+    const convertType = () => {
+        if (chartType === 'temp'){
+            return 1;
+        }else{
+            return 2;
+        }
     }
 
     return (
         <div className={"pageContainer visualPageContainer"}>
             <LoadingView isLoading={isLoading}/>
             {!isLoading && (
-                <div>
+                <div className={"pageContainer"}>
                     <header>
                         <h2>PiCenter Data Page</h2>
 
@@ -34,7 +42,7 @@ const VisualPageContainer = ({user, changePage, updateSession, isLoading, isErro
                                 <GenericPageHeader isLoading={isLoading} currentTabIndex={1} onClickHandler={onClickHandler} tabs={pageConstants.DATA_TABS}/>
                             </header>
                             <p>{errorMsg}</p>
-                            <VisualPage user={user} isDataError={isDataError} visualFromDate={visualFromDate} visualToDate={visualToDate} tempChartStart={tempChartStart} tempChartEnd={tempChartEnd} chartData={chartData} getChart={getChartHandler}/>
+                            <VisualPage user={user} isDataError={isDataError} visualFromDate={visualFromDate} visualToDate={visualToDate} tempChartStart={tempChartStart} tempChartEnd={tempChartEnd} chartData={chartData} getChart={getChartHandler} setChartType={setChartType} chartType={chartType} intSelected={() => convertType()}/>/>
                         </section>
                         <nav className={"visualPage"}>
                             <VisualPageNav changePage={changePage} />
@@ -47,7 +55,7 @@ const VisualPageContainer = ({user, changePage, updateSession, isLoading, isErro
                         </aside>
                     </div>
                     <footer>
-                        <a href={"http://github.com/rjojjr"}>Visit me on github</a>
+                        <a className={"lightText"} href={"http://github.com/rjojjr"}>Visit me on github</a>
                     </footer>
                 </div>
             )}
