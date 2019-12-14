@@ -48,3 +48,4 @@
 42. Add filters to CSV export.
 43. Run room summary generators in thread pool.#rjojjr
 44. Add sensor downtime calculator.
+45. Add temperature high/low charts.#CURrjojjr
