@@ -6,6 +6,7 @@ import com.kirchnersolutions.PiCenter.constants.StatConstants;
 import com.kirchnersolutions.PiCenter.entites.Reading;
 import com.kirchnersolutions.PiCenter.entites.ReadingRepository;
 import com.kirchnersolutions.PiCenter.servers.beans.RoomSummary;
+import com.kirchnersolutions.utilities.CalenderConverter;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 
 @DependsOn({"summaryService"})
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -47,13 +47,32 @@ public class StatServiceIntegrationTest {
         return true;
     }
 
+    private String populateHighLowTestDB(){
+        Long time = System.currentTimeMillis();
+
+        Long interval = (StatConstants.TWELVE_HOUR * 2) / 100;
+        List<Reading> readings = new ArrayList<>();
+        for(String room : RoomConstants.rooms){
+            for(int i = 0; i < 50; i++){
+                Reading reading = new Reading(System.currentTimeMillis(), 77, 51, room);
+                readings.add(reading);
+            }
+            for(int i = 0; i < 50; i++){
+                Reading reading = new Reading(System.currentTimeMillis(), 70, 40, room);
+                readings.add(reading);
+            }
+        }
+        readingRepository.saveAll(readings);
+        return CalenderConverter.getMonthDayYear(time, "/", "");
+    }
+
     /*@BeforeClass
     public static void setUp() throws Exception {
         populateTestDB();
     }*/
 
     @Test
-    public void whenPrecision_ReturnZeros(){
+    public void whenPrecision_ReturnZeros() throws Exception{
         populateTestDB();
         RoomSummary[] summaries = statService.getRoomSummaries(2);
         for (int i = 0; i < RoomConstants.rooms.length; i++){
@@ -71,6 +90,17 @@ public class StatServiceIntegrationTest {
             }
         }
         readingRepository.truncateReadings();
+    }
+
+    @Test
+    public void whenGetHighLow_returnHighLow() {
+        String date = populateHighLowTestDB();
+        for(String room : RoomConstants.rooms){
+            String[] hl = statService.getHighLow(date, room);
+            assertEquals(2, hl.length);
+            assertEquals("77-70", hl[0]);
+            assertEquals("51-40", hl[1]);
+        }
     }
 
 }

@@ -13,12 +13,13 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.ThreadPoolExecutor;
 
 import static org.junit.Assert.assertEquals;
 
 public class ChartServiceUnitTests {
 
-    private ChartService chartService = new  ChartService(new StatService(mockReadingRepository()), new ThreadPoolTaskExecutor());
+    private ChartService chartService = new  ChartService(new StatService(mockReadingRepository(), threadPoolTaskExecutor()), threadPoolTaskExecutor());
 
     @Test
     public void getTimeIntervals_returnsCorrectIntervals(){
@@ -62,6 +63,10 @@ public class ChartServiceUnitTests {
         assertEquals("12/31/2018 9PM", chartService.getIntervalString(intervals.get(7), true));
         assertEquals("01/01/2019 9PM", chartService.getIntervalString(intervals.get(15), true));
         assertEquals("01/01/2019 11PM", chartService.getIntervalString(intervals.get(16), true));
+    }
+
+    private ThreadPoolTaskExecutor threadPoolTaskExecutor(){
+        return new ThreadPoolTaskExecutor();
     }
 
     private ReadingRepository mockReadingRepository(){
@@ -108,6 +113,11 @@ public class ChartServiceUnitTests {
 
             @Override
             public List<Reading> findByTimeBetweenAndRoomOrderByTimeDesc(Long start, Long stop, String room) {
+                return null;
+            }
+
+            @Override
+            public List<Reading> findByTimeBetweenAndRoomOrderByTempDesc(Long start, Long stop, String room) {
                 return null;
             }
 
