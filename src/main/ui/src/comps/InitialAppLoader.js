@@ -12,7 +12,7 @@ const InitialAppLoader = ({ isError, loadApp, errorMsg, isLoading }) => {
   }, [loadApp]);
 
   return (
-    <div>
+    <div className={"rootContainer"}>
       <LoadingView isLoading={isLoading} message={"Loading..."}/>
       {/*//{isError && <p className="message">{errorMsg}</p>}*/}
       {/*{isShowMsg &&(

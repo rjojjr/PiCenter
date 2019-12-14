@@ -31,7 +31,7 @@ const VisualPageContainer = ({user, changePage, updateSession, isLoading, isErro
         <div className={"pageContainer visualPageContainer"}>
             <LoadingView isLoading={isLoading}/>
             {!isLoading && (
-                <div>
+                <div className={"pageContainer"}>
                     <header>
                         <h2>PiCenter Data Page</h2>
 
@@ -55,7 +55,7 @@ const VisualPageContainer = ({user, changePage, updateSession, isLoading, isErro
                         </aside>
                     </div>
                     <footer>
-                        <a href={"http://github.com/rjojjr"}>Visit me on github</a>
+                        <a className={"lightText"} href={"http://github.com/rjojjr"}>Visit me on github</a>
                     </footer>
                 </div>
             )}

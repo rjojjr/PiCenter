@@ -12,7 +12,7 @@ const CreateUserContainer = ({user, userMsg, isLoading, logOff, changePage, onCl
         <div className={"pageContainer createUserPageContainer"}>
             <LoadingView isLoading={isLoading} message={"Loading.."}/>
             {!isLoading && (
-                <div>
+                <div className={"pageContainer"}>
                     <header>
                         <h2>PiCenter Users Page</h2>
 
@@ -36,7 +36,7 @@ const CreateUserContainer = ({user, userMsg, isLoading, logOff, changePage, onCl
                         </aside>
                     </div>
                     <footer>
-                        <a href={"http://github.com/rjojjr"}>Visit me on github</a>
+                        <a className={"lightText"} href={"http://github.com/rjojjr"}>Visit me on github</a>
                     </footer>
                 </div>
             )}

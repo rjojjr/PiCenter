@@ -9,29 +9,33 @@ import DownloadAlert from "./DownloadAlert";
 import {DOWNLOAD_CSV} from "../../../constants/page-constants";
 
 const CSVPageContainer = ({user, changePage, updateSession, isLoading, isError, errorMsg, isDataError, logOff, onClickHandler, getCSV, isDownload, isDownloadAvailable}) => {
-    
+
     updateSession(pageConstants.CSV_EXPORT, user);
 
     return (
         <div className={"pageContainer csvPageContainer"}>
             <LoadingView isLoading={isLoading}/>
             {!isLoading && (
-                <div>
-                    <header>
-                        <h2>PiCenter Data Page</h2>
+                <div className={"pageContainer"}>
+                    <div>
+                        <header>
+                            <h2>PiCenter Data Page</h2>
 
-                    </header>
+                        </header>
+                    </div>
                     <div id="main">
                         <section className={"csvPage"}>
                             <header className={"csvPage"}>
-                                <GenericPageHeader isLoading={isLoading} currentTabIndex={0} onClickHandler={onClickHandler} tabs={pageConstants.DATA_TABS}/>
+                                <GenericPageHeader isLoading={isLoading} currentTabIndex={0}
+                                                   onClickHandler={onClickHandler} tabs={pageConstants.DATA_TABS}/>
                             </header>
                             <p>{errorMsg}</p>
-                            <DownloadAlert show={isDownloadAvailable} isDownload={isDownload} link={`${DOWNLOAD_CSV}/?token=${user.token}`}/>
+                            <DownloadAlert show={isDownloadAvailable} isDownload={isDownload}
+                                           link={`${DOWNLOAD_CSV}/?token=${user.token}`}/>
                             <CSVPage user={user} isDataError={isDataError} getCSV={getCSV}/>
                         </section>
                         <nav className={"csvPage"}>
-                            <CSVPageNav changePage={changePage} />
+                            <CSVPageNav changePage={changePage}/>
                         </nav>
                         <aside className={"csvPage"}>
                             <h4>Logged on as: {user.userName}</h4>
@@ -40,9 +44,11 @@ const CSVPageContainer = ({user, changePage, updateSession, isLoading, isError, 
                             </Button>
                         </aside>
                     </div>
-                    <footer>
-                        <a href={"http://github.com/rjojjr"}>Visit me on github</a>
-                    </footer>
+                    <div>
+                        <footer>
+                            <a className={"lightText"} href={"http://github.com/rjojjr"}>Visit me on github</a>
+                        </footer>
+                    </div>
                 </div>
             )}
         </div>
