@@ -26,6 +26,7 @@ import com.kirchnersolutions.utilities.BigDecimalMath;
 import com.kirchnersolutions.utilities.CalenderConverter;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.hibernate.boot.jaxb.hbm.spi.Adapter1;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
@@ -37,6 +38,7 @@ import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Future;
 
@@ -100,16 +102,28 @@ public class StatService {
         return getMeans(getSums(readings));
     }
 
-    String getTempHighLow(String date, String room){
+    String[] getHighLow(String date, String room){
         long start = CalenderConverter.getMillisFromDateString(date, "/");
         long end = start + CalenderConverter.DAY;
         List<Reading> readings = readingRepository.findByTimeBetweenAndRoomOrderByTempDesc(start, end, room);
-        return readings.get(0) + "-" + readings.get(readings.size() - 1);
+        String[] results = new String[2];
+        results[0] = readings.get(0).getTemp() + "-" + readings.get(readings.size() - 1).getTemp();
+        Collections.sort(readings, (r1, r2) -> {
+            return r2.getHumidity() - r1.getHumidity();
+        });
+        results[1] = readings.get(0).getHumidity() + "-" + readings.get(readings.size() - 1).getHumidity();
+        return results;
     }
 
-    String getTempHighLow(long start, long end, String room){
+    String[] getHighLow(long start, long end, String room){
         List<Reading> readings = readingRepository.findByTimeBetweenAndRoomOrderByTempDesc(start, end, room);
-        return readings.get(0) + "-" + readings.get(readings.size() - 1);
+        String[] results = new String[2];
+        results[0] = readings.get(0).getTemp() + "-" + readings.get(readings.size() - 1).getTemp();
+        Collections.sort(readings, (r1, r2) -> {
+            return r2.getHumidity() - r1.getHumidity();
+        });
+        results[1] = readings.get(0).getHumidity() + "-" + readings.get(readings.size() - 1).getHumidity();
+        return results;
     }
 
     private double[] getMeans(SumBean sums){
