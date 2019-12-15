@@ -17,7 +17,7 @@ import * as pageConstants from "../../constants/page-constants";
 import CSVPageContainer from "./CSVPage/CSVPageContainer";
 import VisualPageContainer from "./Visual/VisualPageContainer";
 
-const DataPageContainer = ({user, changePage, isLoading, isError, errorMsg, isDataLoading, isDataError, logOff, getCSV, isDownload, isDownloadAvailable, tempChartStart, tempChartEnd, visualFromDate, visualToDate, chartData, getChart, setChartType, chartType}, setChartFlavor, chartFlavor) => {
+const DataPageContainer = ({user, changePage, isLoading, isError, errorMsg, isDataLoading, isDataError, logOff, getCSV, isDownload, isDownloadAvailable, tempChartStart, tempChartEnd, visualFromDate, visualToDate, chartData, getChart, setChartType, chartType, setChartFlavor, chartFlavor}) => {
 
     const tabClickHandler = (tabIndex) => {
         if (tabIndex === 0) {
@@ -55,7 +55,7 @@ const DataPageContainer = ({user, changePage, isLoading, isError, errorMsg, isDa
                                      onClickHandler={tabClickHandler} tempChartStart={tempChartStart}
                                      tempChartEnd={tempChartEnd} visualFromDate={visualFromDate}
                                      visualToDate={visualToDate} chartData={chartData} getChart={getChart}
-                                        setChartType={setChartType} chartType={chartType}/>
+                                        setChartType={setChartType} chartType={chartType} setChartFlavor={setChartType} chartFlavor={chartFlavor}/>
             )}
         </div>
     )

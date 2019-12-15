@@ -1,8 +1,8 @@
 PiCenter Changelog
 
 1.0.02b
-
 Build 100121
+    Add high/low charts to ui.
 
 1.0.01b
 12/14/2019

@@ -63,9 +63,10 @@ export const visualData = (data) => ({
  * @type {string}
  */
 export const SET_CHART_TYPE = 'SET_CHART_TYPE'
-export const setChartType = (type) => ({
+export const setChartType = (type, flavor) => ({
     type: SET_CHART_TYPE,
-    data: chartTypes(type)
+    data: chartTypes(type),
+    flavor : chartFlavors(flavor)
 });
 
 /**

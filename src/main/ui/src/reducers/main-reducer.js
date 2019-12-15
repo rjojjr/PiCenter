@@ -301,6 +301,7 @@ export default (state = initialState(), action = {type: undefined}) => {
             return {
                 ...state,
                 chartType: action.data,
+                chartFlavor: action.flavor,
                 chartData: []
             }
         };

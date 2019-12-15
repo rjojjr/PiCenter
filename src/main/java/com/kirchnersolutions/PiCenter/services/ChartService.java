@@ -106,31 +106,91 @@ public class ChartService {
         List<String[]> officeValues = futures[3].get();
         List<String[]> outsideValues = futures[4].get();
         DiffInterval[] diffIntervalList = new DiffInterval[bedroomValues.size()];
-        int type = 0;
+        int type = 0, startLoop = 0;
         if(chartRequest.getType().contains("hum")){
             type = 1;
         }
-        for(int count = 0; count < bedroomValues.size(); count++){
-            String br = "0-0", lr = "0-0", sr = "0-0", of = "0-0", ou = "0-0";
-            //Check for nulls
-            if(bedroomValues.get(count) != null){
-                br = bedroomValues.get(count)[type];
-            }
-            if(livingroomValues.get(count) != null){
-                lr = livingroomValues.get(count)[type];
-            }
-            if(serverroomValues.get(count) != null){
-                sr = serverroomValues.get(count)[type];
-            }
-            if(officeValues.get(count) != null){
-                of = officeValues.get(count)[type];
-            }
-            if(outsideValues.get(count) != null){
-                ou = outsideValues.get(count)[type];
-            }
-            diffIntervalList[count] = new DiffInterval(getDiffIntervalString(start, count), br, lr, sr, of, ou, "0-0");
+        if(bedroomValues.size() < 3){
+            diffIntervalList = new DiffInterval[bedroomValues.size() + 2];
+            startLoop = 1;
+        }
+        for(int count = startLoop; count < bedroomValues.size(); count++){
+            generateDiffInterval(start, bedroomValues, livingroomValues, serverroomValues, officeValues, outsideValues, diffIntervalList, type, startLoop, count);
+
         }
         return diffIntervalList;
+    }
+
+    /**
+     * Makes graph more readable with two or less days
+     * @param start
+     * @param bedroomValues
+     * @param livingroomValues
+     * @param serverroomValues
+     * @param officeValues
+     * @param outsideValues
+     * @param diffIntervalList
+     * @param type
+     * @param startLoop
+     * @param count
+     */
+    private void generateDiffInterval(String start, List<String[]> bedroomValues, List<String[]> livingroomValues, List<String[]> serverroomValues, List<String[]> officeValues, List<String[]> outsideValues, DiffInterval[] diffIntervalList, int type, int startLoop, int count) {
+        String br = "0-0", lr = "0-0", sr = "0-0", of = "0-0", ou = "0-0";
+        //Check for nulls
+        if (bedroomValues.get(count) != null) {
+            br = bedroomValues.get(count)[type];
+        }
+        if (livingroomValues.get(count) != null) {
+            lr = livingroomValues.get(count)[type];
+        }
+        if (serverroomValues.get(count) != null) {
+            sr = serverroomValues.get(count)[type];
+        }
+        if (officeValues.get(count) != null) {
+            of = officeValues.get(count)[type];
+        }
+        if (outsideValues.get(count) != null) {
+            ou = outsideValues.get(count)[type];
+        }
+        if (startLoop == 1 && count == 1) {
+            diffIntervalList[0] = new DiffInterval("",
+                    new double[]{Double.parseDouble(br.split("-")[0]), Double.parseDouble(br.split("-")[1])},
+                    new double[]{Double.parseDouble(lr.split("-")[0]), Double.parseDouble(lr.split("-")[1])},
+                    new double[]{Double.parseDouble(sr.split("-")[0]), Double.parseDouble(sr.split("-")[1])},
+                    new double[]{Double.parseDouble(of.split("-")[0]), Double.parseDouble(of.split("-")[1])},
+                    new double[]{Double.parseDouble(ou.split("-")[0]), Double.parseDouble(ou.split("-")[1])},
+                    new double[]{0, 0});
+            diffIntervalList[count] = new DiffInterval(getDiffIntervalString(start, count),
+                    new double[]{Double.parseDouble(br.split("-")[0]), Double.parseDouble(br.split("-")[1])},
+                    new double[]{Double.parseDouble(lr.split("-")[0]), Double.parseDouble(lr.split("-")[1])},
+                    new double[]{Double.parseDouble(sr.split("-")[0]), Double.parseDouble(sr.split("-")[1])},
+                    new double[]{Double.parseDouble(of.split("-")[0]), Double.parseDouble(of.split("-")[1])},
+                    new double[]{Double.parseDouble(ou.split("-")[0]), Double.parseDouble(ou.split("-")[1])},
+                    new double[]{0, 0});
+        } else if (startLoop == 1 && count == bedroomValues.size() - 1) {
+            diffIntervalList[count] = new DiffInterval(getDiffIntervalString(start, count),
+                    new double[]{Double.parseDouble(br.split("-")[0]), Double.parseDouble(br.split("-")[1])},
+                    new double[]{Double.parseDouble(lr.split("-")[0]), Double.parseDouble(lr.split("-")[1])},
+                    new double[]{Double.parseDouble(sr.split("-")[0]), Double.parseDouble(sr.split("-")[1])},
+                    new double[]{Double.parseDouble(of.split("-")[0]), Double.parseDouble(of.split("-")[1])},
+                    new double[]{Double.parseDouble(ou.split("-")[0]), Double.parseDouble(ou.split("-")[1])},
+                    new double[]{0, 0});
+            diffIntervalList[count + 1] = new DiffInterval("",
+                    new double[]{Double.parseDouble(br.split("-")[0]), Double.parseDouble(br.split("-")[1])},
+                    new double[]{Double.parseDouble(lr.split("-")[0]), Double.parseDouble(lr.split("-")[1])},
+                    new double[]{Double.parseDouble(sr.split("-")[0]), Double.parseDouble(sr.split("-")[1])},
+                    new double[]{Double.parseDouble(of.split("-")[0]), Double.parseDouble(of.split("-")[1])},
+                    new double[]{Double.parseDouble(ou.split("-")[0]), Double.parseDouble(ou.split("-")[1])},
+                    new double[]{0, 0});
+        } else {
+            diffIntervalList[count] = new DiffInterval(getDiffIntervalString(start, count),
+                    new double[]{Double.parseDouble(br.split("-")[0]), Double.parseDouble(br.split("-")[1])},
+                    new double[]{Double.parseDouble(lr.split("-")[0]), Double.parseDouble(lr.split("-")[1])},
+                    new double[]{Double.parseDouble(sr.split("-")[0]), Double.parseDouble(sr.split("-")[1])},
+                    new double[]{Double.parseDouble(of.split("-")[0]), Double.parseDouble(of.split("-")[1])},
+                    new double[]{Double.parseDouble(ou.split("-")[0]), Double.parseDouble(ou.split("-")[1])},
+                    new double[]{0, 0});
+        }
     }
 
     private class ChartValuesThread implements Callable<List<double[]>>{

@@ -23,17 +23,29 @@ const VisualPage = ({tempChartStart, tempChartEnd, visualFromDate, visualToDate,
             return;
         }
         setTypeSelected(selected.value);
-        if (selected.value > 2) {
+        /*if (selected.value > 2) {
             setFlavor('hl');
         } else {
             setFlavor('avg');
-        }
+        }*/
         if (selected.value === 1 || selected.value === 3) {
-            setChartType('temp');
+            if (selected.value > 2) {
+                setFlavor('hl');
+                setChartType('temp', 'hl');
+            } else {
+                setFlavor('avg');
+                setChartType('temp', 'avg');
+            }
         } else {
-            setChartType('hum');
+            if (selected.value > 2) {
+                setFlavor('hl');
+                setChartType('hum', 'hl');
+            } else {
+                setFlavor('avg');
+                setChartType('hum', 'avg');
+            }
         }
-        setChartFlavor(flavor);
+
     }
 
     const getChartLabel = () => {
@@ -47,7 +59,7 @@ const VisualPage = ({tempChartStart, tempChartEnd, visualFromDate, visualToDate,
                 <p>
                     <h4><b>{getChartLabel()}</b></h4>
                     <Select options={CHART_TYPES} onChange={handleChange} value={typeSelected}
-                            placeholder={'Chart Type'}/>
+                            placeholder={'Chart Type'}></Select>
                     <GenericDatePicker currentDate={tempChartStart} changeDate={visualFromDate}>Start
                         Date</GenericDatePicker>
                     <GenericDatePicker currentDate={tempChartEnd} changeDate={visualToDate}>End Date</GenericDatePicker>
@@ -57,7 +69,6 @@ const VisualPage = ({tempChartStart, tempChartEnd, visualFromDate, visualToDate,
 
                 </p>
             </div>
-
             {typeSelected < 3 && (
                 <TempChart data={chartData}/>
             )}
@@ -65,7 +76,6 @@ const VisualPage = ({tempChartStart, tempChartEnd, visualFromDate, visualToDate,
             {typeSelected > 2 && (
                 <DiffChart data={chartData}/>
             )}
-
         </div>
     );
 

@@ -7,10 +7,10 @@ import lombok.Data;
 @AllArgsConstructor
 public class DiffInterval implements Interval {
     private String name = "interval";
-    private String Bedroom = "0-0";
-    private String LivingRoom = "0-0";
-    private String ServerRoom = "0-0";
-    private String Office = "0-0";
-    private String Outside = "0-0";
-    private String Heat = "0-0";
+    private double[] Bedroom = {0,0};
+    private double[] LivingRoom = {0,0};
+    private double[] ServerRoom = {0,0};
+    private double[] Office = {0,0};
+    private double[] Outside = {0,0};
+    private double[] Heat = {0,0};
 }
