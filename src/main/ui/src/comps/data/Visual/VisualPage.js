@@ -19,6 +19,9 @@ const VisualPage = ({tempChartStart, tempChartEnd, visualFromDate, visualToDate,
     }
 
     const handleChange = (selected) => {
+        if (selected.value === typeSelected){
+            return;
+        }
         setTypeSelected(selected.value);
         if(selected.value > 2){
             setFlavor('hl');

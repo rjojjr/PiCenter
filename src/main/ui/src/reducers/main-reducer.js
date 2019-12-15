@@ -300,13 +300,15 @@ export default (state = initialState(), action = {type: undefined}) => {
         case SET_CHART_TYPE: {
             return {
                 ...state,
-                chartType: action.data
+                chartType: action.data,
+                chartData: []
             }
         };
         case SET_CHART_FLAVOR: {
             return {
                 ...state,
-                chartFlavor: action.data
+                chartFlavor: action.data,
+                chartData: []
             }
         };
         default:

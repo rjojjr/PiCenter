@@ -11,10 +11,6 @@ const VisualPageContainer = ({user, changePage, updateSession, isLoading, isErro
 
     updateSession(pageConstants.DATA_VISUAL, user);
 
-    if (chartData === [] && !isError){
-        getChart(user, dateStringFormat(tempChartStart), dateStringFormat(tempChartEnd), 'temp');
-    }
-
     const getChartHandler = (type) => {
         getChart(user, dateStringFormat(tempChartStart), dateStringFormat(tempChartEnd), chartType);
     }
