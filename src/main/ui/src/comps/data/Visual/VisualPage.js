@@ -11,7 +11,7 @@ import {CHART_TYPES} from "../../../constants/page-constants";
 const VisualPage = ({tempChartStart, tempChartEnd, visualFromDate, visualToDate, chartData, getChart, setChartType, chartType, setChartFlavor, chartFlavor, intSelected}) => {
 
     const [typeSelected, setTypeSelected] = useState(intSelected);
-    const [kind, setKind] = useState()
+    const [flavor, setFlavor] = useState(chartFlavor);
 
 
     const retrieveChart = () => {
@@ -20,11 +20,17 @@ const VisualPage = ({tempChartStart, tempChartEnd, visualFromDate, visualToDate,
 
     const handleChange = (selected) => {
         setTypeSelected(selected.value);
-        if (selected.value === 1){
+        if(selected.value > 2){
+            setFlavor('hl');
+        }else{
+            setFlavor('avg');
+        }
+        if (selected.value === 1 || selected.value === 3){
             setChartType('temp');
         }else{
             setChartType('hum');
         }
+        setChartFlavor(flavor);
     }
 
     const getChartLabel = () => {
