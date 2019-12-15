@@ -2,8 +2,10 @@ package com.kirchnersolutions.PiCenter.services;
 
 import com.kirchnersolutions.PiCenter.servers.beans.ChartRequest;
 import com.kirchnersolutions.PiCenter.servers.beans.ChartResponse;
+import com.kirchnersolutions.PiCenter.servers.beans.DiffInterval;
 import com.kirchnersolutions.PiCenter.servers.beans.TempInterval;
 import com.kirchnersolutions.utilities.CalenderConverter;
+import org.hibernate.tool.schema.extract.spi.ForeignKeyInformation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
@@ -15,6 +17,8 @@ import java.util.concurrent.Future;
 
 import static com.kirchnersolutions.utilities.CalenderConverter.getDaysBetween;
 import static com.kirchnersolutions.utilities.CalenderConverter.getDaysInMonth;
+
+import static com.kirchnersolutions.utilities.CalenderConverter.DAY;
 
 @Service
 public class ChartService {
@@ -77,10 +81,52 @@ public class ChartService {
             if(outsideValues.get(count) != null){
                 ou = outsideValues.get(count)[type];
             }
-            tempIntervalList[count] = new TempInterval(getIntervalString(intervals.get(count), false), br, lr, sr, of, ou, 0);
+            tempIntervalList[count] = new TempInterval(getAverageIntervalString(intervals.get(count), false), br, lr, sr, of, ou, 0);
             count++;
         }
         return tempIntervalList;
+    }
+
+    DiffInterval[] generateDiffChartData(ChartRequest chartRequest) throws Exception{
+        String start = chartRequest.getFromDate();
+        String end = chartRequest.getToDate();
+        Future<List<String[]>>[] futures = new Future[5];
+        futures[0] = threadPoolTaskExecutor.submit(new DiffChartValuesThread(start, end, "bedroom"));
+        futures[1] = threadPoolTaskExecutor.submit(new DiffChartValuesThread(start, end, "livingroom"));
+        futures[2] = threadPoolTaskExecutor.submit(new DiffChartValuesThread(start, end, "serverroom"));
+        futures[3] = threadPoolTaskExecutor.submit(new DiffChartValuesThread(start, end, "office"));
+        futures[4] = threadPoolTaskExecutor.submit(new DiffChartValuesThread(start, end, "outside"));
+        List<String[]> bedroomValues = futures[0].get();
+        List<String[]> livingroomValues = futures[1].get();
+        List<String[]> serverroomValues = futures[2].get();
+        List<String[]> officeValues = futures[3].get();
+        List<String[]> outsideValues = futures[4].get();
+        DiffInterval[] diffIntervalList = new DiffInterval[bedroomValues.size()];
+        int type = 0;
+        if(chartRequest.getType().contains("hum")){
+            type = 1;
+        }
+        for(int count = 0; count < bedroomValues.size(); count++){
+            String br = "0-0", lr = "0-0", sr = "0-0", of = "0-0", ou = "0-0";
+            //Check for nulls
+            if(bedroomValues.get(count) != null){
+                br = bedroomValues.get(count)[type];
+            }
+            if(livingroomValues.get(count) != null){
+                lr = livingroomValues.get(count)[type];
+            }
+            if(serverroomValues.get(count) != null){
+                sr = serverroomValues.get(count)[type];
+            }
+            if(officeValues.get(count) != null){
+                of = officeValues.get(count)[type];
+            }
+            if(outsideValues.get(count) != null){
+                ou = outsideValues.get(count)[type];
+            }
+            diffIntervalList[count] = new DiffInterval(getDiffIntervalString(start, count), br, lr, sr, of, ou, "0-0");
+        }
+        return diffIntervalList;
     }
 
     private class ChartValuesThread implements Callable<List<double[]>>{
@@ -97,6 +143,23 @@ public class ChartService {
 
         public List<double[]> call(){
             return getChartValues(generateIntervalWindows(intervals, interval), room);
+        }
+
+    }
+
+    private class DiffChartValuesThread implements Callable<List<String[]>>{
+
+        private String start, end;
+        private String room;
+
+        public DiffChartValuesThread(String start, String end, String room){
+            this.start = start;
+            this.end = end;
+            this.room = room;
+        }
+
+        public List<String[]> call(){
+            return getHighLow(start, end, room);
         }
 
     }
@@ -385,7 +448,12 @@ public class ChartService {
         }
     }
 
-    String getIntervalString(long time, boolean withDate){
+    String getDiffIntervalString(String startDate, int count){
+        long time = CalenderConverter.getMillisFromDateString(startDate, "/") + ((500 + CalenderConverter.DAY) * count);
+        return CalenderConverter.getMonthDayYear(time, "/", ":");
+    }
+
+    String getAverageIntervalString(long time, boolean withDate){
         String date = CalenderConverter.getMonthDayYearHour(time, "/", ":");
         int hour = Integer.parseInt(date.split(" ")[1].split(":")[0]);
         String hourText = "";
