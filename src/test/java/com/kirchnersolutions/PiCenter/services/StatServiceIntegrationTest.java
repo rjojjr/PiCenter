@@ -49,8 +49,6 @@ public class StatServiceIntegrationTest {
 
     private String populateHighLowTestDB(){
         Long time = System.currentTimeMillis();
-
-        Long interval = (StatConstants.TWELVE_HOUR * 2) / 100;
         List<Reading> readings = new ArrayList<>();
         for(String room : RoomConstants.rooms){
             for(int i = 0; i < 50; i++){
@@ -66,10 +64,25 @@ public class StatServiceIntegrationTest {
         return CalenderConverter.getMonthDayYear(time, "/", "");
     }
 
-    /*@BeforeClass
-    public static void setUp() throws Exception {
-        populateTestDB();
-    }*/
+    private boolean populateHighLowTestDB(String start, String end){
+        Long startTime = CalenderConverter.getMillisFromDateString(start, "/");
+        Long endTime = CalenderConverter.getMillisFromDateString(end, "/");
+        Long interval = (endTime - startTime) / 100;
+        List<Reading> readings = new ArrayList<>();
+        for(String room : RoomConstants.rooms){
+            for(int i = 0; i < 100; i++){
+                if(i % 2 == 0){
+                    Reading reading = new Reading((i * interval) + startTime, 70, 40, room);
+                    readings.add(reading);
+                }else{
+                    Reading reading = new Reading((i * interval) + startTime, 77, 51, room);
+                    readings.add(reading);
+                }
+            }
+        }
+        readingRepository.saveAll(readings);
+        return true;
+    }
 
     @Test
     public void whenPrecision_ReturnZeros() throws Exception{
@@ -104,16 +117,16 @@ public class StatServiceIntegrationTest {
         readingRepository.truncateReadings();
     }
 
+
+
     @Test
     public void whenNoResultGetHighLow_returnZeros() {
-        //String date = populateHighLowTestDB();
         for(String room : RoomConstants.rooms){
             String[] hl = statService.getHighLow("12/15/2019", room);
             assertEquals(2, hl.length);
             assertEquals("0-0", hl[0]);
             assertEquals("0-0", hl[1]);
         }
-        //readingRepository.truncateReadings();
     }
 
 }

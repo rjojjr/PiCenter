@@ -1,9 +1,12 @@
 package com.kirchnersolutions.PiCenter.services;
 
 
+import com.kirchnersolutions.PiCenter.constants.RoomConstants;
 import com.kirchnersolutions.PiCenter.entites.Reading;
 import com.kirchnersolutions.PiCenter.entites.ReadingRepository;
+import com.kirchnersolutions.utilities.CalenderConverter;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,6 +21,9 @@ import java.util.concurrent.ThreadPoolExecutor;
 import static org.junit.Assert.assertEquals;
 
 public class ChartServiceUnitTests {
+
+    @Autowired
+    private ReadingRepository readingRepository;
 
     private ChartService chartService = new  ChartService(new StatService(mockReadingRepository(), threadPoolTaskExecutor()), threadPoolTaskExecutor());
 
