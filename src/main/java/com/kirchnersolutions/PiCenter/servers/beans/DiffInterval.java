@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class DiffInterval {
+public class DiffInterval implements Interval {
     private String name = "interval";
     private String Bedroom = "0-0";
     private String LivingRoom = "0-0";

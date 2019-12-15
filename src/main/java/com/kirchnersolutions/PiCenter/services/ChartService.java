@@ -1,7 +1,7 @@
 package com.kirchnersolutions.PiCenter.services;
 
 import com.kirchnersolutions.PiCenter.servers.beans.ChartRequest;
-import com.kirchnersolutions.PiCenter.servers.beans.TempChartResponse;
+import com.kirchnersolutions.PiCenter.servers.beans.ChartResponse;
 import com.kirchnersolutions.PiCenter.servers.beans.TempInterval;
 import com.kirchnersolutions.utilities.CalenderConverter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,8 +28,8 @@ public class ChartService {
         this.threadPoolTaskExecutor = threadPoolTaskExecutor;
     }
 
-    public TempChartResponse getChartData(ChartRequest chartRequest) throws Exception{
-        return new TempChartResponse(generateChartData(chartRequest));
+    public ChartResponse getChartData(ChartRequest chartRequest) throws Exception{
+        return new ChartResponse(generateChartData(chartRequest));
     }
 
     /**

@@ -5,6 +5,10 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class DiffChartResponse {
-    private DiffInterval[] intervals = new DiffInterval[0];
+public class ChartResponse {
+
+    private Interval[] intervals = new TempInterval[0];
+
 }
+
+
