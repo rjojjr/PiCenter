@@ -106,11 +106,11 @@ export const getReadingsCSVThunk = (user) => async dispatch => {
  * @param type: temp || humidity
  * @returns {function(...[*]=)}
  */
-export const getChartThunk = (user, startDate, endDate, type, ) => async dispatch => {
+export const getChartThunk = (user, startDate, endDate, type, flavor) => async dispatch => {
     try {
         dispatch(isDataLoading(true));
         dispatch(isDataError(false, ""));
-        const response = await getChart(user, startDate, endDate, chartTypes(type));
+        const response = await getChart(user, startDate, endDate, chartTypes(type), chartFlavors(flavor));
         if (!response.data.responseBody.includes('success')){
             dispatch(isDataError(true, 'Error getting chart data...'));
         }

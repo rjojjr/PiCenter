@@ -11,15 +11,19 @@ const VisualPageContainer = ({user, changePage, updateSession, isLoading, isErro
 
     updateSession(pageConstants.DATA_VISUAL, user);
 
-    const getChartHandler = (type) => {
-        getChart(user, dateStringFormat(tempChartStart), dateStringFormat(tempChartEnd), chartType);
+    const getChartHandler = (type, flavor) => {
+        getChart(user, dateStringFormat(tempChartStart), dateStringFormat(tempChartEnd), chartType, chartFlavor);
     }
 
     const convertType = () => {
-        if (chartType === 'temp'){
+        if (chartType === 'temp' && chartFlavor === 'avg'){
             return 1;
-        }else{
+        }else if (chartType === 'hum' && chartFlavor === 'avg'){
             return 2;
+        }else if (chartType === 'temp' && chartFlavor === 'hl'){
+            return 3;
+        }else{
+            return 4;
         }
     }
 

@@ -15,7 +15,7 @@ const VisualPage = ({tempChartStart, tempChartEnd, visualFromDate, visualToDate,
     const [flavor, setFlavor] = useState(chartFlavor);
 
     const retrieveChart = () => {
-        getChart(chartType);
+        getChart(chartType, chartFlavor);
     }
 
     const handleChange = (selected) => {
