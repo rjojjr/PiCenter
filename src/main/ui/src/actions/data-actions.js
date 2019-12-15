@@ -96,7 +96,7 @@ export const getReadingsCSVThunk = (user) => async dispatch => {
  * @param type: temp || humidity
  * @returns {function(...[*]=)}
  */
-export const getChartThunk = (user, startDate, endDate, type) => async dispatch => {
+export const getChartThunk = (user, startDate, endDate, type, ) => async dispatch => {
     try {
         dispatch(isDataLoading(true));
         dispatch(isDataError(false, ""));

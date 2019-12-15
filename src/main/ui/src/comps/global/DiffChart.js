@@ -6,11 +6,11 @@ import {
 const DiffChart = ({data}) => {
     return(
         <AreaChart
-            width={730}
-            height={250}
+            width={800}
+            height={300}
             data={data}
             margin={{
-                top: 20, right: 20, bottom: 20, left: 20,
+                top: 5, right: 30, left: 20, bottom: 5,
             }}
         >
             <XAxis dataKey="day" />
@@ -22,6 +22,7 @@ const DiffChart = ({data}) => {
             <Area name="Outside" dataKey="outside" stroke="#ff33ff" fill="#ff33ff" />
             <Area name="Heat On" dataKey="heat" stroke="#ff3f33" fill="#ff3f33" />
             <Tooltip />
+            <Legend />
         </AreaChart>
     );
 };
