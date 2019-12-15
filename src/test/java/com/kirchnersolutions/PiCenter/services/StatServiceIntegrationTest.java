@@ -104,4 +104,16 @@ public class StatServiceIntegrationTest {
         readingRepository.truncateReadings();
     }
 
+    @Test
+    public void whenNoResultGetHighLow_returnZeros() {
+        //String date = populateHighLowTestDB();
+        for(String room : RoomConstants.rooms){
+            String[] hl = statService.getHighLow("12/15/2019", room);
+            assertEquals(2, hl.length);
+            assertEquals("0-0", hl[0]);
+            assertEquals("0-0", hl[1]);
+        }
+        //readingRepository.truncateReadings();
+    }
+
 }
