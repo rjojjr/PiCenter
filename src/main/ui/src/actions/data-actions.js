@@ -2,7 +2,7 @@ import {getChart, getReadingsCSV} from "../services/axios-service";
 import {setUser} from "./universal-actions";
 import * as debugConstants from "../constants/debug-constants";
 import {isLoading, isNotLoading, loadingError} from "./loader-actions";
-import {chartTypes} from "../services/helper-service";
+import {chartFlavors, chartTypes} from "../services/helper-service";
 
 export const IS_DATA_LOADING = 'IS_DATA_LOADING'
 export const isDataLoading = (loading) => ({
@@ -66,6 +66,16 @@ export const SET_CHART_TYPE = 'SET_CHART_TYPE'
 export const setChartType = (type) => ({
     type: SET_CHART_TYPE,
     data: chartTypes(type)
+});
+
+/**
+ * Set the chart kind: avg or hl(high/low)
+ * @type {string}
+ */
+export const SET_CHART_FLAVOR = 'SET_CHART_FLAVOR'
+export const setChartFlavor = (flavor) => ({
+    type: SET_CHART_FLAVOR,
+    data: chartFlavors(flavor)
 });
 
 export const getReadingsCSVThunk = (user) => async dispatch => {

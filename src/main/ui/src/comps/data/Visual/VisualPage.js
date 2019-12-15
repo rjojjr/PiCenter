@@ -11,7 +11,7 @@ import {CHART_TYPES} from "../../../constants/page-constants";
 const VisualPage = ({tempChartStart, tempChartEnd, visualFromDate, visualToDate, chartData, getChart, setChartType, chartType, intSelected}) => {
 
     const [typeSelected, setTypeSelected] = useState(intSelected);
-
+    const [kind, setKind] = useState()
 
 
     const retrieveChart = () => {

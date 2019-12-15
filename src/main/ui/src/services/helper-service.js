@@ -13,3 +13,11 @@ export const chartTypes = (type) => {
         return 'temp';
     }
 }
+
+export const chartFlavors = (flavor) => {
+    if (flavor.toLowerCase().includes("a")){
+        return 'avg';
+    }else{
+        return 'hl';
+    }
+}
