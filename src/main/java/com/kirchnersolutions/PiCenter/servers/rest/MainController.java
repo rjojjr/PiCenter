@@ -133,6 +133,29 @@ public class MainController {
         return new RestResponse("{body: 'success'}", userService.getRestUser((String) httpSession.getAttribute("username")), chartService.getChartData(chartRequest));
     }
 
+    @PostMapping("/data/visual/diff")
+    public RestResponse getDiffChart(HttpServletResponse response, @RequestParam String userId, @RequestBody ChartRequest chartRequest) throws Exception {
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes())
+                .getRequest();
+        HttpSession httpSession = cookie(request, response);
+        if (httpSession.getAttribute("username") == null) {
+            return new RestResponse();
+        }
+        if (userId == null || userId.toCharArray().length < 5) {
+            userService.systemInvalidateUser((String) httpSession.getAttribute("username"), "unauthentic session");
+            return new RestResponse("{body: 'error', error: 'invalid token'}");
+        }
+        if (!updateSession((String) httpSession.getAttribute("username"), userId, request.getRemoteAddr(), "/data/visual")) {
+            return new RestResponse("{body: 'error', error: 'unauthentic session'}", new RestUser());
+        }
+        if(chartRequest == null){
+            response.setStatus( HttpServletResponse.SC_BAD_REQUEST );
+            return new RestResponse("{body: 'invalid request'}");
+        }
+        response.setStatus( HttpServletResponse.SC_OK );
+        return new RestResponse("{body: 'success'}", userService.getRestUser((String) httpSession.getAttribute("username")), chartService.getDiffChartData(chartRequest));
+    }
+
     @GetMapping("data/csv")
     public RestResponse getCSV(HttpServletResponse response, @RequestParam String userId, @RequestParam String table) throws Exception {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes())

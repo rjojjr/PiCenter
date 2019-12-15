@@ -24,7 +24,7 @@ def build = '100121'
 sourceCompatibility = '1.8'
 def PRODUCTION_BUILD = true
 //def test = true
-def test = true
+def test = false
 
 
 repositories {

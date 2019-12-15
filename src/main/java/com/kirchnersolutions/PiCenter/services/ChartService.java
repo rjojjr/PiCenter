@@ -36,6 +36,10 @@ public class ChartService {
         return new ChartResponse(generateChartData(chartRequest));
     }
 
+    public ChartResponse getDiffChartData(ChartRequest chartRequest) throws Exception{
+        return new ChartResponse(generateDiffChartData(chartRequest));
+    }
+
     /**
      *
      * @param chartRequest
