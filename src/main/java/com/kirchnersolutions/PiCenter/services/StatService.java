@@ -110,6 +110,11 @@ public class StatService {
         long end = start + CalenderConverter.DAY;
         List<Reading> readings = readingRepository.findByTimeBetweenAndRoomOrderByTempDesc(start, end, room);
         String[] results = new String[2];
+        if(readings.size() == 0){
+            results[0] = "0-0";
+            results[1] = "0-0";
+            return results;
+        }
         results[0] = readings.get(0).getTemp() + "-" + readings.get(readings.size() - 1).getTemp();
         Collections.sort(readings, (r1, r2) -> {
             return r2.getHumidity() - r1.getHumidity();
@@ -121,6 +126,11 @@ public class StatService {
     String[] getHighLow(long start, long end, String room){
         List<Reading> readings = readingRepository.findByTimeBetweenAndRoomOrderByTempDesc(start, end, room);
         String[] results = new String[2];
+        if(readings.size() == 0){
+            results[0] = "0-0";
+            results[1] = "0-0";
+            return results;
+        }
         results[0] = readings.get(0).getTemp() + "-" + readings.get(readings.size() - 1).getTemp();
         Collections.sort(readings, (r1, r2) -> {
             return r2.getHumidity() - r1.getHumidity();
