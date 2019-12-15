@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class Interval {
+public class TempInterval {
     private String name = "interval";
     private double Bedroom = 0.0;
     private double LivingRoom = 0.0;

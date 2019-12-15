@@ -1,8 +1,8 @@
 package com.kirchnersolutions.PiCenter.services;
 
 import com.kirchnersolutions.PiCenter.servers.beans.ChartRequest;
-import com.kirchnersolutions.PiCenter.servers.beans.ChartResponse;
-import com.kirchnersolutions.PiCenter.servers.beans.Interval;
+import com.kirchnersolutions.PiCenter.servers.beans.TempChartResponse;
+import com.kirchnersolutions.PiCenter.servers.beans.TempInterval;
 import com.kirchnersolutions.utilities.CalenderConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
@@ -28,8 +28,8 @@ public class ChartService {
         this.threadPoolTaskExecutor = threadPoolTaskExecutor;
     }
 
-    public ChartResponse getChartData(ChartRequest chartRequest) throws Exception{
-        return new ChartResponse(generateChartData(chartRequest));
+    public TempChartResponse getChartData(ChartRequest chartRequest) throws Exception{
+        return new TempChartResponse(generateChartData(chartRequest));
     }
 
     /**
@@ -37,7 +37,7 @@ public class ChartService {
      * @param chartRequest
      * @return
      */
-    private Interval[] generateChartData(ChartRequest chartRequest) throws Exception{
+    private TempInterval[] generateChartData(ChartRequest chartRequest) throws Exception{
         String start = chartRequest.getFromDate();
         String end = chartRequest.getToDate();
         int interval = getInterval(start, end);
@@ -53,7 +53,7 @@ public class ChartService {
         List<double[]> serverroomValues = futures[2].get();
         List<double[]> officeValues = futures[3].get();
         List<double[]> outsideValues = futures[4].get();
-        Interval[] intervalList = new Interval[intervals.size()];
+        TempInterval[] tempIntervalList = new TempInterval[intervals.size()];
         int type = 0;
         if(chartRequest.getType().contains("hum")){
             type = 1;
@@ -77,10 +77,10 @@ public class ChartService {
             if(outsideValues.get(count) != null){
                 ou = outsideValues.get(count)[type];
             }
-            intervalList[count] = new Interval(getIntervalString(intervals.get(count), false), br, lr, sr, of, ou, 0);
+            tempIntervalList[count] = new TempInterval(getIntervalString(intervals.get(count), false), br, lr, sr, of, ou, 0);
             count++;
         }
-        return intervalList;
+        return tempIntervalList;
     }
 
     private class ChartValuesThread implements Callable<List<double[]>>{

@@ -13,7 +13,7 @@ public class RestResponse {
 
     private RoomSummary[] summary = new RoomSummary[0];
 
-    private ChartResponse chart = new ChartResponse(new Interval[0]);
+    private TempChartResponse chart = new TempChartResponse(new TempInterval[0]);
 
     public RestResponse(String responseBody){
         this.responseBody = responseBody;
@@ -24,10 +24,10 @@ public class RestResponse {
         this.restUser = restUser;
     }
 
-    public RestResponse(String responseBody, RestUser restUser, ChartResponse chartResponse){
+    public RestResponse(String responseBody, RestUser restUser, TempChartResponse tempChartResponse){
         this.responseBody = responseBody;
         this.restUser = restUser;
-        this.chart = chartResponse;
+        this.chart = tempChartResponse;
     }
 
     public RestResponse(RestUser restUser){
@@ -45,10 +45,10 @@ public class RestResponse {
         this.summary = summary;
     }
 
-    public RestResponse(RestUser restUser, RoomSummary[] summary, ChartResponse chartResponse){
+    public RestResponse(RestUser restUser, RoomSummary[] summary, TempChartResponse tempChartResponse){
         this.restUser = restUser;
         this.summary = summary;
-        this.chart = chartResponse;
+        this.chart = tempChartResponse;
     }
 
 }
