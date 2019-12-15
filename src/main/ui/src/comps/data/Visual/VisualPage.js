@@ -8,7 +8,7 @@ import Button from "react-bootstrap/Button";
 import Select from 'react-select';
 import {CHART_TYPES} from "../../../constants/page-constants";
 
-const VisualPage = ({tempChartStart, tempChartEnd, visualFromDate, visualToDate, chartData, getChart, setChartType, chartType, intSelected}) => {
+const VisualPage = ({tempChartStart, tempChartEnd, visualFromDate, visualToDate, chartData, getChart, setChartType, chartType, setChartFlavor, chartFlavor, intSelected}) => {
 
     const [typeSelected, setTypeSelected] = useState(intSelected);
     const [kind, setKind] = useState()
