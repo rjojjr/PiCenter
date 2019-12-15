@@ -174,6 +174,86 @@ public class ChartService {
     }
 
     /**
+     * Get highs and lows for each day inclusively between start and end.
+     * @param start
+     * @param end
+     * @param room
+     * @return
+     */
+    List<String[]> getHighLow(String start, String end, String room){
+        if (CalenderConverter.getMillisFromDateString(start, "/") > CalenderConverter.getMillisFromDateString(end, "/")) {
+            return getHighLow(end, start, room);
+        }
+        List<String[]> intervals = new ArrayList<>();
+        long endMillis = CalenderConverter.getMillisFromDateString(end, "/") + CalenderConverter.DAY;
+        long startMillis = CalenderConverter.getMillisFromDateString(start, "/");
+        if (start.equals(end)) {
+            String[] date = start.split("/");
+            intervals.add(statService.getHighLow(start, room));
+            return intervals;
+        } else if (isSameMonth(start, end) && isSameYear(start, end)) {
+            String[] date = start.split("/");
+            for (int k = Integer.parseInt(date[1]); k <= Integer.parseInt(end.split("/")[1]); k++) {
+                intervals.add(statService.getHighLow(date[0] + "/" + k + "/" + date[2], room));
+            }
+            return intervals;
+        } else if (isSameYear(start, end)) {
+            int endMonth = Integer.parseInt(end.split("/")[0]);
+            int startMonth = Integer.parseInt(start.split("/")[0]);
+            String[] date = start.split("/");
+            int startDay = Integer.parseInt(date[1]);
+            for (int j = startMonth; j <= endMonth; j++) {
+                if(j > startMonth){
+                    startDay = 1;
+                }
+                if (j == endMonth) {
+                    for (int k = Integer.parseInt(date[1]); k <= Integer.parseInt(end.split("/")[1]); k++) {
+                        intervals.add(statService.getHighLow(j + "/" + k + "/" + date[2], room));
+                    }
+                } else {
+                    for (int k = startDay; k <= getDaysInMonth(j, Integer.parseInt(date[2])); k++) {
+                        intervals.add(statService.getHighLow(j + "/" + k + "/" + date[2], room));
+                    }
+                }
+            }
+            return intervals;
+        } else {
+            String[] date = start.split("/");
+            int endMonth = Integer.parseInt(end.split("/")[0]);
+            int startMonth = Integer.parseInt(start.split("/")[0]);
+            int endYear = Integer.parseInt(end.split("/")[2]);
+            int startYear = Integer.parseInt(start.split("/")[2]);
+            int startDay = Integer.parseInt(date[1]);
+            for (int u = startYear; u <= endYear; u++) {
+                if(u > startYear){
+                    startMonth = 1;
+                }
+                if(u == endYear){
+                    endMonth = Integer.parseInt(end.split("/")[0]);
+                }else{
+                    endMonth = 12;
+                }
+                for (int j = startMonth; j <= endMonth; j++) {
+                    if (j > startMonth || (u > startYear)) {
+                        startDay = 1;
+                    }
+                    if (j == endMonth && u == endYear) {
+                        for (int k = Integer.parseInt(date[1]); k <= Integer.parseInt(end.split("/")[1]); k++) {
+                            intervals.add(statService.getHighLow(j + "/" + k + "/" + u, room));
+                        }
+                    } else {
+                        for (int k = startDay; k <= getDaysInMonth(j, u); k++) {
+                            intervals.add(statService.getHighLow(j + "/" + k + "/" + u, room));
+                        }
+                    }
+                }
+            }
+            return intervals;
+        }
+    }
+
+
+    /**
      * Get list of millis representing each interval between start and end.
      *
      * @param start:    MM/DD/YYYY
@@ -285,7 +365,7 @@ public class ChartService {
                             }
                         }
                     } else {
-                        for (int k = startDay; k <= getDaysInMonth(j, Integer.parseInt(date[2])); k++) {
+                        for (int k = startDay; k <= getDaysInMonth(j, u); k++) {
                             if (interval >= 24) {
                                 intervals.add(CalenderConverter.getMillis(j, k, u, 12, 0, 0));
                             } else {

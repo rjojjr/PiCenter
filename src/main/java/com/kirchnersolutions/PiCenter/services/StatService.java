@@ -42,6 +42,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Future;
 
+import static com.kirchnersolutions.utilities.CalenderConverter.getDaysInMonth;
+
 @DependsOn({"debuggingService", "appUserRepository", "readingRepository"})
 @Service
 public class StatService {
@@ -101,6 +103,7 @@ public class StatService {
         List<Reading> readings = readingRepository.findByTimeBetweenAndRoomOrderByTimeDesc(startTime, endTime, room);
         return getMeans(getSums(readings));
     }
+
 
     String[] getHighLow(String date, String room){
         long start = CalenderConverter.getMillisFromDateString(date, "/");

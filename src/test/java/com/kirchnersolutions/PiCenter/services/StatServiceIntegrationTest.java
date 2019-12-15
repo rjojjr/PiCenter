@@ -101,6 +101,7 @@ public class StatServiceIntegrationTest {
             assertEquals("77-70", hl[0]);
             assertEquals("51-40", hl[1]);
         }
+        readingRepository.truncateReadings();
     }
 
 }
