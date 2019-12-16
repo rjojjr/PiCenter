@@ -48,6 +48,7 @@
 42. Add filters to CSV export.
 43. Run room summary generators in thread pool.#rjojjr
 44. Add sensor downtime calculator.
-45. Add temperature high/low charts.#CURrjojjr
+45. Add temperature high/low charts.#rjojjr
 46. Add temperature high/low for each period in summary.
 47. Disable lines in charts.
+48. Adjust layout on mobile device.
