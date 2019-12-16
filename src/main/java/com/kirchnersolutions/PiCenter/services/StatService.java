@@ -23,8 +23,10 @@ import com.kirchnersolutions.PiCenter.entites.Reading;
 import com.kirchnersolutions.PiCenter.entites.ReadingRepository;
 import com.kirchnersolutions.PiCenter.servers.beans.RoomSummary;
 import com.kirchnersolutions.utilities.BigDecimalMath;
+import com.kirchnersolutions.utilities.CalenderConverter;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.hibernate.boot.jaxb.hbm.spi.Adapter1;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
@@ -36,8 +38,11 @@ import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Future;
+
+import static com.kirchnersolutions.utilities.CalenderConverter.getDaysInMonth;
 
 @DependsOn({"debuggingService", "appUserRepository", "readingRepository"})
 @Service
@@ -97,6 +102,41 @@ public class StatService {
         long endTime = window[1];
         List<Reading> readings = readingRepository.findByTimeBetweenAndRoomOrderByTimeDesc(startTime, endTime, room);
         return getMeans(getSums(readings));
+    }
+
+
+    String[] getHighLow(String date, String room){
+        long start = CalenderConverter.getMillisFromDateString(date, "/");
+        long end = start + CalenderConverter.DAY;
+        List<Reading> readings = readingRepository.findByTimeBetweenAndRoomOrderByTempDesc(start, end, room);
+        String[] results = new String[2];
+        if(readings.size() == 0){
+            results[0] = "0-0";
+            results[1] = "0-0";
+            return results;
+        }
+        results[0] = readings.get(0).getTemp() + "-" + readings.get(readings.size() - 1).getTemp();
+        Collections.sort(readings, (r1, r2) -> {
+            return r2.getHumidity() - r1.getHumidity();
+        });
+        results[1] = readings.get(0).getHumidity() + "-" + readings.get(readings.size() - 1).getHumidity();
+        return results;
+    }
+
+    String[] getHighLow(long start, long end, String room){
+        List<Reading> readings = readingRepository.findByTimeBetweenAndRoomOrderByTempDesc(start, end, room);
+        String[] results = new String[2];
+        if(readings.size() == 0){
+            results[0] = "0-0";
+            results[1] = "0-0";
+            return results;
+        }
+        results[0] = readings.get(0).getTemp() + "-" + readings.get(readings.size() - 1).getTemp();
+        Collections.sort(readings, (r1, r2) -> {
+            return r2.getHumidity() - r1.getHumidity();
+        });
+        results[1] = readings.get(0).getHumidity() + "-" + readings.get(readings.size() - 1).getHumidity();
+        return results;
     }
 
     private double[] getMeans(SumBean sums){

@@ -27,7 +27,7 @@ import {
 
 import {
     IS_DATA_LOADING,
-    IS_DATA_ERROR, IS_DOWNLOAD, VISUAL_FROM_DATE, VISUAL_TO_DATE, VISUAL_DATA, SET_CHART_TYPE
+    IS_DATA_ERROR, IS_DOWNLOAD, VISUAL_FROM_DATE, VISUAL_TO_DATE, VISUAL_DATA, SET_CHART_TYPE, SET_CHART_FLAVOR
 } from "../actions/data-actions";
 
 import {
@@ -67,7 +67,8 @@ export const initialState = () => ({
     tempChartStart: new Date(Date.now()),
     tempChartEnd: new Date(Date.now()),
     chartData: [],
-    chartType: 'temp'
+    chartType: 'temp',
+    chartFlavor: 'avg'
 });
 
 export default (state = initialState(), action = {type: undefined}) => {
@@ -299,7 +300,16 @@ export default (state = initialState(), action = {type: undefined}) => {
         case SET_CHART_TYPE: {
             return {
                 ...state,
-                chartType: action.data
+                chartType: action.data,
+                chartFlavor: action.flavor,
+                chartData: []
+            }
+        };
+        case SET_CHART_FLAVOR: {
+            return {
+                ...state,
+                chartFlavor: action.data,
+                chartData: []
             }
         };
         default:

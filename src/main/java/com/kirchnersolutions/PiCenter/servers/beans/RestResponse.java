@@ -13,7 +13,7 @@ public class RestResponse {
 
     private RoomSummary[] summary = new RoomSummary[0];
 
-    private ChartResponse chart = new ChartResponse(new Interval[0]);
+    private ChartResponse chart = new ChartResponse(new TempInterval[0]);
 
     public RestResponse(String responseBody){
         this.responseBody = responseBody;

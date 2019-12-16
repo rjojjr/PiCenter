@@ -7,7 +7,7 @@ import lombok.Data;
 @AllArgsConstructor
 public class ChartResponse {
 
-    private Interval[] intervals = new Interval[0];
+    private Interval[] intervals = new TempInterval[0];
 
 }
 

@@ -2,7 +2,7 @@ import {getChart, getReadingsCSV} from "../services/axios-service";
 import {setUser} from "./universal-actions";
 import * as debugConstants from "../constants/debug-constants";
 import {isLoading, isNotLoading, loadingError} from "./loader-actions";
-import {chartTypes} from "../services/helper-service";
+import {chartFlavors, chartTypes} from "../services/helper-service";
 
 export const IS_DATA_LOADING = 'IS_DATA_LOADING'
 export const isDataLoading = (loading) => ({
@@ -63,9 +63,20 @@ export const visualData = (data) => ({
  * @type {string}
  */
 export const SET_CHART_TYPE = 'SET_CHART_TYPE'
-export const setChartType = (type) => ({
+export const setChartType = (type, flavor) => ({
     type: SET_CHART_TYPE,
-    data: chartTypes(type)
+    data: chartTypes(type),
+    flavor : chartFlavors(flavor)
+});
+
+/**
+ * Set the chart kind: avg or hl(high/low)
+ * @type {string}
+ */
+export const SET_CHART_FLAVOR = 'SET_CHART_FLAVOR'
+export const setChartFlavor = (flavor) => ({
+    type: SET_CHART_FLAVOR,
+    data: chartFlavors(flavor)
 });
 
 export const getReadingsCSVThunk = (user) => async dispatch => {
@@ -96,11 +107,11 @@ export const getReadingsCSVThunk = (user) => async dispatch => {
  * @param type: temp || humidity
  * @returns {function(...[*]=)}
  */
-export const getChartThunk = (user, startDate, endDate, type) => async dispatch => {
+export const getChartThunk = (user, startDate, endDate, type, flavor) => async dispatch => {
     try {
         dispatch(isDataLoading(true));
         dispatch(isDataError(false, ""));
-        const response = await getChart(user, startDate, endDate, chartTypes(type));
+        const response = await getChart(user, startDate, endDate, chartTypes(type), chartFlavors(flavor));
         if (!response.data.responseBody.includes('success')){
             dispatch(isDataError(true, 'Error getting chart data...'));
         }

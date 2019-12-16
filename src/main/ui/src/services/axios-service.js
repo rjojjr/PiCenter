@@ -59,7 +59,15 @@ export const getReadingsCSV = (user) => {
   return axios.get(constants.CSV_EXPORT + '?userId=' + user.token + "&table=readings");
 };
 
-export const getChart = (user, startDate, endDate, type) => {
+export const getChart = (user, startDate, endDate, type, flavor) => {
+
+  let endpoint;
+
+  if (flavor === 'avg'){
+    endpoint = constants.DATA_VISUAL;
+  }else{
+    endpoint = constants.DATA_VISUAL_DIFF;
+  }
 
   const chartRequest = {
     fromDate: startDate,
@@ -67,5 +75,5 @@ export const getChart = (user, startDate, endDate, type) => {
     type: type
   }
 
-  return axios.post(constants.DATA_VISUAL + '?userId=' + user.token, chartRequest);
+  return axios.post(endpoint + '?userId=' + user.token, chartRequest);
 }
