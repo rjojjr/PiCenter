@@ -10,4 +10,6 @@ public interface DBItem {
 
     public String getType();
 
+    public String toCSVDateString();
+
 }

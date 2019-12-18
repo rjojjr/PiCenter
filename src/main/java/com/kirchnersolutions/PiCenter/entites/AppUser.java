@@ -1,5 +1,6 @@
 package com.kirchnersolutions.PiCenter.entites;
 
+import com.kirchnersolutions.utilities.CalenderConverter;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -84,6 +85,16 @@ public class AppUser implements DBItem {
     public String toCSV() {
         return this.getId() + "," +
                 this.getCreateTime() + "," +
+                this.getUserName() + "," +
+                this.getFirstName() + "," +
+                this.getLastName() + "," +
+                this.getPassword() + "," +
+                getAdminTxt();
+    }
+
+    public String toCSVDateString() {
+        return this.getId() + "," +
+                CalenderConverter.getMonthDayYearHourMinuteSecond(this.getCreateTime(), "/", ":") + "," +
                 this.getUserName() + "," +
                 this.getFirstName() + "," +
                 this.getLastName() + "," +

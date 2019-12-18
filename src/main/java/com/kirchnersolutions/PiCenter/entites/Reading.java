@@ -1,5 +1,6 @@
 package com.kirchnersolutions.PiCenter.entites;
 
+import com.kirchnersolutions.utilities.CalenderConverter;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -60,6 +61,14 @@ public class Reading implements DBItem {
     public String toCSV() {
         return this.getId() + "," +
                 this.getTime() + "," +
+                this.getTemp() + "," +
+                this.getHumidity() + "," +
+                this.getRoom();
+    }
+
+    public String toCSVDateString() {
+        return this.getId() + "," +
+                CalenderConverter.getMonthDayYearHourMinuteSecond(this.getTime(), "/", ":") + "," +
                 this.getTemp() + "," +
                 this.getHumidity() + "," +
                 this.getRoom();
