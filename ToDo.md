@@ -52,4 +52,4 @@
 46. Add temperature high/low for each period in summary.
 47. Disable lines in charts.
 48. Adjust layout on mobile device.
-49. CSV export has date string instead of millis.
+49. CSV export has date string instead of millis.#CURrjojjr
