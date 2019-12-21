@@ -1,6 +1,12 @@
 PiCenter Changelog
 
+1.0.03b
+12/20/2019
+Build 100122
+    CSV export now has date strings instead of milliseconds.
+
 1.0.02b
+12/16/2019
 Build 100121
     Add high/low charts to ui.
 
