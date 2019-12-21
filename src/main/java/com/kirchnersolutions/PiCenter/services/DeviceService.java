@@ -13,6 +13,8 @@ import org.springframework.web.client.RestTemplate;
 import java.io.File;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 import java.util.concurrent.ThreadPoolExecutor;
 
 @Service
@@ -27,8 +29,23 @@ public class DeviceService {
         this.deviceList = deviceList;
     }
 
-    public DeviceStatus[] getDeviceStatuses(){
-        return null;
+    public DeviceStatus[] getDeviceStatuses() throws ExecutionException, InterruptedException {
+        List<Device> devices = deviceList.getDevices();
+        DeviceStatus[] statuses = new DeviceStatus[devices.size()];
+        Future<DeviceStatus>[] futures = new Future[devices.size()];
+        int count = 0;
+        for(Device device : devices){
+            futures[count] = threadPoolTaskExecutor.submit(() -> {
+                return getDeviceStatus(device.getName());
+            });
+            count++;
+        }
+        count = 0;
+        for(Future<DeviceStatus> future : futures){
+            statuses[count] = future.get();
+            count++;
+        }
+        return statuses;
     }
 
     private DeviceStatus getDeviceStatus(String name){
