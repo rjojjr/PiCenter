@@ -1,7 +1,7 @@
 #ToDo List
 
-####***Append #(Your handle)to end of item completed***
-####***Append #CUR(Your handle) to end of your current item***
+###***Append #(Your handle)to end of item completed***
+###***Append #CUR(Your handle) to end of your current item***
 
 1. Make user list searches asynchronous.#rjojjr
 2. Licenses and Documents.
@@ -53,3 +53,4 @@
 47. Disable lines in charts.
 48. Adjust layout on mobile device.
 49. CSV export has date string instead of millis.#rjojjr
+50. Add device panel UI that uses Spring Rest client it interface with [PiRest controller](https://github.com/rjojjr/PiScalaRestController)
