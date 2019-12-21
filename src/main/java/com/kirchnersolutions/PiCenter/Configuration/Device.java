@@ -7,7 +7,8 @@ import lombok.Data;
 @AllArgsConstructor
 public class Device {
 
-    private String name;
-    private String url;
+    private String name = "";
+    private String url = "";
+    private String token = "";
 
 }

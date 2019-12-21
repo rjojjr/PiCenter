@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -16,14 +17,18 @@ public class DeviceList {
 
     private List<Device> deviceList;
 
-    public DeviceList() throws FileNotFoundException {
+    public DeviceList() throws FileNotFoundException, IOException {
         deviceList = Collections.synchronizedList(new ArrayList<>());
-        File devices = new File("PiCenter/Devices/devices.txt");
-        if(devices.exists()){
+        File devDir = new File("PiCenter/Devices");
+        File devices = new File(devDir, "/devices.txt");
+        if(!devDir.exists()){
+            devDir.mkdirs();
+            devices.createNewFile();
+        }else {
             Scanner in = new Scanner(devices);
             while(in.hasNextLine()){
                 String line = in.nextLine();
-                deviceList.add(new Device(line.split(" ")[0], line.split(" ")[1]));
+                deviceList.add(new Device(line.split(" ")[0], line.split(" ")[1], line.split(" ")[2]));
             }
         }
     }
