@@ -128,6 +128,16 @@ public class UserService {
         return true;
     }
 
+    public boolean createUserLog(String userName, String log){
+        AppUser user;
+        if((user = appUserRepository.findByUserName(userName)) == null){
+            return false;
+        }
+        UserLog userLog = new UserLog(user.getId(), log, System.currentTimeMillis());
+        userLogRepository.saveAndFlush(userLog);
+        return true;
+    }
+
     public boolean invalidateUser(AppUser admin, String userName) throws Exception{
         AppUser user;
         if(!admin.isAdmin()){
