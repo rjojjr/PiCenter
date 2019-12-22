@@ -37,7 +37,7 @@ import {
     USERS_SHOW_MSG
 } from "../actions/user-actions";
 import {dateStringFormat} from "../services/helper-service";
-import {IS_DEVICE_ERROR, IS_DEVICE_LOADING} from "../actions/device-actions";
+import {IS_DEVICE_ERROR, IS_DEVICE_LOADING, SET_DEVICE_STATUSES} from "../actions/device-actions";
 
 
 export const initialState = () => ({
@@ -328,6 +328,12 @@ export default (state = initialState(), action = {type: undefined}) => {
                 ...state,
                 isDeviceError: action.error,
                 deviceMsg: action.msg
+            };
+        };
+        case SET_DEVICE_STATUSES: {
+            return {
+                ...state,
+                deviceData: action.status
             };
         };
         default:
