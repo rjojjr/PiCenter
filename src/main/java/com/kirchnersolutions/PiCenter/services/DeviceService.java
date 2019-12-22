@@ -69,7 +69,7 @@ public class DeviceService {
         return status;
     }
 
-    private DeviceStatus restartPiTemp(String name){
+    public DeviceStatus restartPiTemp(String name){
         Device device = deviceList.getDeviceByName(name);
         if(device == null){
             return null;
@@ -91,7 +91,7 @@ public class DeviceService {
         return getDeviceStatus(name);
     }
 
-    private DeviceStatus restartDHT(String name){
+    public DeviceStatus restartDHT(String name){
         Device device = deviceList.getDeviceByName(name);
         if(device == null){
             return null;

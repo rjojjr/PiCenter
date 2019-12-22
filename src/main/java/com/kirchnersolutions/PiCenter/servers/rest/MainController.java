@@ -3,10 +3,7 @@ package com.kirchnersolutions.PiCenter.servers.rest;
 import com.kirchnersolutions.PiCenter.dev.DebuggingService;
 import com.kirchnersolutions.PiCenter.entites.AppUser;
 import com.kirchnersolutions.PiCenter.servers.beans.*;
-import com.kirchnersolutions.PiCenter.services.CSVService;
-import com.kirchnersolutions.PiCenter.services.ChartService;
-import com.kirchnersolutions.PiCenter.services.StatService;
-import com.kirchnersolutions.PiCenter.services.UserService;
+import com.kirchnersolutions.PiCenter.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -25,14 +22,16 @@ public class MainController {
     private DebuggingService debuggingService;
     private CSVService csvService;
     private ChartService chartService;
+    private DeviceService deviceService;
 
     @Autowired
-    public MainController(UserService userService, StatService statService, DebuggingService debuggingService, CSVService csvService, ChartService chartService) {
+    public MainController(UserService userService, StatService statService, DebuggingService debuggingService, CSVService csvService, ChartService chartService, DeviceService deviceService) {
         this.userService = userService;
         this.statService = statService;
         this.debuggingService = debuggingService;
         this.csvService = csvService;
         this.chartService = chartService;
+        this.deviceService = deviceService;
     }
 
     @GetMapping("/loading")
@@ -253,6 +252,27 @@ public class MainController {
             return new RestResponse("{body: 'success'}", userService.getRestUser((String) httpSession.getAttribute("username")));
         }
         return new RestResponse("{body: 'error', error; 'failed to create user'}", userService.getRestUser((String) httpSession.getAttribute("username")));
+    }
+
+    @GetMapping("status/pi")
+    public RestResponse getPiStatus(HttpServletResponse response, @RequestParam String userId) throws Exception {
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes())
+                .getRequest();
+        HttpSession httpSession = cookie(request, response);
+        if (httpSession.getAttribute("username") == null) {
+            return new RestResponse();
+        }
+        if (userId == null || userId.toCharArray().length < 5) {
+            userService.systemInvalidateUser((String) httpSession.getAttribute("username"), "unauthentic session");
+            return new RestResponse("{body: 'error', error: 'invalid token'}");
+        }
+        if (!updateSession((String) httpSession.getAttribute("username"), userId, request.getRemoteAddr(), "/status/pi")) {
+            return new RestResponse("{body: 'error', error: 'unauthentic session'}", new RestUser());
+        }
+        if (!userService.isAdmin((String) httpSession.getAttribute("username"))) {
+            return new RestResponse("{body: 'failed not authorized'}", userService.getRestUser((String) httpSession.getAttribute("username")));
+        }
+        return new RestResponse("{body: 'failed to generate package'}", userService.getRestUser((String) httpSession.getAttribute("username")));
     }
 
     private boolean updateSession(String username, String token, String ip, String page) throws Exception {
