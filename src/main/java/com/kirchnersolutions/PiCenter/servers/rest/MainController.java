@@ -272,7 +272,7 @@ public class MainController {
         if (!userService.isAdmin((String) httpSession.getAttribute("username"))) {
             return new RestResponse("{body: 'failed not authorized'}", userService.getRestUser((String) httpSession.getAttribute("username")));
         }
-        return new RestResponse("{body: 'failed to generate package'}", userService.getRestUser((String) httpSession.getAttribute("username")));
+        return new RestResponse("{body: 'success'}", userService.getRestUser((String) httpSession.getAttribute("username")), deviceService.getDeviceStatuses());
     }
 
     private boolean updateSession(String username, String token, String ip, String page) throws Exception {
