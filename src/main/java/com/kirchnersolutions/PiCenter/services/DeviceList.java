@@ -4,6 +4,7 @@ import com.kirchnersolutions.PiCenter.Configuration.Device;
 import net.bytebuddy.implementation.bytecode.assign.TypeCasting;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -17,8 +18,12 @@ public class DeviceList {
 
     private List<Device> deviceList;
 
-    public DeviceList() throws FileNotFoundException, IOException {
+    public DeviceList() {
         deviceList = Collections.synchronizedList(new ArrayList<>());
+    }
+
+    @PostConstruct
+    public void init() throws IOException {
         File devDir = new File("PiCenter/Devices");
         File devices = new File(devDir, "/devices.txt");
         if(!devDir.exists()){
