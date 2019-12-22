@@ -1,4 +1,4 @@
-import {getPiStatuses, restartPitemp} from "../services/axios-service";
+import {getPiStatuses, restartDHT, restartPitemp} from "../services/axios-service";
 import * as debugConstants from "../constants/debug-constants";
 import {isDataError, isDataLoading, isDownload} from "./data-actions";
 
@@ -65,5 +65,26 @@ export const restartPiTempThunk = (user, pi) => async dispatch => {
             alert(error);
         }
         dispatch(isDataError(true, 'Error restarting pitemp...'));
+    }
+};
+
+export const restartDHTThunk = (user, pi) => async dispatch => {
+    try {
+        dispatch(isDeviceLoading(true));
+        dispatch(isDeviceError(false, ""));
+        const response = await restartDHT(user, pi);
+        if (!response.data.responseBody.includes('success')){
+            dispatch(isDeviceError(true, 'Error restarting dht...'));
+        }
+        dispatch(setDeviceStatuses(response.data.deviceStatuses))
+        dispatch(isDownload(true));
+        dispatch(isDataLoading(false));
+        return
+    } catch (error) {
+        dispatch(isDataLoading(false));
+        if (process.env.NODE_ENV === 'development' && debugConstants.ALERT_DEBUG_THUNKS) {
+            alert(error);
+        }
+        dispatch(isDataError(true, 'Error restarting dht...'));
     }
 };
