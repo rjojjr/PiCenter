@@ -37,6 +37,7 @@ import {
     USERS_SHOW_MSG
 } from "../actions/user-actions";
 import {dateStringFormat} from "../services/helper-service";
+import {IS_DEVICE_ERROR, IS_DEVICE_LOADING} from "../actions/device-actions";
 
 
 export const initialState = () => ({
@@ -68,7 +69,11 @@ export const initialState = () => ({
     tempChartEnd: new Date(Date.now()),
     chartData: [],
     chartType: 'temp',
-    chartFlavor: 'avg'
+    chartFlavor: 'avg',
+    isDeviceLoading: false,
+    isDeviceError: false,
+    deviceMsg: '',
+    deviceData: []
 });
 
 export default (state = initialState(), action = {type: undefined}) => {
@@ -311,6 +316,19 @@ export default (state = initialState(), action = {type: undefined}) => {
                 chartFlavor: action.data,
                 chartData: []
             }
+        };
+        case IS_DEVICE_LOADING: {
+            return {
+                ...state,
+                isDeviceLoading: action.loading
+            };
+        };
+        case IS_DEVICE_ERROR: {
+            return {
+                ...state,
+                isDeviceError: action.error,
+                deviceMsg: action.msg
+            };
         };
         default:
             return state;
