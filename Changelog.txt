@@ -4,6 +4,7 @@ PiCenter Changelog
 
 Build 100123
     Added device methods to backend.
+    Better user logging.
 
 12/20/2019
 Build 100122

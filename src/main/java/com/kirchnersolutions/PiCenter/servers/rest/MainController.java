@@ -45,6 +45,7 @@ public class MainController {
             response.setStatus( HttpServletResponse.SC_OK );
             return new RestResponse();
         }
+        userService.createUserLog((String) httpSession.getAttribute("username"), "reload page");
         response.setStatus( HttpServletResponse.SC_OK );
         return new RestResponse(userService.getRestUser((String) httpSession.getAttribute("username")));
     }
@@ -105,6 +106,7 @@ public class MainController {
         if (!updateSession((String) httpSession.getAttribute("username"), userId, request.getRemoteAddr(), "/summary")) {
             return new RestResponse("{body: 'error', error: 'unauthentic session'}", new RestUser());
         }
+        userService.createUserLog((String) httpSession.getAttribute("username"), "summary");
         response.setStatus( HttpServletResponse.SC_OK );
         return new RestResponse("{body: 'success'}", userService.getRestUser((String) httpSession.getAttribute("username")), statService.getRoomSummaries(2));
     }
@@ -124,6 +126,7 @@ public class MainController {
         if (!updateSession((String) httpSession.getAttribute("username"), userId, request.getRemoteAddr(), "/data/visual")) {
             return new RestResponse("{body: 'error', error: 'unauthentic session'}", new RestUser());
         }
+        userService.createUserLog((String) httpSession.getAttribute("username"), "avg chart");
         if(chartRequest == null){
             response.setStatus( HttpServletResponse.SC_BAD_REQUEST );
             return new RestResponse("{body: 'invalid request'}");
@@ -147,6 +150,7 @@ public class MainController {
         if (!updateSession((String) httpSession.getAttribute("username"), userId, request.getRemoteAddr(), "/data/visual")) {
             return new RestResponse("{body: 'error', error: 'unauthentic session'}", new RestUser());
         }
+        userService.createUserLog((String) httpSession.getAttribute("username"), "diff chart");
         if(chartRequest == null){
             response.setStatus( HttpServletResponse.SC_BAD_REQUEST );
             return new RestResponse("{body: 'invalid request'}");
@@ -175,9 +179,7 @@ public class MainController {
         }
         if (table != null) {
             if (csvService.generateDownload(table, false)) {
-                /*String url = "http://picenter.kirchnerbusinesssolutions.com/download/backup";
-                response.setHeader("Location", url);
-                response.setStatus(302);*/
+                userService.createUserLog((String) httpSession.getAttribute("username"), "download CSV");
                 response.setStatus( HttpServletResponse.SC_OK );
                 return new RestResponse("{body: 'success'}", userService.getRestUser((String) httpSession.getAttribute("username")));
             }
@@ -204,9 +206,7 @@ public class MainController {
             return new RestResponse("{body: 'failed not authorized'}", userService.getRestUser((String) httpSession.getAttribute("username")));
         }
         if (csvService.generateManualBackup()) {
-                /*String url = "http://picenter.kirchnerbusinesssolutions.com/download/backup";
-                response.setHeader("Location", url);
-                response.setStatus(302);*/
+            userService.createUserLog((String) httpSession.getAttribute("username"), "generate backup");
             response.setStatus( HttpServletResponse.SC_OK );
             return new RestResponse("{body: 'success'}", userService.getRestUser((String) httpSession.getAttribute("username")));
         }
@@ -248,6 +248,7 @@ public class MainController {
             return new RestResponse("{body: 'error', error: 'unauthentic session'}", new RestUser());
         }
         if (userService.createUser((String) httpSession.getAttribute("username"), createUser)) {
+            userService.createUserLog((String) httpSession.getAttribute("username"), "create user " + createUser.getUserName());
             response.setStatus( HttpServletResponse.SC_OK );
             return new RestResponse("{body: 'success'}", userService.getRestUser((String) httpSession.getAttribute("username")));
         }
@@ -272,6 +273,7 @@ public class MainController {
         if (!userService.isAdmin((String) httpSession.getAttribute("username"))) {
             return new RestResponse("{body: 'failed not authorized'}", userService.getRestUser((String) httpSession.getAttribute("username")));
         }
+        userService.createUserLog((String) httpSession.getAttribute("username"), "get pi statuses ");
         return new RestResponse("{body: 'success'}", userService.getRestUser((String) httpSession.getAttribute("username")), deviceService.getDeviceStatuses());
     }
 
@@ -296,6 +298,7 @@ public class MainController {
         if (!userService.isAdmin((String) httpSession.getAttribute("username"))) {
             return new RestResponse("{body: 'failed not authorized'}", userService.getRestUser((String) httpSession.getAttribute("username")));
         }
+        userService.createUserLog((String) httpSession.getAttribute("username"), "restart pitemp pi " + pi);
         if(deviceService.restartPiTemp(pi) != null){
             response.setStatus( HttpServletResponse.SC_OK );
             return new RestResponse("{body: 'success'}", userService.getRestUser((String) httpSession.getAttribute("username")), deviceService.getDeviceStatuses());
@@ -324,6 +327,7 @@ public class MainController {
         if (!userService.isAdmin((String) httpSession.getAttribute("username"))) {
             return new RestResponse("{body: 'failed not authorized'}", userService.getRestUser((String) httpSession.getAttribute("username")));
         }
+        userService.createUserLog((String) httpSession.getAttribute("username"), "restart dht pi " + pi);
         if(deviceService.restartDHT(pi) != null){
             response.setStatus( HttpServletResponse.SC_OK );
             return new RestResponse("{body: 'success'}", userService.getRestUser((String) httpSession.getAttribute("username")), deviceService.getDeviceStatuses());
