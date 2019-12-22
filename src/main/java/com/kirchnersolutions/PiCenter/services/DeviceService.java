@@ -91,4 +91,26 @@ public class DeviceService {
         return getDeviceStatus(name);
     }
 
+    private DeviceStatus restartDHT(String name){
+        Device device = deviceList.getDeviceByName(name);
+        if(device == null){
+            return null;
+        }
+        RestTemplate restTemplate = new RestTemplate();
+        HttpHeaders headers = new HttpHeaders();
+
+        headers.set("token", device.getToken()); // optional - in case you auth in headers
+        HttpEntity<String> entity = new HttpEntity<String>("", headers);
+        ResponseEntity<String> respEntity = restTemplate.exchange(device.getUrl() + "/kill/dht", HttpMethod.GET, entity, String.class);
+        if(!respEntity.getBody().equals("killed")){
+            return null;
+        }
+        entity = new HttpEntity<String>("", headers);
+        respEntity = restTemplate.exchange(device.getUrl() + "/start/dht", HttpMethod.GET, entity, String.class);
+        if(!respEntity.getBody().equals("started") || !respEntity.getBody().equals("running")){
+            return null;
+        }
+        return getDeviceStatus(name);
+    }
+
 }
