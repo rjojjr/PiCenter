@@ -1,4 +1,4 @@
-import Reactfrom "react";
+import React from "react";
 
 
 import {updateSession} from "../../services/axios-service";
@@ -15,7 +15,7 @@ import {
     restartPiTempThunk
 } from "../../actions/device-actions";
 
-const DevicePanelContainer = ({user, changePage, isLoading, isError, errorMsg, isDataLoading, isDataError, logOff, getCSV, isDownload, isDownloadAvailable, tempChartStart, tempChartEnd, visualFromDate, visualToDate, chartData, getChart, setChartType, chartType, setChartFlavor, chartFlavor}) => {
+const DevicePanelContainer = ({user, changePage, isLoading, isError, errorMsg, isDeviceLoading, isDeviceError, getStatuses, restartPiTemp, restartDHT, logOff}) => {
 
     //updateSession(user.page, user);
 
