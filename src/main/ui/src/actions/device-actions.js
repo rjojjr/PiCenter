@@ -37,7 +37,6 @@ export const getStatusesThunk = (user) => async dispatch => {
         dispatch(setDeviceStatuses(response.data.deviceStatuses))
         dispatch(isDownload(true));
         dispatch(isDataLoading(false));
-        return
     } catch (error) {
         dispatch(isDataLoading(false));
         if (process.env.NODE_ENV === 'development' && debugConstants.ALERT_DEBUG_THUNKS) {
@@ -55,10 +54,9 @@ export const restartPiTempThunk = (user, pi) => async dispatch => {
         if (!response.data.responseBody.includes('success')){
             dispatch(isDeviceError(true, 'Error restarting pitemp...'));
         }
-        dispatch(setDeviceStatuses(response.data.deviceStatuses))
+        dispatch(setDeviceStatuses(response.data.deviceStatuses));
         dispatch(isDownload(true));
         dispatch(isDataLoading(false));
-        return
     } catch (error) {
         dispatch(isDataLoading(false));
         if (process.env.NODE_ENV === 'development' && debugConstants.ALERT_DEBUG_THUNKS) {
@@ -76,10 +74,9 @@ export const restartDHTThunk = (user, pi) => async dispatch => {
         if (!response.data.responseBody.includes('success')){
             dispatch(isDeviceError(true, 'Error restarting dht...'));
         }
-        dispatch(setDeviceStatuses(response.data.deviceStatuses))
+        dispatch(setDeviceStatuses(response.data.deviceStatuses));
         dispatch(isDownload(true));
         dispatch(isDataLoading(false));
-        return
     } catch (error) {
         dispatch(isDataLoading(false));
         if (process.env.NODE_ENV === 'development' && debugConstants.ALERT_DEBUG_THUNKS) {
