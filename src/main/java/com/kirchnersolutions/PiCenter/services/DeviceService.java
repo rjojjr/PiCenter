@@ -79,12 +79,12 @@ public class DeviceService {
 
         headers.set("token", device.getToken()); // optional - in case you auth in headers
         HttpEntity<String> entity = new HttpEntity<String>("", headers);
-        ResponseEntity<String> respEntity = restTemplate.exchange(device.getUrl() + "/kill/pitemp", HttpMethod.GET, entity, String.class);
+        ResponseEntity<String> respEntity = restTemplate.exchange("http://" + device.getUrl() + "/kill/pitemp", HttpMethod.GET, entity, String.class);
         if(!respEntity.getBody().equals("killed")){
             return null;
         }
         entity = new HttpEntity<String>("", headers);
-        respEntity = restTemplate.exchange(device.getUrl() + "/start/pitemp", HttpMethod.GET, entity, String.class);
+        respEntity = restTemplate.exchange("http://" + device.getUrl() + "/start/pitemp", HttpMethod.GET, entity, String.class);
         if(!respEntity.getBody().equals("started") || !respEntity.getBody().equals("running")){
             return null;
          }
@@ -101,12 +101,12 @@ public class DeviceService {
 
         headers.set("token", device.getToken()); // optional - in case you auth in headers
         HttpEntity<String> entity = new HttpEntity<String>("", headers);
-        ResponseEntity<String> respEntity = restTemplate.exchange(device.getUrl() + "/kill/dht", HttpMethod.GET, entity, String.class);
+        ResponseEntity<String> respEntity = restTemplate.exchange("http://" + device.getUrl() + "/kill/dht", HttpMethod.GET, entity, String.class);
         if(!respEntity.getBody().equals("killed")){
             return null;
         }
         entity = new HttpEntity<String>("", headers);
-        respEntity = restTemplate.exchange(device.getUrl() + "/start/dht", HttpMethod.GET, entity, String.class);
+        respEntity = restTemplate.exchange("http://" + device.getUrl() + "/start/dht", HttpMethod.GET, entity, String.class);
         if(!respEntity.getBody().equals("started") || !respEntity.getBody().equals("running")){
             return null;
         }
