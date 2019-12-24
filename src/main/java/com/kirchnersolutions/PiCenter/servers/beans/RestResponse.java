@@ -15,6 +15,8 @@ public class RestResponse {
 
     private ChartResponse chart = new ChartResponse(new TempInterval[0]);
 
+    private DeviceStatus[] deviceStatuses = new DeviceStatus[0];
+
     public RestResponse(String responseBody){
         this.responseBody = responseBody;
     }
@@ -28,6 +30,12 @@ public class RestResponse {
         this.responseBody = responseBody;
         this.restUser = restUser;
         this.chart = chartResponse;
+    }
+
+    public RestResponse(String responseBody, RestUser restUser, DeviceStatus[] deviceStatuses){
+        this.responseBody = responseBody;
+        this.restUser = restUser;
+        this.deviceStatuses = deviceStatuses;
     }
 
     public RestResponse(RestUser restUser){

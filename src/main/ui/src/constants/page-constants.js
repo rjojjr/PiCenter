@@ -19,6 +19,10 @@ export const DOWNLOAD_CSV = '/download/backup';
 export const USERS_TABS = ['Create User'];
 export const DATA_TABS = ['Export CSV', "Visual"];
 
+export const PI_STATUSES = "/status/pi"
+export const RESTART_PITEMP = "/restart/pitemp"
+export const RESTART_DHT = "/restart/dht"
+
 export const CHART_TYPES = [{label: 'Temperature Average', value: 1}, {label: 'Humidity Average', value: 2}, {label: 'Temperature High/Low', value: 3}, {label: 'Humidity High/Low', value: 4}];
 
 export const GRAPH_ELEMENTS = ['Bedroom', 'Living Room', 'Server Room', 'Office', 'Outside', 'Heat'];
