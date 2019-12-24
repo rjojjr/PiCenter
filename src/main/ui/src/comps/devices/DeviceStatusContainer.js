@@ -15,7 +15,6 @@ const DeviceStatusContainer = ({user, changePage, isLoading, isError, errorMsg, 
                     <div>
                         <header>
                             <h2>PiCenter Device Panel</h2>
-
                         </header>
                     </div>
                     <div id="main">
