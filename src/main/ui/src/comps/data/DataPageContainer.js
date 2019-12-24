@@ -30,8 +30,6 @@ const DataPageContainer = ({user, changePage, isLoading, isError, errorMsg, isDa
         }
     }
 
-    //updateSession(user.page, user);
-
     return (
         <div className="pageContainer dataPageContainer">
             {user.page === pageConstants.DATA && (

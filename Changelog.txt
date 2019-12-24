@@ -1,6 +1,18 @@
 PiCenter Changelog
 
+1.0.04
+
+12/24/2019
+Build 100124
+    Added HTTPS.
+    Added device panel
+
 1.0.03b
+12/22/2019
+Build 100123
+    Added device methods to backend.
+    Better user logging.
+
 12/20/2019
 Build 100122
     CSV export now has date strings instead of milliseconds.

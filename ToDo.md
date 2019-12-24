@@ -5,7 +5,6 @@
 
 1. Make user list searches asynchronous.#rjojjr
 2. Licenses and Documents.
-2. Consolidate actions and state objects.
 3. Split root reducer into multiples.
 4. Admin create user. #rjojjr
 5. Admin database console.
@@ -53,4 +52,7 @@
 47. Disable lines in charts.
 48. Adjust layout on mobile device.
 49. CSV export has date string instead of millis.#rjojjr
-50. Add device panel UI that uses Spring Rest client it interface with [PiRest controller](https://github.com/rjojjr/PiScalaRestController)
+50. Add device panel UI that uses Spring Rest client it interface with 
+        [PiRest controller](https://github.com/rjojjr/PiScalaRestController).#rjojjr
+51. Implement [PiRest controller](https://github.com/rjojjr/PiScalaRestController) 
+        rest client interface into device service.#rjojjr
