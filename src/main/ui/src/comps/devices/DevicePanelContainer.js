@@ -1,12 +1,8 @@
-import React from "react";
-
-
-import {updateSession} from "../../services/axios-service";
+import React, {useEffect} from "react";
 
 import {changePage, logOff} from "../../actions/universal-actions";
 import {connect} from "react-redux";
 import * as pageConstants from "../../constants/page-constants";
-import CSVPageContainer from "./CSVPage/CSVPageContainer";
 import {
     getStatusesThunk,
     isDeviceError,
@@ -18,7 +14,9 @@ import DeviceStatusContainer from "./DeviceStatusContainer";
 
 const DevicePanelContainer = ({user, changePage, isLoading, isError, errorMsg, isDeviceLoading, isDeviceError, getStatuses, restartPiTemp, restartDHT, logOff}) => {
 
-    //updateSession(user.page, user);
+    useEffect(() => {
+        getStatuses();
+    }, [getStatuses]);
 
     return (
         <div className="pageContainer devicePanelContainer">

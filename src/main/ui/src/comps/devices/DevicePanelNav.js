@@ -7,7 +7,7 @@ const DevicePanelNav = ({changePage}) => {
             <ul>
                 <li>
                     <ul>
-                        <li><b>Device Panel</b> </li>
+                        <li><b>Device Panel</b></li>
                     </ul>
                     <ul>
                         <li><a className={'link summaryLink lightText'} onClick={() => changePage(pageConstants.SUMMARY_PAGE)}>Summary</a></li>
