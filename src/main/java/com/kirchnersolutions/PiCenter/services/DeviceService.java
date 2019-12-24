@@ -57,15 +57,31 @@ public class DeviceService {
         status.setName(name);
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
-
-        headers.set("token", device.getToken()); // optional - in case you auth in headers
-        HttpEntity<ProcessRequest> entity = new HttpEntity<ProcessRequest>(new ProcessRequest("pitemp"), headers);
-        ResponseEntity<ProcessLine> respEntity = restTemplate.exchange(device.getUrl() + "/processes", HttpMethod.PUT, entity, ProcessLine.class);
-        status.setPiTempStart(respEntity.getBody().getStart());
-        headers.set("token", device.getToken()); // optional - in case you auth in headers
-        entity = new HttpEntity<ProcessRequest>(new ProcessRequest("dht"), headers);
-        respEntity = restTemplate.exchange(device.getUrl() + "/processes", HttpMethod.PUT, entity, ProcessLine.class);
-        status.setDhtStart(respEntity.getBody().getStart());
+        HttpEntity<ProcessRequest> entity;
+        ResponseEntity<ProcessLine> respEntity;
+        try{
+            headers.set("token", device.getToken()); // optional - in case you auth in headers
+            headers.set("Content-Type", "application/json");
+            entity = new HttpEntity<ProcessRequest>(new ProcessRequest("pitemp"), headers);
+            respEntity = restTemplate.exchange("http://" + device.getUrl() + ":7000/processes", HttpMethod.POST, entity, ProcessLine.class);
+            status.setPiTempStart(respEntity.getBody().getStart());
+        }catch (Exception e){
+            status.setRunning("false");
+            e.printStackTrace();
+            return status;
+        }
+        try{
+            headers.set("token", device.getToken());
+            headers.set("Content-Type", "application/json");
+            entity = new HttpEntity<ProcessRequest>(new ProcessRequest("main.py"), headers);
+            respEntity = restTemplate.exchange("http://" + device.getUrl() + ":7000/processes", HttpMethod.POST, entity, ProcessLine.class);
+            status.setDhtStart(respEntity.getBody().getStart());
+        }catch (Exception e){
+            status.setRunning("false");
+            e.printStackTrace();
+            return status;
+        }
+        status.setRunning("true");
         return status;
     }
 
@@ -76,19 +92,33 @@ public class DeviceService {
         }
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
-
-        headers.set("token", device.getToken()); // optional - in case you auth in headers
-        HttpEntity<String> entity = new HttpEntity<String>("", headers);
-        ResponseEntity<String> respEntity = restTemplate.exchange(device.getUrl() + "/kill/pitemp", HttpMethod.GET, entity, String.class);
-        if(!respEntity.getBody().equals("killed")){
-            return null;
+        HttpEntity<String> entity;
+        ResponseEntity<String> respEntity;
+        DeviceStatus status = new DeviceStatus();
+        status.setName(name);
+        try{
+            headers.set("token", device.getToken());
+            headers.set("Content-Type", "application/json");
+            entity = new HttpEntity<String>("", headers);
+            respEntity = restTemplate.exchange("http://" + device.getUrl() + ":7000/kill/pitemp", HttpMethod.GET, entity, String.class);
+            if(!respEntity.getBody().equals("killed")){
+                return getDeviceStatus(name);
+            }
+        }catch (Exception e){
+            return getDeviceStatus(name);
         }
-        entity = new HttpEntity<String>("", headers);
-        respEntity = restTemplate.exchange(device.getUrl() + "/start/pitemp", HttpMethod.GET, entity, String.class);
-        if(!respEntity.getBody().equals("started") || !respEntity.getBody().equals("running")){
-            return null;
-         }
-        return getDeviceStatus(name);
+        try{
+            headers.set("token", device.getToken());
+            headers.set("Content-Type", "application/json");
+            entity = new HttpEntity<String>("", headers);
+            respEntity = restTemplate.exchange("http://" + device.getUrl() + ":7000/start/pitemp", HttpMethod.GET, entity, String.class);
+            if(!respEntity.getBody().equals("started") || !respEntity.getBody().equals("running")){
+                return getDeviceStatus(name);
+            }
+            return getDeviceStatus(name);
+        }catch (Exception e){
+            return getDeviceStatus(name);
+        }
     }
 
     public DeviceStatus restartDHT(String name){
@@ -98,19 +128,30 @@ public class DeviceService {
         }
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
-
-        headers.set("token", device.getToken()); // optional - in case you auth in headers
-        HttpEntity<String> entity = new HttpEntity<String>("", headers);
-        ResponseEntity<String> respEntity = restTemplate.exchange(device.getUrl() + "/kill/dht", HttpMethod.GET, entity, String.class);
-        if(!respEntity.getBody().equals("killed")){
+        HttpEntity<String> entity;
+        ResponseEntity<String> respEntity;
+        try{
+            headers.set("token", device.getToken());
+            headers.set("Content-Type", "application/json");
+            entity = new HttpEntity<String>("", headers);
+            respEntity = restTemplate.exchange("http://" + device.getUrl() + ":7000/kill/dht", HttpMethod.GET, entity, String.class);
+            if(!respEntity.getBody().equals("killed")){
+                return null;
+            }
+        }catch (Exception e){
             return null;
         }
-        entity = new HttpEntity<String>("", headers);
-        respEntity = restTemplate.exchange(device.getUrl() + "/start/dht", HttpMethod.GET, entity, String.class);
-        if(!respEntity.getBody().equals("started") || !respEntity.getBody().equals("running")){
-            return null;
+        try{
+            headers.set("Content-Type", "application/json");
+            entity = new HttpEntity<String>("", headers);
+            respEntity = restTemplate.exchange("http://" + device.getUrl() + ":7000/start/dht", HttpMethod.GET, entity, String.class);
+            if(!respEntity.getBody().equals("started") || !respEntity.getBody().equals("running")){
+                return getDeviceStatus(name);
+            }
+            return getDeviceStatus(name);
+        }catch (Exception e){
+            return getDeviceStatus(name);
         }
-        return getDeviceStatus(name);
     }
 
 }

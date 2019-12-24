@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class DeviceStatus {
 
-    private String name = "", piTempStart = "", dhtStart = "";
+    private String name = "", running = "", piTempStart = "", dhtStart = "";
 
 }

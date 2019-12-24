@@ -35,14 +35,13 @@ export const getStatusesThunk = (user) => async dispatch => {
             dispatch(isDeviceError(true, 'Error getting device statuses...'));
         }
         dispatch(setDeviceStatuses(response.data.deviceStatuses))
-        dispatch(isDownload(true));
-        dispatch(isDataLoading(false));
+        dispatch(isDeviceLoading(false));
     } catch (error) {
         dispatch(isDataLoading(false));
         if (process.env.NODE_ENV === 'development' && debugConstants.ALERT_DEBUG_THUNKS) {
             alert(error);
         }
-        dispatch(isDataError(true, 'Error getting device statuses...'));
+        dispatch(isDeviceError(true, 'Error getting device statuses...'));
     }
 };
 
@@ -55,14 +54,13 @@ export const restartPiTempThunk = (user, pi) => async dispatch => {
             dispatch(isDeviceError(true, 'Error restarting pitemp...'));
         }
         dispatch(setDeviceStatuses(response.data.deviceStatuses));
-        dispatch(isDownload(true));
-        dispatch(isDataLoading(false));
+        dispatch(isDeviceLoading(false));
     } catch (error) {
         dispatch(isDataLoading(false));
         if (process.env.NODE_ENV === 'development' && debugConstants.ALERT_DEBUG_THUNKS) {
             alert(error);
         }
-        dispatch(isDataError(true, 'Error restarting pitemp...'));
+        dispatch(isDeviceError(true, 'Error restarting pitemp...'));
     }
 };
 
@@ -75,13 +73,12 @@ export const restartDHTThunk = (user, pi) => async dispatch => {
             dispatch(isDeviceError(true, 'Error restarting dht...'));
         }
         dispatch(setDeviceStatuses(response.data.deviceStatuses));
-        dispatch(isDownload(true));
-        dispatch(isDataLoading(false));
+        dispatch(isDeviceLoading(false));
     } catch (error) {
         dispatch(isDataLoading(false));
         if (process.env.NODE_ENV === 'development' && debugConstants.ALERT_DEBUG_THUNKS) {
             alert(error);
         }
-        dispatch(isDataError(true, 'Error restarting dht...'));
+        dispatch(isDeviceError(true, 'Error restarting dht...'));
     }
 };

@@ -97,6 +97,12 @@ header, footer, article, section, nav, aside {
   padding: 1em;
 }
 
+.deviceIndicator{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
 head{
 
 }

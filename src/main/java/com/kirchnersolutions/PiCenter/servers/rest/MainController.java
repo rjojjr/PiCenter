@@ -267,7 +267,7 @@ public class MainController {
             userService.systemInvalidateUser((String) httpSession.getAttribute("username"), "unauthentic session");
             return new RestResponse("{body: 'error', error: 'invalid token'}");
         }
-        if (!updateSession((String) httpSession.getAttribute("username"), userId, request.getRemoteAddr(), "/devices/panel")) {
+        if (!updateSession((String) httpSession.getAttribute("username"), userId, request.getRemoteAddr(), "/status/pi")) {
             return new RestResponse("{body: 'error', error: 'unauthentic session'}", new RestUser());
         }
         if (!userService.isAdmin((String) httpSession.getAttribute("username"))) {
@@ -292,7 +292,7 @@ public class MainController {
         if(pi == null){
             return new RestResponse("{body: 'error invalid device selection'}", userService.getRestUser((String) httpSession.getAttribute("username")));
         }
-        if (!updateSession((String) httpSession.getAttribute("username"), userId, request.getRemoteAddr(), "/devices/panel")) {
+        if (!updateSession((String) httpSession.getAttribute("username"), userId, request.getRemoteAddr(), "/status/pi")) {
             return new RestResponse("{body: 'error', error: 'unauthentic session'}", new RestUser());
         }
         if (!userService.isAdmin((String) httpSession.getAttribute("username"))) {

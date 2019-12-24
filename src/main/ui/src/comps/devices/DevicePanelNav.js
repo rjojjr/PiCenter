@@ -1,26 +1,22 @@
-import React from 'react';
-
+import React from "react";
 import * as pageConstants from "../../constants/page-constants";
 
-const SummaryNav = ({changePage}) => {
-    return (
-        <div className={"nav summaryNav"}>
+const DevicePanelNav = ({changePage}) => {
+    return(
+        <div className={"nav devicePanelNav"}>
             <ul>
                 <li>
                     <ul>
-                        <li>
-                            <b>Summary</b>
-                        </li>
+                        <li><b>Device Panel</b></li>
                     </ul>
                     <ul>
+                        <li><a className={'link summaryLink lightText'} onClick={() => changePage(pageConstants.SUMMARY_PAGE)}>Summary</a></li>
                         <li><a className={'link usersLink lightText'} onClick={() => changePage(pageConstants.USERS)}>Users</a></li>
                         <li><a className={'link dataLink lightText'} onClick={() => changePage(pageConstants.DATA)}>Data</a></li>
-                        <li><a className={'link dataLink lightText'} onClick={() => changePage(pageConstants.PI_STATUSES)}>Device Panel</a></li>
                     </ul>
                 </li>
             </ul>
         </div>
     );
 }
-
-export default SummaryNav;
+export default DevicePanelNav

@@ -3,7 +3,8 @@ PiCenter Changelog
 1.0.04
 
 Build 100124
-
+    Added HTTPS.
+    Added device panel
 
 1.0.03b
 12/22/2019
