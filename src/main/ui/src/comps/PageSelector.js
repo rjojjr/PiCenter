@@ -8,6 +8,7 @@ import SummaryPageLoader from "./summary/SummaryPageLoader";
 import {updateSession} from "../services/axios-service";
 import UserPageContainer from "./users/UsersPageContainer";
 import DataPageContainer from "./data/DataPageContainer";
+import DevicePanelContainer from "./devices/DevicePanelContainer";
 
 const PageSelector = ({user}) =>{
 
@@ -29,6 +30,7 @@ const PageSelector = ({user}) =>{
             {page === constants.SUMMARY_PAGE && <SummaryPageLoader />}
             {page.includes(constants.USERS) && <UserPageContainer />}
             {page.includes(constants.DATA) && <DataPageContainer />}
+            {page === constants.PI_STATUSES && <DevicePanelContainer />}
         </div>
     )
 }

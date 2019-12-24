@@ -15,7 +15,7 @@ import DeviceStatusContainer from "./DeviceStatusContainer";
 const DevicePanelContainer = ({user, changePage, isLoading, isError, errorMsg, isDeviceLoading, isDeviceError, getStatuses, restartPiTemp, restartDHT, logOff, deviceData}) => {
 
     useEffect(() => {
-        getStatuses();
+        getStatuses(user);
     }, [getStatuses]);
 
     return (

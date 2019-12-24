@@ -1,5 +1,5 @@
 import React from "react";
-import * as pageConstants from "../../../constants/page-constants";
+import * as pageConstants from "../../constants/page-constants";
 
 const DevicePanelNav = ({changePage}) => {
     return(

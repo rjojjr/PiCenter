@@ -4,6 +4,7 @@ import GenericPageHeader from "../global/GenericPageHeader";
 import * as pageConstants from "../../constants/page-constants";
 import Button from "react-bootstrap/Button";
 import DevicePanelNav from "./DevicePanelNav";
+import DeviceStatusPage from "./DeviceStatusPage";
 
 const DeviceStatusContainer = ({user, changePage, isLoading, isError, errorMsg, isDeviceLoading, isDeviceError, getStatuses, restartPiTemp, restartDHT, logOff, deviceData}) => {
 
@@ -24,6 +25,10 @@ const DeviceStatusContainer = ({user, changePage, isLoading, isError, errorMsg, 
                                                    onClickHandler={() => {}} tabs={pageConstants.DEVICE_TABS}/>
                             </header>
                             <p>{errorMsg}</p>
+                            <DeviceStatusPage getStatuses={getStatuses}
+                                              restartPiTemp={restartPiTemp}
+                                              restartDHT={restartDHT}
+                                              deviceData={deviceData}/>
                         </section>
                         <nav className={"deviceStatusPage"}>
                             <DevicePanelNav changePage={changePage}/>
