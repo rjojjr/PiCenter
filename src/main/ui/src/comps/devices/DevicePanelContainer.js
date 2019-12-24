@@ -14,14 +14,16 @@ import {
     restartDHTThunk,
     restartPiTempThunk
 } from "../../actions/device-actions";
+import DeviceStatusContainer from "./DeviceStatusContainer";
 
 const DevicePanelContainer = ({user, changePage, isLoading, isError, errorMsg, isDeviceLoading, isDeviceError, getStatuses, restartPiTemp, restartDHT, logOff}) => {
 
     //updateSession(user.page, user);
 
     return (
-        <div className="pageContainer dataPageContainer">
+        <div className="pageContainer devicePanelContainer">
             {user.page === pageConstants.PI_STATUSES && (
+                <DeviceStatusContainer user={user} changePage={changePage} isLoading={isLoading} isError={isError} errorMsg={errorMsg} isDeviceLoading={isDeviceLoading} isDeviceError={isDeviceError} getStatuses={getStatuses} restartPiTemp={restartPiTemp} restartDHT={restartDHT} logOff={logOff}/>
             )}
         </div>
     )

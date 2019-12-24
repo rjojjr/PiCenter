@@ -18,6 +18,7 @@ export const DOWNLOAD_CSV = '/download/backup';
 
 export const USERS_TABS = ['Create User'];
 export const DATA_TABS = ['Export CSV', "Visual"];
+export const DEVICE_TABS = ['Device Statuses'];
 
 export const PI_STATUSES = "/status/pi"
 export const RESTART_PITEMP = "/restart/pitemp"
