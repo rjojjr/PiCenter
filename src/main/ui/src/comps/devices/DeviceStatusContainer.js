@@ -5,7 +5,7 @@ import * as pageConstants from "../../constants/page-constants";
 import Button from "react-bootstrap/Button";
 import DevicePanelNav from "./DevicePanelNav";
 
-const DeviceStatusContainer = ({user, changePage, isLoading, isError, errorMsg, isDeviceLoading, isDeviceError, getStatuses, restartPiTemp, restartDHT, logOff}) => {
+const DeviceStatusContainer = ({user, changePage, isLoading, isError, errorMsg, isDeviceLoading, isDeviceError, getStatuses, restartPiTemp, restartDHT, logOff, deviceData}) => {
 
     return(
         <div className={"pageContainer deviceStatusContainer"}>

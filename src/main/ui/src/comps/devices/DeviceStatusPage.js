@@ -1,5 +1,6 @@
 import React from "react";
 
-const DeviceStatusPage = ({}) => {
+const DeviceStatusPage = ({getStatuses, restartPiTemp, restartDHT, deviceData}) => {
     
 }
+export default DeviceStatusPage

@@ -12,7 +12,7 @@ import {
 } from "../../actions/device-actions";
 import DeviceStatusContainer from "./DeviceStatusContainer";
 
-const DevicePanelContainer = ({user, changePage, isLoading, isError, errorMsg, isDeviceLoading, isDeviceError, getStatuses, restartPiTemp, restartDHT, logOff}) => {
+const DevicePanelContainer = ({user, changePage, isLoading, isError, errorMsg, isDeviceLoading, isDeviceError, getStatuses, restartPiTemp, restartDHT, logOff, deviceData}) => {
 
     useEffect(() => {
         getStatuses();
@@ -21,7 +21,18 @@ const DevicePanelContainer = ({user, changePage, isLoading, isError, errorMsg, i
     return (
         <div className="pageContainer devicePanelContainer">
             {user.page === pageConstants.PI_STATUSES && (
-                <DeviceStatusContainer user={user} changePage={changePage} isLoading={isLoading} isError={isError} errorMsg={errorMsg} isDeviceLoading={isDeviceLoading} isDeviceError={isDeviceError} getStatuses={getStatuses} restartPiTemp={restartPiTemp} restartDHT={restartDHT} logOff={logOff}/>
+                <DeviceStatusContainer user={user}
+                                       changePage={changePage}
+                                       isLoading={isLoading}
+                                       isError={isError}
+                                       errorMsg={errorMsg}
+                                       isDeviceLoading={isDeviceLoading}
+                                       isDeviceError={isDeviceError}
+                                       getStatuses={getStatuses}
+                                       restartPiTemp={restartPiTemp}
+                                       restartDHT={restartDHT}
+                                       logOff={logOff}
+                                       deviceData={deviceData}/>
             )}
         </div>
     )
