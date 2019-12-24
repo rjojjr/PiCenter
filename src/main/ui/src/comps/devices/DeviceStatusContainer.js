@@ -8,7 +8,7 @@ import DeviceStatusPage from "./DeviceStatusPage";
 
 const DeviceStatusContainer = ({user, changePage, isLoading, isError, errorMsg, isDeviceLoading, isDeviceError, getStatuses, restartPiTemp, restartDHT, logOff, deviceData}) => {
 
-    return(
+    return (
         <div className={"pageContainer deviceStatusContainer"}>
             <LoadingView isLoading={isLoading}/>
             {!isLoading && (
@@ -22,13 +22,15 @@ const DeviceStatusContainer = ({user, changePage, isLoading, isError, errorMsg, 
                         <section className={"deviceStatusPage"}>
                             <header className={"deviceStatusPage"}>
                                 <GenericPageHeader isLoading={isLoading} currentTabIndex={0}
-                                                   onClickHandler={() => {}} tabs={pageConstants.DEVICE_TABS}/>
+                                                   onClickHandler={() => {
+                                                   }} tabs={pageConstants.DEVICE_TABS}/>
                             </header>
                             <p>{errorMsg}</p>
                             <DeviceStatusPage getStatuses={getStatuses}
                                               restartPiTemp={restartPiTemp}
                                               restartDHT={restartDHT}
-                                              deviceData={deviceData}/>
+                                              deviceData={deviceData}
+                                              user={user}/>
                         </section>
                         <nav className={"deviceStatusPage"}>
                             <DevicePanelNav changePage={changePage}/>

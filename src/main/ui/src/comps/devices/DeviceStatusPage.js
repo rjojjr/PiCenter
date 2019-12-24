@@ -2,7 +2,7 @@ import React from "react";
 import DeviceIndicator from "./DeviceIndicator";
 import {Button} from "react-bootstrap";
 
-const DeviceStatusPage = ({getStatuses, restartPiTemp, restartDHT, deviceData}) => {
+const DeviceStatusPage = ({user, getStatuses, restartPiTemp, restartDHT, deviceData}) => {
 
     return (
         <div className={"page deviceStatusPage"}>
@@ -15,7 +15,7 @@ const DeviceStatusPage = ({getStatuses, restartPiTemp, restartDHT, deviceData}) 
                     );
                 })}
             </div>
-            <Button variant={"primary"} onClick={getStatuses}>Refresh</Button>
+            <Button variant={"primary"} onClick={() => getStatuses(user)}>Refresh</Button>
         </div>
     );
 
