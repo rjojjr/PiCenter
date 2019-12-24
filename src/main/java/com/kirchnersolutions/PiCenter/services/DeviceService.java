@@ -60,7 +60,7 @@ public class DeviceService {
 
         headers.set("token", device.getToken()); // optional - in case you auth in headers
         HttpEntity<ProcessRequest> entity = new HttpEntity<ProcessRequest>(new ProcessRequest("pitemp"), headers);
-        ResponseEntity<ProcessLine> respEntity = restTemplate.exchange(device.getUrl() + "/processes", HttpMethod.PUT, entity, ProcessLine.class);
+        ResponseEntity<ProcessLine> respEntity = restTemplate.exchange("http://" + device.getUrl() + "/processes", HttpMethod.PUT, entity, ProcessLine.class);
         status.setPiTempStart(respEntity.getBody().getStart());
         headers.set("token", device.getToken()); // optional - in case you auth in headers
         entity = new HttpEntity<ProcessRequest>(new ProcessRequest("dht"), headers);
