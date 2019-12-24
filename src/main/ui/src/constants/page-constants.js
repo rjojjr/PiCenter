@@ -11,13 +11,21 @@ export const CREATE_USER = '/users/create';
 
 export const DATA = '/data';
 export const CSV_EXPORT = '/data/csv';
-export const DATA_VISUAL = '/data/vi';
+export const DATA_VISUAL = '/data/visual';
+export const DATA_VISUAL_DIFF = '/data/visual/diff';
 
 export const DOWNLOAD_CSV = '/download/backup';
 
 export const USERS_TABS = ['Create User'];
 export const DATA_TABS = ['Export CSV', "Visual"];
 
+export const PI_STATUSES = "/status/pi"
+export const RESTART_PITEMP = "/restart/pitemp"
+export const RESTART_DHT = "/restart/dht"
+
+export const CHART_TYPES = [{label: 'Temperature Average', value: 1}, {label: 'Humidity Average', value: 2}, {label: 'Temperature High/Low', value: 3}, {label: 'Humidity High/Low', value: 4}];
+
 export const GRAPH_ELEMENTS = ['Bedroom', 'Living Room', 'Server Room', 'Office', 'Outside', 'Heat'];
-export const GRAPH_PERIODS = ['1 Day', '2 Day', '3 Day', '1 Week', '2 Week', '1 Month', '3 Month']
+export const GRAPH_PERIODS = ['1 Day', '2 Day', '3 Day', '1 Week', '2 Week', '1 Month', '3 Month'];
+
 

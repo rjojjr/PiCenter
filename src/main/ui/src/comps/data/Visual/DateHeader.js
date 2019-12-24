@@ -10,7 +10,7 @@ import Button from 'react-bootstrap/Button';
  * @returns {*}
  * @constructor
  */
-const GenericPageHeader = ({ onClickHandler, tabs, currentTabIndex, isLoading }) => {
+const DateHeader = ({ onClickHandler, tabs, currentTabIndex, isLoading }) => {
 
     const isDisable = (index) => {
         return index === currentTabIndex
@@ -30,7 +30,7 @@ const GenericPageHeader = ({ onClickHandler, tabs, currentTabIndex, isLoading })
                             //disabled={() => isDisable(index)}
                             className={"tabSelector"}
                             onClick={() => {
-                                onClickHandler(index)
+                                onClickHandler(index);
                             }}
                         >
                             {tab}
@@ -42,4 +42,4 @@ const GenericPageHeader = ({ onClickHandler, tabs, currentTabIndex, isLoading })
     );
 };
 
-export default GenericPageHeader;
+export default DateHeader;

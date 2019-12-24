@@ -1,21 +1,21 @@
 import React from "react";
 import * as pageConstants from "../../../constants/page-constants";
 
-const CSVPageNav = ({changePage}) => {
+const VisualPageNav = ({changePage}) => {
     return(
-        <div className={"nav csvPageNav"}>
+        <div className={"nav visualPageNav"}>
             <ul>
                 <li>
                     <ul>
                         <li><b>Data</b>
-                        <ul>
-                            <li>
-                                <b>CSV Export</b>
-                                <li><a className={'link summaryLink lightText'} onClick={() => changePage(pageConstants.DATA_VISUAL)}>Visual</a></li>
-                            </li>
-                        </ul>
+                            <ul>
+                                <li>
+                                    <b>Visual</b>
+                                    <li><a className={'link summaryLink lightText'} onClick={() => changePage(pageConstants.CSV_EXPORT)}>CSV Export</a></li>
+                                </li>
+                            </ul>
                         </li>
-                        
+
                     </ul>
                     <ul>
                         <li><a className={'link summaryLink lightText'} onClick={() => changePage(pageConstants.SUMMARY_PAGE)}>Summary</a></li>
@@ -26,4 +26,4 @@ const CSVPageNav = ({changePage}) => {
         </div>
     );
 }
-export default CSVPageNav
+export default VisualPageNav

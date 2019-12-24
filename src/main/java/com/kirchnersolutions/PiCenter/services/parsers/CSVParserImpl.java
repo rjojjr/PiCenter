@@ -29,7 +29,7 @@ public class CSVParserImpl implements CSVParser{
         StringBuilder CSV = new StringBuilder(items.get(0).getType() + "." + items.get(0).getCSVHeader());
         for (DBItem item : items) {
             CSV.append("\r\n" +
-                    item.toCSV());
+                    item.toCSVDateString());
         }
         return CSV.toString();
     }

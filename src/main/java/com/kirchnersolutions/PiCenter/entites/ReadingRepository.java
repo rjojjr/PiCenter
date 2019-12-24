@@ -30,6 +30,8 @@ public interface ReadingRepository extends CrudRepository<Reading, Long>, JpaRep
 
     List<Reading> findByTimeBetweenAndRoomOrderByTimeDesc(Long start, Long stop, String room);
 
+    List<Reading> findByTimeBetweenAndRoomOrderByTempDesc(Long start, Long stop, String room);
+
     List<Reading> findByTimeLessThanAndRoomOrderByTimeDesc(Long time, String room);
 
     List<Reading> findByTimeGreaterThanAndRoomOrderByTimeDesc(Long time, String room);

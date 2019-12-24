@@ -1,11 +1,35 @@
 PiCenter Changelog
 
+1.0.03b
+
+Build 100123
+    Added device methods to backend.
+    Better user logging.
+
+12/20/2019
+Build 100122
+    CSV export now has date strings instead of milliseconds.
+
+1.0.02b
+12/16/2019
+Build 100121
+    Add high/low charts to ui.
+
+1.0.01b
+12/14/2019
+Build 100120
+    Fix camel case chart legend.
+    Add drop down chart selector to visual ui page.
+    Room summaries computed in separate threads now.
+    Pages fill entire viewport.
+
+12/11/2019
+Build 100119
+    Added TempChart ReChart ui component.
+    Added GenericDatePicker react-datepicker ui component.
+    Added /data/visual endpoint.
 
 1.0.00a
-
-Build 100119
-
-
 12/06/2019
 Build 100118
     Fixed bug that caused all stats to be zero if missing some readings.

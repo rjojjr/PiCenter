@@ -23,8 +23,13 @@ import com.kirchnersolutions.PiCenter.entites.Reading;
 import com.kirchnersolutions.PiCenter.entites.ReadingRepository;
 import com.kirchnersolutions.PiCenter.servers.beans.RoomSummary;
 import com.kirchnersolutions.utilities.BigDecimalMath;
+import com.kirchnersolutions.utilities.CalenderConverter;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import org.hibernate.boot.jaxb.hbm.spi.Adapter1;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.DependsOn;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 import com.kirchnersolutions.PiCenter.constants.RoomConstants;
 import com.kirchnersolutions.PiCenter.constants.StatConstants;
@@ -33,24 +38,125 @@ import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.Future;
+
+import static com.kirchnersolutions.utilities.CalenderConverter.getDaysInMonth;
 
 @DependsOn({"debuggingService", "appUserRepository", "readingRepository"})
 @Service
-public class SummaryService {
+public class StatService {
+
+    private ReadingRepository readingRepository;
+    private ThreadPoolTaskExecutor threadPoolTaskExecutor;
 
     @Autowired
-    private ReadingRepository readingRepository;
+    public StatService(ReadingRepository readingRepository, ThreadPoolTaskExecutor taskExecutor){
+        this.readingRepository = readingRepository;
+        this.threadPoolTaskExecutor = taskExecutor;
+    }
 
-    public RoomSummary[] getRoomSummaries(int precision){
+    public RoomSummary[] getRoomSummaries(int precision) throws Exception{
         String[] rooms = RoomConstants.rooms;
         RoomSummary[] summaries = new RoomSummary[rooms.length];
+        Future<RoomSummary>[] futures = new Future[rooms.length];
         int count = 0;
         for(String room : rooms){
-            summaries[count] = getRoomSummary(room, precision);
+            futures[count] = threadPoolTaskExecutor.submit(() -> getRoomSummary(room, precision));
+            count++;
+        }
+        count = 0;
+        for(String room : rooms){
+            summaries[count] = futures[count].get();
             count++;
         }
         return summaries;
+    }
+
+    /**
+     * Returns array of temp and humidity average of readings between time +- window in room room.
+     * @param time
+     * @param window
+     * @param room
+     * @return
+     */
+    double[] getAverage(long time, long window, String room){
+        long startTime = time - window;
+        long endTime = time + window;
+        List<Reading> readings = readingRepository.findByTimeBetweenAndRoomOrderByTimeDesc(startTime, endTime, room);
+        return getMeans(getSums(readings));
+    }
+
+    /**
+     * Returns array of temp and humidity average of readings between window[0] and window[1]..
+     * @param window:  long[2]
+     * @param room
+     * @return
+     */
+    double[] getAverage(long window[], String room){
+        if(window.length != 2){
+            return null;
+        }
+        long startTime = window[0];
+        long endTime = window[1];
+        List<Reading> readings = readingRepository.findByTimeBetweenAndRoomOrderByTimeDesc(startTime, endTime, room);
+        return getMeans(getSums(readings));
+    }
+
+
+    String[] getHighLow(String date, String room){
+        long start = CalenderConverter.getMillisFromDateString(date, "/");
+        long end = start + CalenderConverter.DAY;
+        List<Reading> readings = readingRepository.findByTimeBetweenAndRoomOrderByTempDesc(start, end, room);
+        String[] results = new String[2];
+        if(readings.size() == 0){
+            results[0] = "0-0";
+            results[1] = "0-0";
+            return results;
+        }
+        results[0] = readings.get(0).getTemp() + "-" + readings.get(readings.size() - 1).getTemp();
+        Collections.sort(readings, (r1, r2) -> {
+            return r2.getHumidity() - r1.getHumidity();
+        });
+        results[1] = readings.get(0).getHumidity() + "-" + readings.get(readings.size() - 1).getHumidity();
+        return results;
+    }
+
+    String[] getHighLow(long start, long end, String room){
+        List<Reading> readings = readingRepository.findByTimeBetweenAndRoomOrderByTempDesc(start, end, room);
+        String[] results = new String[2];
+        if(readings.size() == 0){
+            results[0] = "0-0";
+            results[1] = "0-0";
+            return results;
+        }
+        results[0] = readings.get(0).getTemp() + "-" + readings.get(readings.size() - 1).getTemp();
+        Collections.sort(readings, (r1, r2) -> {
+            return r2.getHumidity() - r1.getHumidity();
+        });
+        results[1] = readings.get(0).getHumidity() + "-" + readings.get(readings.size() - 1).getHumidity();
+        return results;
+    }
+
+    private double[] getMeans(SumBean sums){
+        double[] means = new double[2];
+        means[0] = Double.parseDouble(round(findMean(sums.getSums()[0], sums.getCount()), 1));
+        means[1] = Double.parseDouble(round(findMean(sums.getSums()[1], sums.getCount()), 1));
+        return means;
+    }
+
+    private SumBean getSums(List<Reading> readings){
+        int count = 0;
+        BigDecimal temp = new BigDecimal("0");
+        BigDecimal humidity = new BigDecimal("0");
+        for(Reading reading : readings){
+            temp = temp.add(new BigDecimal(reading.getTemp()));
+            humidity = humidity.add(new BigDecimal(reading.getHumidity()));
+            count++;
+        }
+        BigDecimal[] sums = {temp, humidity};
+        return new SumBean(sums, count);
     }
 
     private RoomSummary getRoomSummary(String roomName, int precision){
@@ -265,5 +371,12 @@ public class SummaryService {
         }
         sum = sum.divide(new BigDecimal(count), mc);
         return sum.toString();
+    }
+
+    @Data
+    @AllArgsConstructor
+    private class SumBean {
+        BigDecimal[] sums = new BigDecimal[2];
+        int count = 0;
     }
 }

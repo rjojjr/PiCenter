@@ -1,11 +1,10 @@
 #ToDo List
 
-####***Append #(Your handle)to end of item completed***
-####***Append #CUR(Your handle) to end of your current item***
+###***Append #(Your handle)to end of item completed***
+###***Append #CUR(Your handle) to end of your current item***
 
 1. Make user list searches asynchronous.#rjojjr
 2. Licenses and Documents.
-2. Consolidate actions and state objects.
 3. Split root reducer into multiples.
 4. Admin create user. #rjojjr
 5. Admin database console.
@@ -42,4 +41,17 @@
 36. Add manual backup endpoint.#rjojjr
 37. Add backup UI components and allow custom csv export filters. 
 38. Pass tokens through auth header.
-39. Add data visualization page to UI.#CURrjojjr
+39. Add data visualization page to UI.#rjojjr
+40. Add data/visual endpoint.#rjojjr
+41. Add humidity selector for data visual.#rjojjr
+42. Add filters to CSV export.
+43. Run room summary generators in thread pool.#rjojjr
+44. Add sensor downtime calculator.
+45. Add temperature high/low charts.#rjojjr
+46. Add temperature high/low for each period in summary.
+47. Disable lines in charts.
+48. Adjust layout on mobile device.
+49. CSV export has date string instead of millis.#rjojjr
+50. Add device panel UI that uses Spring Rest client it interface with [PiRest controller](https://github.com/rjojjr/PiScalaRestController)
+51. Implement [PiRest controller](https://github.com/rjojjr/PiScalaRestController) 
+        rest client interface into device service.#rjojjr

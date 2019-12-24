@@ -16,7 +16,7 @@ const SummaryPageContainer = ({
                                   isLoading,
                                   canLoad,
                                   logOff,
-                                    changePage
+                                  changePage
                               }) => {
     const [sensorIndex, setSensorIndex] = useState(0);
 
@@ -36,11 +36,13 @@ const SummaryPageContainer = ({
         <div className={"pageContainer summaryPageContainer"}>
             <LoadingView isLoading={isLoading} message={"Loading.."}/>
             {canLoad && !isLoading && (
-                <div>
-                    <header>
-                        <h2>PiCenter Sensor Summary</h2>
+                <div className={"pageContainer"}>
+                    <div>
+                        <header>
+                            <h2>PiCenter Sensor Summary</h2>
 
-                    </header>
+                        </header>
+                    </div>
                     <div id="main">
                         <section className={"summaryPage"}>
                             <header className={"summaryPage"}>
@@ -67,9 +69,11 @@ const SummaryPageContainer = ({
                             </Button>
                         </aside>
                     </div>
-                    <footer className={"summaryPage"}>
-                        <a href={"http://github.com/rjojjr"}>Visit me on github</a>
-                    </footer>
+                    <div>
+                        <footer >
+                            <a className={"lightText"} href={"http://github.com/rjojjr"}>Visit me on github</a>
+                        </footer>
+                    </div>
                 </div>
             )}
         </div>
