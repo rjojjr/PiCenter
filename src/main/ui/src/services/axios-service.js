@@ -4,7 +4,7 @@ import {usersDoneLoading} from "../actions/user-actions";
 import {dateStringFormat} from "./helper-service";
 import {PI_STATUSES} from "../constants/page-constants";
 import {RESTART_PITEMP} from "../constants/page-constants";
-import {RESTART_DHT} from "../constants/page-constants";
+import {RESTART_DHT, RESTART_PI} from "../constants/page-constants";
 
 /*const getEndpoint = endpoint => {
   return process.env.NODE_ENV === "development" ||
@@ -91,4 +91,8 @@ export const restartPitemp = (user, pi) => {
 
 export const restartDHT = (user, pi) => {
   return axios.get(RESTART_DHT + '?userId=' + user.token + "&pi=" + pi);
+}
+
+export const restartPI = (user, pi) => {
+  return axios.get(RESTART_PI + '?userId=' + user.token + "&pi=" + pi);
 }

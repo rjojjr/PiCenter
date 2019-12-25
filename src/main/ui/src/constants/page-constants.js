@@ -23,6 +23,7 @@ export const DEVICE_TABS = ['Device Statuses'];
 export const PI_STATUSES = "/status/pi"
 export const RESTART_PITEMP = "/restart/pitemp"
 export const RESTART_DHT = "/restart/dht"
+export const RESTART_PI = "/restart/pi"
 
 export const CHART_TYPES = [{label: 'Temperature Average', value: 1}, {label: 'Humidity Average', value: 2}, {label: 'Temperature High/Low', value: 3}, {label: 'Humidity High/Low', value: 4}];
 

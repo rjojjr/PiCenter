@@ -335,6 +335,35 @@ public class MainController {
         return new RestResponse("{body: 'failed'}", userService.getRestUser((String) httpSession.getAttribute("username")), deviceService.getDeviceStatuses());
     }
 
+    @GetMapping("restart/pi")
+    public RestResponse restartPi(HttpServletResponse response, @RequestParam String userId, @RequestParam String pi) throws Exception {
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes())
+                .getRequest();
+        HttpSession httpSession = cookie(request, response);
+        if (httpSession.getAttribute("username") == null) {
+            return new RestResponse();
+        }
+        if (userId == null || userId.toCharArray().length < 5) {
+            userService.systemInvalidateUser((String) httpSession.getAttribute("username"), "unauthentic session");
+            return new RestResponse("{body: 'error', error: 'invalid token'}");
+        }
+        if(pi == null){
+            return new RestResponse("{body: 'error invalid device selection'}", userService.getRestUser((String) httpSession.getAttribute("username")));
+        }
+        if (!updateSession((String) httpSession.getAttribute("username"), userId, request.getRemoteAddr(), "/devices/panel")) {
+            return new RestResponse("{body: 'error', error: 'unauthentic session'}", new RestUser());
+        }
+        if (!userService.isAdmin((String) httpSession.getAttribute("username"))) {
+            return new RestResponse("{body: 'failed not authorized'}", userService.getRestUser((String) httpSession.getAttribute("username")));
+        }
+        userService.createUserLog((String) httpSession.getAttribute("username"), "restart dht pi " + pi);
+        if(deviceService.restartDHT(pi) != null){
+            response.setStatus( HttpServletResponse.SC_OK );
+            return new RestResponse("{body: 'success'}", userService.getRestUser((String) httpSession.getAttribute("username")), deviceService.getDeviceStatuses());
+        }
+        return new RestResponse("{body: 'failed'}", userService.getRestUser((String) httpSession.getAttribute("username")), deviceService.getDeviceStatuses());
+    }
+
     private boolean updateSession(String username, String token, String ip, String page) throws Exception {
         debuggingService.trace("Update username: " + username + " token: " + token + " ip: " + ip + " page: " + page);
         if (userService.updateSession(username, token, ip, page) == null) {
