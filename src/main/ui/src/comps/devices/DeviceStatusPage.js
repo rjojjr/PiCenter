@@ -2,7 +2,7 @@ import React from "react";
 import DeviceIndicator from "./DeviceIndicator";
 import {Button, Card} from "react-bootstrap";
 
-const DeviceStatusPage = ({user, getStatuses, restartPiTemp, restartDHT, deviceData}) => {
+const DeviceStatusPage = ({user, getStatuses, restartPiTemp, restartDHT, deviceData, restartPi}) => {
 
     const cardColor  = (device) => {
         if(device.running === "running" && device.piTempStart !== '' && device.dhtStart !== ''){
@@ -23,7 +23,8 @@ const DeviceStatusPage = ({user, getStatuses, restartPiTemp, restartDHT, deviceD
                                         <DeviceIndicator device={device}
                                                          restartPiTemp={restartPiTemp}
                                                          restartDHT={restartDHT}
-                                                        user={user}/>
+                                                         user={user}
+                                                         restartPi={restartPi}/>
                                     </Card.Body>
                                 </Card>
 

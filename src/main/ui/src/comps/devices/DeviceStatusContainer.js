@@ -6,7 +6,7 @@ import Button from "react-bootstrap/Button";
 import DevicePanelNav from "./DevicePanelNav";
 import DeviceStatusPage from "./DeviceStatusPage";
 
-const DeviceStatusContainer = ({user, changePage, isLoading, isError, errorMsg, isDeviceLoading, isDeviceError, getStatuses, restartPiTemp, restartDHT, logOff, deviceData}) => {
+const DeviceStatusContainer = ({user, changePage, isLoading, isError, errorMsg, isDeviceLoading, isDeviceError, getStatuses, restartPiTemp, restartDHT, logOff, deviceData, restartPi}) => {
 
     return (
         <div className={"pageContainer deviceStatusContainer"}>
@@ -30,7 +30,8 @@ const DeviceStatusContainer = ({user, changePage, isLoading, isError, errorMsg, 
                                               restartPiTemp={restartPiTemp}
                                               restartDHT={restartDHT}
                                               deviceData={deviceData}
-                                              user={user}/>
+                                              user={user}
+                                              restartPi={restartPi}/>
                         </section>
                         <nav className={"deviceStatusPage"}>
                             <DevicePanelNav changePage={changePage}/>

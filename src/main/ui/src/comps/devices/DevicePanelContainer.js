@@ -8,11 +8,11 @@ import {
     isDeviceError,
     isDeviceLoading,
     restartDHTThunk,
-    restartPiTempThunk
+    restartPiTempThunk, restartPiThunk
 } from "../../actions/device-actions";
 import DeviceStatusContainer from "./DeviceStatusContainer";
 
-const DevicePanelContainer = ({user, changePage, isLoading, isError, errorMsg, isDeviceLoading, isDeviceError, getStatuses, restartPiTemp, restartDHT, logOff, deviceData}) => {
+const DevicePanelContainer = ({user, changePage, isLoading, isError, errorMsg, isDeviceLoading, isDeviceError, getStatuses, restartPiTemp, restartDHT, logOff, deviceData, restartPi}) => {
 
     useEffect(() => {
         getStatuses(user);
@@ -32,7 +32,8 @@ const DevicePanelContainer = ({user, changePage, isLoading, isError, errorMsg, i
                                        restartPiTemp={restartPiTemp}
                                        restartDHT={restartDHT}
                                        logOff={logOff}
-                                       deviceData={deviceData}/>
+                                       deviceData={deviceData}
+                                       restartPi={restartPi}/>
             )}
         </div>
     )
@@ -54,7 +55,8 @@ const mapDispatchToProps = {
     isDeviceError,
     getStatuses: getStatusesThunk,
     restartPiTemp: restartPiTempThunk,
-    restartDHT: restartDHTThunk
+    restartDHT: restartDHTThunk,
+    restartPi: restartPiThunk
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(DevicePanelContainer);
