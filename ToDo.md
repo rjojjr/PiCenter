@@ -55,3 +55,4 @@
 50. Add device panel UI that uses Spring Rest client it interface with [PiRest controller](https://github.com/rjojjr/PiScalaRestController) #rjojjr
 51. Implement [PiRest controller](https://github.com/rjojjr/PiScalaRestController) rest client interface into device service.#rjojjr
 52. Add restart device button to device panel.
+53. Add bootstrap card to device panel ui. #CURrjojjr

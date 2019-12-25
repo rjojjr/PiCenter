@@ -90,8 +90,6 @@ task prod(type: Jar){
 }
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	//compile 'org.springframework.mobile:spring-mobile-device:2.0.0.BUILD-SNAPSHOT'
-	//implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	compile name: 'Utilities-1.1.00'
