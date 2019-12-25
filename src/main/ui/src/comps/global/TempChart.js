@@ -7,17 +7,17 @@ const TempChart = ({data}) => {
     return (
         <LineChart
             width={800}
-            height={300}
+            height={400}
             data={data}
             margin={{
-                top: 5, right: 30, left: 20, bottom: 5,
+                top: 5, right: 30, left: 20, bottom: 30,
             }}
         >
             <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" />
+            <XAxis dataKey="name" tick={<CustomizedAxisTick/>}/>
             <YAxis />
             <Tooltip />
-            <Legend />
+            <Legend verticalAlign="top"/>
             <Line type="monotone" name="Bedroom" dataKey="bedroom" stroke="#8884d8" activeDot={{ r: 8 }} />
             <Line type="monotone" name="Living Room" dataKey="livingRoom" stroke="#82ca9d" />
             <Line type="monotone" name="Server Room" dataKey="serverRoom" stroke="#0c0707" />
@@ -29,3 +29,11 @@ const TempChart = ({data}) => {
 };
 
 export default TempChart;
+
+export const CustomizedAxisTick = ({x, y, stroke, payload}) =>{
+        return (
+            <g transform={`translate(${x},${y})`}>
+                <text x={0} y={0} dy={16} textAnchor="end" fill="#666" transform="rotate(-65)">{payload.value}</text>
+            </g>
+        );
+    }
