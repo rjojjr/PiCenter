@@ -19,9 +19,59 @@ $dividerColor: #BDBDBD;
 }*/
 html, body, .viewport {
   //width: 100%;
-  height: 100vh;
+  height: 100%;
   margin: 0;
 }
+
+/*@media only screen and (max-width: 900px) {
+  .vbox{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start; !* align items in Main Axis *!
+    align-items: stretch; !* align items in Cross Axis *!
+    align-content: stretch; !* Extra space in Cross Axis *!
+    height: 100%;
+  }
+  .pageContainer{
+    display: flex;
+    flex-direction: row;
+    overflow: auto;
+    overflow-x: auto;
+    padding: 0;
+    border: 0;
+
+  }
+
+  #main > section {
+    //display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    //height: 100%;
+    margin-right: 30px;
+    margin-left: 30px;
+    //flex: 1;
+    flex: 5;
+    width: 80%;
+    //height: 80%;
+    overflow: auto;
+
+  }
+
+
+  .page{
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+
+    h2{
+      text-align: center;
+    }
+  }
+
+}*/
 
 .vbox{
   display: flex;
@@ -35,6 +85,8 @@ html, body, .viewport {
 .pageContainer{
   display: flex;
   flex-direction: column;
+  overflow: auto;
+  overflow-x: auto;
   padding: 0;
   border: 0;
   height: 100vh;
@@ -121,6 +173,7 @@ head{
   flex-direction: column;
   align-items: center;
   justify-content: center;
+
   h2{
     text-align: center;
   }
@@ -150,6 +203,7 @@ footer {
 }
 
 section {
+
 }
 
 .headerButtonContainer {
