@@ -1,4 +1,4 @@
-import {getPiStatuses, restartDHT, restartPitemp, restartPI} from "../services/axios-service";
+import {getPiStatuses, restartDHT, restartPitemp, restartPi} from "../services/axios-service";
 import * as debugConstants from "../constants/debug-constants";
 import {isDataError, isDataLoading, isDownload} from "./data-actions";
 
@@ -37,7 +37,7 @@ export const getStatusesThunk = (user) => async dispatch => {
         dispatch(setDeviceStatuses(response.data.deviceStatuses))
         dispatch(isDeviceLoading(false));
     } catch (error) {
-        dispatch(isDataLoading(false));
+        dispatch(isDeviceLoading(false));
         if (process.env.NODE_ENV === 'development' && debugConstants.ALERT_DEBUG_THUNKS) {
             alert(error);
         }
@@ -56,7 +56,7 @@ export const restartPiTempThunk = (user, pi) => async dispatch => {
         dispatch(setDeviceStatuses(response.data.deviceStatuses));
         dispatch(isDeviceLoading(false));
     } catch (error) {
-        dispatch(isDataLoading(false));
+        dispatch(isDeviceLoading(false));
         if (process.env.NODE_ENV === 'development' && debugConstants.ALERT_DEBUG_THUNKS) {
             alert(error);
         }
@@ -75,7 +75,7 @@ export const restartDHTThunk = (user, pi) => async dispatch => {
         dispatch(setDeviceStatuses(response.data.deviceStatuses));
         dispatch(isDeviceLoading(false));
     } catch (error) {
-        dispatch(isDataLoading(false));
+        dispatch(isDeviceLoading(false));
         if (process.env.NODE_ENV === 'development' && debugConstants.ALERT_DEBUG_THUNKS) {
             alert(error);
         }
@@ -89,15 +89,15 @@ export const restartPiThunk = (user, pi) => async dispatch => {
         dispatch(isDeviceError(false, ""));
         const response = await restartPi(user, pi);
         if (!response.data.responseBody.includes('success')){
-            dispatch(isDeviceError(true, 'Error restarting dht...'));
+            dispatch(isDeviceError(true, 'Error restarting pi...'));
         }
         dispatch(setDeviceStatuses(response.data.deviceStatuses));
         dispatch(isDeviceLoading(false));
     } catch (error) {
-        dispatch(isDataLoading(false));
+        dispatch(isDeviceLoading(false));
         if (process.env.NODE_ENV === 'development' && debugConstants.ALERT_DEBUG_THUNKS) {
             alert(error);
         }
-        dispatch(isDeviceError(true, 'Error restarting dht...'));
+        dispatch(isDeviceError(true, 'Error restarting pi...'));
     }
 };

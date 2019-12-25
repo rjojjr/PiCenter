@@ -93,6 +93,6 @@ export const restartDHT = (user, pi) => {
   return axios.get(RESTART_DHT + '?userId=' + user.token + "&pi=" + pi);
 }
 
-export const restartPI = (user, pi) => {
+export const restartPi = (user, pi) => {
   return axios.get(RESTART_PI + '?userId=' + user.token + "&pi=" + pi);
 }
