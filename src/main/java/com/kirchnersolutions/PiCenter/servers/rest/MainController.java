@@ -356,8 +356,8 @@ public class MainController {
         if (!userService.isAdmin((String) httpSession.getAttribute("username"))) {
             return new RestResponse("{body: 'failed not authorized'}", userService.getRestUser((String) httpSession.getAttribute("username")));
         }
-        userService.createUserLog((String) httpSession.getAttribute("username"), "restart dht pi " + pi);
-        if(deviceService.restartDHT(pi) != null){
+        userService.createUserLog((String) httpSession.getAttribute("username"), "restart pi " + pi);
+        if(deviceService.restartPi(pi) != null){
             response.setStatus( HttpServletResponse.SC_OK );
             return new RestResponse("{body: 'success'}", userService.getRestUser((String) httpSession.getAttribute("username")), deviceService.getDeviceStatuses());
         }

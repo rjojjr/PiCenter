@@ -6,6 +6,7 @@ import com.kirchnersolutions.PiCenter.servers.beans.ProcessLine;
 import com.kirchnersolutions.PiCenter.servers.beans.ProcessRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
+import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -56,6 +57,8 @@ public class DeviceService {
         DeviceStatus status = new DeviceStatus();
         status.setName(name);
         RestTemplate restTemplate = new RestTemplate();
+        ((SimpleClientHttpRequestFactory)restTemplate.getRequestFactory()).setConnectTimeout(3000);
+        ((SimpleClientHttpRequestFactory)restTemplate.getRequestFactory()).setReadTimeout(3000);
         HttpHeaders headers = new HttpHeaders();
         HttpEntity<ProcessRequest> entity;
         ResponseEntity<ProcessLine> respEntity;
@@ -67,7 +70,6 @@ public class DeviceService {
             status.setPiTempStart(respEntity.getBody().getStart());
         }catch (Exception e){
             status.setRunning("false");
-            e.printStackTrace();
             return status;
         }
         try{
@@ -78,7 +80,6 @@ public class DeviceService {
             status.setDhtStart(respEntity.getBody().getStart());
         }catch (Exception e){
             status.setRunning("false");
-            e.printStackTrace();
             return status;
         }
         status.setRunning("true");
@@ -91,6 +92,8 @@ public class DeviceService {
             return null;
         }
         RestTemplate restTemplate = new RestTemplate();
+        ((SimpleClientHttpRequestFactory)restTemplate.getRequestFactory()).setConnectTimeout(3000);
+        ((SimpleClientHttpRequestFactory)restTemplate.getRequestFactory()).setReadTimeout(3000);
         HttpHeaders headers = new HttpHeaders();
         HttpEntity<String> entity;
         ResponseEntity<String> respEntity;
@@ -124,7 +127,6 @@ public class DeviceService {
                 }
             }
         }catch (Exception e){
-            e.printStackTrace();
             return getDeviceStatus(name);
         }
         return getDeviceStatus(name);
@@ -136,6 +138,8 @@ public class DeviceService {
             return null;
         }
         RestTemplate restTemplate = new RestTemplate();
+        ((SimpleClientHttpRequestFactory)restTemplate.getRequestFactory()).setConnectTimeout(3000);
+        ((SimpleClientHttpRequestFactory)restTemplate.getRequestFactory()).setReadTimeout(3000);
         HttpHeaders headers = new HttpHeaders();
         HttpEntity<String> entity;
         ResponseEntity<String> respEntity;
@@ -167,7 +171,6 @@ public class DeviceService {
                 }
             }
         }catch (Exception e){
-            e.printStackTrace();
             return getDeviceStatus(name);
         }
         return getDeviceStatus(name);
@@ -179,6 +182,8 @@ public class DeviceService {
             return null;
         }
         RestTemplate restTemplate = new RestTemplate();
+        ((SimpleClientHttpRequestFactory)restTemplate.getRequestFactory()).setConnectTimeout(3000);
+        ((SimpleClientHttpRequestFactory)restTemplate.getRequestFactory()).setReadTimeout(3000);
         HttpHeaders headers = new HttpHeaders();
         HttpEntity<String> entity;
         ResponseEntity<String> respEntity;
