@@ -1,17 +1,31 @@
 import React from "react";
 import DeviceIndicator from "./DeviceIndicator";
-import {Button} from "react-bootstrap";
+import {Button, Card} from "react-bootstrap";
 
 const DeviceStatusPage = ({user, getStatuses, restartPiTemp, restartDHT, deviceData}) => {
+
+    const cardColor  = (device) => {
+        if(device.running === "running"){
+            return "light";
+        } else {
+            return "warning";
+        }
+    }
 
     return (
         <div className={"page deviceStatusPage"}>
             <div className={"deviceIndicatorContainer"}>
                 {deviceData.map(device => {
                     return (
-                        <DeviceIndicator device={device}
-                                         restartPiTemp={restartPiTemp}
-                                         restartDHT={restartDHT}/>
+                                <Card bg={cardColor(device)} style={{ width: '50rem' }}>
+                                    <Card.Title><b>Device:</b> {device.name}</Card.Title>
+                                    <Card.Body>
+                                        <DeviceIndicator device={device}
+                                                         restartPiTemp={restartPiTemp}
+                                                         restartDHT={restartDHT}/>
+                                    </Card.Body>
+                                </Card>
+
                     );
                 })}
             </div>

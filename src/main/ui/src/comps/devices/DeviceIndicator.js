@@ -20,7 +20,7 @@ const DeviceIndicator = ({device, restartPiTemp, restartDHT}) => {
     return(
         <div>
       <div className={"deviceIndicator"}>
-          <p><b>Device:</b> {device.name} <b>|</b> <b>Device Status:</b> {device.running} <b>|</b> <b>Pitemp Status:</b> {` ${isPiTempRunning()}`} <b>|</b> <b>DHT Status:</b>{` ${isDHTRunning()}`}
+          <p><b>Device Status:</b> {device.running} <b>|</b> <b>Pitemp Status:</b> {` ${isPiTempRunning()}`} <b>|</b> <b>DHT Status:</b>{` ${isDHTRunning()}`}
           </p>
 
       </div>
