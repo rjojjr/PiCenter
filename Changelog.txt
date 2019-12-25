@@ -1,7 +1,11 @@
 PiCenter Changelog
 
-1.0.04
+1.0.05
+12/25/2019
+Build 100125
+    Added cards to device panel UI.
 
+1.0.04
 12/24/2019
 Build 100124
     Added HTTPS.
