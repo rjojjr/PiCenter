@@ -5,7 +5,7 @@ import {Button, Card} from "react-bootstrap";
 const DeviceStatusPage = ({user, getStatuses, restartPiTemp, restartDHT, deviceData}) => {
 
     const cardColor  = (device) => {
-        if(device.running === "running"){
+        if(device.running === "running" && device.piTempStart !== '' && device.dhtStart !== ''){
             return "light";
         } else {
             return "warning";
