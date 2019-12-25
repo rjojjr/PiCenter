@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class DeviceStatus {
 
-    private String name = "", running = "", piTempStart = "", dhtStart = "";
+    private String name = "", running = "not running", piTempStart = "", dhtStart = "";
 
     public void setRunning(String running){
         if(running.contains("tr")){
