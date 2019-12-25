@@ -56,3 +56,4 @@
 51. Implement [PiRest controller](https://github.com/rjojjr/PiScalaRestController) rest client interface into device service.#rjojjr
 52. Add restart device button to device panel.
 53. Add bootstrap card to device panel ui. #CURrjojjr
+54. Add reboot pi button to device indicators.

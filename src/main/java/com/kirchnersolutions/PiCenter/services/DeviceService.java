@@ -142,6 +142,7 @@ public class DeviceService {
             return null;
         }
         try{
+            headers.set("token", device.getToken());
             headers.set("Content-Type", "application/json");
             entity = new HttpEntity<String>("", headers);
             respEntity = restTemplate.exchange("http://" + device.getUrl() + ":7000/start/dht", HttpMethod.GET, entity, String.class);

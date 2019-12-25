@@ -22,7 +22,8 @@ const DeviceStatusPage = ({user, getStatuses, restartPiTemp, restartDHT, deviceD
                                     <Card.Body>
                                         <DeviceIndicator device={device}
                                                          restartPiTemp={restartPiTemp}
-                                                         restartDHT={restartDHT}/>
+                                                         restartDHT={restartDHT}
+                                                        user={user}/>
                                     </Card.Body>
                                 </Card>
 

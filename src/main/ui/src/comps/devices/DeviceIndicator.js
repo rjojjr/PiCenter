@@ -1,7 +1,7 @@
 import React from "react";
 import {Button} from "react-bootstrap";
 
-const DeviceIndicator = ({device, restartPiTemp, restartDHT}) => {
+const DeviceIndicator = ({user, device, restartPiTemp, restartDHT}) => {
 
     const isPiTempRunning = () => {
        if(device.piTempStart !== ''){
@@ -26,8 +26,8 @@ const DeviceIndicator = ({device, restartPiTemp, restartDHT}) => {
       </div>
         <div className={"deviceIndicator"}>
         <p>
-        <Button variant={"primary"} onClick={restartPiTemp}>Restart PiTemp</Button>
-    <Button variant={"primary"} onClick={restartDHT}>Restart DHT</Button>
+        <Button variant={"primary"} onClick={() => restartPiTemp(user,  device.name)}>Restart PiTemp</Button>
+    <Button variant={"primary"} onClick={() => restartDHT(user,  device.name)}>Restart DHT</Button>
     </p>
         </div>
         </div>

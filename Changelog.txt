@@ -4,6 +4,7 @@ PiCenter Changelog
 12/25/2019
 Build 100125
     Added cards to device panel UI.
+    Fixed bug that prevented restarting pi programs.
 
 1.0.04
 12/24/2019
