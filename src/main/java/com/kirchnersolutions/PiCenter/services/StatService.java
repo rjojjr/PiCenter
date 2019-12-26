@@ -42,6 +42,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Future;
 
+import static com.kirchnersolutions.utilities.CalenderConverter.MINUTE;
 import static com.kirchnersolutions.utilities.CalenderConverter.getDaysInMonth;
 
 @DependsOn({"debuggingService", "appUserRepository", "readingRepository"})
@@ -175,16 +176,31 @@ public class StatService {
                 humidityDevi[i] = "0";
             }
         }else{
-            if(precision > 0){
-                temp[0] = reads.get(0).getTemp() + "." + getZeros(precision);
-                humidity[0] = reads.get(0).getHumidity() + "." + getZeros(precision);
-                tempDevi[0] = "0" + "." + getZeros(precision);
-                humidityDevi[0] = "0" + "." + getZeros(precision);
+            List<Reading> readNow = readingRepository.findByTimeBetweenAndRoomOrderByTimeDesc(time - (5 * MINUTE), time, roomName);
+            if(readNow.size() == 0){
+                if(precision > 0){
+                    temp[0] = "0." + getZeros(precision);
+                    humidity[0] = "0." + getZeros(precision);
+                    tempDevi[0] = "0" + "." + getZeros(precision);
+                    humidityDevi[0] = "0" + "." + getZeros(precision);
+                }else {
+                    temp[0] = "0";
+                    humidity[0] = "0";
+                    tempDevi[0] = "0";
+                    humidityDevi[0] = "0";
+                }
             }else {
-                temp[0] = reads.get(0).getTemp() + "";
-                humidity[0] = reads.get(0).getHumidity() + "";
-                tempDevi[0] = "0";
-                humidityDevi[0] = "0";
+                if(precision > 0){
+                    temp[0] = reads.get(0).getTemp() + "." + getZeros(precision);
+                    humidity[0] = reads.get(0).getHumidity() + "." + getZeros(precision);
+                    tempDevi[0] = "0" + "." + getZeros(precision);
+                    humidityDevi[0] = "0" + "." + getZeros(precision);
+                }else {
+                    temp[0] = reads.get(0).getTemp() + "";
+                    humidity[0] = reads.get(0).getHumidity() + "";
+                    tempDevi[0] = "0";
+                    humidityDevi[0] = "0";
+                }
             }
             stats = getTempStats(reads, precision);
             temp[1] = stats[0];
