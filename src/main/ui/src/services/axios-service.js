@@ -82,7 +82,11 @@ export const getChart = (user, startDate, endDate, type, flavor) => {
 }
 
 export const getPiStatuses = (user) => {
-  return axios.get(PI_STATUSES + '?userId=' + user.token);
+  return axios.get(PI_STATUSES + '?userId=' + user.token + "&pi=all");
+}
+
+export const getPiStatus = (user, pi) => {
+  return axios.get(PI_STATUSES + '?userId=' + user.token + "&pi=" + pi);
 }
 
 export const restartPitemp = (user, pi) => {

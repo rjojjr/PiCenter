@@ -11,7 +11,7 @@ const LoadingView = ({ isLoading }) => {
       position: 'static',
       background: 'none',
       border: 'none',
-      boxShadow: 'none'
+      boxShadow: 'none',
     }
   };
   return (
