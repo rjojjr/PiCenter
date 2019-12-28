@@ -1,25 +1,34 @@
 export const addToLoading = (loadingList, loadingDevice) => {
-    loadingList.filter(device => device === loadingDevice);
-    loadingList.push(loadingDevice);
-    return loadingList;
-}
+    const list = loadingList.filter(device => (!device === loadingDevice));
+    list.push(loadingDevice);
+    return list;
+};
 
 export const removeFromLoading = (loadingList, loadingDevice) => {
-    loadingList.filter(device => device === loadingDevice);
-    return loadingList;
-}
+    const list = loadingList.filter(device => !(device === loadingDevice));
+    return list;
+};
 
 export const changeStatus = (deviceList, device) => {
-    deviceList.filter(list => list.name === device.name);
-    deviceList.push(device);
-    return deviceList;
-}
+    let index = -1;
+    const list = deviceList;
+    deviceList.forEach((dev,  i) => {
+        if(dev.name === device.name){
+            index = i;
+        }
+    })
+    if (index > -1){
+        list[index] = device;
+    }
+    return list;
+};
 
 export const isDeviceInLoading = (deviceList, device) => {
-    deviceList.map((list, i) => {
-        if (list.name === device.name) {
-            return true;
+    let loading = false;
+    deviceList.forEach((list, i) => {
+        if (list === device) {
+            loading = true;
         }
     });
-    return false;
-}
+    return loading;
+};

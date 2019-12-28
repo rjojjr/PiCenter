@@ -2,6 +2,7 @@ import React from "react";
 import {Button} from "react-bootstrap";
 
 import Loader from 'react-loader-spinner';
+import {isDeviceInLoading} from "../../services/device-service";
 
 const DeviceIndicator = ({user, device, restartPiTemp, restartDHT, restartPi, deviceLoading}) => {
 
@@ -19,6 +20,10 @@ const DeviceIndicator = ({user, device, restartPiTemp, restartDHT, restartPi, de
         return 'not running';
     }
 
+    const deviceIsLoading = () => {
+        return isDeviceInLoading(deviceLoading, device.name);
+    }
+
     return (
         <div>
             <div className={"deviceIndicator"}>
@@ -27,12 +32,12 @@ const DeviceIndicator = ({user, device, restartPiTemp, restartDHT, restartPi, de
                 </p>
 
             </div>
-            {deviceLoading && (
+            {deviceIsLoading() && (
                 <div className={"deviceIndicator"}>
-                    <Loader type={"Rings"} color={"#1976D2"} height={80} width={80} />
+                    <Loader type={"ThreeDots"} color={"#1976D2"} height={80} width={80} />
                 </div>
             )}
-            {!deviceLoading && (
+            {!deviceIsLoading() && (
                 <div className={"deviceIndicator"}>
                     <p>
                         <Button variant={"primary"} onClick={() => restartPi(user, device.name)}>Restart Device</Button>

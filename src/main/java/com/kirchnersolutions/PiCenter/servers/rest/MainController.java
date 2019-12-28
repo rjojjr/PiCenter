@@ -276,7 +276,7 @@ public class MainController {
             return new RestResponse("{body: 'failed not authorized'}", userService.getRestUser((String) httpSession.getAttribute("username")));
         }
         userService.createUserLog((String) httpSession.getAttribute("username"), "get pi statuses ");
-        if(pi == null){
+        if(pi == null || pi.equals("all")){
             return new RestResponse("{body: 'success'}", userService.getRestUser((String) httpSession.getAttribute("username")), deviceService.getDeviceStatuses());
         }
         DeviceStatus[] deviceStatus = {deviceService.getDeviceStatus(pi)};
@@ -329,7 +329,7 @@ public class MainController {
         if(pi == null){
             return new RestResponse("{body: 'error invalid device selection'}", userService.getRestUser((String) httpSession.getAttribute("username")));
         }
-        if (!updateSession((String) httpSession.getAttribute("username"), userId, request.getRemoteAddr(), "/devices/panel")) {
+        if (!updateSession((String) httpSession.getAttribute("username"), userId, request.getRemoteAddr(), "/status/pi")) {
             return new RestResponse("{body: 'error', error: 'unauthentic session'}", new RestUser());
         }
         if (!userService.isAdmin((String) httpSession.getAttribute("username"))) {
@@ -360,7 +360,7 @@ public class MainController {
         if(pi == null){
             return new RestResponse("{body: 'error invalid device selection'}", userService.getRestUser((String) httpSession.getAttribute("username")));
         }
-        if (!updateSession((String) httpSession.getAttribute("username"), userId, request.getRemoteAddr(), "/devices/panel")) {
+        if (!updateSession((String) httpSession.getAttribute("username"), userId, request.getRemoteAddr(), "/status/pi")) {
             return new RestResponse("{body: 'error', error: 'unauthentic session'}", new RestUser());
         }
         if (!userService.isAdmin((String) httpSession.getAttribute("username"))) {

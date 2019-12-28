@@ -32,7 +32,7 @@ const DeviceStatusContainer = ({user, changePage, isLoading, isError, errorMsg, 
                                               deviceData={deviceData}
                                               user={user}
                                               restartPi={restartPi}
-                                              devicesLoading={devicesLoading}/>
+                                    devicesLoading={devicesLoading}/>
                         </section>
                         <nav className={"deviceStatusPage"}>
                             <DevicePanelNav changePage={changePage}/>
