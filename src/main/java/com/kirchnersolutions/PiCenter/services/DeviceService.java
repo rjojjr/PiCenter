@@ -11,12 +11,9 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.io.File;
-import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
-import java.util.concurrent.ThreadPoolExecutor;
 
 @Service
 public class DeviceService {
@@ -49,7 +46,7 @@ public class DeviceService {
         return statuses;
     }
 
-    private DeviceStatus getDeviceStatus(String name){
+    public DeviceStatus getDeviceStatus(String name){
         Device device = deviceList.getDeviceByName(name);
         if(device == null){
             return null;

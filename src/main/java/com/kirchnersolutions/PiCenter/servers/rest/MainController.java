@@ -1,5 +1,6 @@
 package com.kirchnersolutions.PiCenter.servers.rest;
 
+import com.kirchnersolutions.PiCenter.Configuration.Device;
 import com.kirchnersolutions.PiCenter.dev.DebuggingService;
 import com.kirchnersolutions.PiCenter.entites.AppUser;
 import com.kirchnersolutions.PiCenter.servers.beans.*;
@@ -13,6 +14,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.Arrays;
 
 @RestController
 public class MainController {
@@ -256,7 +258,7 @@ public class MainController {
     }
 
     @GetMapping("status/pi")
-    public RestResponse getPiStatus(HttpServletResponse response, @RequestParam String userId) throws Exception {
+    public RestResponse getPiStatus(HttpServletResponse response, @RequestParam String userId, @RequestParam String pi) throws Exception {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes())
                 .getRequest();
         HttpSession httpSession = cookie(request, response);
@@ -274,7 +276,11 @@ public class MainController {
             return new RestResponse("{body: 'failed not authorized'}", userService.getRestUser((String) httpSession.getAttribute("username")));
         }
         userService.createUserLog((String) httpSession.getAttribute("username"), "get pi statuses ");
-        return new RestResponse("{body: 'success'}", userService.getRestUser((String) httpSession.getAttribute("username")), deviceService.getDeviceStatuses());
+        if(pi == null){
+            return new RestResponse("{body: 'success'}", userService.getRestUser((String) httpSession.getAttribute("username")), deviceService.getDeviceStatuses());
+        }
+        DeviceStatus[] deviceStatus = {deviceService.getDeviceStatus(pi)};
+        return new RestResponse("{body: 'success'}", userService.getRestUser((String) httpSession.getAttribute("username")), deviceStatus);
     }
 
     @GetMapping("restart/pitemp")
