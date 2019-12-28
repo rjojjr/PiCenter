@@ -85,6 +85,10 @@ export const getPiStatuses = (user) => {
   return axios.get(PI_STATUSES + '?userId=' + user.token);
 }
 
+export const getPiStatus = (user, pi) => {
+  return axios.get(PI_STATUSES + '?userId=' + user.token + "&pi=" + pi);
+}
+
 export const restartPitemp = (user, pi) => {
   return axios.get(RESTART_PITEMP + '?userId=' + user.token + "&pi=" + pi);
 }

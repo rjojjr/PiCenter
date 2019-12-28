@@ -6,7 +6,7 @@ import * as pageConstants from "../../constants/page-constants";
 import {
     getStatusesThunk,
     isDeviceError,
-    isDeviceLoading,
+    isDevicesLoading,
     restartDHTThunk,
     restartPiTempThunk, restartPiThunk
 } from "../../actions/device-actions";
@@ -51,7 +51,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
     logOff,
     changePage,
-    isDeviceLoading,
+    isDeviceLoading: isDevicesLoading,
     isDeviceError,
     getStatuses: getStatusesThunk,
     restartPiTemp: restartPiTempThunk,

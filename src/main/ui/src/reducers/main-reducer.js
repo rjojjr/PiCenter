@@ -37,7 +37,14 @@ import {
     USERS_SHOW_MSG
 } from "../actions/user-actions";
 import {dateStringFormat} from "../services/helper-service";
-import {IS_DEVICE_ERROR, IS_DEVICE_LOADING, SET_DEVICE_STATUSES} from "../actions/device-actions";
+import {
+    IS_DEVICE_ERROR,
+    IS_DEVICE_LOADING,
+    IS_DEVICES_LOADING,
+    SET_DEVICE_STATUS,
+    SET_DEVICE_STATUSES
+} from "../actions/device-actions";
+import {addToLoading, changeStatus, removeFromLoading} from "../services/device-service";
 
 
 export const initialState = () => ({
@@ -73,7 +80,8 @@ export const initialState = () => ({
     isDeviceLoading: false,
     isDeviceError: false,
     deviceMsg: '',
-    deviceData: []
+    deviceData: [],
+    devicesLoading: []
 });
 
 export default (state = initialState(), action = {type: undefined}) => {
@@ -317,11 +325,24 @@ export default (state = initialState(), action = {type: undefined}) => {
                 chartData: []
             }
         };
-        case IS_DEVICE_LOADING: {
+        case IS_DEVICES_LOADING: {
             return {
                 ...state,
                 isDeviceLoading: action.loading
             };
+        };
+        case IS_DEVICE_LOADING: {
+            if (action.loading){
+                return {
+                    ...state,
+                    devicesLoading: addToLoading(state.devicesLoading, action.device)
+                };
+            }else{
+                return {
+                    ...state,
+                    devicesLoading: removeFromLoading(state.devicesLoading, action.device)
+                };
+            }
         };
         case IS_DEVICE_ERROR: {
             return {
@@ -334,6 +355,12 @@ export default (state = initialState(), action = {type: undefined}) => {
             return {
                 ...state,
                 deviceData: action.status
+            };
+        };
+        case SET_DEVICE_STATUS: {
+            return {
+                ...state,
+                deviceData: changeStatus(state.deviceData, action.status)
             };
         };
         default:

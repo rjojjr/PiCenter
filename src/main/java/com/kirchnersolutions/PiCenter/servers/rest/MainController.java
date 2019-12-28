@@ -306,10 +306,12 @@ public class MainController {
         }
         userService.createUserLog((String) httpSession.getAttribute("username"), "restart pitemp pi " + pi);
         if(deviceService.restartPiTemp(pi) != null){
+            DeviceStatus[] deviceStatus = {deviceService.getDeviceStatus(pi)};
             response.setStatus( HttpServletResponse.SC_OK );
-            return new RestResponse("{body: 'success'}", userService.getRestUser((String) httpSession.getAttribute("username")), deviceService.getDeviceStatuses());
+            return new RestResponse("{body: 'success'}", userService.getRestUser((String) httpSession.getAttribute("username")), deviceStatus);
         }
-        return new RestResponse("{body: 'failed'}", userService.getRestUser((String) httpSession.getAttribute("username")), deviceService.getDeviceStatuses());
+        DeviceStatus[] deviceStatus = {deviceService.getDeviceStatus(pi)};
+        return new RestResponse("{body: 'failed'}", userService.getRestUser((String) httpSession.getAttribute("username")), deviceStatus);
     }
 
     @GetMapping("restart/dht")
@@ -335,10 +337,12 @@ public class MainController {
         }
         userService.createUserLog((String) httpSession.getAttribute("username"), "restart dht pi " + pi);
         if(deviceService.restartDHT(pi) != null){
+            DeviceStatus[] deviceStatus = {deviceService.getDeviceStatus(pi)};
             response.setStatus( HttpServletResponse.SC_OK );
-            return new RestResponse("{body: 'success'}", userService.getRestUser((String) httpSession.getAttribute("username")), deviceService.getDeviceStatuses());
+            return new RestResponse("{body: 'success'}", userService.getRestUser((String) httpSession.getAttribute("username")), deviceStatus);
         }
-        return new RestResponse("{body: 'failed'}", userService.getRestUser((String) httpSession.getAttribute("username")), deviceService.getDeviceStatuses());
+        DeviceStatus[] deviceStatus = {deviceService.getDeviceStatus(pi)};
+        return new RestResponse("{body: 'failed'}", userService.getRestUser((String) httpSession.getAttribute("username")), deviceStatus);
     }
 
     @GetMapping("restart/pi")
@@ -364,10 +368,12 @@ public class MainController {
         }
         userService.createUserLog((String) httpSession.getAttribute("username"), "restart pi " + pi);
         if(deviceService.restartPi(pi) != null){
+            DeviceStatus[] deviceStatus = {deviceService.getDeviceStatus(pi)};
             response.setStatus( HttpServletResponse.SC_OK );
-            return new RestResponse("{body: 'success'}", userService.getRestUser((String) httpSession.getAttribute("username")), deviceService.getDeviceStatuses());
+            return new RestResponse("{body: 'success'}", userService.getRestUser((String) httpSession.getAttribute("username")), deviceStatus);
         }
-        return new RestResponse("{body: 'failed'}", userService.getRestUser((String) httpSession.getAttribute("username")), deviceService.getDeviceStatuses());
+        DeviceStatus[] deviceStatus = {deviceService.getDeviceStatus(pi)};
+        return new RestResponse("{body: 'failed'}", userService.getRestUser((String) httpSession.getAttribute("username")), deviceStatus);
     }
 
     private boolean updateSession(String username, String token, String ip, String page) throws Exception {
