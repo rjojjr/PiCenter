@@ -186,15 +186,26 @@ public class DeviceService {
         ResponseEntity<String> respEntity;
         DeviceStatus status = new DeviceStatus();
         status.setName(name);
+        boolean rebooting = true;
         try{
             headers.set("token", device.getToken());
             headers.set("Content-Type", "application/json");
             entity = new HttpEntity<String>("", headers);
             respEntity = restTemplate.exchange("http://" + device.getUrl() + ":7000/reboot", HttpMethod.GET, entity, String.class);
-            return getDeviceStatus(name);
         }catch (Exception e){
             return getDeviceStatus(name);
         }
+        DeviceStatus deviceStatus = new DeviceStatus();
+        while(rebooting){
+            try{
+                Thread.sleep(10000);
+                deviceStatus = getDeviceStatus(name);
+                rebooting = false;
+            }catch (Exception e){
+                //return getDeviceStatus(name);
+            }
+        }
+        return deviceStatus;
     }
 
 }

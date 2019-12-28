@@ -44,7 +44,7 @@ const DeviceIndicator = ({user, device, restartPiTemp, restartDHT, restartPi, de
             {!deviceIsLoading() && (
                 <div className={"deviceIndicator"}>
                     <p>
-                        <Button variant={"primary"} onClick={() => restartPi(user, device.name)}>Restart Device</Button>
+                        <Button variant={"primary"} onClick={() => restartPi(user, device.name, device, devices)}>Restart Device</Button>
                         <Button variant={"primary"} onClick={() => restartPiTemp(user, device.name, device, devices)}>Restart PiTemp</Button>
                         <Button variant={"primary"} onClick={() => restartDHT(user, device.name, device, devices)}>Restart DHT</Button>
                     </p>

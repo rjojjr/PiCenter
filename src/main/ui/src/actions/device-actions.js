@@ -120,9 +120,13 @@ export const restartDHTThunk = (user, pi, device, devices) => async dispatch => 
     }
 };
 
-export const restartPiThunk = (user, pi) => async dispatch => {
+export const restartPiThunk = (user, pi, device, devices) => async dispatch => {
     try {
         dispatch(isDeviceLoading(true, pi));
+        device.running = 'rebooting';
+        device.piTempStart = 'r';
+        device.dhtStart = 'r';
+        setDeviceStatuses(changeStatus(devices, device));
         dispatch(isDeviceError(false, ""));
         const response = await restartPi(user, pi);
         if (!response.data.responseBody.includes('success')){
