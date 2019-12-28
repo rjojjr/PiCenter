@@ -4,6 +4,7 @@ PiCenter Changelog
 12/28/2019
 Build 100126
     Device panel operations no longer cause whole page to reload.
+    When device panel restart program, change staus text.
 
 1.0.05
 12/25/2019

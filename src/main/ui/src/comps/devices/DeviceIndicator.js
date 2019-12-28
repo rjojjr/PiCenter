@@ -4,18 +4,22 @@ import {Button} from "react-bootstrap";
 import Loader from 'react-loader-spinner';
 import {isDeviceInLoading} from "../../services/device-service";
 
-const DeviceIndicator = ({user, device, restartPiTemp, restartDHT, restartPi, deviceLoading}) => {
+const DeviceIndicator = ({user, device, restartPiTemp, restartDHT, restartPi, deviceLoading, devices}) => {
 
     const isPiTempRunning = () => {
-        if (device.piTempStart !== '') {
+        if (device.piTempStart !== '' && device.piTempStart !== 'r') {
             return 'running';
+        }else if (device.piTempStart === 'r') {
+            return 'restarting';
         }
         return 'not running';
     }
 
     const isDHTRunning = () => {
-        if (device.dhtStart !== '') {
+        if (device.dhtStart !== '' && device.dhtStart !== 'r') {
             return 'running';
+        }else if (device.dhtStart === 'r') {
+            return 'restarting';
         }
         return 'not running';
     }
@@ -41,8 +45,8 @@ const DeviceIndicator = ({user, device, restartPiTemp, restartDHT, restartPi, de
                 <div className={"deviceIndicator"}>
                     <p>
                         <Button variant={"primary"} onClick={() => restartPi(user, device.name)}>Restart Device</Button>
-                        <Button variant={"primary"} onClick={() => restartPiTemp(user, device.name)}>Restart PiTemp</Button>
-                        <Button variant={"primary"} onClick={() => restartDHT(user, device.name)}>Restart DHT</Button>
+                        <Button variant={"primary"} onClick={() => restartPiTemp(user, device.name, device, devices)}>Restart PiTemp</Button>
+                        <Button variant={"primary"} onClick={() => restartDHT(user, device.name, device, devices)}>Restart DHT</Button>
                     </p>
                 </div>
             )}

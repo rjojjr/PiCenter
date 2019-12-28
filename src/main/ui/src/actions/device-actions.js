@@ -1,6 +1,7 @@
 import {getPiStatuses, restartDHT, restartPitemp, restartPi, getPiStatus} from "../services/axios-service";
 import * as debugConstants from "../constants/debug-constants";
 import {isDataError, isDataLoading, isDownload} from "./data-actions";
+import {changeStatus} from "../services/device-service";
 
 export const IS_DEVICES_LOADING = 'IS_DEVICES_LOADING'
 export const isDevicesLoading = (loading) => ({
@@ -77,9 +78,11 @@ export const getStatusThunk = (user, pi) => async dispatch => {
     }
 };
 
-export const restartPiTempThunk = (user, pi) => async dispatch => {
+export const restartPiTempThunk = (user, pi, device, devices) => async dispatch => {
     try {
         dispatch(isDeviceLoading(true, pi));
+        device.piTempStart = 'r';
+        setDeviceStatuses(changeStatus(devices, device));
         dispatch(isDeviceError(false, ""));
         const response = await restartPitemp(user, pi);
         if (!response.data.responseBody.includes('success')){
@@ -96,9 +99,11 @@ export const restartPiTempThunk = (user, pi) => async dispatch => {
     }
 };
 
-export const restartDHTThunk = (user, pi) => async dispatch => {
+export const restartDHTThunk = (user, pi, device, devices) => async dispatch => {
     try {
         dispatch(isDeviceLoading(true, pi));
+        device.dhtStart = 'r';
+        setDeviceStatuses(changeStatus(devices, device));
         dispatch(isDeviceError(false, ""));
         const response = await restartDHT(user, pi);
         if (!response.data.responseBody.includes('success')){

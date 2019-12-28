@@ -21,6 +21,7 @@ const DeviceStatusPage = ({user, getStatuses, restartPiTemp, restartDHT, deviceD
                                     <Card.Title><b>Device:</b> {device.name}</Card.Title>
                                     <Card.Body>
                                         <DeviceIndicator device={device}
+                                                         devices={deviceData}
                                                          deviceLoading={devicesLoading}
                                                          restartPiTemp={restartPiTemp}
                                                          restartDHT={restartDHT}
