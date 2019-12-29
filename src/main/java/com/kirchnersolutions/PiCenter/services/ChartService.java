@@ -256,26 +256,26 @@ public class ChartService {
         if (start.equals(end)) {
             return 1;
         } else if (isSameMonth(start, end) && isSameYear(start, end)) {
-            int dif = Integer.parseInt(end.split("/")[2]) - Integer.parseInt(start.split("/")[2]);
-            if (dif < 6) {
+            int dif = Integer.parseInt(end.split("/")[1]) - Integer.parseInt(start.split("/")[1]);
+            if (dif < 3) {
                 return 3;
             }
-            if (dif < 8) {
+            if (dif < 6) {
                 return 6;
             }
-            if (dif < 15) {
+            if (dif < 8) {
                 return 12;
             }
             return 24;
         } else {
             int dif = getDaysBetween(start, end, "/");
-            if (dif < 6) {
+            if (dif < 3) {
                 return 3;
             }
-            if (dif < 8) {
+            if (dif < 6) {
                 return 6;
             }
-            if (dif < 15) {
+            if (dif < 8) {
                 return 12;
             }
             return 24;
