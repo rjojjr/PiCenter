@@ -13,6 +13,7 @@ export const DATA = '/data';
 export const CSV_EXPORT = '/data/csv';
 export const DATA_VISUAL = '/data/visual';
 export const DATA_VISUAL_DIFF = '/data/visual/diff';
+export const DATA_VISUAL_SCAT = '/data/visual/scat';
 
 export const DOWNLOAD_CSV = '/download/backup';
 
