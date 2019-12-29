@@ -23,7 +23,11 @@ const VisualPageContainer = ({user, changePage, updateSession, isLoading, isErro
             return 2;
         } else if (chartType === 'temp' && chartFlavor === 'hl') {
             return 3;
-        } else {
+        } else if (chartType === 'temp' && chartFlavor === 'scat'){
+            return 5;
+        } else if (chartType === 'hum' && chartFlavor === 'scat'){
+            return 6;
+        }else {
             return 4;
         }
     }

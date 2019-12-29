@@ -36,7 +36,13 @@ const VisualPage = ({tempChartStart, tempChartEnd, visualFromDate, visualToDate,
                 setFlavor('avg');
                 setChartType('temp', 'avg');
             }
-        } else {
+        } else if (selected.value === 5) {
+            setFlavor('scat');
+            setChartType('temp', 'scat');
+        }else if (selected.value === 6) {
+            setFlavor('scat');
+            setChartType('hum', 'scat');
+        }else {
             if (selected.value > 2) {
                 setFlavor('hl');
                 setChartType('hum', 'hl');

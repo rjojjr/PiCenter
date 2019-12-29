@@ -3,19 +3,41 @@ import {
     Scatter, Line, XAxis, YAxis, ZAxis, CartesianGrid, Tooltip, Legend,
 } from 'recharts';
 
-const ScatterChart = ({data}) => {
+const ScatterChart = ({data, type}) => {
+
     return (
-        <ScatterChart width={730} height={250}
-                      margin={{ top: 20, right: 20, bottom: 10, left: 10 }}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="x" name="stature" unit="cm" />
-            <YAxis dataKey="y" name="weight" unit="kg" />
-            <ZAxis dataKey="z" range={[64, 144]} name="score" unit="km" />
-            <Tooltip cursor={{ strokeDasharray: '3 3' }} />
-            <Legend />
-            <Scatter name="A school" data={data01} fill="#8884d8" />
-            <Scatter name="B school" data={data02} fill="#82ca9d" />
-        </ScatterChart>
+        <div className={"scatterChart"}>
+        {(type === 'temp') && (
+            <ScatterChart width={730} height={250}
+                          margin={{ top: 20, right: 20, bottom: 10, left: 10 }}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="x" name="time" />
+                <YAxis dataKey="y" name="temp" unit="F" />
+                <ZAxis dataKey="z" range={[64, 144]} name="outside temp" unit="F" />
+                <Tooltip cursor={{ strokeDasharray: '3 3' }} />
+                <Legend verticalAlign="top"/>
+                <Scatter name="Office" data={data.office} fill="#FFBE33" />
+                <Scatter name="Living Room" data={data.livingRoom} fill="#82ca9d" />
+                <Scatter name="Bedroom" data={data.bedroom} fill="#8884d8" />
+                <Scatter name="Server Room" data={data.serverRoom} fill="#0c0707" />
+            </ScatterChart>
+        )}
+            {!(type === 'temp') && (
+                <ScatterChart width={730} height={250}
+                              margin={{ top: 20, right: 20, bottom: 10, left: 10 }}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="x" name="time" />
+                    <YAxis dataKey="y" name="humidity" unit="%" />
+                    <ZAxis dataKey="z" range={[64, 144]} name="outside humidity" unit="%" />
+                    <Tooltip cursor={{ strokeDasharray: '3 3' }} />
+                    <Legend verticalAlign="top"/>
+                    <Scatter name="Office" data={data.office} fill="#FFBE33" />
+                    <Scatter name="Living Room" data={data.livingRoom} fill="#82ca9d" />
+                    <Scatter name="Bedroom" data={data.bedroom} fill="#8884d8" />
+                    <Scatter name="Server Room" data={data.serverRoom} fill="#0c0707" />
+                </ScatterChart>
+            )}
+        </div>
     );
 };
 
