@@ -15,10 +15,10 @@ const DiffChart = ({data}) => {
         >
             <XAxis dataKey="name" />
             <YAxis />
-            <Area name="Bedroom" dataKey="bedroom" stroke="#8884d8" fill="#8884d8" />
+            <Area name="Office" dataKey="office" stroke="#FFBE33" fill="#FFBE33" />
             <Area name="Living Room" dataKey="livingRoom" stroke="#82ca9d" fill="#82ca9d" />
+            <Area name="Bedroom" dataKey="bedroom" stroke="#8884d8" fill="#8884d8" />
             <Area name="Server Room" dataKey="serverRoom" stroke="#0c0707" fill="#0c0707" />
-            <Area name="Office" dataKey="office" stroke="#fff633" fill="#fff633" />
             <Area name="Outside" dataKey="outside" stroke="#ff33ff" fill="#ff33ff" />
             <Area name="Heat On" dataKey="heat" stroke="#ff3f33" fill="#ff3f33" />
             <Tooltip />
