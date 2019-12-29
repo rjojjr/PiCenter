@@ -2,7 +2,7 @@
 
 **_Smart home statistics, control, integration and prediction center._**
 
-This application is built around Raspberry Pi and DHT temperature and humidity sensors to detect 
+This application is built around Raspberry Pi and DHT digital temperature and humidity sensors to detect 
 trends between temperature and furnace/AC usage. The project will eventually
 grow to be an IoT smart home command center.
 
@@ -26,7 +26,7 @@ Please feel free to contribute features pertaining to
 your own smart home incorporation.
 
 The program is built with Springboot, React, Redux, axios, Scala and py4j
-Python Java gateway API to incorporate the Raspberry Pi.
+Python Java gateway Library to incorporate the Raspberry Pi.
 
 _Branches will be named by toDo-<ToDo number> or bug-<Bug number> or s-<Story number>_
 
