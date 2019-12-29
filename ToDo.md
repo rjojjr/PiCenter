@@ -58,4 +58,4 @@
 53. Add bootstrap card to device panel ui. #rjojjr
 54. Add reboot pi button to device indicators. #rjojjr
 55. Remove blocking loading indicators from data visual UI.#rjojjr
-56. Add scatter chart.
+56. Add scatter chart.#CURrjojjr
