@@ -507,7 +507,7 @@ public class ChartService {
             hourText = hour - 12 + "PM";
         }else{
             if(hour == 0){
-                hourText = date.split(" ")[0] + " 12AM";
+                hourText = "12AM";
             }else if(hour == 12){
                 hourText = hour + "PM";
             }else{
