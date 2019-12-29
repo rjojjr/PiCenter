@@ -38,6 +38,10 @@ public class ChartService {
         return new ChartResponse(generateDiffChartData(chartRequest));
     }
 
+    public ChartResponse getScatChartData(ChartRequest chartRequest) throws Exception{
+        return new ChartResponse(generateScatterData(chartRequest));
+    }
+
     /**
      *
      * @param chartRequest
@@ -177,6 +181,31 @@ public class ChartService {
         return diffIntervalList;
     }
 
+    ScatterInterval[] generateScatterData(ChartRequest chartRequest) throws Exception {
+        String start = chartRequest.getFromDate();
+        String end = chartRequest.getToDate();
+        String type = chartRequest.getType();
+        Future<ScatterPoint[]>[] futures = new Future[4];
+        futures[0] = threadPoolTaskExecutor.submit(() -> {
+            return statService.generateRoomScatterPoints(start, end, "office", type);
+        });
+        futures[1] = threadPoolTaskExecutor.submit(() -> {
+            return statService.generateRoomScatterPoints(start, end, "livingroom", type);
+        });
+        futures[2] = threadPoolTaskExecutor.submit(() -> {
+            return statService.generateRoomScatterPoints(start, end, "bedroom", type);
+        });
+        futures[3] = threadPoolTaskExecutor.submit(() -> {
+            return statService.generateRoomScatterPoints(start, end, "serverroom", type);
+        });
+        ScatterInterval[] intervals = new ScatterInterval[4];
+        intervals[0] = new ScatterInterval(futures[0].get());
+        intervals[1] = new ScatterInterval(futures[1].get());
+        intervals[2] = new ScatterInterval(futures[2].get());
+        intervals[3] = new ScatterInterval(futures[3].get());
+        return intervals;
+    }
+
     private class ChartValuesThread implements Callable<List<double[]>>{
 
         private List<Long> intervals;
@@ -282,28 +311,6 @@ public class ChartService {
             }
             return 24;
         }
-    }
-
-    ScatterInterval[] getScatterIntervals(String start, String end, String type) throws Exception {
-        Future<ScatterPoint[]>[] futures = new Future[4];
-        futures[0] = threadPoolTaskExecutor.submit(() -> {
-            return statService.generateRoomScatterPoints(start, end, "office", type);
-        });
-        futures[1] = threadPoolTaskExecutor.submit(() -> {
-            return statService.generateRoomScatterPoints(start, end, "livingroom", type);
-        });
-        futures[2] = threadPoolTaskExecutor.submit(() -> {
-            return statService.generateRoomScatterPoints(start, end, "bedroom", type);
-        });
-        futures[3] = threadPoolTaskExecutor.submit(() -> {
-            return statService.generateRoomScatterPoints(start, end, "serverroom", type);
-        });
-        ScatterInterval[] intervals = new ScatterInterval[4];
-        intervals[0] = new ScatterInterval(futures[0].get());
-        intervals[1] = new ScatterInterval(futures[1].get());
-        intervals[2] = new ScatterInterval(futures[2].get());
-        intervals[3] = new ScatterInterval(futures[3].get());
-        return intervals;
     }
 
     /**
