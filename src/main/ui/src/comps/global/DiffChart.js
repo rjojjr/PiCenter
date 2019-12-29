@@ -14,7 +14,7 @@ const DiffChart = ({data}) => {
             }}
         >
             <XAxis dataKey="name" tick={<CustomizedAxisTick/>}/>
-            <YAxis />
+            <YAxis unit="F"/>
             <Area name="Office" dataKey="office" stroke="#FFBE33" fill="#FFBE33" />
             <Area name="Living Room" dataKey="livingRoom" stroke="#82ca9d" fill="#82ca9d" />
             <Area name="Bedroom" dataKey="bedroom" stroke="#8884d8" fill="#8884d8" />
