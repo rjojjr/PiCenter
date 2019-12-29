@@ -85,7 +85,7 @@ public class ChartService {
             if(outsideValues.get(count) != null){
                 ou = outsideValues.get(count)[type];
             }
-            tempIntervalList[count] = new TempInterval(getAverageIntervalString(intervals.get(count), false), br, lr, sr, of, ou, 0);
+            tempIntervalList[count] = new TempInterval(getAverageIntervalString(intervals.get(count), true), br, lr, sr, of, ou, 0);
             count++;
         }
         return tempIntervalList;
