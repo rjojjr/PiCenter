@@ -27,7 +27,14 @@ import {
 
 import {
     IS_DATA_LOADING,
-    IS_DATA_ERROR, IS_DOWNLOAD, VISUAL_FROM_DATE, VISUAL_TO_DATE, VISUAL_DATA, SET_CHART_TYPE, SET_CHART_FLAVOR
+    IS_DATA_ERROR,
+    IS_DOWNLOAD,
+    VISUAL_FROM_DATE,
+    VISUAL_TO_DATE,
+    VISUAL_DATA,
+    SET_CHART_TYPE,
+    SET_CHART_FLAVOR,
+    SCAT_DATA
 } from "../actions/data-actions";
 
 import {
@@ -45,6 +52,21 @@ import {
     SET_DEVICE_STATUSES
 } from "../actions/device-actions";
 import {addToLoading, changeStatus, removeFromLoading} from "../services/device-service";
+
+const scat_data = [
+    {
+        interval:[]
+    },
+    {
+        interval:[]
+    },
+    {
+        interval:[]
+    },
+    {
+        interval:[]
+    }
+]
 
 
 export const initialState = () => ({
@@ -75,6 +97,7 @@ export const initialState = () => ({
     tempChartStart: new Date(Date.now()),
     tempChartEnd: new Date(Date.now()),
     chartData: [],
+    scatData: scat_data,
     chartType: 'temp',
     chartFlavor: 'avg',
     isDeviceLoading: false,
@@ -308,6 +331,12 @@ export default (state = initialState(), action = {type: undefined}) => {
             return {
                 ...state,
                 chartData: action.data
+            }
+        };
+        case SCAT_DATA: {
+            return {
+                ...state,
+                scatData: action.data
             }
         };
         case SET_CHART_TYPE: {

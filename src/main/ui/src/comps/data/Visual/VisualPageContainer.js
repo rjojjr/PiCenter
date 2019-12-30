@@ -8,7 +8,7 @@ import VisualPage from "./VisualPage";
 import {dateStringFormat} from "../../../services/helper-service";
 import Loader from "react-loader-spinner";
 
-const VisualPageContainer = ({user, changePage, updateSession, isLoading, isError, errorMsg, isDataError, logOff, onClickHandler, tempChartStart, tempChartEnd, visualFromDate, visualToDate, chartData, getChart, setChartType, chartType, setChartFlavor, chartFlavor}) => {
+const VisualPageContainer = ({user, changePage, updateSession, isLoading, isError, errorMsg, isDataError, logOff, onClickHandler, tempChartStart, tempChartEnd, visualFromDate, visualToDate, chartData, scatData, getChart, setChartType, chartType, setChartFlavor, chartFlavor}) => {
 
     updateSession(pageConstants.DATA_VISUAL, user);
 
@@ -54,7 +54,7 @@ const VisualPageContainer = ({user, changePage, updateSession, isLoading, isErro
                         )}
                         <VisualPage user={user} isDataError={isDataError} visualFromDate={visualFromDate}
                                     visualToDate={visualToDate} tempChartStart={tempChartStart}
-                                    tempChartEnd={tempChartEnd} chartData={chartData} getChart={getChartHandler}
+                                    tempChartEnd={tempChartEnd} chartData={chartData} scatData={scatData} getChart={getChartHandler}
                                     setChartType={setChartType} chartType={chartType} setChartFlavor={setChartFlavor}
                                     chartFlavor={chartFlavor} intSelected={() => convertType()}/>
                     </section>

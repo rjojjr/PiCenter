@@ -84,10 +84,10 @@ public class StatService {
             point.setTime(CalenderConverter.getMonthDayYearHourMinute(reading.getTime(), "/", ":"));
             if(type.contains("temp")){
                 point.setInside(reading.getTemp());
-                point.setOutside(Integer.parseInt(getAverage(reading.getTime(), 6 * (MINUTE), "outside", 0)[0] + ""));
+                point.setOutside(Integer.parseInt((int)getAverage(reading.getTime(), 6 * (MINUTE), "outside", 0)[0] + ""));
             }else{
                 point.setInside(reading.getHumidity());
-                point.setOutside(Integer.parseInt(getAverage(reading.getTime(), 6 * (MINUTE), "outside", 0)[1] + ""));
+                point.setOutside(Integer.parseInt((int)getAverage(reading.getTime(), 6 * (MINUTE), "outside", 0)[1] + ""));
             }
             points[count] = point;
             count++;

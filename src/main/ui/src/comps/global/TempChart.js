@@ -14,7 +14,7 @@ const TempChart = ({data}) => {
             }}
         >
             <CartesianGrid strokeDasharray="3 3"/>
-            <XAxis dataKey="name" tick={<CustomizedAxisTick/>}/>
+            <XAxis dataKey="name" tick={<CustomizedAxisTick/>} />
             <YAxis unit="F"/>
             <Tooltip/>
             <Legend verticalAlign="top"/>
