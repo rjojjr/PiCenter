@@ -1,7 +1,8 @@
-import React, {PureComponent} from 'react';
+import React from 'react';
 import {
     Scatter, ScatterChart, Line, XAxis, YAxis, ZAxis, CartesianGrid, Tooltip, Legend,
 } from 'recharts';
+import moment from 'moment'
 
 const ScatterPlotChart = ({data, type}) => {
 
@@ -16,9 +17,9 @@ const ScatterPlotChart = ({data, type}) => {
             }}
                 >
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="time" name="time" tick={<CustomizedAxisTick/>} />
+                <XAxis dataKey="time" name="time" tick={<CustomizedAxisTick/>} tickFormatter = {(unixTime) => moment(unixTime).format('MM/dd/yyyy HH:mm Do')} type = 'number' />
                 <YAxis dataKey="inside" name="temp" unit="F" />
-                <ZAxis dataKey="outside" range={[64, 144]} name="outside temp" unit="F" />
+                <ZAxis dataKey="outside" name="outside temp" unit="F" />
                 <Tooltip cursor={{strokeDasharray: '3 3'}} />
                 <Legend verticalAlign="top"/>
                 <Scatter name="Office" data={[]} fill="#FFBE33" />

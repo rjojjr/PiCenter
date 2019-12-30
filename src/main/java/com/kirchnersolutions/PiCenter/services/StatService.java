@@ -81,7 +81,7 @@ public class StatService {
         int count = 0;
         for(Reading reading : insideReadings){
             ScatterPoint point = new ScatterPoint();
-            point.setTime(CalenderConverter.getMonthDayYearHourMinute(reading.getTime(), "/", ":"));
+            point.setTime(reading.getTime());
             if(type.contains("temp")){
                 point.setInside(reading.getTemp());
                 point.setOutside(Integer.parseInt((int)getAverage(reading.getTime(), 6 * (MINUTE), "outside", 0)[0] + ""));

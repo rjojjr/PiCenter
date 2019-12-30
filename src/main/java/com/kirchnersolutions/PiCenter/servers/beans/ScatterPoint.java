@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ScatterPoint {
 
-    private String time = "";
+    private long time = 0;
     private int inside = 0;
     private int outside = 0;
 
