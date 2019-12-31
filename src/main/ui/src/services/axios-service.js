@@ -68,8 +68,10 @@ export const getChart = (user, startDate, endDate, type, flavor) => {
 
   if (flavor === 'avg'){
     endpoint = constants.DATA_VISUAL;
-  }else{
+  }else if (flavor === 'hl'){
     endpoint = constants.DATA_VISUAL_DIFF;
+  }else{
+    endpoint = constants.DATA_VISUAL_SCAT;
   }
 
   const chartRequest = {

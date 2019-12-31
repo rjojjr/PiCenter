@@ -59,6 +59,16 @@ export const visualData = (data) => ({
 });
 
 /**
+ * Set the temp chart ending date.
+ * @type {string}
+ */
+export const SCAT_DATA = 'SCAT_DATA'
+export const scatData = (data) => ({
+    type: SCAT_DATA,
+    data
+});
+
+/**
  * Set the chart type: temp or humidity
  * @type {string}
  */
@@ -115,7 +125,11 @@ export const getChartThunk = (user, startDate, endDate, type, flavor) => async d
         if (!response.data.responseBody.includes('success')){
             dispatch(isDataError(true, 'Error getting chart data...'));
         }
-        dispatch(visualData(response.data.chart.intervals));
+        if (flavor === 'scat'){
+            dispatch(scatData(response.data.chart.intervals));
+        }else{
+            dispatch(visualData(response.data.chart.intervals));
+        }
         dispatch(isDataLoading(false));
         return
     } catch (error) {

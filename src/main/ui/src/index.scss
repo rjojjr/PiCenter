@@ -82,6 +82,21 @@ html, body, .viewport {
   height: 100vh;
 }
 
+.scrollPage {
+  height: 100%;
+  overflow: auto;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  //height: 100%;
+
+  //flex: 1;
+  flex: 5;
+  width: 100%;
+  //height: 80%;
+  overflow: auto;
+}
+
 .pageContainer{
   display: flex;
   flex-direction: column;
@@ -115,16 +130,7 @@ div{
 
 #main > section {
   //display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  //height: 100%;
 
-  //flex: 1;
-  flex: 5;
-  width: 100%;
-  //height: 80%;
-  overflow: auto;
 }
 
 .lightText {

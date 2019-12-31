@@ -22,6 +22,7 @@ package com.kirchnersolutions.PiCenter.services;
 import com.kirchnersolutions.PiCenter.entites.Reading;
 import com.kirchnersolutions.PiCenter.entites.ReadingRepository;
 import com.kirchnersolutions.PiCenter.servers.beans.RoomSummary;
+import com.kirchnersolutions.PiCenter.servers.beans.ScatterPoint;
 import com.kirchnersolutions.utilities.BigDecimalMath;
 import com.kirchnersolutions.utilities.CalenderConverter;
 import lombok.AllArgsConstructor;
@@ -42,8 +43,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Future;
 
-import static com.kirchnersolutions.utilities.CalenderConverter.MINUTE;
-import static com.kirchnersolutions.utilities.CalenderConverter.getDaysInMonth;
+import static com.kirchnersolutions.utilities.CalenderConverter.*;
 
 @DependsOn({"debuggingService", "appUserRepository", "readingRepository"})
 @Service
@@ -73,6 +73,40 @@ public class StatService {
             count++;
         }
         return summaries;
+    }
+
+    ScatterPoint[] generateRoomScatterPoints(String start, String end, String room, String type){
+        List<Reading> insideReadings = readingRepository.findByTimeBetweenAndRoomOrderByTimeDesc(getMillisFromDateString(start, "/"), getMillisFromDateString(end, "/") + DAY, room);
+        ScatterPoint[] points = new ScatterPoint[insideReadings.size()];
+        int count = 0;
+        for(Reading reading : insideReadings){
+            ScatterPoint point = new ScatterPoint();
+            point.setTime(reading.getTime());
+            if(type.contains("temp")){
+                point.setInside(reading.getTemp());
+                point.setOutside(Integer.parseInt((int)getAverage(reading.getTime(), 6 * (MINUTE), "outside", 0)[0] + ""));
+            }else{
+                point.setInside(reading.getHumidity());
+                point.setOutside(Integer.parseInt((int)getAverage(reading.getTime(), 6 * (MINUTE), "outside", 0)[1] + ""));
+            }
+            points[count] = point;
+            count++;
+        }
+        return points;
+    }
+
+    /**
+     * Returns array of temp and humidity average of readings between time +- window in room room.
+     * @param time
+     * @param window
+     * @param room
+     * @return
+     */
+    double[] getAverage(long time, long window, String room, int precision){
+        long startTime = time - window;
+        long endTime = time + window;
+        List<Reading> readings = readingRepository.findByTimeBetweenAndRoomOrderByTimeDesc(startTime, endTime, room);
+        return getMeans(getSums(readings), precision);
     }
 
     /**
@@ -144,6 +178,13 @@ public class StatService {
         double[] means = new double[2];
         means[0] = Double.parseDouble(round(findMean(sums.getSums()[0], sums.getCount()), 1));
         means[1] = Double.parseDouble(round(findMean(sums.getSums()[1], sums.getCount()), 1));
+        return means;
+    }
+
+    private double[] getMeans(SumBean sums, int precision){
+        double[] means = new double[2];
+        means[0] = Double.parseDouble(round(findMean(sums.getSums()[0], sums.getCount()), precision));
+        means[1] = Double.parseDouble(round(findMean(sums.getSums()[1], sums.getCount()), precision));
         return means;
     }
 

@@ -15,9 +15,11 @@ export const chartTypes = (type) => {
 }
 
 export const chartFlavors = (flavor) => {
-    if (flavor.toLowerCase().includes("a")){
+    if (flavor.toLowerCase().includes("av")){
         return 'avg';
-    }else{
+    }else if (flavor.toLowerCase().includes("h")){
         return 'hl';
+    }else{
+        return 'scat';
     }
 }

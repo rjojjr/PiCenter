@@ -1,9 +1,7 @@
 package com.kirchnersolutions.PiCenter.services;
 
-import com.kirchnersolutions.PiCenter.servers.beans.ChartRequest;
-import com.kirchnersolutions.PiCenter.servers.beans.ChartResponse;
-import com.kirchnersolutions.PiCenter.servers.beans.DiffInterval;
-import com.kirchnersolutions.PiCenter.servers.beans.TempInterval;
+import com.kirchnersolutions.PiCenter.entites.Reading;
+import com.kirchnersolutions.PiCenter.servers.beans.*;
 import com.kirchnersolutions.utilities.CalenderConverter;
 import org.hibernate.tool.schema.extract.spi.ForeignKeyInformation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +36,10 @@ public class ChartService {
 
     public ChartResponse getDiffChartData(ChartRequest chartRequest) throws Exception{
         return new ChartResponse(generateDiffChartData(chartRequest));
+    }
+
+    public ChartResponse getScatChartData(ChartRequest chartRequest) throws Exception{
+        return new ChartResponse(generateScatterData(chartRequest));
     }
 
     /**
@@ -85,7 +87,11 @@ public class ChartService {
             if(outsideValues.get(count) != null){
                 ou = outsideValues.get(count)[type];
             }
-            tempIntervalList[count] = new TempInterval(getAverageIntervalString(intervals.get(count), false), br, lr, sr, of, ou, 0);
+            if(interval == 1){
+                tempIntervalList[count] = new TempInterval(getAverageIntervalString(intervals.get(count), false), br, lr, sr, of, ou, 0);
+            }else{
+                tempIntervalList[count] = new TempInterval(getAverageIntervalString(intervals.get(count), true), br, lr, sr, of, ou, 0);
+            }
             count++;
         }
         return tempIntervalList;
@@ -175,6 +181,31 @@ public class ChartService {
         return diffIntervalList;
     }
 
+    ScatterInterval[] generateScatterData(ChartRequest chartRequest) throws Exception {
+        String start = chartRequest.getFromDate();
+        String end = chartRequest.getToDate();
+        String type = chartRequest.getType();
+        Future<ScatterPoint[]>[] futures = new Future[4];
+        futures[0] = threadPoolTaskExecutor.submit(() -> {
+            return statService.generateRoomScatterPoints(start, end, "office", type);
+        });
+        futures[1] = threadPoolTaskExecutor.submit(() -> {
+            return statService.generateRoomScatterPoints(start, end, "livingroom", type);
+        });
+        futures[2] = threadPoolTaskExecutor.submit(() -> {
+            return statService.generateRoomScatterPoints(start, end, "bedroom", type);
+        });
+        futures[3] = threadPoolTaskExecutor.submit(() -> {
+            return statService.generateRoomScatterPoints(start, end, "serverroom", type);
+        });
+        ScatterInterval[] intervals = new ScatterInterval[4];
+        intervals[0] = new ScatterInterval(futures[0].get());
+        intervals[1] = new ScatterInterval(futures[1].get());
+        intervals[2] = new ScatterInterval(futures[2].get());
+        intervals[3] = new ScatterInterval(futures[3].get());
+        return intervals;
+    }
+
     private class ChartValuesThread implements Callable<List<double[]>>{
 
         private List<Long> intervals;
@@ -256,26 +287,26 @@ public class ChartService {
         if (start.equals(end)) {
             return 1;
         } else if (isSameMonth(start, end) && isSameYear(start, end)) {
-            int dif = Integer.parseInt(end.split("/")[2]) - Integer.parseInt(start.split("/")[2]);
-            if (dif < 6) {
+            int dif = Integer.parseInt(end.split("/")[1]) - Integer.parseInt(start.split("/")[1]);
+            if (dif <= 3) {
                 return 3;
             }
-            if (dif < 8) {
+            if (dif <= 6) {
                 return 6;
             }
-            if (dif < 15) {
+            if (dif <= 8) {
                 return 12;
             }
             return 24;
         } else {
             int dif = getDaysBetween(start, end, "/");
-            if (dif < 6) {
+            if (dif <= 3) {
                 return 3;
             }
-            if (dif < 8) {
+            if (dif <= 6) {
                 return 6;
             }
-            if (dif < 15) {
+            if (dif <= 8) {
                 return 12;
             }
             return 24;
@@ -507,7 +538,7 @@ public class ChartService {
             hourText = hour - 12 + "PM";
         }else{
             if(hour == 0){
-                hourText = date.split(" ")[0] + " 12AM";
+                hourText = "12AM";
             }else if(hour == 12){
                 hourText = hour + "PM";
             }else{
