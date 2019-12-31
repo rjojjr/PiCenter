@@ -59,3 +59,5 @@
 54. Add reboot pi button to device indicators. #rjojjr
 55. Remove blocking loading indicators from data visual UI.#rjojjr
 56. Add scatter chart.#rjojjr
+57. Wrap sections in scrollable div.
+58. Make chart width depend on interval range.
