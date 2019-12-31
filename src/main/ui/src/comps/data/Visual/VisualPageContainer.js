@@ -41,6 +41,7 @@ const VisualPageContainer = ({user, changePage, updateSession, isLoading, isErro
 
                 </header>
                 <div id="main">
+                    <div className={"scrollPage"} >
                     <section className={"visualPage"}>
                         <header className={"visualPage"}>
                             <GenericPageHeader isLoading={isLoading} currentTabIndex={1} onClickHandler={onClickHandler}
@@ -52,12 +53,15 @@ const VisualPageContainer = ({user, changePage, updateSession, isLoading, isErro
                                 <Loader type={"ThreeDots"} color={"#1976D2"} height={80} width={80}/>
                             </div>
                         )}
+
                         <VisualPage user={user} isDataError={isDataError} visualFromDate={visualFromDate}
                                     visualToDate={visualToDate} tempChartStart={tempChartStart}
                                     tempChartEnd={tempChartEnd} chartData={chartData} scatData={scatData} getChart={getChartHandler}
                                     setChartType={setChartType} chartType={chartType} setChartFlavor={setChartFlavor}
                                     chartFlavor={chartFlavor} intSelected={() => convertType()}/>
+
                     </section>
+                    </div>
                     <nav className={"visualPage"}>
                         <VisualPageNav changePage={changePage}/>
                     </nav>

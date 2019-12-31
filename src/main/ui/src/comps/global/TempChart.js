@@ -23,7 +23,6 @@ const TempChart = ({data}) => {
             <Line type="monotone" name="Bedroom" dataKey="bedroom" stroke="#8884d8"/>
             <Line type="monotone" name="Server Room" dataKey="serverRoom" stroke="#0c0707"/>
             <Line type="monotone" name="Outside" dataKey="outside" stroke="#ff33ff"/>
-            <Line type="monotone" name="Heat On" dataKey="heat" stroke="#ff3f33"/>
         </LineChart>
     );
 };

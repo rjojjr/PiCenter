@@ -22,7 +22,7 @@ group = 'com.kirchnersolutions'
 version = '1.0.07'
 def build = '100127'
 sourceCompatibility = '1.8'
-def PRODUCTION_BUILD = false
+def PRODUCTION_BUILD = true
 //def test = true
 def test = false
 
