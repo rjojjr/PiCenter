@@ -1,6 +1,6 @@
 # PiCenter
 
-**_Smart home statistics, control, integration and prediction center._**
+###**_Smart home statistics, control, integration and prediction center._**
 
 This application is built around Raspberry Pi and DHT digital temperature and humidity sensors to detect 
 trends between temperature and furnace/AC usage. The project will eventually
