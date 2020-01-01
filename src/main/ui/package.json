@@ -23,7 +23,6 @@
     "recharts": "^2.0.0-beta.1",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
-    "sas": "^3.0.4",
     "stomp-client": "^0.9.0",
     "websocket": "^1.0.31"
   },
