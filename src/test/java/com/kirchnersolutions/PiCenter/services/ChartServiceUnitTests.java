@@ -28,19 +28,19 @@ public class ChartServiceUnitTests {
     public void getTimeIntervals_returnsCorrectIntervals(){
         //Same day
         List<Long> intervals = new ArrayList<>();
-        intervals = chartService.getTimeIntervals("12/08/2019", "12/08/2019", 1);
+        intervals = SharedLogic.getTimeIntervals("12/08/2019", "12/08/2019", 1);
         assertEquals(24, intervals.size());
-        intervals = chartService.getTimeIntervals("12/08/2019", "12/08/2019", 3);
+        intervals = SharedLogic.getTimeIntervals("12/08/2019", "12/08/2019", 3);
         assertEquals(9, intervals.size());
         //Different day
-        intervals = chartService.getTimeIntervals("12/07/2019", "12/08/2019", 1);
+        intervals = SharedLogic.getTimeIntervals("12/07/2019", "12/08/2019", 1);
         assertEquals(48, intervals.size());
         assertEquals("12/07/2019 12AM", chartService.getAverageIntervalString(intervals.get(0), true));
         assertEquals("12/07/2019 1AM", chartService.getAverageIntervalString(intervals.get(1), true));
         assertEquals("12/08/2019 12AM", chartService.getAverageIntervalString(intervals.get(24), true));
         assertEquals("12/08/2019 11PM", chartService.getAverageIntervalString(intervals.get(47), true));
         //Different day month
-        intervals = chartService.getTimeIntervals("11/30/2019", "12/01/2019", 3);
+        intervals = SharedLogic.getTimeIntervals("11/30/2019", "12/01/2019", 3);
         assertEquals(17, intervals.size());
         assertEquals("11/30/2019 12AM", chartService.getAverageIntervalString(intervals.get(0), true));
         assertEquals("11/30/2019 3AM", chartService.getAverageIntervalString(intervals.get(1), true));
@@ -49,7 +49,7 @@ public class ChartServiceUnitTests {
         assertEquals("12/01/2019 9PM", chartService.getAverageIntervalString(intervals.get(15), true));
         assertEquals("12/01/2019 11PM", chartService.getAverageIntervalString(intervals.get(16), true));
         //Different day month year
-        intervals = chartService.getTimeIntervals("12/31/2018", "01/01/2019", 3);
+        intervals = SharedLogic.getTimeIntervals("12/31/2018", "01/01/2019", 3);
         assertEquals(17, intervals.size());
         assertEquals("12/31/2018 12AM", chartService.getAverageIntervalString(intervals.get(0), true));
         assertEquals("12/31/2018 3AM", chartService.getAverageIntervalString(intervals.get(1), true));
@@ -58,7 +58,7 @@ public class ChartServiceUnitTests {
         assertEquals("01/01/2019 9PM", chartService.getAverageIntervalString(intervals.get(15), true));
         assertEquals("01/01/2019 11PM", chartService.getAverageIntervalString(intervals.get(16), true));
         //If dates are backwards
-        intervals = chartService.getTimeIntervals("01/01/2019", "12/31/2018", 3);
+        intervals = SharedLogic.getTimeIntervals("01/01/2019", "12/31/2018", 3);
         assertEquals(17, intervals.size());
         assertEquals("12/31/2018 12AM", chartService.getAverageIntervalString(intervals.get(0), true));
         assertEquals("12/31/2018 3AM", chartService.getAverageIntervalString(intervals.get(1), true));

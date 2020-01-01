@@ -1,9 +1,7 @@
 package com.kirchnersolutions.PiCenter.services;
 
-import com.kirchnersolutions.PiCenter.entites.Reading;
 import com.kirchnersolutions.PiCenter.servers.beans.*;
 import com.kirchnersolutions.utilities.CalenderConverter;
-import org.hibernate.tool.schema.extract.spi.ForeignKeyInformation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
@@ -15,8 +13,6 @@ import java.util.concurrent.Future;
 
 import static com.kirchnersolutions.utilities.CalenderConverter.getDaysBetween;
 import static com.kirchnersolutions.utilities.CalenderConverter.getDaysInMonth;
-
-import static com.kirchnersolutions.utilities.CalenderConverter.DAY;
 
 @Service
 public class ChartService {
@@ -51,7 +47,7 @@ public class ChartService {
         String start = chartRequest.getFromDate();
         String end = chartRequest.getToDate();
         int interval = getInterval(start, end);
-        List<Long> intervals = getTimeIntervals(start, end, interval);
+        List<Long> intervals = SharedLogic.getTimeIntervals(start, end, interval);
         Future<List<double[]>>[] futures = new Future[5];
         futures[0] = threadPoolTaskExecutor.submit(new ChartValuesThread(intervals, interval, "bedroom"));
         futures[1] = threadPoolTaskExecutor.submit(new ChartValuesThread(intervals, interval, "livingroom"));
@@ -219,7 +215,7 @@ public class ChartService {
         }
 
         public List<double[]> call(){
-            return getChartValues(generateIntervalWindows(intervals, interval), room);
+            return getChartValues(SharedLogic.generateIntervalWindows(intervals, interval), room);
         }
 
     }
@@ -261,23 +257,6 @@ public class ChartService {
     }
 
     /**
-     * Generates list of periods to average chart points from.
-     * @param chartIntervals
-     * @param interval
-     * @return
-     */
-    List<long[]> generateIntervalWindows(List<Long> chartIntervals, int interval){
-        List<long[]> output = new ArrayList<>();
-        long half = interval * CalenderConverter.HOUR;
-        half/= 2;
-        for(Long period : chartIntervals){
-            long[] temp = {period - half, period + half};
-            output.add(temp);
-        }
-        return output;
-    }
-
-    /**
      * Generates interval based on time between arguments.
      * @param start
      * @param end
@@ -286,7 +265,7 @@ public class ChartService {
     private int getInterval(String start, String end) {
         if (start.equals(end)) {
             return 1;
-        } else if (isSameMonth(start, end) && isSameYear(start, end)) {
+        } else if (SharedLogic.isSameMonth(start, end) && SharedLogic.isSameYear(start, end)) {
             int dif = Integer.parseInt(end.split("/")[1]) - Integer.parseInt(start.split("/")[1]);
             if (dif <= 3) {
                 return 3;
@@ -331,13 +310,13 @@ public class ChartService {
             String[] date = start.split("/");
             intervals.add(statService.getHighLow(start, room));
             return intervals;
-        } else if (isSameMonth(start, end) && isSameYear(start, end)) {
+        } else if (SharedLogic.isSameMonth(start, end) && SharedLogic.isSameYear(start, end)) {
             String[] date = start.split("/");
             for (int k = Integer.parseInt(date[1]); k <= Integer.parseInt(end.split("/")[1]); k++) {
                 intervals.add(statService.getHighLow(date[0] + "/" + k + "/" + date[2], room));
             }
             return intervals;
-        } else if (isSameYear(start, end)) {
+        } else if (SharedLogic.isSameYear(start, end)) {
             int endMonth = Integer.parseInt(end.split("/")[0]);
             int startMonth = Integer.parseInt(start.split("/")[0]);
             String[] date = start.split("/");
@@ -393,138 +372,6 @@ public class ChartService {
     }
 
 
-    /**
-     * Get list of millis representing each interval between start and end.
-     *
-     * @param start:    MM/DD/YYYY
-     * @param end:      MM/DD/YYYY
-     * @param interval: n hours
-     * @return
-     */
-    List<Long> getTimeIntervals(String start, String end, int interval) {
-        if (CalenderConverter.getMillisFromDateString(start, "/") > CalenderConverter.getMillisFromDateString(end, "/")) {
-            return getTimeIntervals(end, start, interval);
-        }
-        List<Long> intervals = new ArrayList<>();
-        long endMillis = CalenderConverter.getMillisFromDateString(end, "/") + CalenderConverter.DAY;
-        long startMillis = CalenderConverter.getMillisFromDateString(start, "/");
-        if (start.equals(end)) {
-            String[] date = start.split("/");
-            if (interval >= 24) {
-                intervals.add(CalenderConverter.getMillis(Integer.parseInt(date[0]), Integer.parseInt(date[1]), Integer.parseInt(date[2]), 12, 0, 0));
-            } else {
-                for (int i = 0; i <= 23; i += interval) {
-                    intervals.add(CalenderConverter.getMillis(Integer.parseInt(date[0]), Integer.parseInt(date[1]), Integer.parseInt(date[2]), i, 0, 0));
-                }
-            }
-            if(interval > 1){
-                date = end.split("/");
-                intervals.add(CalenderConverter.getMillis(Integer.parseInt(date[0]), Integer.parseInt(date[1]), Integer.parseInt(date[2]), 23, 0, 0));
-            }
-            return intervals;
-        } else if (isSameMonth(start, end) && isSameYear(start, end)) {
-            String[] date = start.split("/");
-            for (int k = Integer.parseInt(date[1]); k <= Integer.parseInt(end.split("/")[1]); k++) {
-                if (interval >= 24) {
-                    intervals.add(CalenderConverter.getMillis(Integer.parseInt(date[0]), k, Integer.parseInt(date[2]), 12, 0, 0));
-                } else {
-                    for (int i = 0; i <= 23; i += interval) {
-                        intervals.add(CalenderConverter.getMillis(Integer.parseInt(date[0]), k, Integer.parseInt(date[2]), i, 0, 0));
-                    }
-                }
-            }
-            if(interval > 1){
-                date = end.split("/");
-                intervals.add(CalenderConverter.getMillis(Integer.parseInt(date[0]), Integer.parseInt(date[1]), Integer.parseInt(date[2]), 23, 0, 0));
-            }
-            return intervals;
-        } else if (isSameYear(start, end)) {
-            int endMonth = Integer.parseInt(end.split("/")[0]);
-            int startMonth = Integer.parseInt(start.split("/")[0]);
-            String[] date = start.split("/");
-            int startDay = Integer.parseInt(date[1]);
-            for (int j = startMonth; j <= endMonth; j++) {
-                if(j > startMonth){
-                    startDay = 1;
-                }
-                if (j == endMonth) {
-                    for (int k = startDay; k <= Integer.parseInt(end.split("/")[1]); k++) {
-                        if (interval >= 24) {
-                            intervals.add(CalenderConverter.getMillis(j, k, Integer.parseInt(date[2]), 12, 0, 0));
-                        } else {
-                            for (int i = 0; i <= 23; i += interval) {
-                                intervals.add(CalenderConverter.getMillis(j, k, Integer.parseInt(date[2]), i, 0, 0));
-                            }
-                        }
-                    }
-                } else {
-                    for (int k = startDay; k <= getDaysInMonth(j, Integer.parseInt(date[2])); k++) {
-                        if (interval >= 24) {
-                            intervals.add(CalenderConverter.getMillis(j, k, Integer.parseInt(date[2]), 12, 0, 0));
-                        } else {
-                            for (int i = 0; i <= 23; i += interval) {
-                                intervals.add(CalenderConverter.getMillis(j, k, Integer.parseInt(date[2]), i, 0, 0));
-                            }
-                        }
-                    }
-                }
-            }
-            if(interval > 1){
-                date = end.split("/");
-                intervals.add(CalenderConverter.getMillis(Integer.parseInt(date[0]), Integer.parseInt(date[1]), Integer.parseInt(date[2]), 23, 0, 0));
-            }
-            return intervals;
-        } else {
-            String[] date = start.split("/");
-            int endMonth = Integer.parseInt(end.split("/")[0]);
-            int startMonth = Integer.parseInt(start.split("/")[0]);
-            int endYear = Integer.parseInt(end.split("/")[2]);
-            int startYear = Integer.parseInt(start.split("/")[2]);
-            int startDay = Integer.parseInt(date[1]);
-            for (int u = startYear; u <= endYear; u++) {
-                if(u > startYear){
-                    startMonth = 1;
-                }
-                if(u == endYear){
-                    endMonth = Integer.parseInt(end.split("/")[0]);
-                }else{
-                    endMonth = 12;
-                }
-                for (int j = startMonth; j <= endMonth; j++) {
-                    if (j > startMonth || (u > startYear)) {
-                        startDay = 1;
-                    }
-                    if (j == endMonth && u == endYear) {
-                        for (int k = startDay; k <= Integer.parseInt(end.split("/")[1]); k++) {
-                            if (interval >= 24) {
-                                intervals.add(CalenderConverter.getMillis(j, k, u, 12, 0, 0));
-                            } else {
-                                for (int i = 0; i <= 23; i += interval) {
-                                    intervals.add(CalenderConverter.getMillis(j, k, u, i, 0, 0));
-                                }
-                            }
-                        }
-                    } else {
-                        for (int k = startDay; k <= getDaysInMonth(j, u); k++) {
-                            if (interval >= 24) {
-                                intervals.add(CalenderConverter.getMillis(j, k, u, 12, 0, 0));
-                            } else {
-                                for (int i = 0; i <= 23; i += interval) {
-                                    intervals.add(CalenderConverter.getMillis(j, k, u, i, 0, 0));
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            if(interval > 1){
-                date = end.split("/");
-                intervals.add(CalenderConverter.getMillis(Integer.parseInt(date[0]), Integer.parseInt(date[1]), Integer.parseInt(date[2]), 23, 0, 0));
-            }
-            return intervals;
-        }
-    }
-
     String getDiffIntervalString(String startDate, int count){
         long time = CalenderConverter.getMillisFromDateString(startDate, "/") + ((500 + CalenderConverter.DAY) * count);
         return CalenderConverter.getMonthDayYear(time, "/", ":");
@@ -549,14 +396,6 @@ public class ChartService {
             return date.split(" ")[0] + " " + hourText.trim();
         }
         return hourText;
-    }
-
-    private boolean isSameMonth(String date1, String date2) {
-        return date1.split("/")[0].equals(date2.split("/")[0]);
-    }
-
-    private boolean isSameYear(String date1, String date2) {
-        return date1.split("/")[2].equals(date2.split("/")[2]);
     }
 
 }

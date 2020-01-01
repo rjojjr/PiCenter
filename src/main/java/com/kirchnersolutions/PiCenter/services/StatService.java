@@ -27,7 +27,6 @@ import com.kirchnersolutions.utilities.BigDecimalMath;
 import com.kirchnersolutions.utilities.CalenderConverter;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.hibernate.boot.jaxb.hbm.spi.Adapter1;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
@@ -44,6 +43,7 @@ import java.util.List;
 import java.util.concurrent.Future;
 
 import static com.kirchnersolutions.utilities.CalenderConverter.*;
+import static java.lang.Math.abs;
 
 @DependsOn({"debuggingService", "appUserRepository", "readingRepository"})
 @Service
@@ -73,6 +73,105 @@ public class StatService {
             count++;
         }
         return summaries;
+    }
+
+    public List<double[]> outsideInsideCorrelation(int days){
+        List<long[]> intervals = getLearningIntervals(days);
+        return null;
+    }
+
+    List<long[]> getLearningIntervals(int days){
+        long now = System.currentTimeMillis();
+        String today = CalenderConverter.getMonthDayYear(now, "/", ":");
+        String yesterday = CalenderConverter.getMonthDayYear((now - (days * DAY)), "/", ":");
+        return SharedLogic.generateIntervalWindows(SharedLogic.getTimeIntervals(yesterday, today, 1), 1);
+    }
+
+     List<double[]> getLearningMeans(List<long[]> windows, String room){
+        return getAverages(windows, room, 2);
+    }
+
+    List<double[]> getLearningSlopes(List<double[]> means){
+        List<double[]> slopes = new ArrayList<>();
+        for(int i = 1; i < means.size(); i++){
+            double[] tY = {means.get(i)[0], means.get(i - 1)[0]};
+            double[] hY = {means.get(i)[1], means.get(i - 1)[1]};
+            double[] slope = new double[2];
+            if(tY[0] == 0 || tY[1] == 0){
+                slope[0] = 0;
+            }else{
+                slope[0] = tY[0] - tY[1];
+            }
+            if(hY[0] == 0 || hY[1] == 0){
+                slope[1] = 0;
+            }else{
+                slope[1] = hY[0] - hY[1];
+            }
+            slopes.add(slope);
+        }
+        return slopes;
+    }
+
+    static List<double[]> getRelation(List<double[]> outsideSlopes, List<double[]> compareSlopes){
+        List<double[]> diffs = new ArrayList();
+        for(int i = 0; i < outsideSlopes.size(); i++){
+            double[] diff = {0, 0};
+            double[] t = {outsideSlopes.get(i)[0], compareSlopes.get(i)[0]};
+            double[] h = {outsideSlopes.get(i)[1], compareSlopes.get(i)[1]};
+            if(t[0] == 0 || t[1] == 0){
+                diff[0] = -1;
+            }
+            if(h[0] == 0 || h[1] == 0){
+                diff[1] = -1;
+            }
+            if((t[0] > 0 && t[1] < 0) || (t[0] < 0 && t[1] > 0)){
+                diff[0] = 10;
+            }
+            if((h[0] > 0 && h[1] < 0) || (h[0] < 0 && h[1] > 0)){
+                diff[1] = 10;
+            }
+            if(diff[0] != -1 && diff[0] != 10){
+                diff[0] = t[0] - t[1];
+                diff[0] = abs(diff[0]);
+                if(diff[0] > 10){
+                    diff[0] = 10;
+                }
+            }
+            if(diff[1] != -1 && diff[1] != 10){
+                diff[1] = h[0] - h[1];
+                diff[1] = abs(diff[1]);
+                if(diff[1] > 10){
+                    diff[1] = 10;
+                }
+            }
+            diffs.add(diff);
+        }
+        return diffs;
+    }
+
+    double[] scoreDiffs(List<double[]> diffs){
+        int tcount = 0, hcount = 0;
+        double tsum = 0, hsum = 0;
+        for(double[] diff : diffs){
+            if(diff[0] != -1){
+                tcount++;
+                tsum+= diff[0];
+            }
+            if(diff[1] != -1){
+                hcount++;
+                hsum+= diff[1];
+            }
+        }
+        double[] scores = {(tsum / tcount), (hsum / hcount)};
+        return scores;
+    }
+
+    List<double[]> getAverages(List<long[]> intervals, String room, int precision){
+        List<double[]> results = new ArrayList<>();
+        for(long[] interval : intervals){
+            results.add(getAverage(interval, room, precision));
+        }
+        return results;
     }
 
     ScatterPoint[] generateRoomScatterPoints(String start, String end, String room, String type){
@@ -137,6 +236,16 @@ public class StatService {
         long endTime = window[1];
         List<Reading> readings = readingRepository.findByTimeBetweenAndRoomOrderByTimeDesc(startTime, endTime, room);
         return getMeans(getSums(readings));
+    }
+
+    double[] getAverage(long window[], String room, int precision){
+        if(window.length != 2){
+            return null;
+        }
+        long startTime = window[0];
+        long endTime = window[1];
+        List<Reading> readings = readingRepository.findByTimeBetweenAndRoomOrderByTimeDesc(startTime, endTime, room);
+        return getMeans(getSums(readings), precision);
     }
 
 
