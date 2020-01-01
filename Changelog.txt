@@ -1,9 +1,10 @@
 PiCenter Changelog
 
 1.0.08
-
+01/01/2020
 Build 100128
     Disable scatter plot.
+    Add Pearson Correlation service.
 
 1.0.07
 12/29/2019

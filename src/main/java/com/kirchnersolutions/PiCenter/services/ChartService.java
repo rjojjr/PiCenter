@@ -49,10 +49,10 @@ public class ChartService {
         int interval = getInterval(start, end);
         List<Long> intervals = SharedLogic.getTimeIntervals(start, end, interval);
         Future<List<double[]>>[] futures = new Future[5];
-        futures[0] = threadPoolTaskExecutor.submit(new ChartValuesThread(intervals, interval, "bedroom"));
+        futures[2] = threadPoolTaskExecutor.submit(new ChartValuesThread(intervals, interval, "bedroom"));
         futures[1] = threadPoolTaskExecutor.submit(new ChartValuesThread(intervals, interval, "livingroom"));
-        futures[2] = threadPoolTaskExecutor.submit(new ChartValuesThread(intervals, interval, "serverroom"));
-        futures[3] = threadPoolTaskExecutor.submit(new ChartValuesThread(intervals, interval, "office"));
+        futures[3] = threadPoolTaskExecutor.submit(new ChartValuesThread(intervals, interval, "serverroom"));
+        futures[0] = threadPoolTaskExecutor.submit(new ChartValuesThread(intervals, interval, "office"));
         futures[4] = threadPoolTaskExecutor.submit(new ChartValuesThread(intervals, interval, "outside"));
         List<double[]> bedroomValues = futures[0].get();
         List<double[]> livingroomValues = futures[1].get();

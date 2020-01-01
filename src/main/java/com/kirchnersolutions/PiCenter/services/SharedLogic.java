@@ -25,6 +25,53 @@ public class SharedLogic {
         return output;
     }
 
+    static List<double[]> convertLearningData(List<String[]> stringData){
+        List<double[]> output = new ArrayList<>();
+        for(String[] strings : stringData){
+            try{
+                double[] result = {Double.parseDouble(strings[0]), Double.parseDouble(strings[1])};
+                output.add(result);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+        return output;
+    }
+
+    static List<double[]> compareLearningData(List<double[]> data1, List<double[]> data2){
+        List<double[]> output = new ArrayList<>();
+        for(int i = 0; i < data1.size(); i++){
+            double[] out = new double[2];
+            try{
+                String temp = round(((data1.get(i)[0] + data2.get(i)[0]) / 2)  + "", 3);
+                out[0] = Double.parseDouble(temp);
+                temp = round(((data1.get(i)[1] + data2.get(i)[1]) / 2)  + "", 3);
+                out[1] = Double.parseDouble(temp);
+                output.add(out);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+        return output;
+    }
+
+    static List<double[]> roundLearningData(List<double[]> data, int precision){
+        List<double[]> output = new ArrayList<>();
+        for(int i = 0; i < data.size(); i++){
+            double[] out = new double[2];
+            try{
+                String temp = round(data.get(i)[0] + "", 3);
+                out[0] = Double.parseDouble(temp);
+                temp = round(data.get(i)[1] + "", 3);
+                out[1] = Double.parseDouble(temp);
+                output.add(out);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+        return output;
+    }
+
     /**
      * Get list of millis representing each interval between start and end.
      *
@@ -163,5 +210,35 @@ public class SharedLogic {
 
     static boolean isSameYear(String date1, String date2) {
         return date1.split("/")[2].equals(date2.split("/")[2]);
+    }
+
+    static String getZeros(int howMany) {
+        if (howMany == 0) return "";
+        String zeros = "";
+        for (int i = 0; i < howMany; i++) {
+            zeros = zeros + "0";
+        }
+        return zeros;
+    }
+
+    static String round(String value, int precision) {
+        if (value.split("\\.").length > 1) {
+            char[] decimals = value.split("\\.")[1].toCharArray();
+            if (decimals.length > precision) {
+                String part = "";
+                for (int i = 0; i < precision; i++) {
+                    part = part + decimals[i];
+                }
+                return value.split("\\.")[0] + "." + part;
+            }
+            if (decimals.length < precision) {
+                return value + getZeros(precision - decimals.length);
+            }
+            return value;
+        }
+        if (precision > 0) {
+            return value + "." + getZeros(precision);
+        }
+        return value;
     }
 }

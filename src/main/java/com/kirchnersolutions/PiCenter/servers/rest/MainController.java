@@ -20,11 +20,11 @@ import java.util.Arrays;
 public class MainController {
 
     private UserService userService;
-    private StatService statService;
     private DebuggingService debuggingService;
     private CSVService csvService;
     private ChartService chartService;
     private DeviceService deviceService;
+    private StatService statService;
 
     @Autowired
     public MainController(UserService userService, StatService statService, DebuggingService debuggingService, CSVService csvService, ChartService chartService, DeviceService deviceService) {
