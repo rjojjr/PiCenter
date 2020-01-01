@@ -44,21 +44,23 @@ const SummaryPageContainer = ({
                         </header>
                     </div>
                     <div id="main">
-                        <section className={"summaryPage"}>
-                            <header className={"summaryPage"}>
-                                <SummaryPageHeader
-                                    isLoading={isLoading}
-                                    summary={summary}
-                                    selectSensor={selectSensor}
-                                />
+                        <div className={"scrollPage"}>
+                            <section className={"summaryPage"}>
+                                <header className={"summaryPage"}>
+                                    <SummaryPageHeader
+                                        isLoading={isLoading}
+                                        summary={summary}
+                                        selectSensor={selectSensor}
+                                    />
 
-                            </header>
-                            <SummaryPage
-                                canRender={canLoad}
-                                isLoading={isLoading}
-                                summary={showSummary()}
-                            />
-                        </section>
+                                </header>
+                                <SummaryPage
+                                    canRender={canLoad}
+                                    isLoading={isLoading}
+                                    summary={showSummary()}
+                                />
+                            </section>
+                        </div>
                         <nav className={"summaryPage"}>
                             <SummaryNav changePage={changePage}/>
                         </nav>
@@ -70,7 +72,7 @@ const SummaryPageContainer = ({
                         </aside>
                     </div>
                     <div>
-                        <footer >
+                        <footer>
                             <a className={"lightText"} href={"http://github.com/rjojjr"}>Visit me on github</a>
                         </footer>
                     </div>

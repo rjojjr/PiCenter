@@ -19,6 +19,7 @@ const DeviceStatusContainer = ({user, changePage, isLoading, isError, errorMsg, 
                         </header>
                     </div>
                     <div id="main">
+                        <div className={"scrollPage"}>
                         <section className={"deviceStatusPage"}>
                             <header className={"deviceStatusPage"}>
                                 <GenericPageHeader isLoading={isLoading} currentTabIndex={0}
@@ -34,6 +35,7 @@ const DeviceStatusContainer = ({user, changePage, isLoading, isError, errorMsg, 
                                               restartPi={restartPi}
                                     devicesLoading={devicesLoading}/>
                         </section>
+                        </div>
                         <nav className={"deviceStatusPage"}>
                             <DevicePanelNav changePage={changePage}/>
                         </nav>

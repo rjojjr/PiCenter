@@ -1,4 +1,5 @@
 import React, {useState} from "react";
+import Button from "react-bootstrap/Button";
 
 const CreateUserPage = ({user, isLoading, logOff, changePage, onClickHandler, resetMsg, createUser}) => {
 
@@ -97,12 +98,12 @@ const CreateUserPage = ({user, isLoading, logOff, changePage, onClickHandler, re
                                 {adminText}
                             </td>
                             <td>
-                                <button onClick={handleAdminOnChange}>Change</button>
+                                <Button variant={"primary"} onClick={handleAdminOnChange}>Change</Button>
                             </td>
                         </tr>
                     </tbody>
                 </table>
-                <button className={"button createUserButton"} onClick={handleOnSubmit}>Create User</button>
+                <Button variant={"primary"} className={"button createUserButton"} onClick={handleOnSubmit}>Create User</Button>
             </form>
         </div>
     )

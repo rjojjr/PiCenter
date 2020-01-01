@@ -1,6 +1,6 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
-    Scatter, ScatterChart, Line, XAxis, YAxis, ZAxis, CartesianGrid, Tooltip, Legend,
+    Scatter, ScatterChart, Line, XAxis, YAxis, ZAxis, CartesianGrid, Tooltip, Legend, Brush
 } from 'recharts';
 import moment from 'moment'
 
@@ -45,7 +45,7 @@ const ScatterPlotChart = ({data, type}) => {
                     <YAxis dataKey="inside" name="temp" unit="F"/>
                     <ZAxis dataKey="outside"  name="outside temp" unit="F"/>
                     <Tooltip cursor={{strokeDasharray: '3 3'}}/>
-                    <Legend verticalAlign="top"/>
+                    <Legend verticalAlign="top" align="left"/>
                     <Scatter name="Office" data={data[0].interval} fill="#FFBE33"/>
                     <Scatter name="Living Room" data={data[1].interval} fill="#82ca9d"/>
                     <Scatter name="Bedroom" data={data[2].interval} fill="#8884d8"/>
@@ -54,6 +54,7 @@ const ScatterPlotChart = ({data, type}) => {
                 </div>
             )}
             {(type === 'hum') && (
+                <div className={"scrollChart"}>
                 <ScatterChart
                     width={800}
                     height={415}
@@ -76,6 +77,7 @@ const ScatterPlotChart = ({data, type}) => {
                     <Scatter name="Bedroom" data={data[2].interval} fill="#8884d8"/>
                     <Scatter name="Server Room" data={data[3].interval} fill="#0c0707"/>
                 </ScatterChart>
+                </div>
             )}
         </div>
     );

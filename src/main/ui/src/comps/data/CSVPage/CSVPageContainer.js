@@ -24,6 +24,7 @@ const CSVPageContainer = ({user, changePage, updateSession, isLoading, isError, 
                         </header>
                     </div>
                     <div id="main">
+                        <div className={"scrollPage"}>
                         <section className={"csvPage"}>
                             <header className={"csvPage"}>
                                 <GenericPageHeader isLoading={isLoading} currentTabIndex={0}
@@ -34,6 +35,7 @@ const CSVPageContainer = ({user, changePage, updateSession, isLoading, isError, 
                                            link={`${DOWNLOAD_CSV}/?token=${user.token}`}/>
                             <CSVPage user={user} isDataError={isDataError} getCSV={getCSV}/>
                         </section>
+                        </div>
                         <nav className={"csvPage"}>
                             <CSVPageNav changePage={changePage}/>
                         </nav>
