@@ -22,6 +22,7 @@ package com.kirchnersolutions.PiCenter.services;
 import com.kirchnersolutions.PiCenter.dev.DebuggingService;
 import com.kirchnersolutions.PiCenter.entites.Reading;
 import com.kirchnersolutions.PiCenter.entites.ReadingRepository;
+import com.kirchnersolutions.PiCenter.servers.beans.ChartRequest;
 import com.kirchnersolutions.PiCenter.servers.beans.RoomSummary;
 import com.kirchnersolutions.PiCenter.servers.beans.ScatterInterval;
 import com.kirchnersolutions.PiCenter.servers.beans.ScatterPoint;
@@ -32,6 +33,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.DependsOn;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
@@ -53,7 +55,7 @@ import java.util.concurrent.Future;
 import static com.kirchnersolutions.utilities.CalenderConverter.*;
 import static java.lang.Math.abs;
 
-@DependsOn({"debuggingService", "appUserRepository", "readingRepository"})
+@DependsOn({"debuggingService", "appUserRepository", "readingRepository", "chartService"})
 @Service
 public class StatService {
 
@@ -63,25 +65,44 @@ public class StatService {
     private PearsonCorrelation pearsonCorrelation;
 
     @Autowired
-    public StatService(ReadingRepository readingRepository, ThreadPoolTaskExecutor taskExecutor, DebuggingService debuggingService, PearsonCorrelation pearsonCorrelation) {
+    public StatService(ReadingRepository readingRepository, ThreadPoolTaskExecutor taskExecutor, DebuggingService debuggingService, @Lazy PearsonCorrelation pearsonCorrelation) {
         this.readingRepository = readingRepository;
         this.threadPoolTaskExecutor = taskExecutor;
         this.debuggingService = debuggingService;
         this.pearsonCorrelation = pearsonCorrelation;
     }
 
-    @PostConstruct
-    public void init() throws Exception{
-        long time = System.currentTimeMillis();
-        System.out.println("Initial Learning Started");
-        calculatePearsons();
-        System.out.println("Initial Learning ended");
-    }
 
     public RoomSummary[] getRoomSummaries(int precision) throws Exception {
         String[] rooms = RoomConstants.rooms;
         List<double[]> curRelation = getRelationFromDir(new File("PiCenter/Learning/Daily/Pearson"));
         List<double[]> longRelation = getRelationFromDir(new File("PiCenter/Learning/LongTerm/Pearson"));
+        List<double[]> change = getRelationFromDir(new File("PiCenter/Learning/Daily/Change"));
+        List<double[]> longChange = getRelationFromDir(new File("PiCenter/Learning/LongTerm/Change"));
+        if(curRelation.isEmpty()){
+            for(int i = 0; i < 5; i++ ){
+                double[] empty = {0.0,0.0};
+                curRelation.add(empty);
+            }
+        }
+        if(longRelation.isEmpty()){
+            for(int i = 0; i < 5; i++ ){
+                double[] empty = {0.0,0.0};
+                longRelation.add(empty);
+            }
+        }
+        if(change.isEmpty()){
+            for(int i = 0; i < 5; i++ ){
+                double[] empty = {0.0,0.0};
+                change.add(empty);
+            }
+        }
+        if(longChange.isEmpty()){
+            for(int i = 0; i < 5; i++ ){
+                double[] empty = {0.0,0.0};
+                longChange.add(empty);
+            }
+        }
         RoomSummary[] summaries = new RoomSummary[rooms.length];
         Future<RoomSummary>[] futures = new Future[rooms.length];
         int count = 0;
@@ -93,15 +114,24 @@ public class StatService {
         count = 0;
         for (String room : rooms) {
             summaries[count] = futures[count].get();
-            if (curRelation.size() == 0) {
-                summaries[count].setRelation(empty);
-            } else {
-                summaries[count].setRelation(curRelation.get(count));
-            }
-            if (longRelation.size() == 0) {
+            if(count < 4) {
+                if (curRelation.size() == 0) {
+                    summaries[count].setRelation(empty);
+                } else {
+                    summaries[count].setRelation(curRelation.get(count));
+                }
+                if (longRelation.size() == 0) {
+                    summaries[count].setLongTermRelation(empty);
+                } else {
+                    summaries[count].setLongTermRelation(longRelation.get(count));
+                }
+                summaries[count].setChange(change.get(count));
+                summaries[count].setLongChange(longChange.get(count));
+            }else {
                 summaries[count].setLongTermRelation(empty);
-            } else {
-                summaries[count].setLongTermRelation(longRelation.get(count));
+                summaries[count].setRelation(empty);
+                summaries[count].setChange(empty);
+                summaries[count].setLongChange(empty);
             }
             count++;
         }
@@ -135,7 +165,7 @@ public class StatService {
     }
 
     @Scheduled(cron = "0 0 */3 * * *")
-    private void calculatePearson() throws IOException {
+    public void calculatePearson() throws IOException {
         List<double[]> results = new ArrayList<>();
         long time = System.currentTimeMillis();
         File dir = new File("PiCenter/Learning/Daily/Pearson");
@@ -163,7 +193,7 @@ public class StatService {
     }
 
     @Scheduled(cron = "0 0 */12 * * *")
-    private void calculatePearsons() throws IOException, Exception {
+    public void calculatePearsons() throws IOException, Exception {
         List<double[]> results = new ArrayList<>();
         long time = System.currentTimeMillis();
         File dir = new File("PiCenter/Learning/Daily/Pearson");
@@ -173,14 +203,15 @@ public class StatService {
         File wfile = new File(wdir, "/" + CalenderConverter.getMonthDayYear(time, "-", "-") + time);
         if (!dir.exists()) {
             dir.mkdirs();
-            return;
         }
-        if (ldir.exists()) {
+        if (!ldir.exists()) {
             ldir.mkdirs();
         }
-        if (wdir.exists()) {
+        if (!wdir.exists()) {
             wdir.mkdirs();
         }
+        results = pearsonCorrelation.generateCorrelation(CalenderConverter.getMonthDayYear(System.currentTimeMillis() - DAY, "/", ":"), CalenderConverter.getMonthDayYear(System.currentTimeMillis(), "/", ":"));
+        learningDataToFile(results, new File(dir, "/" + CalenderConverter.getMonthDayYear(time, "-", "-") + time));
         results = pearsonCorrelation.generateCorrelation(CalenderConverter.getMonthDayYear(System.currentTimeMillis() - WEEK, "/", ":"), CalenderConverter.getMonthDayYear(System.currentTimeMillis(), "/", ":"));
         learningDataToFile(results, wfile);
         results = pearsonCorrelation.generateCorrelation("11/01/2019", CalenderConverter.getMonthDayYear(System.currentTimeMillis(), "/", ":"));
@@ -214,7 +245,7 @@ public class StatService {
     }
 
     @Scheduled(cron = "0 0 */3 * * *")
-    private void calculateRelationship() throws IOException {
+    public void calculateRelationship() throws IOException {
         List<double[]> results = new ArrayList<>();
         long time = System.currentTimeMillis();
         File dir = new File("PiCenter/Learning/Daily/Change");
@@ -259,7 +290,7 @@ public class StatService {
     }
 
     @Scheduled(cron = "0 0 */7 * * *")
-    private void calculateRelationships() throws IOException {
+    public void calculateRelationships() throws IOException {
         List<double[]> results = new ArrayList<>();
         long time = System.currentTimeMillis();
         File dir = new File("PiCenter/Learning/Daily/Change");
@@ -271,12 +302,13 @@ public class StatService {
             dir.mkdirs();
             return;
         }
-        if (ldir.exists()) {
+        if (!ldir.exists()) {
             ldir.mkdirs();
         }
-        if (wdir.exists()) {
+        if (!wdir.exists()) {
             wdir.mkdirs();
         }
+        calculateRelationship(1, new File(dir, "/" + CalenderConverter.getMonthDayYear(time, "-", "-") + time));
         calculateRelationship(7, wfile);
         boolean first = true;
         for(File stat : wdir.listFiles()){
@@ -790,6 +822,7 @@ public class StatService {
     }
 
     BigDecimal findStandardDeviation(BigDecimal mean, boolean sample, ScatterInterval interval, boolean outside) {
+        MathContext mc = new MathContext(10, RoundingMode.HALF_UP);
         List<BigDecimal> squares = new ArrayList<>();
         for(ScatterPoint point : interval.getInterval()){
             BigDecimal read;
@@ -803,7 +836,7 @@ public class StatService {
         }
         BigDecimal sum = new BigDecimal("0");
         for (BigDecimal square : squares) {
-            sum = sum.add(square);
+            sum = sum.add(square, mc);
         }
         BigDecimal square;
         if (sample) {

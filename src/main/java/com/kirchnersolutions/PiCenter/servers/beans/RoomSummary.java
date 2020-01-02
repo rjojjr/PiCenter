@@ -15,7 +15,7 @@ public class RoomSummary {
     //0 - instant, 1 - 1hr, 2 - 2hr, 3 - 3hr, 4 - 6hr, 5 - 12hr, 6 - 24hr
     //<>Devi = standard deviation
     private String[] temps, humiditys, tempDevi, humidityDevi;
-    private double[] relation, longTermRelation;
+    private double[] relation, longTermRelation, change, longChange;
 
     public RoomSummary(String roomName, String[] temps, String[] humiditys, String[] tempDevi, String[] humidityDevi){
         this.roomName = roomName;

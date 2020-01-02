@@ -4,13 +4,20 @@ import com.kirchnersolutions.PiCenter.Configuration.Device;
 import com.kirchnersolutions.PiCenter.servers.beans.DeviceStatus;
 import com.kirchnersolutions.PiCenter.servers.beans.ProcessLine;
 import com.kirchnersolutions.PiCenter.servers.beans.ProcessRequest;
+import com.kirchnersolutions.utilities.CalenderConverter;
+import com.kirchnersolutions.utilities.DeleteTools;
+import com.kirchnersolutions.utilities.ZipTools;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
@@ -206,6 +213,14 @@ public class DeviceService {
             }
         }
         return deviceStatus;
+    }
+
+    @Scheduled(cron = "0 0 2 * * *")
+    public void reboot(){
+        for(Device device : deviceList.getDevices()){
+            restartPi(device.getName());
+        }
+
     }
 
 }

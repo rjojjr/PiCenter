@@ -44,6 +44,74 @@ const SummaryPage = ({ summary, user, isLoading, canRender }) => {
                   );
                 })}
             </tbody>
+            <table>
+              <tbody>
+              <tr>
+                <td>
+                  Temperature Pearson Correlation Coefficient
+                </td>
+                <td>
+                  {summary.relation[0]}
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  Humidity Pearson Correlation Coefficient
+                </td>
+                <td>
+                  {summary.relation[1]}
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  Historic Temperature Pearson Correlation Coefficient
+                </td>
+                <td>
+                  {summary.longTermRelation[0]}
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  Historic Humidity Pearson Correlation Coefficient
+                </td>
+                <td>
+                  {summary.longTermRelation[1]}
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  Temperature Change Response Coefficient
+                </td>
+                <td>
+                  {summary.change[0]}
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  Humidity Change Response Coefficient
+                </td>
+                <td>
+                  {summary.change[1]}
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  Historic Temperature Change Response Coefficient
+                </td>
+                <td>
+                  {summary.longChange[0]}
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  Historic Humidity Change Response Coefficient
+                </td>
+                <td>
+                  {summary.longChange[1]}
+                </td>
+              </tr>
+              </tbody>
+            </table>
           </table>
         </div>
       )}

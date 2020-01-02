@@ -3,6 +3,7 @@ package com.kirchnersolutions.PiCenter.services;
 import com.kirchnersolutions.PiCenter.servers.beans.*;
 import com.kirchnersolutions.utilities.CalenderConverter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +22,7 @@ public class ChartService {
     private ThreadPoolTaskExecutor threadPoolTaskExecutor;
 
     @Autowired
-    public ChartService(StatService statService, ThreadPoolTaskExecutor threadPoolTaskExecutor) {
+    public ChartService(@Lazy StatService statService, ThreadPoolTaskExecutor threadPoolTaskExecutor) {
         this.statService = statService;
         this.threadPoolTaskExecutor = threadPoolTaskExecutor;
     }

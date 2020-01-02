@@ -5,15 +5,21 @@ import com.kirchnersolutions.PiCenter.servers.beans.ScatterInterval;
 import com.kirchnersolutions.PiCenter.servers.beans.ScatterPoint;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.DependsOn;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import javax.persistence.criteria.From;
 import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Future;
 
+@DependsOn({"statService", "chartService"})
 @Component
 public class PearsonCorrelation {
 
@@ -67,13 +73,14 @@ public class PearsonCorrelation {
     }
 
     BigDecimal getMean(ScatterInterval interval, boolean outside){
+        MathContext mc = new MathContext(10, RoundingMode.HALF_UP);
         BigDecimal sum = new BigDecimal(0);
         int count = 0;
         for(ScatterPoint point : interval.getInterval()){
             if(outside){
-                sum = sum.add(new BigDecimal(point.getOutside()));
+                sum = sum.add(new BigDecimal(point.getOutside()), mc);
             }else{
-                sum = sum.add(new BigDecimal(point.getInside()));
+                sum = sum.add(new BigDecimal(point.getInside()), mc);
             }
             count++;
         }
@@ -81,21 +88,22 @@ public class PearsonCorrelation {
     }
 
     BigDecimal getCovariance(ScatterInterval interval, BigDecimal insideMean, BigDecimal outsideMean){
-
+        MathContext mc = new MathContext(10, RoundingMode.HALF_UP);
         BigDecimal sum = new BigDecimal(0);
         int count = 0;
         for(ScatterPoint point : interval.getInterval()){
-            BigDecimal inDiff = insideMean.subtract(new BigDecimal(point.getInside()));
-            BigDecimal outDiff = outsideMean.subtract(new BigDecimal(point.getOutside()));
-            sum = sum.add(inDiff.multiply(outDiff));
+            BigDecimal inDiff = insideMean.subtract(new BigDecimal(point.getInside()), mc);
+            BigDecimal outDiff = outsideMean.subtract(new BigDecimal(point.getOutside()), mc);
+            sum = sum.add(inDiff.multiply(outDiff), mc);
             count++;
         }
-        return sum.divide(new BigDecimal(count -1));
+        return sum.divide(new BigDecimal(count -1), mc);
     }
 
     BigDecimal getPearson(BigDecimal covariance, BigDecimal inDeviation, BigDecimal outDeviation){
-        BigDecimal product = inDeviation.multiply(outDeviation);
-        return covariance.divide(product);
+        MathContext mc = new MathContext(10, RoundingMode.HALF_UP);
+        BigDecimal product = inDeviation.multiply(outDeviation, mc);
+        return covariance.divide(product, mc);
     }
 
 }
