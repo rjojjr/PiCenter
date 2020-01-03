@@ -7,6 +7,7 @@ import Button from 'react-bootstrap/Button';
 
 import * as pageConstants from '../../constants/page-constants';
 import SummaryNav from "./SummaryNav";
+import {updateSession} from "../../services/axios-service";
 
 const SummaryPageContainer = ({
                                   summary,
@@ -32,6 +33,8 @@ const SummaryPageContainer = ({
         }
     };
 
+    updateSession(user.page, user);
+
     return (
         <div className={"pageContainer summaryPageContainer"}>
             <LoadingView isLoading={isLoading} message={"Loading.."}/>
@@ -44,21 +47,23 @@ const SummaryPageContainer = ({
                         </header>
                     </div>
                     <div id="main">
-                        <section className={"summaryPage"}>
-                            <header className={"summaryPage"}>
-                                <SummaryPageHeader
-                                    isLoading={isLoading}
-                                    summary={summary}
-                                    selectSensor={selectSensor}
-                                />
+                        <div className={"scrollPage"}>
+                            <section className={"summaryPage"}>
+                                <header className={"summaryPage"}>
+                                    <SummaryPageHeader
+                                        isLoading={isLoading}
+                                        summary={summary}
+                                        selectSensor={selectSensor}
+                                    />
 
-                            </header>
-                            <SummaryPage
-                                canRender={canLoad}
-                                isLoading={isLoading}
-                                summary={showSummary()}
-                            />
-                        </section>
+                                </header>
+                                <SummaryPage
+                                    canRender={canLoad}
+                                    isLoading={isLoading}
+                                    summary={showSummary()}
+                                />
+                            </section>
+                        </div>
                         <nav className={"summaryPage"}>
                             <SummaryNav changePage={changePage}/>
                         </nav>
@@ -70,7 +75,7 @@ const SummaryPageContainer = ({
                         </aside>
                     </div>
                     <div>
-                        <footer >
+                        <footer>
                             <a className={"lightText"} href={"http://github.com/rjojjr"}>Visit me on github</a>
                         </footer>
                     </div>

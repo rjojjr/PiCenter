@@ -23,6 +23,7 @@ const LogOnPageContainer = ({
                 </header>
             </div>
             <div id="main">
+                <div className={"scrollPage"}>
                 <section>
                     <LogOnPage
                         user={user}
@@ -34,6 +35,7 @@ const LogOnPageContainer = ({
                     />
 
                 </section>
+                </div>
                 <nav><p className={"lightText"}>Sign in</p></nav>
                 <aside></aside>
 

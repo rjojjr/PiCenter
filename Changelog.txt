@@ -1,5 +1,13 @@
 PiCenter Changelog
 
+1.0.08
+01/01/2020
+Build 100128
+    Disable scatter plot.
+    Added Pearson Correlation service.
+    Sends reboot signal to pis at 2am.
+    Fix scroll views.
+
 1.0.07
 12/29/2019
 Build 100127

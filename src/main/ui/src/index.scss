@@ -14,6 +14,10 @@ $accentColor: #607D8B;
 $secondaryTextColor: #757575;
 $dividerColor: #BDBDBD;
 
+hr{
+  color: $primaryDarkColor;
+}
+
 /** {
   box-sizing: border-box;
 }*/
@@ -83,18 +87,24 @@ html, body, .viewport {
 }
 
 .scrollPage {
-  height: 100%;
-  overflow: auto;
+  overflow-y: auto;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  //height: 100%;
-
+  height: 84vh;
+  //min-height: 0px;
   //flex: 1;
   flex: 5;
   width: 100%;
   //height: 80%;
-  overflow: auto;
+}
+
+.scatterChart{
+  width: 100%;
+}
+
+.scrollChart {
+  overflow-x: auto;
 }
 
 .pageContainer{
@@ -130,6 +140,17 @@ div{
 
 #main > section {
   //display: flex;
+  height: 100%;
+  overflow: auto;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  //height: 100%;
+
+  //flex: 1;
+  flex: 5;
+  width: 100%;
+  //height: 80%;
 
 }
 
@@ -198,13 +219,14 @@ head{
 }
 header{
   //height: 7%;
-  min-height: 60px;
+  //min-height: 60px;
+  min-height: 5vh;
   background: $primaryDarkColor;
   color: $textIconColor;
 }
 footer {
   background: $primaryDarkColor;
-  min-height: 60px;
+  min-height: 5vh;
   //height: 7%;
 }
 

@@ -18,6 +18,7 @@ const CreateUserContainer = ({user, userMsg, isLoading, logOff, changePage, onCl
 
                     </header>
                     <div id="main">
+                        <div className={"scrollPage"}>
                         <section className={"createUserPage"}>
                             <header className={"createUserPage"}>
                                 <GenericPageHeader isLoading={isLoading} currentTabIndex={0} onClickHandler={onClickHandler} tabs={pageConstants.USERS_TABS}/>
@@ -25,6 +26,7 @@ const CreateUserContainer = ({user, userMsg, isLoading, logOff, changePage, onCl
                             <p>{userMsg}</p>
                             <CreateUserPage user={user} resetMsg={resetUserMsg} createUser={createUser}/>
                         </section>
+                        </div>
                         <nav className={"createUserPage"}>
                             <CreateUserNav changePage={changePage} />
                         </nav>

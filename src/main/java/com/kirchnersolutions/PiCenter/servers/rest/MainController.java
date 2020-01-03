@@ -1,11 +1,12 @@
 package com.kirchnersolutions.PiCenter.servers.rest;
 
-import com.kirchnersolutions.PiCenter.Configuration.Device;
 import com.kirchnersolutions.PiCenter.dev.DebuggingService;
 import com.kirchnersolutions.PiCenter.entites.AppUser;
 import com.kirchnersolutions.PiCenter.servers.beans.*;
 import com.kirchnersolutions.PiCenter.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.DependsOn;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -14,26 +15,100 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.util.Arrays;
 
+@DependsOn({"statService"})
 @RestController
 public class MainController {
 
     private UserService userService;
-    private StatService statService;
     private DebuggingService debuggingService;
     private CSVService csvService;
     private ChartService chartService;
     private DeviceService deviceService;
+    private StatService statService;
+    private ThreadPoolTaskExecutor threadPoolTaskExecutor;
 
     @Autowired
-    public MainController(UserService userService, StatService statService, DebuggingService debuggingService, CSVService csvService, ChartService chartService, DeviceService deviceService) {
+    public MainController(UserService userService, StatService statService, DebuggingService debuggingService, CSVService csvService, ChartService chartService, DeviceService deviceService, ThreadPoolTaskExecutor threadPoolTaskExecutor) {
         this.userService = userService;
         this.statService = statService;
         this.debuggingService = debuggingService;
         this.csvService = csvService;
         this.chartService = chartService;
         this.deviceService = deviceService;
+        this.threadPoolTaskExecutor = threadPoolTaskExecutor;
+    }
+
+    @GetMapping("/pearson/long")
+    public RestResponse generatePearsons(HttpServletResponse response) throws Exception{
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes())
+                .getRequest();
+        //ServletWebRequest servletWebRequest=new ServletWebRequest(request);
+        //HttpServletResponse response=servletWebRequest.getResponse();
+        HttpSession httpSession = cookie(request, response);
+        String msg = "working";
+        threadPoolTaskExecutor.execute(() -> {
+            try {
+                statService.calculateLongTermPearson();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+        return new RestResponse("body: working");
+    }
+
+    @GetMapping("/pearson")
+    public RestResponse generatePearson(HttpServletResponse response) throws Exception{
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes())
+                .getRequest();
+        //ServletWebRequest servletWebRequest=new ServletWebRequest(request);
+        //HttpServletResponse response=servletWebRequest.getResponse();
+        HttpSession httpSession = cookie(request, response);
+        String msg = "working";
+        threadPoolTaskExecutor.execute(() -> {
+            try {
+                statService.calculatePearson();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+        return new RestResponse("body: working");
+    }
+
+    @GetMapping("/learn/long")
+    public RestResponse generateLongLearn(HttpServletResponse response) throws Exception{
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes())
+                .getRequest();
+        //ServletWebRequest servletWebRequest=new ServletWebRequest(request);
+        //HttpServletResponse response=servletWebRequest.getResponse();
+        HttpSession httpSession = cookie(request, response);
+        String msg = "working";
+        threadPoolTaskExecutor.execute(() -> {
+            try {
+                statService.calculateLongTermChange();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+        return new RestResponse("body: working");
+    }
+
+    @GetMapping("/learn")
+    public RestResponse generateLearn(HttpServletResponse response) throws Exception{
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes())
+                .getRequest();
+        //ServletWebRequest servletWebRequest=new ServletWebRequest(request);
+        //HttpServletResponse response=servletWebRequest.getResponse();
+        HttpSession httpSession = cookie(request, response);
+        String msg = "working";
+        threadPoolTaskExecutor.execute(() -> {
+            try {
+                statService.calculateChange();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+        return new RestResponse("body: working");
     }
 
     @GetMapping("/loading")
