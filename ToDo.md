@@ -15,7 +15,7 @@
 10. Add user info on left aside.#rjojjr
 11. Create HTTP session list, and delete all user sessions that exist on log out.(stretch)
 12. Many to one user sessions for multiple pages. Use tokens.(stretch)
-13. Add sensor status api.
+13. Add sensor status api.#rjojjr
 14. Add user info page with password reset.
 15. Application properties external file for production.
 16. Add loading modals.#rjojjr
