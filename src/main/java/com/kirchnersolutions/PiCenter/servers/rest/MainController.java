@@ -1,11 +1,9 @@
 package com.kirchnersolutions.PiCenter.servers.rest;
 
-import com.kirchnersolutions.PiCenter.Configuration.Device;
 import com.kirchnersolutions.PiCenter.dev.DebuggingService;
 import com.kirchnersolutions.PiCenter.entites.AppUser;
 import com.kirchnersolutions.PiCenter.servers.beans.*;
 import com.kirchnersolutions.PiCenter.services.*;
-import com.sun.org.apache.xpath.internal.functions.FuncSubstring;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
@@ -17,7 +15,6 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.util.Arrays;
 
 @DependsOn({"statService"})
 @RestController
@@ -52,7 +49,7 @@ public class MainController {
         String msg = "working";
         threadPoolTaskExecutor.execute(() -> {
             try {
-                statService.calculatePearsons();
+                statService.calculateLongTermPearson();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -88,7 +85,7 @@ public class MainController {
         String msg = "working";
         threadPoolTaskExecutor.execute(() -> {
             try {
-                statService.calculateRelationships();
+                statService.calculateLongTermChange();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -106,7 +103,7 @@ public class MainController {
         String msg = "working";
         threadPoolTaskExecutor.execute(() -> {
             try {
-                statService.calculateRelationship();
+                statService.calculateChange();
             } catch (Exception e) {
                 e.printStackTrace();
             }

@@ -22,7 +22,6 @@ package com.kirchnersolutions.PiCenter.services;
 import com.kirchnersolutions.PiCenter.dev.DebuggingService;
 import com.kirchnersolutions.PiCenter.entites.Reading;
 import com.kirchnersolutions.PiCenter.entites.ReadingRepository;
-import com.kirchnersolutions.PiCenter.servers.beans.ChartRequest;
 import com.kirchnersolutions.PiCenter.servers.beans.RoomSummary;
 import com.kirchnersolutions.PiCenter.servers.beans.ScatterInterval;
 import com.kirchnersolutions.PiCenter.servers.beans.ScatterPoint;
@@ -40,7 +39,6 @@ import org.springframework.stereotype.Service;
 import com.kirchnersolutions.PiCenter.constants.RoomConstants;
 import com.kirchnersolutions.PiCenter.constants.StatConstants;
 
-import javax.annotation.PostConstruct;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -165,7 +163,26 @@ public class StatService {
     }
 
     @Scheduled(cron = "0 0 */3 * * *")
-    public void calculatePearson() throws IOException {
+    public void calculatePearson() {
+        threadPoolTaskExecutor.execute(() -> {calculatePearsonThread();});
+    }
+
+    @Scheduled(cron = "0 0 */12 * * *")
+    public void calculateLongTermPearson()  {
+        threadPoolTaskExecutor.execute(() -> {calculateLongTermPearsonThread();});
+    }
+
+    @Scheduled(cron = "0 0 */3 * * *")
+    public void calculateChange() throws IOException {
+        threadPoolTaskExecutor.execute(() -> {calculateChangeThread();});
+    }
+
+    @Scheduled(cron = "0 0 */12 * * *")
+    public void calculateLongTermChange() throws IOException {
+        threadPoolTaskExecutor.execute(() -> {calculateLongTermChangeThread();});
+    }
+
+    private void calculatePearsonThread() {
         List<double[]> results = new ArrayList<>();
         long time = System.currentTimeMillis();
         File dir = new File("PiCenter/Learning/Daily/Pearson");
@@ -192,8 +209,7 @@ public class StatService {
         learningDataToFile(results, file);
     }
 
-    @Scheduled(cron = "0 0 */12 * * *")
-    public void calculatePearsons() throws IOException, Exception {
+    private void calculateLongTermPearsonThread() {
         List<double[]> results = new ArrayList<>();
         long time = System.currentTimeMillis();
         File dir = new File("PiCenter/Learning/Daily/Pearson");
@@ -210,12 +226,18 @@ public class StatService {
         if (!wdir.exists()) {
             wdir.mkdirs();
         }
-        results = pearsonCorrelation.generateCorrelation(CalenderConverter.getMonthDayYear(System.currentTimeMillis() - DAY, "/", ":"), CalenderConverter.getMonthDayYear(System.currentTimeMillis(), "/", ":"));
-        learningDataToFile(results, new File(dir, "/" + CalenderConverter.getMonthDayYear(time, "-", "-") + time));
-        results = pearsonCorrelation.generateCorrelation(CalenderConverter.getMonthDayYear(System.currentTimeMillis() - WEEK, "/", ":"), CalenderConverter.getMonthDayYear(System.currentTimeMillis(), "/", ":"));
-        learningDataToFile(results, wfile);
-        results = pearsonCorrelation.generateCorrelation("11/01/2019", CalenderConverter.getMonthDayYear(System.currentTimeMillis(), "/", ":"));
-        learningDataToFile(results, file);
+        try{
+            results = pearsonCorrelation.generateCorrelation(CalenderConverter.getMonthDayYear(System.currentTimeMillis() - DAY, "/", ":"), CalenderConverter.getMonthDayYear(System.currentTimeMillis(), "/", ":"));
+            learningDataToFile(results, new File(dir, "/" + CalenderConverter.getMonthDayYear(time, "-", "-") + time));
+            results = pearsonCorrelation.generateCorrelation(CalenderConverter.getMonthDayYear(System.currentTimeMillis() - WEEK, "/", ":"), CalenderConverter.getMonthDayYear(System.currentTimeMillis(), "/", ":"));
+            learningDataToFile(results, wfile);
+            results = pearsonCorrelation.generateCorrelation("11/01/2019", CalenderConverter.getMonthDayYear(System.currentTimeMillis(), "/", ":"));
+            learningDataToFile(results, file);
+        }catch (Exception e){
+            debuggingService.nonFatalDebug("Failed to calculate long term pearsons", e);
+            e.printStackTrace();
+        }
+
         boolean first = true;
         for(File stat : wdir.listFiles()){
             if(first){
@@ -244,8 +266,7 @@ public class StatService {
         learningDataToFile(results, file);
     }
 
-    @Scheduled(cron = "0 0 */3 * * *")
-    public void calculateRelationship() throws IOException {
+    private void calculateChangeThread(){
         List<double[]> results = new ArrayList<>();
         long time = System.currentTimeMillis();
         File dir = new File("PiCenter/Learning/Daily/Change");
@@ -265,6 +286,59 @@ public class StatService {
         } catch (InterruptedException ie) {
             debuggingService.nonFatalDebug("Learning thread interrupted", ie);
             return;
+        }
+        learningDataToFile(results, file);
+    }
+
+    private void calculateLongTermChangeThread() {
+        List<double[]> results = new ArrayList<>();
+        long time = System.currentTimeMillis();
+        File dir = new File("PiCenter/Learning/Daily/Change");
+        File wdir = new File("PiCenter/Learning/Weekly/Change");
+        File ldir = new File("PiCenter/Learning/LongTerm/Change");
+        File file = new File(ldir, "/" + CalenderConverter.getMonthDayYear(time, "-", "-") + time);
+        File wfile = new File(wdir, "/" + CalenderConverter.getMonthDayYear(time, "-", "-") + time);
+        if (!dir.exists()) {
+            dir.mkdirs();
+            return;
+        }
+        if (!ldir.exists()) {
+            ldir.mkdirs();
+        }
+        if (!wdir.exists()) {
+            wdir.mkdirs();
+        }
+        try{
+            calculateChange(1, new File(dir, "/" + CalenderConverter.getMonthDayYear(time, "-", "-") + time));
+            calculateChange(7, wfile);
+        }catch (Exception e){
+            debuggingService.nonFatalDebug("Failed to calculate long term changes", e);
+            e.printStackTrace();
+        }
+        boolean first = true;
+        for(File stat : wdir.listFiles()){
+            if(first){
+                results = getRelationFromFile(stat);
+                first = false;
+            }else{
+                results = SharedLogic.compareLearningData(results, getRelationFromFile(stat));
+            }
+        }
+        for(File stat : ldir.listFiles()){
+            if(first){
+                results = getRelationFromFile(stat);
+                first = false;
+            }else{
+                results = SharedLogic.compareLearningData(results, getRelationFromFile(stat));
+            }
+        }
+        for(File stat : dir.listFiles()){
+            if(first){
+                results = getRelationFromFile(stat);
+                first = false;
+            }else{
+                results = SharedLogic.compareLearningData(results, getRelationFromFile(stat));
+            }
         }
         learningDataToFile(results, file);
     }
@@ -289,56 +363,7 @@ public class StatService {
         }
     }
 
-    @Scheduled(cron = "0 0 */7 * * *")
-    public void calculateRelationships() throws IOException {
-        List<double[]> results = new ArrayList<>();
-        long time = System.currentTimeMillis();
-        File dir = new File("PiCenter/Learning/Daily/Change");
-        File wdir = new File("PiCenter/Learning/Weekly/Change");
-        File ldir = new File("PiCenter/Learning/LongTerm/Change");
-        File file = new File(ldir, "/" + CalenderConverter.getMonthDayYear(time, "-", "-") + time);
-        File wfile = new File(wdir, "/" + CalenderConverter.getMonthDayYear(time, "-", "-") + time);
-        if (!dir.exists()) {
-            dir.mkdirs();
-            return;
-        }
-        if (!ldir.exists()) {
-            ldir.mkdirs();
-        }
-        if (!wdir.exists()) {
-            wdir.mkdirs();
-        }
-        calculateRelationship(1, new File(dir, "/" + CalenderConverter.getMonthDayYear(time, "-", "-") + time));
-        calculateRelationship(7, wfile);
-        boolean first = true;
-        for(File stat : wdir.listFiles()){
-            if(first){
-                results = getRelationFromFile(stat);
-                first = false;
-            }else{
-                results = SharedLogic.compareLearningData(results, getRelationFromFile(stat));
-            }
-        }
-        for(File stat : ldir.listFiles()){
-            if(first){
-                results = getRelationFromFile(stat);
-                first = false;
-            }else{
-                results = SharedLogic.compareLearningData(results, getRelationFromFile(stat));
-            }
-        }
-        for(File stat : dir.listFiles()){
-            if(first){
-                results = getRelationFromFile(stat);
-                first = false;
-            }else{
-                results = SharedLogic.compareLearningData(results, getRelationFromFile(stat));
-            }
-        }
-        learningDataToFile(results, file);
-    }
-
-    private boolean calculateRelationship(int days) throws IOException {
+    private boolean calculateChange(int days) throws IOException {
         List<double[]> results = new ArrayList<>();
         long time = System.currentTimeMillis();
         File dir = new File("PiCenter/Learning/Daily/Change");
@@ -346,10 +371,10 @@ public class StatService {
         if (!dir.exists()) {
             dir.mkdirs();
         }
-        return calculateRelationship(days, file);
+        return calculateChange(days, file);
     }
 
-    private boolean calculateRelationship(int days, File file) throws IOException {
+    private boolean calculateChange(int days, File file) throws IOException {
         List<double[]> results = new ArrayList<>();
         if(!file.exists()){
             try {
@@ -681,7 +706,8 @@ public class StatService {
             humidityDevi[1] = stats[1];
         }
         reads = readingRepository.findByTimeBetweenAndRoomOrderByTimeDesc(time - StatConstants.TWO_HOUR, time, roomName);
-        if (reads.isEmpty()) {
+        List<Reading> read  = readingRepository.findByTimeBetweenAndRoomOrderByTimeDesc((time - StatConstants.HOUR) - StatConstants.TWO_HOUR, time, roomName);
+        if (read.isEmpty()) {
             for (int i = 2; i < 3; i++) {
                 temp[i] = "0";
                 humidity[i] = "0";

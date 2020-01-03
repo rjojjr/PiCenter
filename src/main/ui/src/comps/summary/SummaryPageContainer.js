@@ -7,6 +7,7 @@ import Button from 'react-bootstrap/Button';
 
 import * as pageConstants from '../../constants/page-constants';
 import SummaryNav from "./SummaryNav";
+import {updateSession} from "../../services/axios-service";
 
 const SummaryPageContainer = ({
                                   summary,
@@ -31,6 +32,8 @@ const SummaryPageContainer = ({
             return summary[sensorIndex];
         }
     };
+
+    updateSession(user.page, user);
 
     return (
         <div className={"pageContainer summaryPageContainer"}>
