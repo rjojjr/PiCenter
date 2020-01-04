@@ -13,3 +13,4 @@
 9. Room names in chart are camel case.#rjojjr
 10. Flex components only fill there area if enough content.#rjojjr
 11. Cannot unit test code that asynchronously queries DB. 
+12. High/Low charts don't work with intervals of more than one month.#rjojjr

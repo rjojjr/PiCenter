@@ -327,7 +327,7 @@ public class ChartService {
                     startDay = 1;
                 }
                 if (j == endMonth) {
-                    for (int k = Integer.parseInt(date[1]); k <= Integer.parseInt(end.split("/")[1]); k++) {
+                    for (int k = startDay; k <= Integer.parseInt(end.split("/")[1]); k++) {
                         intervals.add(statService.getHighLow(j + "/" + k + "/" + date[2], room));
                     }
                 } else {
@@ -361,14 +361,11 @@ public class ChartService {
                         startDay = 1;
                     }
                     if (j == endMonth && u == endYear) {
-                        System.out.println("month = " + j + " u = " + u);
                         for (int k = startDay; k <= Integer.parseInt(end.split("/")[1]); k++) {
-
                             intervals.add(statService.getHighLow(j + "/" + k + "/" + u, room));
                         }
                     } else {
                         for (int k = startDay; k <= getDaysInMonth(j, u); k++) {
-                            System.out.println("month = " + j + " day = " + k);
                             intervals.add(statService.getHighLow(j + "/" + k + "/" + u, room));
                         }
                     }
