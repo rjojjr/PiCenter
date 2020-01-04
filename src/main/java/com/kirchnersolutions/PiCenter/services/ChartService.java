@@ -345,24 +345,30 @@ public class ChartService {
             int startYear = Integer.parseInt(start.split("/")[2]);
             int startDay = Integer.parseInt(date[1]);
             for (int u = startYear; u <= endYear; u++) {
+                System.out.println("" + u);
                 if(u > startYear){
                     startMonth = 1;
                 }
                 if(u == endYear){
                     endMonth = Integer.parseInt(end.split("/")[0]);
+
                 }else{
                     endMonth = 12;
                 }
                 for (int j = startMonth; j <= endMonth; j++) {
+
                     if (j > startMonth || (u > startYear)) {
                         startDay = 1;
                     }
                     if (j == endMonth && u == endYear) {
-                        for (int k = Integer.parseInt(date[1]); k <= Integer.parseInt(end.split("/")[1]); k++) {
+                        System.out.println("month = " + j + " u = " + u);
+                        for (int k = startDay; k <= Integer.parseInt(end.split("/")[1]); k++) {
+
                             intervals.add(statService.getHighLow(j + "/" + k + "/" + u, room));
                         }
                     } else {
                         for (int k = startDay; k <= getDaysInMonth(j, u); k++) {
+                            System.out.println("month = " + j + " day = " + k);
                             intervals.add(statService.getHighLow(j + "/" + k + "/" + u, room));
                         }
                     }

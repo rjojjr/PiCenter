@@ -167,7 +167,7 @@ public class StatService {
         threadPoolTaskExecutor.execute(() -> {calculatePearsonThread();});
     }
 
-    @Scheduled(cron = "0 0 */12 * * *")
+    //@Scheduled(cron = "0 0 */12 * * *")
     public void calculateLongTermPearson()  {
         threadPoolTaskExecutor.execute(() -> {calculateLongTermPearsonThread();});
     }

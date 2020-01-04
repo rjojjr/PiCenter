@@ -71,22 +71,7 @@ const SummaryPage = ({summary, user, isLoading, canRender}) => {
                                     {summary.relation[1]}
                                 </td>
                             </tr>
-                            <tr>
-                                <td>
-                                    Historic Temperature Pearson Correlation Coefficient
-                                </td>
-                                <td>
-                                    {summary.longTermRelation[0]}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    Historic Humidity Pearson Correlation Coefficient
-                                </td>
-                                <td>
-                                    {summary.longTermRelation[1]}
-                                </td>
-                            </tr>
+                            
                             <tr>
                                 <td>
                                     Temperature Change Sensitivity Factor
