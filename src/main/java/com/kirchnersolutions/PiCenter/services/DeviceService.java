@@ -61,8 +61,8 @@ public class DeviceService {
         DeviceStatus status = new DeviceStatus();
         status.setName(name);
         RestTemplate restTemplate = new RestTemplate();
-        ((SimpleClientHttpRequestFactory)restTemplate.getRequestFactory()).setConnectTimeout(8000);
-        ((SimpleClientHttpRequestFactory)restTemplate.getRequestFactory()).setReadTimeout(8000);
+        ((SimpleClientHttpRequestFactory)restTemplate.getRequestFactory()).setConnectTimeout(15000);
+        ((SimpleClientHttpRequestFactory)restTemplate.getRequestFactory()).setReadTimeout(15000);
         HttpHeaders headers = new HttpHeaders();
         HttpEntity<ProcessRequest> entity;
         ResponseEntity<ProcessLine> respEntity;
@@ -96,8 +96,8 @@ public class DeviceService {
             return null;
         }
         RestTemplate restTemplate = new RestTemplate();
-        ((SimpleClientHttpRequestFactory)restTemplate.getRequestFactory()).setConnectTimeout(8000);
-        ((SimpleClientHttpRequestFactory)restTemplate.getRequestFactory()).setReadTimeout(8000);
+        ((SimpleClientHttpRequestFactory)restTemplate.getRequestFactory()).setConnectTimeout(15000);
+        ((SimpleClientHttpRequestFactory)restTemplate.getRequestFactory()).setReadTimeout(15000);
         HttpHeaders headers = new HttpHeaders();
         HttpEntity<String> entity;
         ResponseEntity<String> respEntity;
@@ -142,8 +142,8 @@ public class DeviceService {
             return null;
         }
         RestTemplate restTemplate = new RestTemplate();
-        ((SimpleClientHttpRequestFactory)restTemplate.getRequestFactory()).setConnectTimeout(8000);
-        ((SimpleClientHttpRequestFactory)restTemplate.getRequestFactory()).setReadTimeout(8000);
+        ((SimpleClientHttpRequestFactory)restTemplate.getRequestFactory()).setConnectTimeout(15000);
+        ((SimpleClientHttpRequestFactory)restTemplate.getRequestFactory()).setReadTimeout(15000);
         HttpHeaders headers = new HttpHeaders();
         HttpEntity<String> entity;
         ResponseEntity<String> respEntity;
@@ -186,8 +186,8 @@ public class DeviceService {
             return null;
         }
         RestTemplate restTemplate = new RestTemplate();
-        ((SimpleClientHttpRequestFactory)restTemplate.getRequestFactory()).setConnectTimeout(8000);
-        ((SimpleClientHttpRequestFactory)restTemplate.getRequestFactory()).setReadTimeout(8000);
+        ((SimpleClientHttpRequestFactory)restTemplate.getRequestFactory()).setConnectTimeout(15000);
+        ((SimpleClientHttpRequestFactory)restTemplate.getRequestFactory()).setReadTimeout(15000);
         HttpHeaders headers = new HttpHeaders();
         HttpEntity<String> entity;
         ResponseEntity<String> respEntity;

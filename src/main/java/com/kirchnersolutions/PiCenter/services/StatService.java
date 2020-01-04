@@ -231,7 +231,7 @@ public class StatService {
             learningDataToFile(results, new File(dir, "/" + CalenderConverter.getMonthDayYear(time, "-", "-") + time));
             results = pearsonCorrelation.generateCorrelation(CalenderConverter.getMonthDayYear(System.currentTimeMillis() - WEEK, "/", ":"), CalenderConverter.getMonthDayYear(System.currentTimeMillis(), "/", ":"));
             learningDataToFile(results, wfile);
-            results = pearsonCorrelation.generateCorrelation("11/01/2019", CalenderConverter.getMonthDayYear(System.currentTimeMillis(), "/", ":"));
+            results = pearsonCorrelation.generateCorrelation("11/20/2019", CalenderConverter.getMonthDayYear(System.currentTimeMillis(), "/", ":"));
             learningDataToFile(results, file);
         }catch (Exception e){
             debuggingService.nonFatalDebug("Failed to calculate long term pearsons", e);
@@ -519,21 +519,22 @@ public class StatService {
 
     ScatterPoint[] generateRoomScatterPoints(String start, String end, String room, String type) {
         List<Reading> insideReadings = readingRepository.findByTimeBetweenAndRoomOrderByTimeDesc(getMillisFromDateString(start, "/"), getMillisFromDateString(end, "/") + DAY, room);
-        ScatterPoint[] points = new ScatterPoint[insideReadings.size()];
-        int count = 0;
+        List<ScatterPoint> pointList = new ArrayList<>();
         for (Reading reading : insideReadings) {
             ScatterPoint point = new ScatterPoint();
             point.setTime(reading.getTime());
             if (type.contains("temp")) {
                 point.setInside(reading.getTemp());
-                point.setOutside(Integer.parseInt((int) getAverage(reading.getTime(), 6 * (MINUTE), "outside", 0)[0] + ""));
+                point.setOutside(Integer.parseInt((int) getAverage(reading.getTime(), 8 * (MINUTE), "outside", 0)[0] + ""));
             } else {
                 point.setInside(reading.getHumidity());
-                point.setOutside(Integer.parseInt((int) getAverage(reading.getTime(), 6 * (MINUTE), "outside", 0)[1] + ""));
+                point.setOutside(Integer.parseInt((int) getAverage(reading.getTime(), 8 * (MINUTE), "outside", 0)[1] + ""));
             }
-            points[count] = point;
-            count++;
+            if(point.getOutside() != 0){
+                pointList.add(point);
+            }
         }
+        ScatterPoint[] points = (ScatterPoint[])pointList.toArray();
         return points;
     }
 
