@@ -42,17 +42,17 @@ public class FileDownloadController {
             }
         }
         userService.logDownload(token, request.getRequestURI());
-        Path file = Paths.get("PiCenter/Backup/Download/PiCenterBackup.zip");
+        Path file = Paths.get("PiCenter/Backup/Download/PiCenterDownload.zip");
         if (Files.exists(file)) {
             response.setContentType("application/zip");
-            response.addHeader("Content-Disposition", "attachment; filename=PiCenterBackup.zip");
+            response.addHeader("Content-Disposition", "attachment; filename=PiCenterDownload.zip");
             try {
                 Files.copy(file, response.getOutputStream());
                 response.getOutputStream().flush();
             } catch (IOException ex) {
                 ex.printStackTrace();
                 response.setContentType("application/zip");
-                response.addHeader("Content-Disposition", "attachment; filename=PiCenterBackup.zip");
+                response.addHeader("Content-Disposition", "attachment; filename=PiCenterDownload.zip");
             }
         }
         try {

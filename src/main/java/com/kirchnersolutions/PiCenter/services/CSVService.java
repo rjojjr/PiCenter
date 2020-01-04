@@ -47,7 +47,7 @@ public class CSVService {
         auto = new File(dir, "/automated");
         manual = new File(dir, "/manual");
         downloadFileTempDir = new File(downloadDir, "/PiCenterBackup");
-        downloadFile = new File(downloadDir, "/PiCenterBackup.zip");
+        downloadFile = new File(downloadDir, "/PiCenterDownload.zip");
         restoreDir = new File(dir, "/Restore");
         if(!dir.exists()){
             dir.mkdirs();
