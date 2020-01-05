@@ -19,8 +19,8 @@ repositories {
 
 
 group = 'com.kirchnersolutions'
-version = '1.0.08'
-def build = '100128'
+version = '1.0.09'
+def build = '100129'
 sourceCompatibility = '1.8'
 def PRODUCTION_BUILD = true
 //def test = true
@@ -95,4 +95,5 @@ dependencies {
 	compile name: 'Utilities-1.1.00'
 	runtimeOnly 'mysql:mysql-connector-java:8.0.11'
 	compile "com.h2database:h2:1.4.197"
+	compile group: 'org.apache.commons', name: 'commons-math3', version: '3.6.1'
 }

@@ -61,13 +61,15 @@ public class StatService {
     private ThreadPoolTaskExecutor threadPoolTaskExecutor;
     private DebuggingService debuggingService;
     private PearsonCorrelation pearsonCorrelation;
+    private PolynomialService polynomialService;
 
     @Autowired
-    public StatService(ReadingRepository readingRepository, ThreadPoolTaskExecutor taskExecutor, DebuggingService debuggingService, @Lazy PearsonCorrelation pearsonCorrelation) {
+    public StatService(ReadingRepository readingRepository, ThreadPoolTaskExecutor taskExecutor, DebuggingService debuggingService, @Lazy PearsonCorrelation pearsonCorrelation, @Lazy PolynomialService polynomialService) {
         this.readingRepository = readingRepository;
         this.threadPoolTaskExecutor = taskExecutor;
         this.debuggingService = debuggingService;
         this.pearsonCorrelation = pearsonCorrelation;
+        this.polynomialService = polynomialService;
     }
 
 
@@ -534,7 +536,7 @@ public class StatService {
                 pointList.add(point);
             }
         }
-        ScatterPoint[] points = (ScatterPoint[])pointList.toArray();
+        ScatterPoint[] points = pointList.toArray(new ScatterPoint[pointList.size()]);
         return points;
     }
 

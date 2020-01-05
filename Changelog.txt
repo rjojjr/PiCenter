@@ -1,5 +1,10 @@
 PiCenter Changelog
 
+1.0.09
+01/05/2020
+Build 100129
+    Increase rest client timeout.
+
 1.0.08
 01/01/2020
 Build 100128
