@@ -20,6 +20,7 @@ package com.kirchnersolutions.PiCenter.services;
  */
 
 import com.kirchnersolutions.PiCenter.dev.DebuggingService;
+import com.kirchnersolutions.PiCenter.entites.AppUser;
 import com.kirchnersolutions.PiCenter.entites.Reading;
 import com.kirchnersolutions.PiCenter.entites.ReadingRepository;
 import com.kirchnersolutions.PiCenter.servers.beans.RoomSummary;
@@ -28,6 +29,7 @@ import com.kirchnersolutions.PiCenter.servers.beans.ScatterPoint;
 import com.kirchnersolutions.utilities.BigDecimalMath;
 import com.kirchnersolutions.utilities.ByteTools;
 import com.kirchnersolutions.utilities.CalenderConverter;
+import com.kirchnersolutions.utilities.CryptTools;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,7 +73,6 @@ public class StatService {
         this.pearsonCorrelation = pearsonCorrelation;
         this.polynomialService = polynomialService;
     }
-
 
     public RoomSummary[] getRoomSummaries(int precision) throws Exception {
         String[] rooms = RoomConstants.rooms;
@@ -136,8 +137,8 @@ public class StatService {
                 summaries[count].setRelation(empty);
                 summaries[count].setChange(empty);
                 summaries[count].setLongChange(empty);
-                summaries[count].setTempPolys(new String[0]);
-                summaries[count].setHumPolys(new String[0]);
+                summaries[count].setTempPolys(tempPoly[count]);
+                summaries[count].setHumPolys(humPoly[count]);
             }
             count++;
         }
@@ -360,10 +361,10 @@ public class StatService {
         boolean first = true;
         for (double[] result : results) {
             if (first) {
-                out = result[0] + "," + result[1];
+                out = String.format("%.3f,%.3f", result[0], result[1]);
                 first = false;
             } else {
-                out += "\n" + result[0] + "," + result[1];
+                out += "\n" + String.format("%.3f,%.3f", result[0], result[1]);
             }
         }
         try {
@@ -433,6 +434,10 @@ public class StatService {
 
     List<double[]> processLearning(List<long[]> intervals, String room) {
         return getLearningSlopes(getLearningMeans(intervals, room));
+    }
+
+    List<Reading> getReadings(long start, long end, String room){
+        return readingRepository.findByTimeBetweenAndRoomOrderByTimeDesc(start, end, room);
     }
 
     List<long[]> getLearningIntervals(int days) {
@@ -517,7 +522,9 @@ public class StatService {
                 hsum += diff[1];
             }
         }
-        double[] scores = {((tsum / tcount) / 10), ((hsum / hcount) / 10)};
+        double t = Double.parseDouble(String.format("%.3f",((tsum / tcount) / 10)));
+        double h = Double.parseDouble(String.format("%.3f",((hsum / hcount) / 10)));
+        double[] scores = {t, h};
         return scores;
     }
 
@@ -849,6 +856,33 @@ public class StatService {
         BigDecimal sum = new BigDecimal("0");
         for (BigDecimal square : squares) {
             sum = sum.add(square);
+        }
+        BigDecimal square;
+        if (sample) {
+            square = new BigDecimal(findMean(sum, squares.size() - 1));
+        } else {
+            square = new BigDecimal(findMean(sum, squares.size()));
+        }
+        square = BigDecimalMath.sqrt(square, 100);
+        return square;
+    }
+
+    BigDecimal findPolyStandardDeviation(BigDecimal mean, boolean sample, ScatterInterval interval, boolean outside) {
+        MathContext mc = new MathContext(10, RoundingMode.HALF_UP);
+        List<BigDecimal> squares = new ArrayList<>();
+        for(ScatterPoint point : interval.getInterval()){
+            BigDecimal read;
+            if (outside) {
+                read = new BigDecimal(point.getOutside());
+            } else {
+                read = new BigDecimal(point.getInside());
+            }
+            read = new BigDecimal(read.doubleValue() - mean.doubleValue());
+            squares.add(new BigDecimal(read.doubleValue() * read.doubleValue()));
+        }
+        BigDecimal sum = new BigDecimal("0");
+        for (BigDecimal square : squares) {
+            sum = sum.add(square, mc);
         }
         BigDecimal square;
         if (sample) {

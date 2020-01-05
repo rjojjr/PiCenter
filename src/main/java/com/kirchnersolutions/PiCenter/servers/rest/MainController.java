@@ -493,6 +493,19 @@ public class MainController {
         return new RestResponse("{body: 'failed'}", userService.getRestUser((String) httpSession.getAttribute("username")), deviceStatus);
     }
 
+    @GetMapping("/root/init")
+    public RestResponse initRoot(HttpServletResponse response, @RequestHeader("token") String token, @RequestHeader("pass") String pw) throws Exception{
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes())
+                .getRequest();
+        //ServletWebRequest servletWebRequest=new ServletWebRequest(request);
+        //HttpServletResponse response=servletWebRequest.getResponse();
+        HttpSession httpSession = cookie(request, response);
+        if(userService.initRootUser(pw, token)){
+            return new RestResponse("body: success");
+        }
+        return new RestResponse("body: invalid");
+    }
+
     private boolean updateSession(String username, String token, String ip, String page) throws Exception {
         debuggingService.trace("Update username: " + username + " token: " + token + " ip: " + ip + " page: " + page);
         if (userService.updateSession(username, token, ip, page) == null) {

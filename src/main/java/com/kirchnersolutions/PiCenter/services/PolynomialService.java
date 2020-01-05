@@ -2,6 +2,7 @@ package com.kirchnersolutions.PiCenter.services;
 
 import com.kirchnersolutions.PiCenter.constants.RoomConstants;
 import com.kirchnersolutions.PiCenter.dev.DebuggingService;
+import com.kirchnersolutions.PiCenter.entites.Reading;
 import com.kirchnersolutions.PiCenter.servers.beans.ScatterPoint;
 import com.kirchnersolutions.utilities.ByteTools;
 import com.kirchnersolutions.utilities.CalenderConverter;
@@ -66,6 +67,13 @@ public class PolynomialService {
         threadPoolTaskExecutor.execute(() -> {
             generatePolys(start, end, "serverroom", "hum", hDir);
         });
+        long t = System.currentTimeMillis();;
+        threadPoolTaskExecutor.execute(() -> {
+            polyToFile(tDir, fitOutsidePolys(t - CalenderConverter.DAY, t, "temp"), "outside");
+        });
+        threadPoolTaskExecutor.execute(() -> {
+            polyToFile(hDir, fitOutsidePolys(t - CalenderConverter.DAY, t, "hum"), "outside");
+        });
     }
 
     private void generatePolys(String start, String end, String room, String type, File dir){
@@ -79,21 +87,24 @@ public class PolynomialService {
         for(ScatterPoint point : points){
             obs.add(point.getOutside(), point.getInside());
         }
-        Future<double[]>[] futures = new Future[4];
+        Future<double[]>[] futures = new Future[5];
         futures[0] = threadPoolTaskExecutor.submit(() -> {
-            return fitPoly(obs, 4);
+            return fitPoly(obs, 2);
         });
         futures[1] = threadPoolTaskExecutor.submit(() -> {
-            return fitPoly(obs, 6);
+            return fitPoly(obs, 4);
         });
         futures[2] = threadPoolTaskExecutor.submit(() -> {
-            return fitPoly(obs, 8);
+            return fitPoly(obs, 6);
         });
         futures[3] = threadPoolTaskExecutor.submit(() -> {
+            return fitPoly(obs, 8);
+        });
+        futures[4] = threadPoolTaskExecutor.submit(() -> {
             return fitPoly(obs, 10);
         });
         double[] failed = {0};
-        int count = 4;
+        int count = 2;
         for(Future<double[]> future : futures){
             try{
                 curves.add(future.get());
@@ -111,6 +122,53 @@ public class PolynomialService {
         return curves;
     }
 
+    List<double[]> fitOutsidePolys(long start, long end, String type){
+        List<double[]> curves = new ArrayList<>();
+        List<Reading> readings = statService.getReadings(start, end, "outside");
+        final WeightedObservedPoints obs = new WeightedObservedPoints();
+        for(Reading point : readings){
+            if(type.equals("temp")){
+                obs.add(point.getTime(), point.getTemp());
+            }else{
+                obs.add(point.getTime(), point.getHumidity());
+            }
+
+        }
+        Future<double[]>[] futures = new Future[5];
+        futures[0] = threadPoolTaskExecutor.submit(() -> {
+            return fitPoly(obs, 2);
+        });
+        futures[1] = threadPoolTaskExecutor.submit(() -> {
+            return fitPoly(obs, 4);
+        });
+        futures[2] = threadPoolTaskExecutor.submit(() -> {
+            return fitPoly(obs, 6);
+        });
+        futures[3] = threadPoolTaskExecutor.submit(() -> {
+            return fitPoly(obs, 8);
+        });
+        futures[4] = threadPoolTaskExecutor.submit(() -> {
+            return fitPoly(obs, 10);
+        });
+        double[] failed = {0};
+        int count = 2;
+        for(Future<double[]> future : futures){
+            try{
+                curves.add(future.get());
+            }catch (InterruptedException ie){
+                curves.add(failed);
+                debuggingService.nonFatalDebug("Failed to calc outside " + " degree " + count + " " + type + " polynomial", ie);
+                ie.printStackTrace();
+            }catch (ExecutionException ee){
+                curves.add(failed);
+                debuggingService.nonFatalDebug("Failed to calc outside " + " degree " + count + " " + type + " polynomial", ee);
+                ee.printStackTrace();
+            }
+            count+= 2;
+        }
+        return curves;
+    }
+
     public String[][] getLatestCurveHTML(String type){
         File dir = new File("PiCenter/Learning/Daily/Poly/temp");
         if(type.equals("temp")){
@@ -118,11 +176,11 @@ public class PolynomialService {
         }else{
             dir = new File("PiCenter/Learning/Daily/Poly/hum");
         }
-        String[][] htmls = new String[4][4];
+        String[][] htmls = new String[5][5];
         List<double[]>[] doubleCurves = getLatestCurves(dir);
         int count = 0;
         for(List<double[]> curves : doubleCurves){
-            String[] html = new String[4];
+            String[] html = new String[5];
             for(int i = 0; i < 4; i++){
                 double[] coef = curves.get(i);
                 if(coef.length == 1){
@@ -130,31 +188,38 @@ public class PolynomialService {
                 }else{
                     switch (i){
                         case 0:
-                            if(coef.length != 5){
+                            if(coef.length != 3){
                                 html[i] = "<p>Error calculating curve</p>";
                             }else{
-                                html[i] = "<p> f(x) = " + coef[0] + "x<sup>4</sup> + " + coef[1] + "x<sup>3</sup> + " + coef[2] + "x<sup>2</sup> + " + coef[3] + "x + " + coef[4] + "</p>";
+                                html[i] = "<p> f(x) = " + coef[2] + "x<sup>2</sup> + " + coef[1] + "x + " + coef[0] + "</p>";
                             }
                             break;
                         case 1:
-                            if(coef.length != 7){
+                            if(coef.length != 5){
                                 html[i] = "<p>Error calculating curve</p>";
                             }else{
-                                html[i] = "<p> f(x) = " + coef[0] + "x<sup>6</sup> + " + coef[1] + "x<sup>5</sup> + " + coef[2] + "x<sup>4</sup> + " + coef[3] + "x<sup>3</sup> + " + coef[4]  + "x<sup>2</sup> + " + coef[5] + "x + " + coef[6] + "</p>";
+                                html[i] = "<p> f(x) = " + coef[4] + "x<sup>4</sup> + " + coef[3] + "x<sup>3</sup> + " + coef[2] + "x<sup>2</sup> + " + coef[1] + "x + " + coef[0] + "</p>";
                             }
                             break;
                         case 2:
-                            if(coef.length != 9){
+                            if(coef.length != 7){
                                 html[i] = "<p>Error calculating curve</p>";
                             }else{
-                                html[i] = "<p> f(x) = " + coef[0] + "x<sup>8</sup> + " + coef[1] + "x<sup>7</sup> + " + coef[2] + "x<sup>6</sup> + " + coef[3] + "x<sup>5</sup> + " + coef[4]  + "x<sup>4</sup> + " + coef[5] + "x<sup>3</sup> + " + coef[6] + "x<sup>2</sup> + " + coef[7] + "x + " + coef[8] + "</p>";
+                                html[i] = "<p> f(x) = " + coef[6] + "x<sup>6</sup> + " + coef[5] + "x<sup>5</sup> + " + coef[4] + "x<sup>4</sup> + " + coef[3] + "x<sup>3</sup> + " + coef[2]  + "x<sup>2</sup> + " + coef[1] + "x + " + coef[0] + "</p>";
                             }
                             break;
                         case 3:
+                            if(coef.length != 9){
+                                html[i] = "<p>Error calculating curve</p>";
+                            }else{
+                                html[i] = "<p> f(x) = " + coef[8] + "x<sup>8</sup> + " + coef[7] + "x<sup>7</sup> + " + coef[6] + "x<sup>6</sup> + " + coef[5] + "x<sup>5</sup> + " + coef[4]  + "x<sup>4</sup> + " + coef[3] + "x<sup>3</sup> + " + coef[2] + "x<sup>2</sup> + " + coef[1] + "x + " + coef[0] + "</p>";
+                            }
+                            break;
+                        case 4:
                             if(coef.length != 11){
                                 html[i] = "<p>Error calculating curve</p>";
                             }else{
-                                html[i] = "<p> f(x) = " + coef[0] + "x<sup>10</sup> + " + coef[1] + "x<sup>9</sup> + " + coef[2] + "x<sup>8</sup> + " + coef[3] + "x<sup>7</sup> + " + coef[4]  + "x<sup>6</sup> + " + coef[5] + "x<sup>5</sup> + " + coef[6] + "x<sup>4</sup> + " + coef[7] + "x<sup>3</sup> + " + coef[8] + "x<sup>2</sup> + " + coef[9] + "x + " + coef[10] + "</p>";
+                                html[i] = "<p> f(x) = " + coef[11] + "x<sup>10</sup> + " + coef[9] + "x<sup>9</sup> + " + coef[8] + "x<sup>8</sup> + " + coef[7] + "x<sup>7</sup> + " + coef[6]  + "x<sup>6</sup> + " + coef[5] + "x<sup>5</sup> + " + coef[4] + "x<sup>4</sup> + " + coef[3] + "x<sup>3</sup> + " + coef[2] + "x<sup>2</sup> + " + coef[1] + "x + " + coef[0] + "</p>";
                             }
                             break;
                     }
@@ -169,8 +234,9 @@ public class PolynomialService {
     List<double[]>[] getLatestCurves(File dir){
         List<double[]>[] rooms = new List[4];
         int count = 0;
-        for (String room : RoomConstants.insideRooms){
+        for (String room : RoomConstants.rooms){
             rooms[count] = getLatestCurves(dir, room);
+            count++;
         }
         return rooms;
     }
@@ -236,12 +302,14 @@ public class PolynomialService {
 
     private String toCSV(List<double[]> list){
         String CSV = "";
-        boolean first = true, firstLine = true;
+        boolean firstLine = true;
         for(double[] values : list){
+            boolean first = true;
             String CSVLine = "";
-            for(double value : values){
+            for(double val : values){
+                String value = String.format("%.3f", val);
                 if(first){
-                    CSVLine = value + "";
+                    CSVLine = value;
                     first = false;
                 }else {
                     CSVLine+= "," + value;

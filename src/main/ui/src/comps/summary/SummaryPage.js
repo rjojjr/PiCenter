@@ -104,6 +104,131 @@ const SummaryPage = ({summary, user, isLoading, canRender}) => {
                                     {summary.longChange[1]}
                                 </td>
                             </tr>
+                            <tr>
+                                <td>
+                                    Temperature Degree Two Polynomial Fit
+                                </td>
+                                <td dangerouslySetInnerHTML={{__html: summary.tempPolys[0]}}>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Humidity Degree Two Polynomial Fit
+                                </td>
+                                <td dangerouslySetInnerHTML={{__html: summary.humPolys[0]}}>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Temperature Degree Four Polynomial Fit
+                                </td>
+                                <td dangerouslySetInnerHTML={{__html: summary.tempPolys[1]}}>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Humidity Degree Four Polynomial Fit
+                                </td>
+                                <td dangerouslySetInnerHTML={{__html: summary.humPolys[2]}}>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    Temperature Degree Six Polynomial Fit
+                                </td>
+                                <td dangerouslySetInnerHTML={{__html: summary.tempPolys[2]}}>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Humidity Degree Six Polynomial Fit
+                                </td>
+                                <td dangerouslySetInnerHTML={{__html: summary.humPolys[2]}}>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Temperature Degree Eight Polynomial Fit
+                                </td>
+                                <td dangerouslySetInnerHTML={{__html: summary.tempPolys[3]}}>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Humidity Degree Eight Polynomial Fit
+                                </td>
+                                <td dangerouslySetInnerHTML={{__html: summary.humPolys[3]}}>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                )}
+                {!isLoading && summary.roomName === 'outside' && (
+                    <div>
+                        <hr/>
+                        <h2>Stats with Respect to Time</h2>
+                        <table>
+                            <tbody>
+                            <tr>
+                                <td>
+                                    Temperature Degree Two Polynomial Fit
+                                </td>
+                                <td dangerouslySetInnerHTML={{__html: summary.tempPolys[0]}}>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Humidity Degree Two Polynomial Fit
+                                </td>
+                                <td dangerouslySetInnerHTML={{__html: summary.humPolys[0]}}>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Temperature Degree Four Polynomial Fit
+                                </td>
+                                <td dangerouslySetInnerHTML={{__html: summary.tempPolys[1]}}>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Humidity Degree Four Polynomial Fit
+                                </td>
+                                <td dangerouslySetInnerHTML={{__html: summary.humPolys[2]}}>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    Temperature Degree Six Polynomial Fit
+                                </td>
+                                <td dangerouslySetInnerHTML={{__html: summary.tempPolys[2]}}>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Humidity Degree Six Polynomial Fit
+                                </td>
+                                <td dangerouslySetInnerHTML={{__html: summary.humPolys[2]}}>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Temperature Degree Eight Polynomial Fit
+                                </td>
+                                <td dangerouslySetInnerHTML={{__html: summary.tempPolys[3]}}>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Humidity Degree Eight Polynomial Fit
+                                </td>
+                                <td dangerouslySetInnerHTML={{__html: summary.humPolys[3]}}>
+                                </td>
+                            </tr>
                             </tbody>
                         </table>
 

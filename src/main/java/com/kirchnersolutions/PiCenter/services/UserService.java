@@ -26,12 +26,14 @@ import com.kirchnersolutions.PiCenter.dev.exceptions.UserRoleException;
 import com.kirchnersolutions.PiCenter.entites.*;
 import com.kirchnersolutions.PiCenter.servers.beans.CreateUser;
 import com.kirchnersolutions.PiCenter.servers.beans.RestUser;
+import com.kirchnersolutions.utilities.ByteTools;
 import com.kirchnersolutions.utilities.CryptTools;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.util.Base64;
 import java.util.List;
 
@@ -51,6 +53,23 @@ public class UserService {
     private UserLogRepository userLogRepository;
     @Autowired
     private UserSessionRepository userSessionRepository;
+
+    public boolean initRootUser(String pw, String rootToken) throws Exception{
+        if(getRootToken() == null || !rootToken.equals(getRootToken())){
+            return false;
+        }
+        AppUser root = new AppUser("root", "root", "user", CryptTools.generateEncodedSHA256Password(pw), true);
+        appUserRepository.saveAndFlush(root);
+        return true;
+    }
+
+    private String getRootToken() throws Exception{
+        File root = new File("PiCenter/Root/enableRoot.txt");
+        if(!root.exists()){
+            return null;
+        }
+        return new String(ByteTools.readBytesFromFile(root), "UTF-8");
+    }
 
     public boolean createUser(String userName, CreateUser createUser) throws Exception{
         AppUser creator = userList.searchList(userName);

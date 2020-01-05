@@ -68,6 +68,15 @@ public class AppUser implements DBItem {
         this.admin = admin;
     }
 
+    public AppUser(String userName, String firstName, String lastName, String password, boolean admin) {
+        this.createTime = System.currentTimeMillis();
+        this.userName = userName;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.password = password;
+        this.admin = admin;
+    }
+
     public AppUser(Long id, Long createTime, String userName, String firstName, String lastName, String password, boolean admin) {
         this.id = id;
         this.createTime = createTime;
