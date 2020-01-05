@@ -111,6 +111,24 @@ public class MainController {
         return new RestResponse("body: working");
     }
 
+    @GetMapping("/poly")
+    public RestResponse generatePoly(HttpServletResponse response) throws Exception{
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes())
+                .getRequest();
+        //ServletWebRequest servletWebRequest=new ServletWebRequest(request);
+        //HttpServletResponse response=servletWebRequest.getResponse();
+        HttpSession httpSession = cookie(request, response);
+        String msg = "working";
+        threadPoolTaskExecutor.execute(() -> {
+            try {
+                statService.calculatePolynomials();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+        return new RestResponse("body: working");
+    }
+
     @GetMapping("/loading")
     public RestResponse initClient(HttpServletResponse response) throws Exception {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes())
