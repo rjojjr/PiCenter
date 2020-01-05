@@ -75,6 +75,8 @@ public class StatService {
 
     public RoomSummary[] getRoomSummaries(int precision) throws Exception {
         String[] rooms = RoomConstants.rooms;
+        String[][] tempPoly = polynomialService.getLatestCurveHTML("temp");
+        String[][] humPoly = polynomialService.getLatestCurveHTML("hum");
         List<double[]> curRelation = getRelationFromDir(new File("PiCenter/Learning/Daily/Pearson"));
         List<double[]> longRelation = getRelationFromDir(new File("PiCenter/Learning/LongTerm/Pearson"));
         List<double[]> change = getRelationFromDir(new File("PiCenter/Learning/Daily/Change"));
@@ -127,11 +129,15 @@ public class StatService {
                 }
                 summaries[count].setChange(change.get(count));
                 summaries[count].setLongChange(longChange.get(count));
+                summaries[count].setTempPolys(tempPoly[count]);
+                summaries[count].setHumPolys(humPoly[count]);
             }else {
                 summaries[count].setLongTermRelation(empty);
                 summaries[count].setRelation(empty);
                 summaries[count].setChange(empty);
                 summaries[count].setLongChange(empty);
+                summaries[count].setTempPolys(new String[0]);
+                summaries[count].setHumPolys(new String[0]);
             }
             count++;
         }
