@@ -18,6 +18,8 @@ import java.awt.color.ICC_Profile;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
@@ -75,6 +77,13 @@ public class PolynomialService {
             polyToFile(hDir, fitOutsidePolys(t - CalenderConverter.DAY, t, "hum"), "outside");
         });
     }
+
+    private static final Comparator<File> lastModified = new Comparator<File>() {
+        @Override
+        public int compare(File o1, File o2) {
+            return o1.lastModified() == o2.lastModified() ? 0 : (o1.lastModified() < o2.lastModified() ? 1 : -1 ) ;
+        }
+    };
 
     private void generatePolys(String start, String end, String room, String type, File dir){
         polyToFile(dir, fitPolys(start, end, room, type), room);
@@ -231,8 +240,47 @@ public class PolynomialService {
         return htmls;
     }
 
+    public void calcPolys(String start, String end){
+        File tDir = new File("PiCenter/Learning/Daily/Poly/temp");
+        File hDir = new File("PiCenter/Learning/Daily/Poly/hum");
+        long time = System.currentTimeMillis();
+        String ostart = CalenderConverter.getMonthDayYear(time - CalenderConverter.DAY, "/", "/");
+        String oend = CalenderConverter.getMonthDayYear(time, "/", "/");
+        threadPoolTaskExecutor.execute(() -> {
+            generatePolys(start, end, "office", "temp", tDir);
+        });
+        threadPoolTaskExecutor.execute(() -> {
+            generatePolys(start, end, "livingroom", "temp", tDir);
+        });
+        threadPoolTaskExecutor.execute(() -> {
+            generatePolys(start, end, "bedroom", "temp", tDir);
+        });
+        threadPoolTaskExecutor.execute(() -> {
+            generatePolys(start, end, "serverroom", "temp", tDir);
+        });
+        threadPoolTaskExecutor.execute(() -> {
+            generatePolys(start, end, "office", "hum", hDir);
+        });
+        threadPoolTaskExecutor.execute(() -> {
+            generatePolys(start, end, "livingroom", "hum", hDir);
+        });
+        threadPoolTaskExecutor.execute(() -> {
+            generatePolys(start, end, "bedroom", "hum", hDir);
+        });
+        threadPoolTaskExecutor.execute(() -> {
+            generatePolys(start, end, "serverroom", "hum", hDir);
+        });
+        long t = System.currentTimeMillis();;
+        threadPoolTaskExecutor.execute(() -> {
+            polyToFile(tDir, fitOutsidePolys(CalenderConverter.getMillisFromDateString(start, "/"), CalenderConverter.getMillisFromDateString(end, "/") + CalenderConverter.DAY, "temp"), "outside");
+        });
+        threadPoolTaskExecutor.execute(() -> {
+            polyToFile(hDir, fitOutsidePolys(CalenderConverter.getMillisFromDateString(start, "/"), CalenderConverter.getMillisFromDateString(end, "/") + CalenderConverter.DAY, "hum"), "outside");
+        });
+    }
+
     List<double[]>[] getLatestCurves(File dir){
-        List<double[]>[] rooms = new List[4];
+        List<double[]>[] rooms = new List[5];
         int count = 0;
         for (String room : RoomConstants.rooms){
             rooms[count] = getLatestCurves(dir, room);
@@ -246,7 +294,9 @@ public class PolynomialService {
             dir.mkdirs();
             return new ArrayList<>();
         }
+
         File[] files = dir.listFiles();
+        Arrays.sort(files, lastModified);
         File target = null;
         for(File file : files){
             if(file.getName().contains(room)){

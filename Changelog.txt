@@ -4,6 +4,7 @@ PiCenter Changelog
 01/05/2020
 Build 100129
     Increase rest client timeout.
+    Add polynomial curve fitting.
 
 1.0.08
 01/01/2020

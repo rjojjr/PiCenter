@@ -195,6 +195,10 @@ public class StatService {
         threadPoolTaskExecutor.execute(() -> {polynomialService.calcPolys();});
     }
 
+    public void calculatePolynomials(String start, String end){
+        threadPoolTaskExecutor.execute(() -> {polynomialService.calcPolys(start, end);});
+    }
+
     private void calculatePearsonThread() {
         List<double[]> results = new ArrayList<>();
         long time = System.currentTimeMillis();
