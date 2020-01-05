@@ -41,41 +41,40 @@ public class PolynomialService {
 
     @Scheduled(cron = "0 0 */4 * * *")
     public void calcPolys(){
-        File tDir = new File("PiCenter/Learning/Daily/Poly/temp");
-        File hDir = new File("PiCenter/Learning/Daily/Poly/hum");
+        File dir = new File("PiCenter/Learning/Daily/Poly");
         long time = System.currentTimeMillis();
         String start = CalenderConverter.getMonthDayYear(time - CalenderConverter.DAY, "/", "/");
         String end = CalenderConverter.getMonthDayYear(time, "/", "/");
         threadPoolTaskExecutor.execute(() -> {
-            generatePolys(start, end, "office", "temp", tDir);
+            generatePolys(start, end, "office", "temp", dir);
         });
         threadPoolTaskExecutor.execute(() -> {
-            generatePolys(start, end, "livingroom", "temp", tDir);
+            generatePolys(start, end, "livingroom", "temp", dir);
         });
         threadPoolTaskExecutor.execute(() -> {
-            generatePolys(start, end, "bedroom", "temp", tDir);
+            generatePolys(start, end, "bedroom", "temp", dir);
         });
         threadPoolTaskExecutor.execute(() -> {
-            generatePolys(start, end, "serverroom", "temp", tDir);
+            generatePolys(start, end, "serverroom", "temp", dir);
         });
         threadPoolTaskExecutor.execute(() -> {
-            generatePolys(start, end, "office", "hum", hDir);
+            generatePolys(start, end, "office", "hum", dir);
         });
         threadPoolTaskExecutor.execute(() -> {
-            generatePolys(start, end, "livingroom", "hum", hDir);
+            generatePolys(start, end, "livingroom", "hum", dir);
         });
         threadPoolTaskExecutor.execute(() -> {
-            generatePolys(start, end, "bedroom", "hum", hDir);
+            generatePolys(start, end, "bedroom", "hum", dir);
         });
         threadPoolTaskExecutor.execute(() -> {
-            generatePolys(start, end, "serverroom", "hum", hDir);
+            generatePolys(start, end, "serverroom", "hum", dir);
         });
         long t = System.currentTimeMillis();;
         threadPoolTaskExecutor.execute(() -> {
-            polyToFile(tDir, fitOutsidePolys(t - CalenderConverter.DAY, t, "temp"), "outside");
+            polyToFile(new File(dir, "/temp"), fitOutsidePolys(t - CalenderConverter.DAY, t, "temp"), "outside");
         });
         threadPoolTaskExecutor.execute(() -> {
-            polyToFile(hDir, fitOutsidePolys(t - CalenderConverter.DAY, t, "hum"), "outside");
+            polyToFile(new File(dir, "/hum"), fitOutsidePolys(t - CalenderConverter.DAY, t, "hum"), "outside");
         });
     }
 
@@ -87,10 +86,12 @@ public class PolynomialService {
     };
 
     private void generatePolys(String start, String end, String room, String type, File dir){
-        polyToFile(dir, fitPolys(start, end, room, type), room);
+        polyToFile(new File(dir, "/" + type), fitPolys(start, end, room, type, dir), room);
     }
 
-    List<double[]> fitPolys(String start, String end, String room, String type){
+    List<double[]> fitPolys(String start, String end, String room, String type, File dir){
+        File ndir = new File(dir,"/" + type);
+        List<double[]> prevCurves = getLatestCurves(ndir, room);
         List<double[]> curves = new ArrayList<>();
         ScatterPoint[] points = statService.generateRoomScatterPoints(start, end, room, type);
         final WeightedObservedPoints obs = new WeightedObservedPoints();
@@ -99,19 +100,19 @@ public class PolynomialService {
         }
         Future<double[]>[] futures = new Future[5];
         futures[0] = threadPoolTaskExecutor.submit(() -> {
-            return fitPoly(obs, 2);
+            return PolynomialHelper.fitPoly(obs, 2, 100, prevCurves.get(0));
         });
         futures[1] = threadPoolTaskExecutor.submit(() -> {
-            return fitPoly(obs, 4);
+            return PolynomialHelper.fitPoly(obs, 4, 100, prevCurves.get(1));
         });
         futures[2] = threadPoolTaskExecutor.submit(() -> {
-            return fitPoly(obs, 6);
+            return PolynomialHelper.fitPoly(obs, 6, 100, prevCurves.get(2));
         });
         futures[3] = threadPoolTaskExecutor.submit(() -> {
-            return fitPoly(obs, 8);
+            return PolynomialHelper.fitPoly(obs, 2, 100, prevCurves.get(3));
         });
         futures[4] = threadPoolTaskExecutor.submit(() -> {
-            return fitPoly(obs, 10);
+            return PolynomialHelper.fitPoly(obs, 2, 100, prevCurves.get(4));
         });
         double[] failed = {0};
         int count = 2;
@@ -134,7 +135,10 @@ public class PolynomialService {
 
     List<double[]> fitOutsidePolys(long start, long end, String type){
         File dir = new File("PiCenter/Learning/Daily/Poly/temp");
-        if(!type.equals())
+        if(type.equals("hum")){
+            dir = new File("PiCenter/Learning/Daily/Poly/hum");
+        }
+        List<double[]> prevCurves = getLatestCurves(dir, "outside");
         List<double[]> curves = new ArrayList<>();
         List<Reading> readings = statService.getReadings(start, end, "outside");
         final WeightedObservedPoints obs = new WeightedObservedPoints();
@@ -148,19 +152,19 @@ public class PolynomialService {
         }
         Future<double[]>[] futures = new Future[5];
         futures[0] = threadPoolTaskExecutor.submit(() -> {
-            return PolynomialHelper.fitPoly(obs, 2, 100, );
+            return PolynomialHelper.fitPoly(obs, 2, 100, prevCurves.get(0));
         });
         futures[1] = threadPoolTaskExecutor.submit(() -> {
-            return fitPoly(obs, 4);
+            return PolynomialHelper.fitPoly(obs, 4, 100, prevCurves.get(1));
         });
         futures[2] = threadPoolTaskExecutor.submit(() -> {
-            return fitPoly(obs, 6);
+            return PolynomialHelper.fitPoly(obs, 6, 100, prevCurves.get(2));
         });
         futures[3] = threadPoolTaskExecutor.submit(() -> {
-            return fitPoly(obs, 8);
+            return PolynomialHelper.fitPoly(obs, 8, 100, prevCurves.get(3));
         });
         futures[4] = threadPoolTaskExecutor.submit(() -> {
-            return fitPoly(obs, 10);
+            return PolynomialHelper.fitPoly(obs, 10, 100, prevCurves.get(4));
         });
         double[] failed = {0};
         int count = 2;
@@ -182,11 +186,9 @@ public class PolynomialService {
     }
 
     public String[][] getLatestCurveHTML(String type){
-        File dir = new File("PiCenter/Learning/Daily/Poly/temp");
+        File dir = new File("PiCenter/Learning/Daily/Poly/hum");
         if(type.equals("temp")){
             dir = new File("PiCenter/Learning/Daily/Poly/temp");
-        }else{
-            dir = new File("PiCenter/Learning/Daily/Poly/hum");
         }
         String[][] htmls = new String[5][5];
         List<double[]>[] doubleCurves = getLatestCurves(dir);
@@ -376,14 +378,6 @@ public class PolynomialService {
             }
         }
         return CSV;
-    }
-
-
-
-    private double[] fitEightDegree(WeightedObservedPoints obs){
-        final PolynomialCurveFitter fitter = PolynomialCurveFitter.create(8);
-        final double[] coeff = fitter.fit(obs.toList());
-        return coeff;
     }
 
 }
