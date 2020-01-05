@@ -6,6 +6,7 @@ import com.kirchnersolutions.PiCenter.entites.Reading;
 import com.kirchnersolutions.PiCenter.servers.beans.ScatterPoint;
 import com.kirchnersolutions.utilities.ByteTools;
 import com.kirchnersolutions.utilities.CalenderConverter;
+import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
 import org.apache.commons.math3.fitting.PolynomialCurveFitter;
 import org.apache.commons.math3.fitting.WeightedObservedPoints;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -132,6 +133,8 @@ public class PolynomialService {
     }
 
     List<double[]> fitOutsidePolys(long start, long end, String type){
+        File dir = new File("PiCenter/Learning/Daily/Poly/temp");
+        if(!type.equals())
         List<double[]> curves = new ArrayList<>();
         List<Reading> readings = statService.getReadings(start, end, "outside");
         final WeightedObservedPoints obs = new WeightedObservedPoints();
@@ -145,7 +148,7 @@ public class PolynomialService {
         }
         Future<double[]>[] futures = new Future[5];
         futures[0] = threadPoolTaskExecutor.submit(() -> {
-            return fitPoly(obs, 2);
+            return PolynomialHelper.fitPoly(obs, 2, 100, );
         });
         futures[1] = threadPoolTaskExecutor.submit(() -> {
             return fitPoly(obs, 4);
@@ -375,17 +378,7 @@ public class PolynomialService {
         return CSV;
     }
 
-    private double[] fitPoly(WeightedObservedPoints obs, int degree){
-        final PolynomialCurveFitter fitter = PolynomialCurveFitter.create(degree);
-        final double[] coeff = fitter.fit(obs.toList());
-        return coeff;
-    }
 
-    private double[] fitSixDegree(WeightedObservedPoints obs){
-        final PolynomialCurveFitter fitter = PolynomialCurveFitter.create(6);
-        final double[] coeff = fitter.fit(obs.toList());
-        return coeff;
-    }
 
     private double[] fitEightDegree(WeightedObservedPoints obs){
         final PolynomialCurveFitter fitter = PolynomialCurveFitter.create(8);
