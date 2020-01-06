@@ -98,19 +98,19 @@ public class PolynomialService {
         }
         Future<double[]>[] futures = new Future[5];
         futures[0] = threadPoolTaskExecutor.submit(() -> {
-            return PolynomialHelper.fitPoly(obs, 2, 100, prevCurves.get(0));
+            return PolynomialHelper.fitPoly(obs, 1, 100, prevCurves.get(0));
         });
         futures[1] = threadPoolTaskExecutor.submit(() -> {
-            return PolynomialHelper.fitPoly(obs, 4, 100, prevCurves.get(1));
+            return PolynomialHelper.fitPoly(obs, 2, 100, prevCurves.get(1));
         });
         futures[2] = threadPoolTaskExecutor.submit(() -> {
-            return PolynomialHelper.fitPoly(obs, 6, 100, prevCurves.get(2));
+            return PolynomialHelper.fitPoly(obs, 3, 100, prevCurves.get(2));
         });
         futures[3] = threadPoolTaskExecutor.submit(() -> {
-            return PolynomialHelper.fitPoly(obs, 2, 100, prevCurves.get(3));
+            return PolynomialHelper.fitPoly(obs, 4, 100, prevCurves.get(3));
         });
         futures[4] = threadPoolTaskExecutor.submit(() -> {
-            return PolynomialHelper.fitPoly(obs, 2, 100, prevCurves.get(4));
+            return PolynomialHelper.fitPoly(obs, 5, 100, prevCurves.get(4));
         });
         double[] failed = {0};
         int count = 2;
@@ -157,19 +157,19 @@ public class PolynomialService {
         }
         Future<double[]>[] futures = new Future[5];
         futures[0] = threadPoolTaskExecutor.submit(() -> {
-            return PolynomialHelper.fitPoly(obs, 2, 100, prevCurves.get(0));
+            return PolynomialHelper.fitPoly(obs, 1, 100, prevCurves.get(0));
         });
         futures[1] = threadPoolTaskExecutor.submit(() -> {
-            return PolynomialHelper.fitPoly(obs, 4, 100, prevCurves.get(1));
+            return PolynomialHelper.fitPoly(obs, 2, 100, prevCurves.get(1));
         });
         futures[2] = threadPoolTaskExecutor.submit(() -> {
-            return PolynomialHelper.fitPoly(obs, 6, 100, prevCurves.get(2));
+            return PolynomialHelper.fitPoly(obs, 3, 100, prevCurves.get(2));
         });
         futures[3] = threadPoolTaskExecutor.submit(() -> {
-            return PolynomialHelper.fitPoly(obs, 8, 100, prevCurves.get(3));
+            return PolynomialHelper.fitPoly(obs, 4, 100, prevCurves.get(3));
         });
         futures[4] = threadPoolTaskExecutor.submit(() -> {
-            return PolynomialHelper.fitPoly(obs, 10, 100, prevCurves.get(4));
+            return PolynomialHelper.fitPoly(obs, 5, 100, prevCurves.get(4));
         });
         double[] failed = {0};
         int count = 2;
@@ -207,38 +207,38 @@ public class PolynomialService {
                 } else {
                     switch (i) {
                         case 0:
+                            if (coef.length != 2) {
+                                html[i] = "<p>Error calculating curve</p>";
+                            } else {
+                                html[i] = "<p> f(x) = " + coef[1] + "x + " + coef[0] + "</p>";
+                            }
+                            break;
+                        case 1:
                             if (coef.length != 3) {
                                 html[i] = "<p>Error calculating curve</p>";
                             } else {
                                 html[i] = "<p> f(x) = " + coef[2] + "x<sup>2</sup> + " + coef[1] + "x + " + coef[0] + "</p>";
                             }
                             break;
-                        case 1:
+                        case 2:
+                            if (coef.length != 4) {
+                                html[i] = "<p>Error calculating curve</p>";
+                            } else {
+                                html[i] = "<p> f(x) = " + coef[3] + "x<sup>3</sup> + " + coef[2] + "x<sup>2</sup> + " + coef[1] + "x + " + coef[0] + "</p>";
+                            }
+                            break;
+                        case 3:
                             if (coef.length != 5) {
                                 html[i] = "<p>Error calculating curve</p>";
                             } else {
                                 html[i] = "<p> f(x) = " + coef[4] + "x<sup>4</sup> + " + coef[3] + "x<sup>3</sup> + " + coef[2] + "x<sup>2</sup> + " + coef[1] + "x + " + coef[0] + "</p>";
                             }
                             break;
-                        case 2:
-                            if (coef.length != 7) {
-                                html[i] = "<p>Error calculating curve</p>";
-                            } else {
-                                html[i] = "<p> f(x) = " + coef[6] + "x<sup>6</sup> + " + coef[5] + "x<sup>5</sup> + " + coef[4] + "x<sup>4</sup> + " + coef[3] + "x<sup>3</sup> + " + coef[2] + "x<sup>2</sup> + " + coef[1] + "x + " + coef[0] + "</p>";
-                            }
-                            break;
-                        case 3:
-                            if (coef.length != 9) {
-                                html[i] = "<p>Error calculating curve</p>";
-                            } else {
-                                html[i] = "<p> f(x) = " + coef[8] + "x<sup>8</sup> + " + coef[7] + "x<sup>7</sup> + " + coef[6] + "x<sup>6</sup> + " + coef[5] + "x<sup>5</sup> + " + coef[4] + "x<sup>4</sup> + " + coef[3] + "x<sup>3</sup> + " + coef[2] + "x<sup>2</sup> + " + coef[1] + "x + " + coef[0] + "</p>";
-                            }
-                            break;
                         case 4:
-                            if (coef.length != 11) {
+                            if (coef.length != 6) {
                                 html[i] = "<p>Error calculating curve</p>";
                             } else {
-                                html[i] = "<p> f(x) = " + coef[11] + "x<sup>10</sup> + " + coef[9] + "x<sup>9</sup> + " + coef[8] + "x<sup>8</sup> + " + coef[7] + "x<sup>7</sup> + " + coef[6] + "x<sup>6</sup> + " + coef[5] + "x<sup>5</sup> + " + coef[4] + "x<sup>4</sup> + " + coef[3] + "x<sup>3</sup> + " + coef[2] + "x<sup>2</sup> + " + coef[1] + "x + " + coef[0] + "</p>";
+                                html[i] = "<p> f(x) = " + coef[5] + "x<sup>5</sup> + " + coef[4] + "x<sup>4</sup> + " + coef[3] + "x<sup>3</sup> + " + coef[2] + "x<sup>2</sup> + " + coef[1] + "x + " + coef[0] + "</p>";
                             }
                             break;
                     }

@@ -46,9 +46,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
@@ -64,6 +62,13 @@ public class StatService {
     private DebuggingService debuggingService;
     private PearsonCorrelation pearsonCorrelation;
     private PolynomialService polynomialService;
+
+    private static final Comparator<File> lastModified = new Comparator<File>() {
+        @Override
+        public int compare(File o1, File o2) {
+            return o1.lastModified() == o2.lastModified() ? 0 : (o1.lastModified() < o2.lastModified() ? 1 : -1);
+        }
+    };
 
     @Autowired
     public StatService(ReadingRepository readingRepository, ThreadPoolTaskExecutor taskExecutor, DebuggingService debuggingService, @Lazy PearsonCorrelation pearsonCorrelation, @Lazy PolynomialService polynomialService) {
@@ -145,12 +150,15 @@ public class StatService {
         return summaries;
     }
 
+    
+
     List<double[]> getRelationFromDir(File dir){
         if (!dir.exists() || dir.listFiles().length == 0) {
             return new ArrayList<>();
         }
-        File file = dir.listFiles()[0];
-        return getRelationFromFile(file);
+        File[] files = dir.listFiles();
+        Arrays.sort(files, lastModified);
+        return getRelationFromFile(files[0]);
     }
 
     List<double[]> getRelationFromFile(File file){
