@@ -451,19 +451,52 @@ public class StatService {
         return SharedLogic.generateIntervalWindows(SharedLogic.getTimeIntervals(yesterday, today, 1), 1);
     }
 
+    static List<double[]> getRelation(List<double[]> outsideSlopes, List<double[]> compareSlopes) {
+        List<double[]> diffs = new ArrayList();
+        for (int i = 0; i < outsideSlopes.size(); i++) {
+            double[] diff = {0, 0};
+            double[] t = {outsideSlopes.get(i)[0], compareSlopes.get(i)[0]};
+            double[] h = {outsideSlopes.get(i)[1], compareSlopes.get(i)[1]};
+            if (t[0] == 0 || t[1] == 0) {
+                diff[0] = -1;
+            }
+            if (h[0] == 0 || h[1] == 0) {
+                diff[1] = -1;
+            }
+            if ((t[0] > 0 && t[1] < 0) || (t[0] < 0 && t[1] > 0)) {
+                diff[0] = abs(t[0]) + abs(t[1]);
+            }
+            if ((h[0] > 0 && h[1] < 0) || (h[0] < 0 && h[1] > 0)) {
+                diff[1] = abs(h[0]) + abs(h[1]);
+            }
+            if (diff[0] != -1 && diff[0] != 10) {
+                diff[0] = abs(t[0]) - abs(t[1]);
+                diff[0] = abs(diff[0]);
+                if (diff[0] > 10) {
+                    diff[0] = 10;
+                }
+            }
+            if (diff[1] != -1 && diff[1] != 10) {
+                diff[1] = abs(h[0]) - abs(h[1]);
+                diff[1] = abs(diff[1]);
+                if (diff[1] > 10) {
+                    diff[1] = 10;
+                }
+            }
+            diffs.add(diff);
+        }
+        return diffs;
+    }
+
     List<long[]> getNewLearningIntervals(int days) {
         long now = System.currentTimeMillis();
         long past = now - (DAY * days);
         List<long[]> times = new ArrayList<>();
-        for (long i = past; i <= now; i += (10 * MINUTE)){
-            long[] interval = {i - (10 * MINUTE), i + (10 * MINUTE)};
+        for (long i = past; i <= now; i += (12 * MINUTE)){
+            long[] interval = {i - (6 * MINUTE), i + (6 * MINUTE)};
             times.add(interval);
         }
         return times;
-    }
-
-    List<double[]> getLearningMeans(List<long[]> windows, String room) {
-        return getAverages(windows, room, 2);
     }
 
     List<double[]> getLearningSlopes(List<double[]> means) {
@@ -487,41 +520,8 @@ public class StatService {
         return slopes;
     }
 
-    static List<double[]> getRelation(List<double[]> outsideSlopes, List<double[]> compareSlopes) {
-        List<double[]> diffs = new ArrayList();
-        for (int i = 0; i < outsideSlopes.size(); i++) {
-            double[] diff = {0, 0};
-            double[] t = {outsideSlopes.get(i)[0], compareSlopes.get(i)[0]};
-            double[] h = {outsideSlopes.get(i)[1], compareSlopes.get(i)[1]};
-            if (t[0] == 0 || t[1] == 0) {
-                diff[0] = -1;
-            }
-            if (h[0] == 0 || h[1] == 0) {
-                diff[1] = -1;
-            }
-            if ((t[0] > 0 && t[1] < 0) || (t[0] < 0 && t[1] > 0)) {
-                diff[0] = 10;
-            }
-            if ((h[0] > 0 && h[1] < 0) || (h[0] < 0 && h[1] > 0)) {
-                diff[1] = 10;
-            }
-            if (diff[0] != -1 && diff[0] != 10) {
-                diff[0] = t[0] - t[1];
-                diff[0] = abs(diff[0]);
-                if (diff[0] > 10) {
-                    diff[0] = 10;
-                }
-            }
-            if (diff[1] != -1 && diff[1] != 10) {
-                diff[1] = h[0] - h[1];
-                diff[1] = abs(diff[1]);
-                if (diff[1] > 10) {
-                    diff[1] = 10;
-                }
-            }
-            diffs.add(diff);
-        }
-        return diffs;
+    List<double[]> getLearningMeans(List<long[]> windows, String room) {
+        return getAverages(windows, room, 5);
     }
 
     double[] scoreDiffs(List<double[]> diffs) {
