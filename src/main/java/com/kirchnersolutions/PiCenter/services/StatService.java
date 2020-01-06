@@ -480,15 +480,15 @@ public class StatService {
             if (diff[0] != -1 && diff[0] != 10) {
                 diff[0] = abs(t[0]) - abs(t[1]);
                 diff[0] = abs(diff[0]);
-                if (diff[0] > 10) {
-                    diff[0] = 10;
+                if (diff[0] > 6) {
+                    diff[0] = 6;
                 }
             }
             if (diff[1] != -1 && diff[1] != 10) {
                 diff[1] = abs(h[0]) - abs(h[1]);
                 diff[1] = abs(diff[1]);
-                if (diff[1] > 10) {
-                    diff[1] = 10;
+                if (diff[1] > 6) {
+                    diff[1] = 6;
                 }
             }
             diffs.add(diff);
@@ -500,8 +500,8 @@ public class StatService {
         long now = System.currentTimeMillis();
         long past = now - (DAY * days);
         List<long[]> times = new ArrayList<>();
-        for (long i = past; i <= now; i += (12 * MINUTE)){
-            long[] interval = {i - (6 * MINUTE), i + (6 * MINUTE)};
+        for (long i = past; i <= now; i += (5 * MINUTE)){
+            long[] interval = {i - (5 * MINUTE), i + (5 * MINUTE)};
             times.add(interval);
         }
         return times;
@@ -545,8 +545,8 @@ public class StatService {
                 hsum += diff[1];
             }
         }
-        double t = Double.parseDouble(String.format("%.3f",((tsum / tcount) / 10)));
-        double h = Double.parseDouble(String.format("%.3f",((hsum / hcount) / 10)));
+        double t = Double.parseDouble(String.format("%.3f",((tsum / tcount) / 6)));
+        double h = Double.parseDouble(String.format("%.3f",((hsum / hcount) / 6)));
         double[] scores = {t, h};
         return scores;
     }
