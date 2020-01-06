@@ -6,16 +6,13 @@ import com.kirchnersolutions.PiCenter.entites.Reading;
 import com.kirchnersolutions.PiCenter.servers.beans.ScatterPoint;
 import com.kirchnersolutions.utilities.ByteTools;
 import com.kirchnersolutions.utilities.CalenderConverter;
-import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
-import org.apache.commons.math3.fitting.PolynomialCurveFitter;
+
 import org.apache.commons.math3.fitting.WeightedObservedPoints;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
-import sun.security.krb5.internal.tools.Klist;
 
-import java.awt.color.ICC_Profile;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -32,18 +29,25 @@ public class PolynomialService {
     private ThreadPoolTaskExecutor threadPoolTaskExecutor;
     private DebuggingService debuggingService;
 
+    private static final Comparator<File> lastModified = new Comparator<File>() {
+        @Override
+        public int compare(File o1, File o2) {
+            return o1.lastModified() == o2.lastModified() ? 0 : (o1.lastModified() < o2.lastModified() ? 1 : -1);
+        }
+    };
+
     @Autowired
-    public PolynomialService(StatService statService, ThreadPoolTaskExecutor threadPoolTaskExecutor, DebuggingService debuggingService){
+    public PolynomialService(StatService statService, ThreadPoolTaskExecutor threadPoolTaskExecutor, DebuggingService debuggingService) {
         this.statService = statService;
         this.threadPoolTaskExecutor = threadPoolTaskExecutor;
         this.debuggingService = debuggingService;
     }
 
-    @Scheduled(cron = "0 0 */4 * * *")
-    public void calcPolys(){
+    @Scheduled(cron = "0 0 */6 * * *")
+    public void calcPolys() {
         File dir = new File("PiCenter/Learning/Daily/Poly");
         long time = System.currentTimeMillis();
-        String start = CalenderConverter.getMonthDayYear(time - CalenderConverter.DAY, "/", "/");
+        String start = CalenderConverter.getMonthDayYear(time - (4 * CalenderConverter.WEEK), "/", "/");
         String end = CalenderConverter.getMonthDayYear(time, "/", "/");
         threadPoolTaskExecutor.execute(() -> {
             generatePolys(start, end, "office", "temp", dir);
@@ -69,33 +73,27 @@ public class PolynomialService {
         threadPoolTaskExecutor.execute(() -> {
             generatePolys(start, end, "serverroom", "hum", dir);
         });
-        long t = System.currentTimeMillis();;
+        long t = System.currentTimeMillis();
+        ;
         threadPoolTaskExecutor.execute(() -> {
-            polyToFile(new File(dir, "/temp"), fitOutsidePolys(t - CalenderConverter.DAY, t, "temp"), "outside");
+            polyToFile(new File(dir, "/temp"), fitOutsidePolys(time - (4 * CalenderConverter.WEEK), t, "temp"), "outside");
         });
         threadPoolTaskExecutor.execute(() -> {
-            polyToFile(new File(dir, "/hum"), fitOutsidePolys(t - CalenderConverter.DAY, t, "hum"), "outside");
+            polyToFile(new File(dir, "/hum"), fitOutsidePolys(time - (4 * CalenderConverter.WEEK), t, "hum"), "outside");
         });
     }
 
-    private static final Comparator<File> lastModified = new Comparator<File>() {
-        @Override
-        public int compare(File o1, File o2) {
-            return o1.lastModified() == o2.lastModified() ? 0 : (o1.lastModified() < o2.lastModified() ? 1 : -1 ) ;
-        }
-    };
-
-    private void generatePolys(String start, String end, String room, String type, File dir){
+    private void generatePolys(String start, String end, String room, String type, File dir) {
         polyToFile(new File(dir, "/" + type), fitPolys(start, end, room, type, dir), room);
     }
 
-    List<double[]> fitPolys(String start, String end, String room, String type, File dir){
-        File ndir = new File(dir,"/" + type);
-        List<double[]> prevCurves = getLatestCurves(ndir, room);
+    List<double[]> fitPolys(String start, String end, String room, String type, File dir) {
+        File ndir = new File(dir, "/" + type);
+        List<double[]> prevCurves = getInitialGuesses(ndir, room);
         List<double[]> curves = new ArrayList<>();
         ScatterPoint[] points = statService.generateRoomScatterPoints(start, end, room, type);
         final WeightedObservedPoints obs = new WeightedObservedPoints();
-        for(ScatterPoint point : points){
+        for (ScatterPoint point : points) {
             obs.add(point.getOutside(), point.getInside());
         }
         Future<double[]>[] futures = new Future[5];
@@ -116,39 +114,46 @@ public class PolynomialService {
         });
         double[] failed = {0};
         int count = 2;
-        for(Future<double[]> future : futures){
-            try{
+        for (Future<double[]> future : futures) {
+            try {
                 curves.add(future.get());
-            }catch (InterruptedException ie){
+            } catch (InterruptedException ie) {
                 curves.add(failed);
                 debuggingService.nonFatalDebug("Failed to calc room " + room + " degree " + count + " " + type + " polynomial", ie);
                 ie.printStackTrace();
-            }catch (ExecutionException ee){
+            } catch (ExecutionException ee) {
                 curves.add(failed);
                 debuggingService.nonFatalDebug("Failed to calc room " + room + " degree " + count + " " + type + " polynomial", ee);
                 ee.printStackTrace();
             }
-            count+= 2;
+            count += 2;
         }
         return curves;
     }
 
-    List<double[]> fitOutsidePolys(long start, long end, String type){
+    private List<double[]> getInitialGuesses(File dir, String room) {
+        List<double[]> prevCurves = getLatestCurves(dir, room);
+        if(prevCurves.size() < 5){
+            return PolynomialHelper.dummyCoef();
+        }
+        return prevCurves;
+    }
+
+    List<double[]> fitOutsidePolys(long start, long end, String type) {
         File dir = new File("PiCenter/Learning/Daily/Poly/temp");
-        if(type.equals("hum")){
+        if (type.equals("hum")) {
             dir = new File("PiCenter/Learning/Daily/Poly/hum");
         }
-        List<double[]> prevCurves = getLatestCurves(dir, "outside");
+        List<double[]> prevCurves = getInitialGuesses(dir, "outside");
         List<double[]> curves = new ArrayList<>();
         List<Reading> readings = statService.getReadings(start, end, "outside");
         final WeightedObservedPoints obs = new WeightedObservedPoints();
-        for(Reading point : readings){
-            if(type.equals("temp")){
+        for (Reading point : readings) {
+            if (type.equals("temp")) {
                 obs.add(point.getTime(), point.getTemp());
-            }else{
+            } else {
                 obs.add(point.getTime(), point.getHumidity());
             }
-
         }
         Future<double[]>[] futures = new Future[5];
         futures[0] = threadPoolTaskExecutor.submit(() -> {
@@ -168,72 +173,72 @@ public class PolynomialService {
         });
         double[] failed = {0};
         int count = 2;
-        for(Future<double[]> future : futures){
-            try{
+        for (Future<double[]> future : futures) {
+            try {
                 curves.add(future.get());
-            }catch (InterruptedException ie){
+            } catch (InterruptedException ie) {
                 curves.add(failed);
                 debuggingService.nonFatalDebug("Failed to calc outside " + " degree " + count + " " + type + " polynomial", ie);
                 ie.printStackTrace();
-            }catch (ExecutionException ee){
+            } catch (ExecutionException ee) {
                 curves.add(failed);
                 debuggingService.nonFatalDebug("Failed to calc outside " + " degree " + count + " " + type + " polynomial", ee);
                 ee.printStackTrace();
             }
-            count+= 2;
+            count += 2;
         }
         return curves;
     }
 
-    public String[][] getLatestCurveHTML(String type){
+    public String[][] getLatestCurveHTML(String type) {
         File dir = new File("PiCenter/Learning/Daily/Poly/hum");
-        if(type.equals("temp")){
+        if (type.equals("temp")) {
             dir = new File("PiCenter/Learning/Daily/Poly/temp");
         }
         String[][] htmls = new String[5][5];
         List<double[]>[] doubleCurves = getLatestCurves(dir);
         int count = 0;
-        for(List<double[]> curves : doubleCurves){
+        for (List<double[]> curves : doubleCurves) {
             String[] html = new String[5];
-            for(int i = 0; i < 4; i++){
+            for (int i = 0; i < 4; i++) {
                 double[] coef = curves.get(i);
-                if(coef.length == 1){
+                if (coef.length == 1) {
                     html[i] = "<p>Error calculating curve</p>";
-                }else{
-                    switch (i){
+                } else {
+                    switch (i) {
                         case 0:
-                            if(coef.length != 3){
+                            if (coef.length != 3) {
                                 html[i] = "<p>Error calculating curve</p>";
-                            }else{
+                            } else {
                                 html[i] = "<p> f(x) = " + coef[2] + "x<sup>2</sup> + " + coef[1] + "x + " + coef[0] + "</p>";
                             }
                             break;
                         case 1:
-                            if(coef.length != 5){
+                            if (coef.length != 5) {
                                 html[i] = "<p>Error calculating curve</p>";
-                            }else{
+                            } else {
                                 html[i] = "<p> f(x) = " + coef[4] + "x<sup>4</sup> + " + coef[3] + "x<sup>3</sup> + " + coef[2] + "x<sup>2</sup> + " + coef[1] + "x + " + coef[0] + "</p>";
                             }
                             break;
                         case 2:
-                            if(coef.length != 7){
+                            if (coef.length != 7) {
                                 html[i] = "<p>Error calculating curve</p>";
-                            }else{
-                                html[i] = "<p> f(x) = " + coef[6] + "x<sup>6</sup> + " + coef[5] + "x<sup>5</sup> + " + coef[4] + "x<sup>4</sup> + " + coef[3] + "x<sup>3</sup> + " + coef[2]  + "x<sup>2</sup> + " + coef[1] + "x + " + coef[0] + "</p>";
+                            } else {
+                                html[i] = "<p> f(x) = " + coef[6] + "x<sup>6</sup> + " + coef[5] + "x<sup>5</sup> + " + coef[4] + "x<sup>4</sup> + " + coef[3] + "x<sup>3</sup> + " + coef[2] + "x<sup>2</sup> + " + coef[1] + "x + " + coef[0] + "</p>";
                             }
                             break;
                         case 3:
-                            if(coef.length != 9){
+                            if (coef.length != 9) {
                                 html[i] = "<p>Error calculating curve</p>";
-                            }else{
-                                html[i] = "<p> f(x) = " + coef[8] + "x<sup>8</sup> + " + coef[7] + "x<sup>7</sup> + " + coef[6] + "x<sup>6</sup> + " + coef[5] + "x<sup>5</sup> + " + coef[4]  + "x<sup>4</sup> + " + coef[3] + "x<sup>3</sup> + " + coef[2] + "x<sup>2</sup> + " + coef[1] + "x + " + coef[0] + "</p>";
+                            } else {
+                                html[i] = "<p> f(x) = " + coef[8] + "x<sup>8</sup> + " + coef[7] + "x<sup>7</sup> + " + coef[6] + "x<sup>6</sup> + " + coef[5] + "x<sup>5</sup> + " + coef[4] + "x<sup>4</sup> + " + coef[3] + "x<sup>3</sup> + " + coef[2] + "x<sup>2</sup> + " + coef[1] + "x + " + coef[0] + "</p>";
                             }
                             break;
                         case 4:
-                            if(coef.length != 11){
+                            if (coef.length != 11) {
                                 html[i] = "<p>Error calculating curve</p>";
-                            }else{
-                                html[i] = "<p> f(x) = " + coef[11] + "x<sup>10</sup> + " + coef[9] + "x<sup>9</sup> + " + coef[8] + "x<sup>8</sup> + " + coef[7] + "x<sup>7</sup> + " + coef[6]  + "x<sup>6</sup> + " + coef[5] + "x<sup>5</sup> + " + coef[4] + "x<sup>4</sup> + " + coef[3] + "x<sup>3</sup> + " + coef[2] + "x<sup>2</sup> + " + coef[1] + "x + " + coef[0] + "</p>";
+                            } else {
+                                html[i] = "<p> f(x) = " + coef[11] + "x<sup>10</sup> + " + coef[9] + "x<sup>9</sup> + " + coef[8] + "x<sup>8</sup> + " + coef[7] + "x<sup>7</sup> + " + coef[6] + "x<sup>6</sup> + " + coef[5] + "x<sup>5</sup> + " + coef[4] + "x<sup>4</sup> + " + coef[3] + "x<sup>3</sup> + " + coef[2] + "x<sup>2</sup> + " + coef[1] + "x + " + coef[0] + "</p>";
                             }
                             break;
                     }
@@ -245,57 +250,57 @@ public class PolynomialService {
         return htmls;
     }
 
-    public void calcPolys(String start, String end){
-        File tDir = new File("PiCenter/Learning/Daily/Poly/temp");
-        File hDir = new File("PiCenter/Learning/Daily/Poly/hum");
+    public void calcPolys(String start, String end) {
+        File dir = new File("PiCenter/Learning/Daily/Poly");
         long time = System.currentTimeMillis();
         String ostart = CalenderConverter.getMonthDayYear(time - CalenderConverter.DAY, "/", "/");
         String oend = CalenderConverter.getMonthDayYear(time, "/", "/");
         threadPoolTaskExecutor.execute(() -> {
-            generatePolys(start, end, "office", "temp", tDir);
+            generatePolys(start, end, "office", "temp", dir);
         });
         threadPoolTaskExecutor.execute(() -> {
-            generatePolys(start, end, "livingroom", "temp", tDir);
+            generatePolys(start, end, "livingroom", "temp", dir);
         });
         threadPoolTaskExecutor.execute(() -> {
-            generatePolys(start, end, "bedroom", "temp", tDir);
+            generatePolys(start, end, "bedroom", "temp", dir);
         });
         threadPoolTaskExecutor.execute(() -> {
-            generatePolys(start, end, "serverroom", "temp", tDir);
+            generatePolys(start, end, "serverroom", "temp", dir);
         });
         threadPoolTaskExecutor.execute(() -> {
-            generatePolys(start, end, "office", "hum", hDir);
+            generatePolys(start, end, "office", "hum", dir);
         });
         threadPoolTaskExecutor.execute(() -> {
-            generatePolys(start, end, "livingroom", "hum", hDir);
+            generatePolys(start, end, "livingroom", "hum", dir);
         });
         threadPoolTaskExecutor.execute(() -> {
-            generatePolys(start, end, "bedroom", "hum", hDir);
+            generatePolys(start, end, "bedroom", "hum", dir);
         });
         threadPoolTaskExecutor.execute(() -> {
-            generatePolys(start, end, "serverroom", "hum", hDir);
+            generatePolys(start, end, "serverroom", "hum", dir);
         });
-        long t = System.currentTimeMillis();;
+        long t = System.currentTimeMillis();
+        ;
         threadPoolTaskExecutor.execute(() -> {
-            polyToFile(tDir, fitOutsidePolys(CalenderConverter.getMillisFromDateString(start, "/"), CalenderConverter.getMillisFromDateString(end, "/") + CalenderConverter.DAY, "temp"), "outside");
+            polyToFile(new File(dir, "/temp"), fitOutsidePolys(CalenderConverter.getMillisFromDateString(start, "/"), CalenderConverter.getMillisFromDateString(end, "/") + CalenderConverter.DAY, "temp"), "outside");
         });
         threadPoolTaskExecutor.execute(() -> {
-            polyToFile(hDir, fitOutsidePolys(CalenderConverter.getMillisFromDateString(start, "/"), CalenderConverter.getMillisFromDateString(end, "/") + CalenderConverter.DAY, "hum"), "outside");
+            polyToFile(new File(dir, "/hum"), fitOutsidePolys(CalenderConverter.getMillisFromDateString(start, "/"), CalenderConverter.getMillisFromDateString(end, "/") + CalenderConverter.DAY, "hum"), "outside");
         });
     }
 
-    List<double[]>[] getLatestCurves(File dir){
+    List<double[]>[] getLatestCurves(File dir) {
         List<double[]>[] rooms = new List[5];
         int count = 0;
-        for (String room : RoomConstants.rooms){
+        for (String room : RoomConstants.rooms) {
             rooms[count] = getLatestCurves(dir, room);
             count++;
         }
         return rooms;
     }
 
-    List<double[]> getLatestCurves(File dir, String room){
-        if(!dir.exists()){
+    List<double[]> getLatestCurves(File dir, String room) {
+        if (!dir.exists()) {
             dir.mkdirs();
             return new ArrayList<>();
         }
@@ -303,50 +308,50 @@ public class PolynomialService {
         File[] files = dir.listFiles();
         Arrays.sort(files, lastModified);
         File target = null;
-        for(File file : files){
-            if(file.getName().contains(room)){
+        for (File file : files) {
+            if (file.getName().contains(room)) {
                 target = file;
                 break;
             }
         }
-        if(target == null){
+        if (target == null) {
             return new ArrayList<>();
         }
-        try{
+        try {
             String csv = new String(ByteTools.readBytesFromFile(target), "UTF-8");
             return fromCSV(csv);
-        }catch (Exception e){
+        } catch (Exception e) {
             debuggingService.nonFatalDebug("Failed to read " + room + " polynomial file", e);
             e.printStackTrace();
             return new ArrayList<>();
         }
     }
 
-    void polyToFile(File dir, List<double[]> curves, String room){
-        if(!dir.exists()){
+    void polyToFile(File dir, List<double[]> curves, String room) {
+        if (!dir.exists()) {
             dir.mkdirs();
         }
         File polys = new File(dir, "/" + room + "-" + CalenderConverter.getMonthDayYear(System.currentTimeMillis(), "-", "-") + System.currentTimeMillis() + ".csv");
-        try{
+        try {
             polys.createNewFile();
             ByteTools.writeBytesToFile(polys, toCSV(curves).getBytes("UTF-8"));
-        }catch (IOException e){
+        } catch (IOException e) {
             debuggingService.nonFatalDebug("Failed to create " + room + " polynomial file", e);
             e.printStackTrace();
-        }catch(Exception e){
+        } catch (Exception e) {
             debuggingService.nonFatalDebug("Failed to write to " + room + " polynomial file", e);
             e.printStackTrace();
         }
     }
 
-    private List<double[]> fromCSV(String CSV){
+    private List<double[]> fromCSV(String CSV) {
         List<double[]> values = new ArrayList<>();
         String[] lines = CSV.split("\n");
-        for(String line : lines){
+        for (String line : lines) {
             String[] strings = line.split(",");
             double[] val = new double[strings.length];
             int count = 0;
-            for(String value : strings){
+            for (String value : strings) {
                 val[count] = Double.parseDouble(value);
                 count++;
             }
@@ -355,26 +360,26 @@ public class PolynomialService {
         return values;
     }
 
-    private String toCSV(List<double[]> list){
+    private String toCSV(List<double[]> list) {
         String CSV = "";
         boolean firstLine = true;
-        for(double[] values : list){
+        for (double[] values : list) {
             boolean first = true;
             String CSVLine = "";
-            for(double val : values){
+            for (double val : values) {
                 String value = String.format("%.3f", val);
-                if(first){
+                if (first) {
                     CSVLine = value;
                     first = false;
-                }else {
-                    CSVLine+= "," + value;
+                } else {
+                    CSVLine += "," + value;
                 }
             }
-            if(firstLine){
+            if (firstLine) {
                 CSV = CSVLine;
                 firstLine = false;
-            }else {
-                CSV+= "\n" + CSVLine;
+            } else {
+                CSV += "\n" + CSVLine;
             }
         }
         return CSV;

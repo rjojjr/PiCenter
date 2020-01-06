@@ -415,7 +415,7 @@ public class StatService {
 
     List<double[]> calculateCorrelation(int days) throws ExecutionException, InterruptedException {
         List<double[]> results = new ArrayList<>();
-        List<long[]> intervals = getLearningIntervals(days);
+        List<long[]> intervals = getNewLearningIntervals(days);
         List<double[]> outsideSlopes = processLearning(intervals, "outside");
         Future<double[]>[] futures = new Future[4];
         futures[0] = threadPoolTaskExecutor.submit(() -> {
@@ -449,6 +449,17 @@ public class StatService {
         String today = CalenderConverter.getMonthDayYear(now, "/", ":");
         String yesterday = CalenderConverter.getMonthDayYear((now - (days * DAY)), "/", ":");
         return SharedLogic.generateIntervalWindows(SharedLogic.getTimeIntervals(yesterday, today, 1), 1);
+    }
+
+    List<long[]> getNewLearningIntervals(int days) {
+        long now = System.currentTimeMillis();
+        long past = now - (DAY * days);
+        List<long[]> times = new ArrayList<>();
+        for (long i = past; i <= now; i += (10 * MINUTE)){
+            long[] interval = {i - (10 * MINUTE), i + (10 * MINUTE)};
+            times.add(interval);
+        }
+        return times;
     }
 
     List<double[]> getLearningMeans(List<long[]> windows, String room) {
