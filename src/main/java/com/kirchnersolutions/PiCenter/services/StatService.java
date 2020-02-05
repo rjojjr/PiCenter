@@ -87,28 +87,32 @@ public class StatService {
         List<double[]> longRelation = getRelationFromDir(new File("PiCenter/Learning/LongTerm/Pearson"));
         List<double[]> change = getRelationFromDir(new File("PiCenter/Learning/Daily/Change"));
         List<double[]> longChange = getRelationFromDir(new File("PiCenter/Learning/LongTerm/Change"));
+        double[] empty = {1.000, 1.000};
+        double[] emptyChange = {0.0,0.0};
+        String[] emptyPolys = {
+                "<p>Error calculating curve</p>",
+                "<p>Error calculating curve</p>",
+                "<p>Error calculating curve</p>",
+                "<p>Error calculating curve</p>",
+                "<p>Error calculating curve</p>"};
         if(curRelation.isEmpty()){
             for(int i = 0; i < 5; i++ ){
-                double[] empty = {0.0,0.0};
-                curRelation.add(empty);
+                curRelation.add(emptyChange);
             }
         }
         if(longRelation.isEmpty()){
             for(int i = 0; i < 5; i++ ){
-                double[] empty = {0.0,0.0};
-                longRelation.add(empty);
+                longRelation.add(emptyChange);
             }
         }
         if(change.isEmpty()){
             for(int i = 0; i < 5; i++ ){
-                double[] empty = {0.0,0.0};
-                change.add(empty);
+                change.add(emptyChange);
             }
         }
         if(longChange.isEmpty()){
             for(int i = 0; i < 5; i++ ){
-                double[] empty = {0.0,0.0};
-                longChange.add(empty);
+                longChange.add(emptyChange);
             }
         }
         RoomSummary[] summaries = new RoomSummary[rooms.length];
@@ -118,13 +122,6 @@ public class StatService {
             futures[count] = threadPoolTaskExecutor.submit(() -> getRoomSummary(room, precision));
             count++;
         }
-        double[] empty = {1.000, 1.000};
-        double[] emptyChange = {0,0};
-        String[] emptyPolys = {"<p>Error calculating curve</p>",
-                "<p>Error calculating curve</p>",
-                "<p>Error calculating curve</p>",
-                "<p>Error calculating curve</p>",
-                "<p>Error calculating curve</p>"};
         count = 0;
         for (String room : rooms) {
             summaries[count] = futures[count].get();
@@ -170,8 +167,6 @@ public class StatService {
         }
         return summaries;
     }
-
-    
 
     List<double[]> getRelationFromDir(File dir){
         if (!dir.exists() || dir.listFiles().length == 0) {
