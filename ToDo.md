@@ -5,7 +5,7 @@
 
 1. Make user list searches asynchronous.#rjojjr
 2. Licenses and Documents.
-3. Split root reducer into multiples.
+3. Split UI Redux root reducer into multiples.
 4. Admin create user. #rjojjr
 5. Admin database console.
 6. Graphing API.#rjojjr
@@ -28,7 +28,7 @@
 23. At socket server to Pis to execute tasks.
 24. Algorithm to detect when furnace/AC turns on/off.
 25. Discover furnace trends based on time of day.
-26. Implement Spring Rest Template to make rest request to new [PiRest controller](https://github.com/rjojjr/PiScalaRestController)
+26. Implement Spring Rest Template to make rest request to new [PiRest controller](https://github.com/rjojjr/PiScalaRestController)#rjojjr
 27. Add endpoints to fetch/delete logs.
 28. Use repositories to backup tables as csv(and restore).#rjojjr
 29. Fix logOnPage.test.js
@@ -61,3 +61,4 @@
 56. Add scatter chart.#rjojjr
 57. Wrap sections in scrollable div.#rjojjr
 58. Make chart width depend on interval range.
+59. Increase polynomial fitting algorithm accuracy with least squares problem.

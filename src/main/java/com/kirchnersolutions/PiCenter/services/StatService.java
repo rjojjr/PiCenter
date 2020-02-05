@@ -210,11 +210,12 @@ public class StatService {
         threadPoolTaskExecutor.execute(() -> {calculateChangeThread();});
     }
 
-    @Scheduled(cron = "0 0 */12 * * *")
+    @Scheduled(cron = "0 0 */6 * * *")
     public void calculateLongTermChange() throws IOException {
         threadPoolTaskExecutor.execute(() -> {calculateLongTermChangeThread();});
     }
 
+    @Scheduled(cron = "0 0 */3 * * *")
     public void calculatePolynomials(){
         threadPoolTaskExecutor.execute(() -> {polynomialService.calcPolys();});
     }

@@ -157,19 +157,19 @@ public class PolynomialService {
         }
         Future<double[]>[] futures = new Future[5];
         futures[0] = threadPoolTaskExecutor.submit(() -> {
-            return PolynomialHelper.fitPoly(obs, 1, 100, prevCurves.get(0));
+            return PolynomialHelper.fitPoly(obs, 1, 1, prevCurves.get(0));
         });
         futures[1] = threadPoolTaskExecutor.submit(() -> {
-            return PolynomialHelper.fitPoly(obs, 2, 100, prevCurves.get(1));
+            return PolynomialHelper.fitPoly(obs, 2, 1, prevCurves.get(1));
         });
         futures[2] = threadPoolTaskExecutor.submit(() -> {
-            return PolynomialHelper.fitPoly(obs, 3, 100, prevCurves.get(2));
+            return PolynomialHelper.fitPoly(obs, 3, 1, prevCurves.get(2));
         });
         futures[3] = threadPoolTaskExecutor.submit(() -> {
-            return PolynomialHelper.fitPoly(obs, 4, 100, prevCurves.get(3));
+            return PolynomialHelper.fitPoly(obs, 4, 1, prevCurves.get(3));
         });
         futures[4] = threadPoolTaskExecutor.submit(() -> {
-            return PolynomialHelper.fitPoly(obs, 5, 100, prevCurves.get(4));
+            return PolynomialHelper.fitPoly(obs, 5, 1, prevCurves.get(4));
         });
         double[] failed = {0};
         int count = 2;
@@ -202,7 +202,7 @@ public class PolynomialService {
             String[] html = new String[5];
             for (int i = 0; i < 4; i++) {
                 double[] coef = curves.get(i);
-                if (coef.length == 1) {
+                if (coef.length <= 1) {
                     html[i] = "<p>Error calculating curve</p>";
                 } else {
                     switch (i) {

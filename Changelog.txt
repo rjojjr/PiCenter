@@ -1,5 +1,10 @@
 PiCenter Changelog
 
+1.0.10
+01/0502/05
+Build 100130
+    Fixed crashes due to invalid stats.
+
 1.0.09
 01/05/2020
 Build 100129

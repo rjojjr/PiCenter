@@ -161,20 +161,20 @@ const SummaryPage = ({summary, user, isLoading, canRender}) => {
                                 <td dangerouslySetInnerHTML={{__html: summary.humPolys[3]}}>
                                 </td>
                             </tr>
-                            <tr>
+                            {/*<tr>
                                 <td>
-                                    Temperature Degree Four Polynomial Fit
+                                    Temperature Degree Five Polynomial Fit
                                 </td>
                                 <td dangerouslySetInnerHTML={{__html: summary.tempPolys[4]}}>
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    Humidity Degree Four Polynomial Fit
+                                    Humidity Degree Five Polynomial Fit
                                 </td>
                                 <td dangerouslySetInnerHTML={{__html: summary.humPolys[4]}}>
                                 </td>
-                            </tr>
+                            </tr>*/}
                             </tbody>
                         </table>
 
@@ -243,7 +243,7 @@ const SummaryPage = ({summary, user, isLoading, canRender}) => {
                                 <td dangerouslySetInnerHTML={{__html: summary.humPolys[3]}}>
                                 </td>
                             </tr>
-                            <tr>
+                            {/*<tr>
                                 <td>
                                     Temperature Degree Five Polynomial Fit
                                 </td>
@@ -256,7 +256,7 @@ const SummaryPage = ({summary, user, isLoading, canRender}) => {
                                 </td>
                                 <td dangerouslySetInnerHTML={{__html: summary.humPolys[4]}}>
                                 </td>
-                            </tr>
+                            </tr>*/}
                             </tbody>
                         </table>
 
