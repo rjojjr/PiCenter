@@ -119,6 +119,12 @@ public class StatService {
             count++;
         }
         double[] empty = {1.000, 1.000};
+        double[] emptyChange = {0,0};
+        String[] emptyPolys = {"<p>Error calculating curve</p>",
+                "<p>Error calculating curve</p>",
+                "<p>Error calculating curve</p>",
+                "<p>Error calculating curve</p>",
+                "<p>Error calculating curve</p>"};
         count = 0;
         for (String room : rooms) {
             summaries[count] = futures[count].get();
@@ -133,17 +139,32 @@ public class StatService {
                 } else {
                     summaries[count].setLongTermRelation(longRelation.get(count));
                 }
-                summaries[count].setChange(change.get(count));
-                summaries[count].setLongChange(longChange.get(count));
-                summaries[count].setTempPolys(tempPoly[count]);
-                summaries[count].setHumPolys(humPoly[count]);
+
+                if(change.size() - 1 >= count){
+                    summaries[count].setChange(change.get(count));
+                }else{
+                    summaries[count].setChange(emptyChange);
+                }
+                if(longChange.size() - 1 >= count){
+                    summaries[count].setLongChange(change.get(count));
+                }else{
+                    summaries[count].setLongChange(emptyChange);
+                }
             }else {
                 summaries[count].setLongTermRelation(empty);
                 summaries[count].setRelation(empty);
                 summaries[count].setChange(empty);
                 summaries[count].setLongChange(empty);
-                summaries[count].setTempPolys(tempPoly[count]);
-                summaries[count].setHumPolys(humPoly[count]);
+                if(tempPoly.length - 1 >= count){
+                    summaries[count].setTempPolys(tempPoly[count]);
+                }else{
+                    summaries[count].setTempPolys(emptyPolys);
+                }
+                if(humPoly.length - 1 >= count){
+                    summaries[count].setHumPolys(humPoly[count]);
+                }else{
+                    summaries[count].setHumPolys(emptyPolys);
+                }
             }
             count++;
         }

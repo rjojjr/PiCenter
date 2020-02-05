@@ -22,7 +22,7 @@ public class ChartServiceUnitTests {
     @Autowired
     private ReadingRepository readingRepository;
 
-    private ChartService chartService = new  ChartService(new StatService(mockReadingRepository(), threadPoolTaskExecutor()), threadPoolTaskExecutor());
+    private ChartService chartService = new  ChartService(new StatService(mockReadingRepository(), threadPoolTaskExecutor(), null, null, null), threadPoolTaskExecutor());
 
     @Test
     public void getTimeIntervals_returnsCorrectIntervals(){
