@@ -37,23 +37,54 @@ public class PearsonCorrelation {
     List<double[]> generateCorrelation(String from, String to) throws Exception{
         ScatterInterval[] tempScat = chartService.generateScatterData(new ChartRequest(from, to, "temp"));
         ScatterInterval[] humScat= chartService.generateScatterData(new ChartRequest(from, to, "hum"));
-        BigDecimal outsideTempMean = getMean(tempScat[0], true);
-        BigDecimal outsideHumMean = getMean(humScat[0], true);
-        BigDecimal outsideTempDev = statService.findStandardDeviation(outsideTempMean, true, tempScat[0], true);
-        BigDecimal outsideHumDev = statService.findStandardDeviation(outsideHumMean, true, humScat[0], true);
         Future<double[]>[] futures = new Future[4];
-        futures[0] = threadPoolTaskExecutor.submit(() -> {
-            return getPearsons(tempScat[0], humScat[0], outsideTempMean, outsideTempDev, outsideHumMean, outsideHumDev);
-        });
-        futures[1] = threadPoolTaskExecutor.submit(() -> {
-            return getPearsons(tempScat[1], humScat[1], outsideTempMean, outsideTempDev, outsideHumMean, outsideHumDev);
-        });
-        futures[2] = threadPoolTaskExecutor.submit(() -> {
-            return getPearsons(tempScat[2], humScat[2], outsideTempMean, outsideTempDev, outsideHumMean, outsideHumDev);
-        });
-        futures[3] = threadPoolTaskExecutor.submit(() -> {
-            return getPearsons(tempScat[3], humScat[3], outsideTempMean, outsideTempDev, outsideHumMean, outsideHumDev);
-        });
+        double[] empty = {0.0, 0.0};
+        int count = 0;
+        if(count == 0 && tempScat[count].getInterval().length == 0 || humScat[count].getInterval().length == 0){
+            futures[0] = threadPoolTaskExecutor.submit(() -> {
+                return empty;
+            });
+
+            futures[1] = threadPoolTaskExecutor.submit(() -> {
+                return empty;
+            });
+            futures[2] = threadPoolTaskExecutor.submit(() -> {
+                return empty;
+            });
+            futures[3] = threadPoolTaskExecutor.submit(() -> {
+                return empty;
+            });
+        }else if(count == 0){
+            final BigDecimal outsideTempMean;
+            final BigDecimal outsideHumDev;
+            final BigDecimal outsideHumMean;
+            final BigDecimal outsideTempDev;
+            outsideTempMean = getMean(tempScat[0], true);
+            outsideHumMean = getMean(humScat[0], true);
+            outsideTempDev = statService.findStandardDeviation(outsideTempMean, true, tempScat[0], true);
+            outsideHumDev = statService.findStandardDeviation(outsideHumMean, true, humScat[0], true);
+            futures[0] = threadPoolTaskExecutor.submit(() -> {
+                return getPearsons(tempScat[0], humScat[0], outsideTempMean, outsideTempDev, outsideHumMean, outsideHumDev);
+            });
+
+            for(ScatterInterval scatterInterval : tempScat){
+                if(count == 0){
+
+                }else if (scatterInterval.getInterval().length == 0 || humScat[count].getInterval().length == 0) {
+                    futures[count] = threadPoolTaskExecutor.submit(() -> {
+                        return empty;
+                    });
+                }else {
+                    int c = count;
+                    futures[count] = threadPoolTaskExecutor.submit(() -> {
+                        return getPearsons(tempScat[c], humScat[c], outsideTempMean, outsideTempDev, outsideHumMean, outsideHumDev);
+                    });
+                }
+                count++;
+            }
+        }
+
+
         List<double[]> results = new ArrayList<>();
         for(int i = 0; i < 4; i++){
             results.add(futures[i].get());

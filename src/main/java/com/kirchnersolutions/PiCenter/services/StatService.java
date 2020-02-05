@@ -234,7 +234,8 @@ public class StatService {
         }
         try {
             file.createNewFile();
-            results = pearsonCorrelation.generateCorrelation(CalenderConverter.getMonthDayYear(System.currentTimeMillis() - DAY, "/", ":"), CalenderConverter.getMonthDayYear(System.currentTimeMillis(), "/", ":"));
+            results = pearsonCorrelation.generateCorrelation(CalenderConverter.getMonthDayYear(System.currentTimeMillis() - DAY, "/", ":"),
+                    CalenderConverter.getMonthDayYear(System.currentTimeMillis(), "/", ":"));
         } catch (IOException ioe) {
             debuggingService.nonFatalDebug("Failed to create learning file", ioe);
             return;
@@ -442,18 +443,49 @@ public class StatService {
         List<double[]> results = new ArrayList<>();
         List<long[]> intervals = getNewLearningIntervals(days);
         List<double[]> outsideSlopes = processLearning(intervals, "outside");
+
+        if(outsideSlopes.isEmpty()){
+            List<double[]> res = new ArrayList<>();
+            for(int i = 0; i < RoomConstants.rooms.length; i++){
+                double[] emptySet = {0.0, 0.0};
+                res.add(emptySet);
+            }
+            return res;
+        }else{
+
+        }
         Future<double[]>[] futures = new Future[4];
         futures[0] = threadPoolTaskExecutor.submit(() -> {
-            return scoreDiffs(getRelation(outsideSlopes, processLearning(intervals, "office")));
+            List<double[]> learn = processLearning(intervals, "office");
+            if(learn.isEmpty()){
+                double[] emptySet = {0.0, 0.0};
+                return emptySet;
+            }
+            return scoreDiffs(getRelation(outsideSlopes, learn));
         });
         futures[1] = threadPoolTaskExecutor.submit(() -> {
-            return scoreDiffs(getRelation(outsideSlopes, processLearning(intervals, "livingroom")));
+            List<double[]> learn = processLearning(intervals, "livingroom");
+            if(learn.isEmpty()){
+                double[] emptySet = {0.0, 0.0};
+                return emptySet;
+            }
+            return scoreDiffs(getRelation(outsideSlopes, learn));
         });
         futures[2] = threadPoolTaskExecutor.submit(() -> {
-            return scoreDiffs(getRelation(outsideSlopes, processLearning(intervals, "bedroom")));
+            List<double[]> learn = processLearning(intervals, "bedroom");
+            if(learn.isEmpty()){
+                double[] emptySet = {0.0, 0.0};
+                return emptySet;
+            }
+            return scoreDiffs(getRelation(outsideSlopes, learn));
         });
         futures[3] = threadPoolTaskExecutor.submit(() -> {
-            return scoreDiffs(getRelation(outsideSlopes, processLearning(intervals, "serverroom")));
+            List<double[]> learn = processLearning(intervals, "serverroom");
+            if(learn.isEmpty()){
+                double[] emptySet = {0.0, 0.0};
+                return emptySet;
+            }
+            return scoreDiffs(getRelation(outsideSlopes, learn));
         });
         for (Future<double[]> future : futures) {
             results.add(future.get());
