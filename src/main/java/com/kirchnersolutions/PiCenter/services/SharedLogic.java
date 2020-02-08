@@ -61,8 +61,10 @@ public class SharedLogic {
             double[] out = new double[2];
             try{
                 String temp = round(data.get(i)[0] + "", 3);
+                temp = fixNan(temp);
                 out[0] = Double.parseDouble(temp);
                 temp = round(data.get(i)[1] + "", 3);
+                temp = fixNan(temp);
                 out[1] = Double.parseDouble(temp);
                 output.add(out);
             }catch (Exception e){
@@ -70,6 +72,13 @@ public class SharedLogic {
             }
         }
         return output;
+    }
+
+    private static String fixNan(String suspect){
+        if(suspect.split("NaN").length > 1){
+            return "0" + suspect.split("NaN")[1];
+        }
+        return suspect;
     }
 
     /**

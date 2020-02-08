@@ -292,8 +292,8 @@ public class PolynomialService {
     List<double[]>[] getLatestCurves(File dir) {
         List<double[]>[] rooms = new List[5];
         int count = 0;
-        for (String room : RoomConstants.rooms) {
-            rooms[count] = getLatestCurves(dir, room);
+        for (int i = 0; i < 5; i++) {
+            rooms[count] = getLatestCurves(dir, RoomConstants.rooms[count]);
             count++;
         }
         return rooms;

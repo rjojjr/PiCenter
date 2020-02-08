@@ -80,7 +80,7 @@ public class StatService {
     }
 
     public RoomSummary[] getRoomSummaries(int precision) throws Exception {
-        String[] rooms = RoomConstants.rooms;
+        String[] rooms = RoomConstants.rooms2;
         String[][] tempPoly = polynomialService.getLatestCurveHTML("temp");
         String[][] humPoly = polynomialService.getLatestCurveHTML("hum");
         List<double[]> curRelation = getRelationFromDir(new File("PiCenter/Learning/Daily/Pearson"));
@@ -136,32 +136,17 @@ public class StatService {
                 } else {
                     summaries[count].setLongTermRelation(longRelation.get(count));
                 }
-
-                if(change.size() - 1 >= count){
-                    summaries[count].setChange(change.get(count));
-                }else{
-                    summaries[count].setChange(emptyChange);
-                }
-                if(longChange.size() - 1 >= count){
-                    summaries[count].setLongChange(change.get(count));
-                }else{
-                    summaries[count].setLongChange(emptyChange);
-                }
+                summaries[count].setChange(change.get(count));
+                summaries[count].setLongChange(longChange.get(count));
+                summaries[count].setTempPolys(tempPoly[count]);
+                summaries[count].setHumPolys(humPoly[count]);
             }else {
                 summaries[count].setLongTermRelation(empty);
                 summaries[count].setRelation(empty);
                 summaries[count].setChange(empty);
                 summaries[count].setLongChange(empty);
-                if(tempPoly.length - 1 >= count){
-                    summaries[count].setTempPolys(tempPoly[count]);
-                }else{
-                    summaries[count].setTempPolys(emptyPolys);
-                }
-                if(humPoly.length - 1 >= count){
-                    summaries[count].setHumPolys(humPoly[count]);
-                }else{
-                    summaries[count].setHumPolys(emptyPolys);
-                }
+                summaries[count].setTempPolys(tempPoly[count]);
+                summaries[count].setHumPolys(humPoly[count]);
             }
             count++;
         }
@@ -446,7 +431,7 @@ public class StatService {
 
         if(outsideSlopes.isEmpty()){
             List<double[]> res = new ArrayList<>();
-            for(int i = 0; i < RoomConstants.rooms.length; i++){
+            for(int i = 0; i <= RoomConstants.rooms.length; i++){
                 double[] emptySet = {0.0, 0.0};
                 res.add(emptySet);
             }
@@ -683,6 +668,10 @@ public class StatService {
         long startTime = window[0];
         long endTime = window[1];
         List<Reading> readings = readingRepository.findByTimeBetweenAndRoomOrderByTimeDesc(startTime, endTime, room);
+        if(readings.isEmpty()){
+            double[] empty = {0.0, 0.0};
+            return empty;
+        }
         return getMeans(getSums(readings), precision);
     }
 
