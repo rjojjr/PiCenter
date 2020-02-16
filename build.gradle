@@ -2,11 +2,15 @@ plugins {
 	id 'org.springframework.boot' version '2.1.8.RELEASE'
 	id 'io.spring.dependency-management' version '1.0.8.RELEASE'
 	id 'java'
-	id "io.freefair.lombok" version "3.8.4"
 	id "com.moowork.node" version "1.3.1"
 }
 
-apply plugin: "io.freefair.lombok"
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
 
 repositories {
 	flatDir {
@@ -89,6 +93,8 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+	annotationProcessor 'org.projectlombok:lombok'
 	compile name: 'Utilities-1.1.00'
 	runtimeOnly 'mysql:mysql-connector-java:8.0.11'
 	compile "com.h2database:h2:1.4.197"
