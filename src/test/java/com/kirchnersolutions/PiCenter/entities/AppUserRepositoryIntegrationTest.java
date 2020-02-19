@@ -6,7 +6,6 @@ import static org.junit.Assert.*;
 
 import com.kirchnersolutions.PiCenter.entites.AppUserRepository;
 import com.kirchnersolutions.utilities.CryptTools;
-import lombok.Cleanup;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
