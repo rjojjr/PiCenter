@@ -11,9 +11,9 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest
-@ContextConfiguration
+//@RunWith(SpringRunner.class)
+//@SpringBootTest
+//@ContextConfiguration
 //@ContextConfiguration(locations = {"/services-test-config.xml"})
 //@EnableJpaRepositories("com.kirchnersolutions.PiCenter.entites")
 //@EntityScan("com.kirchnersolutions.PiCenter.entites")
