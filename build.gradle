@@ -19,6 +19,14 @@ repositories {
 	mavenCentral()
 }
 
+bootJar {
+	System.setProperty('spring.profiles.active', 'prod')
+}
+
+test {
+	systemProperties['spring.profiles.active'] = 'test'
+}
+
 group = 'com.kirchnersolutions'
 version = '1.0.10'
 def build = '100130'
@@ -75,7 +83,7 @@ task nonProdBuild(type: Copy){
 	into 'src/main/resources'
 }
 
-if (PRODUCTION_BUILD == true && test == false){
+/*if (PRODUCTION_BUILD == true && test == false){
 	wrapper.dependsOn prodBuild
 	appNpmBuild.dependsOn appNpmInstall
 	copyWebApp.dependsOn appNpmBuild
@@ -84,7 +92,7 @@ if (PRODUCTION_BUILD == true && test == false){
 	wrapper.dependsOn testBuild
 }else{
 	wrapper.dependsOn nonProdBuild
-}
+}*/
 
 task prod(type: Jar){
 
