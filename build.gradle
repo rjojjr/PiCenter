@@ -3,6 +3,8 @@ plugins {
 	id 'io.spring.dependency-management' version '1.0.8.RELEASE'
 	id 'java'
 	id "com.github.node-gradle.node" version "2.2.1"
+	id 'war'
+	id 'application'
 }
 
 configurations {
@@ -10,7 +12,6 @@ configurations {
 		extendsFrom annotationProcessor
 	}
 }
-
 
 repositories {
 	flatDir {
