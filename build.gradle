@@ -101,6 +101,7 @@ task prod(type: Jar){
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	providedRuntime "org.springframework.boot:spring-boot-starter-tomcat"
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 	annotationProcessor 'org.projectlombok:lombok'
@@ -111,7 +112,7 @@ dependencies {
 
 }
 configurations {
-	all {
+	compile {
 		exclude group: 'org.springframework.boot', module: 'spring-boot-starter-tomcat'
 	}
 }

@@ -24,11 +24,12 @@ import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
 
-import javax.servlet.ServletContext;
+/*import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
-import javax.servlet.ServletRegistration;
+import javax.servlet.ServletRegistration;*/
 
-public class AppInitializer implements WebApplicationInitializer {
+public class AppInitializer{
+//public class AppInitializer implements WebApplicationInitializer {
     /**
      * Configure the given {@link ServletContext} with any servlets, filters, listeners
      * context-params and attributes necessary for initializing this web application. See examples
@@ -38,7 +39,7 @@ public class AppInitializer implements WebApplicationInitializer {
      * @throws ServletException if any call against the given {@code ServletContext} throws a {@code
      *                          ServletException}
      */
-    @Override
+    /*@Override
     public void onStartup(ServletContext servletContext) throws ServletException {
 
         AnnotationConfigWebApplicationContext rootContext = new AnnotationConfigWebApplicationContext();
@@ -52,6 +53,6 @@ public class AppInitializer implements WebApplicationInitializer {
                 servletContext.addServlet("dispatcher", new DispatcherServlet(rootContext));
         dispatcher.setLoadOnStartup(1);
         dispatcher.addMapping("/");
-    }
+    }*/
 
 }
